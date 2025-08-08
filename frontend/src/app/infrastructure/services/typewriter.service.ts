@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core"
 import { interval, type Subscription } from "rxjs"
-import type { ChatMessage } from "../models/chat-model"
+import type { ChatMessage } from "@core/models/chat-model"
 
 @Injectable({
   providedIn: "root",
@@ -13,14 +13,14 @@ export class TypewriterService {
    * Inicia el efecto typewriter para un mensaje
    */
   startTypewriter(message: ChatMessage, onUpdate: () => void, speed: number = this.defaultSpeed): void {
-    if (this.typewriterSubscription || !message) {
+  if (this.typewriterSubscription || !message) {
       return
     }
 
     console.log("⌨️ Iniciando efecto typewriter")
 
     this.typewriterSubscription = interval(speed).subscribe(() => {
-      if (!message) {
+  if (!message) {
         this.stopTypewriter()
         return
       }

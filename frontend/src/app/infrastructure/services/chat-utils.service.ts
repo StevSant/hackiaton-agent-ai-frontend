@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import type { ChatMessage, EventType } from '../models/chat-model';
+import type { ChatMessage, EventType } from '@core/models/chat-model';
 
 @Injectable({
   providedIn: 'root',

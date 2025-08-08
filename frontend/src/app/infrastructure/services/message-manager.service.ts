@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import type { ChatMessage, EventType } from '../models/chat-model';
+import type { ChatMessage, EventType } from '@core/models/chat-model';
 import { ChatUtilsService } from './chat-utils.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageManagerService {
-  private chatUtils = inject(ChatUtilsService);
+  private readonly chatUtils = inject(ChatUtilsService);
 
   /**
    * Agrega un mensaje a la lista
@@ -67,7 +67,7 @@ export class MessageManagerService {
    * Finaliza un mensaje (completa el streaming)
    */
   completeMessage(message: ChatMessage): void {
-    if (message && message.isStreaming) {
+  if (message?.isStreaming) {
       message.displayedContent = message.content;
       message.isComplete = true;
       message.isStreaming = false;
