@@ -81,6 +81,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private recordedChunks: Blob[] = [];
   private micStream: MediaStream | null = null;
   micError: string | null = null;
+  // Text-to-Speech auto playback (fallback when backend doesn't return audio)
+  autoTTS = true;
 
   // Servicios
   private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
@@ -242,7 +244,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       audioFile?: File;
       files?: File[];
     } = {
-      message: content ?? '',
+      // Ensure non-empty message to satisfy backend validation when sending audio-only
+      message: (content && content.trim()) ? content : '[voice message]',
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
       audioFile: this.audioFile ?? undefined,
@@ -413,6 +416,20 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   this.cdr.detectChanges();
   // Ya terminó el stream; si teníamos sessionId en curso, liberamos bandera
   this.streamingSessionId = null;
+
+  // Fallback TTS: If no audio was provided by backend, optionally read the response aloud
+  if (this.autoTTS && this.currentMessage && (!this.currentMessage.audio || this.currentMessage.audio.length === 0)) {
+    const text = this.currentMessage.displayedContent || this.currentMessage.content || '';
+    if (text && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 1;
+        utter.pitch = 1;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utter);
+      } catch {}
+    }
+  }
   }
 
   // Audio recording helpers
