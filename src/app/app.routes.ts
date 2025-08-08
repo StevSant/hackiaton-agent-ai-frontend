@@ -7,30 +7,29 @@ import { RegisterPage } from '@presentation/pages/auth/register';
 import { AuthGuard } from '@infrastructure/guards/auth.guard';
 import { GuestGuard } from '@infrastructure/guards/guest.guard';
 import { NotFoundPage } from '@presentation/pages/not-found/not-found';
+import { ShellLayout } from '@presentation/layouts/shell/shell';
 
 export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: AgentList,
-    canActivate: [AuthGuard],
-  },
-  // More specific route first to allow session deep-linking
-  {
-    path: 'chat/:agentId/session/:sessionId',
-    component: Chat,
-    canActivate: [AuthGuard],
-  },
-  { path: 'chat/:agentId', component: Chat, canActivate: [AuthGuard] },
-  // Voice-first chat routes
-  {
-    path: 'audio/:agentId/session/:sessionId',
-    component: AudioChat,
-    canActivate: [AuthGuard],
-  },
-  { path: 'audio/:agentId', component: AudioChat, canActivate: [AuthGuard] },
-  // Auth
+  // Auth pages without shell
   { path: 'login', component: LoginPage, canActivate: [GuestGuard] },
   { path: 'register', component: RegisterPage, canActivate: [GuestGuard] },
+
+  // Shell-wrapped authenticated area
+  {
+    path: '',
+    component: ShellLayout,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', pathMatch: 'full', component: AgentList },
+      // More specific route first to allow session deep-linking
+      { path: 'chat/:agentId/session/:sessionId', component: Chat },
+      { path: 'chat/:agentId', component: Chat },
+      // Voice-first chat routes
+      { path: 'audio/:agentId/session/:sessionId', component: AudioChat },
+      { path: 'audio/:agentId', component: AudioChat },
+    ],
+  },
+
+  // 404
   { path: '**', component: NotFoundPage },
 ];

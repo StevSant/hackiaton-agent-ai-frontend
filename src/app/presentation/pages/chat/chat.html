@@ -1,6 +1,5 @@
 <div class="flex min-h-screen h-full relative bg-base-200">
   <!-- Sidebar placeholder - puedes agregar tu sidebar aquí -->
-  <app-sidebar [agentId]="agentIdValue()"></app-sidebar>
 
   <div class="chat-container h-screen w-full p-4 md:p-8 flex flex-col gap-4 max-h-screen">
     <!-- Header mejorado -->
@@ -13,7 +12,8 @@
             Chat con Agente
           </span>
         </h3>
-  <p class="text-sm opacity-70 mt-1">Agente: {{ agentIdValue() }} <span *ngIf="selectedSessionId">· Sesión: {{ selectedSessionId }}</span></p>
+        <p class="text-sm opacity-70 mt-1">Agente: {{ agentIdValue() }} <span *ngIf="selectedSessionId">· Sesión: {{
+            selectedSessionId }}</span></p>
       </div>
 
       <!-- Estado de conexión mejorado -->
