@@ -11,16 +11,16 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import type { Subscription } from 'rxjs';
-import type { ChatMessage, EventType } from './../../models/chat-model';
-import { SseService, type StreamResponse } from './../../services/sse-service';
+import type { ChatMessage, EventType } from '@core/models/chat-model';
+import { SseService, type StreamResponse } from '@infrastructure/services/sse-service';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 
 // Servicios de utilidades
-import { ChatUtilsService } from './../../services/chat-utils.service';
-import { ConnectionStatusService } from './../../services/connection-status.service';
-import { TypewriterService } from './../../services/typewriter.service';
-import { ScrollManagerService } from './../../services/scroll-manager.service';
-import { MessageManagerService } from './../../services/message-manager.service';
+import { ChatUtilsService } from '@infrastructure/services/chat-utils.service';
+import { ConnectionStatusService } from '@infrastructure/services/connection-status.service';
+import { TypewriterService } from '@infrastructure/services/typewriter.service';
+import { ScrollManagerService } from '@infrastructure/services/scroll-manager.service';
+import { MessageManagerService } from '@infrastructure/services/message-manager.service';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 
 @Component({
