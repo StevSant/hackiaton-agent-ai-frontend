@@ -1,6 +1,6 @@
 <div class="flex min-h-screen h-full relative bg-base-200">
   <!-- Sidebar placeholder - puedes agregar tu sidebar aquí -->
-  <app-sidebar></app-sidebar>
+  <app-sidebar [agentId]="agentIdValue()"></app-sidebar>
 
   <div class="chat-container h-screen w-full p-4 md:p-8 flex flex-col gap-4 max-h-screen">
     <!-- Header mejorado -->
@@ -34,15 +34,7 @@
         </div>
         }
 
-        <div class="flex items-center gap-2">
-          <button class="btn btn-sm" (click)="loadSessions()">Recargar sesiones</button>
-          <select class="select select-sm select-bordered" [ngModel]="selectedSessionId" (ngModelChange)="loadSession($event)">
-            <option [ngValue]="null">Nueva sesión</option>
-            @for (s of sessions; track s.session_id) {
-              <option [ngValue]="s.session_id">{{ s.title || ('Sesión ' + s.session_id.slice(0,6)) }}</option>
-            }
-          </select>
-        </div>
+        
       </div>
     </div>
 
