@@ -80,14 +80,10 @@ export class Chat implements OnDestroy, AfterViewChecked {
     ],
   });
 
-  constructor() {
-    // If agentId is not provided via input, read it from route param
-    if (!this.agentId()) {
-      const id = this.route.snapshot.paramMap.get('agentId');
-      if (id) {
-        (this as any).agentId = () => id;
-      }
-    }
+  constructor() {}
+
+  agentIdValue(): string | null {
+    return this.agentId() ?? this.route.snapshot.paramMap.get('agentId');
   }
 
   ngAfterViewChecked() {
@@ -95,8 +91,9 @@ export class Chat implements OnDestroy, AfterViewChecked {
   }
 
   sendMessage() {
-    const messageContent = this.msgForm.get('message')?.value?.trim();
-    if (!messageContent || this.isSending || !this.agentId()) return;
+  const messageContent = this.msgForm.get('message')?.value?.trim();
+  const id = this.agentIdValue();
+  if (!messageContent || this.isSending || !id) return;
 
     this.startNewConversation(messageContent);
     this.msgForm.reset();
@@ -119,7 +116,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
 
     // Iniciar stream
     this.subscription = this.sseService
-      .streamFromAgent(this.agentId() as string, content)
+      .streamFromAgent(this.agentIdValue() as string, content)
       .subscribe({
         next: (data: StreamResponse) => this.handleStreamData(data),
         error: (error) => this.handleError(error),
