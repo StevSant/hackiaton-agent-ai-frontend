@@ -13,7 +13,8 @@ import { CommonModule } from '@angular/common';
 import type { Subscription } from 'rxjs';
 import type { ChatMessage, EventType } from '@core/models/chat-model';
 import { SseService, type StreamResponse } from '@infrastructure/services/sse-service';
-import { MarkdownModule, MarkdownService } from 'ngx-markdown';
+import { MarkdownComponent } from '@shared/markdown/markdown';
+import { ActivatedRoute } from '@angular/router';
 
 // Servicios de utilidades
 import { ChatUtilsService } from '@infrastructure/services/chat-utils.service';
@@ -29,16 +30,16 @@ import { SidebarComponent } from '../../components/sidebar/sidebar';
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    MarkdownModule,
+  MarkdownComponent,
     SidebarComponent,
   ],
-  providers: [MarkdownModule],
+  providers: [],
   templateUrl: './chat.html',
   styleUrls: ['./chat.css'],
 })
 export class Chat implements OnDestroy, AfterViewChecked {
   @ViewChild('messagesContainer', { static: false })
-  private messagesContainer!: ElementRef;
+  private readonly messagesContainer!: ElementRef;
 
   // Configuración
   readonly agentId = input<string>();
@@ -51,16 +52,17 @@ export class Chat implements OnDestroy, AfterViewChecked {
   debugMode = false;
 
   // Servicios
-  private sseService = inject(SseService);
-  private cdr = inject(ChangeDetectorRef);
-  private fb = inject(FormBuilder);
+  private readonly sseService = inject(SseService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
 
   // Servicios de utilidades
   protected chatUtils = inject(ChatUtilsService);
   protected connectionStatus = inject(ConnectionStatusService);
-  private typewriter = inject(TypewriterService);
-  private scrollManager = inject(ScrollManagerService);
-  private messageManager = inject(MessageManagerService);
+  private readonly typewriter = inject(TypewriterService);
+  private readonly scrollManager = inject(ScrollManagerService);
+  private readonly messageManager = inject(MessageManagerService);
 
   // Subscripciones
   private subscription: Subscription | null = null;
@@ -77,6 +79,16 @@ export class Chat implements OnDestroy, AfterViewChecked {
       ],
     ],
   });
+
+  constructor() {
+    // If agentId is not provided via input, read it from route param
+    if (!this.agentId()) {
+      const id = this.route.snapshot.paramMap.get('agentId');
+      if (id) {
+        (this as any).agentId = () => id;
+      }
+    }
+  }
 
   ngAfterViewChecked() {
     this.scrollManager.executeScheduledScroll(this.messagesContainer);
@@ -162,7 +174,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
     console.log('🤖 Respuesta del run:', data);
 
     // Crear nuevo mensaje si no existe o el actual está completo
-    if (!this.currentMessage || this.currentMessage.isComplete) {
+  if (!this.currentMessage || this.currentMessage.isComplete) {
       this.currentMessage = this.messageManager.createBotMessage(
         this.messages,
         data.rawMessage.run_id || this.chatUtils.generateId(),
@@ -171,7 +183,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
     }
 
     // Acumular contenido
-    if (data.currentChunk) {
+    if (data.currentChunk && this.currentMessage) {
       this.currentMessage.content = data.fullContent;
       console.log('📝 Contenido acumulado:', this.currentMessage.content);
 

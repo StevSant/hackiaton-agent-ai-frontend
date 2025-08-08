@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChatButtonComponent } from '../chat-button/chat-button';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { siteConfigRoutes } from '@modules/site/config/site-config.routes';
+// Simple route config for home navigation
 
 @Component({
   selector: 'app-sidebar',
@@ -13,5 +13,5 @@ import { siteConfigRoutes } from '@modules/site/config/site-config.routes';
 })
 
 export class SidebarComponent {
-  readonly siteRoutesConfig = siteConfigRoutes;
+  readonly siteRoutesConfig = { base: { url: '/' } } as const;
 }
