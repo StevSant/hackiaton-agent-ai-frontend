@@ -13,7 +13,8 @@ import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angu
 import { CommonModule } from '@angular/common';
 import type { Subscription } from 'rxjs';
 import type { ChatMessage, EventType } from '@core/models/chat-model';  
-import { type StreamResponse } from '@infrastructure/services/sse-service';
+import { type StreamResponse as InfraStreamResponse } from '@infrastructure/services/sse-service';
+import type { StreamResponseModel } from '@core/models/stream';
 import { ActivatedRoute } from '@angular/router';
 
 // Servicios de utilidades
@@ -178,13 +179,13 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.subscription = this.sendMessageUC
       .execute(this.agentIdValue() as string, payload)
       .subscribe({
-        next: (data: StreamResponse) => this.handleStreamData(data),
+  next: (data: StreamResponseModel | InfraStreamResponse) => this.handleStreamData(data as any),
         error: (error) => this.handleError(error),
         complete: () => this.handleComplete(),
       });
   }
 
-  private handleStreamData(data: StreamResponse) {
+  private handleStreamData(data: StreamResponseModel) {
     console.log('📨 Procesando datos del stream:', data);
     this.connectionStatus.setStatus('streaming');
 
@@ -219,7 +220,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.cdr.detectChanges();
   }
 
-  private handleRunResponse(data: StreamResponse) {
+  private handleRunResponse(data: StreamResponseModel) {
     console.log('🤖 Respuesta del run:', data);
 
     // Crear nuevo mensaje si no existe o el actual está completo
@@ -251,7 +252,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     if (this.currentMessage) this.enrichCurrentMessage(data);
   }
 
-  private enrichCurrentMessage(data: StreamResponse) {
+  private enrichCurrentMessage(data: StreamResponseModel) {
     if (!this.currentMessage) return;
     if (data.currentChunk) {
       this.currentMessage.content = data.fullContent;
@@ -282,7 +283,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     }
   }
 
-  private handleRunCompleted(data: StreamResponse) {
+  private handleRunCompleted(data: StreamResponseModel) {
     console.log('✅ Ejecución completada:', data);
 
     if (this.currentMessage) {
@@ -312,6 +313,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('error');
     this.typewriter.stopTypewriter();
     this.isSending = false;
+  this.toolRunning = false;
 
     // Finalizar mensaje actual si existe
     if (this.currentMessage) {
@@ -334,6 +336,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('idle');
     this.typewriter.stopTypewriter();
     this.isSending = false;
+  this.toolRunning = false;
 
     // Asegurar que el último mensaje se muestre completamente
     if (this.currentMessage) {
@@ -408,6 +411,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.cleanup();
   this.sendMessageUC.cancel();
     this.isSending = false;
+  this.toolRunning = false;
     this.connectionStatus.setStatus('idle');
     this.messageManager.addSystemMessage(
       this.messages,
