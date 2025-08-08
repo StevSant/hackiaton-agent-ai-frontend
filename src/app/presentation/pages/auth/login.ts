@@ -1,21 +1,21 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LoginUseCase } from '@core/use-cases/auth/login.usecase';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.html',
 })
 export class LoginPage {
-  private fb = inject(FormBuilder);
-  private loginUC = inject(LoginUseCase);
-  private token = inject(TokenStorageService);
-  private router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly loginUC = inject(LoginUseCase);
+  private readonly token = inject(TokenStorageService);
+  private readonly router = inject(Router);
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -26,9 +26,13 @@ export class LoginPage {
 
   async submit() {
     if (this.form.invalid || this.submitting) return;
-    this.submitting = true; this.error = null;
+    this.submitting = true;
+    this.error = null;
     try {
-      const res = await this.loginUC.execute({ email: this.form.value.email!, password: this.form.value.password! });
+      const res = await this.loginUC.execute({
+        email: this.form.value.email!,
+        password: this.form.value.password!,
+      });
       this.token.setToken(res.token);
       this.router.navigateByUrl('/');
     } catch (e: any) {

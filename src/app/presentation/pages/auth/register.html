@@ -13,5 +13,5 @@
     <button type="submit" [disabled]="form.invalid || submitting">Crear</button>
     <div *ngIf="error" class="error">{{ error }}</div>
   </form>
-  <a routerLink="/login">Ya tengo cuenta</a>
+  <a [routerLink]="['/login']">Ya tengo cuenta</a>
 </div>

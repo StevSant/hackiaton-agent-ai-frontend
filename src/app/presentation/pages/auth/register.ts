@@ -1,21 +1,21 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RegisterUseCase } from '@core/use-cases/auth/register.usecase';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './register.html',
 })
 export class RegisterPage {
-  private fb = inject(FormBuilder);
-  private registerUC = inject(RegisterUseCase);
-  private token = inject(TokenStorageService);
-  private router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly registerUC = inject(RegisterUseCase);
+  private readonly token = inject(TokenStorageService);
+  private readonly router = inject(Router);
 
   form = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
@@ -27,9 +27,14 @@ export class RegisterPage {
 
   async submit() {
     if (this.form.invalid || this.submitting) return;
-    this.submitting = true; this.error = null;
+    this.submitting = true;
+    this.error = null;
     try {
-      const res = await this.registerUC.execute({ username: this.form.value.username!, email: this.form.value.email!, password: this.form.value.password! });
+      const res = await this.registerUC.execute({
+        username: this.form.value.username!,
+        email: this.form.value.email!,
+        password: this.form.value.password!,
+      });
       this.token.setToken(res.token);
       this.router.navigateByUrl('/');
     } catch (e: any) {
