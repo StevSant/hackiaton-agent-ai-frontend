@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { Observable } from "rxjs"
+import { Observable, Subject } from "rxjs"
 import { environment } from '@environments/environment';
 
 
@@ -15,6 +15,11 @@ export interface SSEMessage {
   messages?: any[]
   metrics?: any
   failed_generation?: any
+  extra_data?: any
+  images?: any[]
+  videos?: any[]
+  audio?: any[]
+  response_audio?: any
 }
 
 export interface StreamResponse {
@@ -31,19 +36,37 @@ export interface StreamResponse {
 })
 export class SseService {
   private readonly apiUrl = environment.agentsDirectUrl;
+  private abortController: AbortController | null = null
+  private cancel$ = new Subject<void>()
 
-  streamFromAgent(agentId: string, message: string): Observable<StreamResponse> {
+  cancel() {
+    if (this.abortController) {
+      this.abortController.abort()
+      this.abortController = null
+    }
+    this.cancel$.next()
+  }
+
+  streamFromAgent(
+    agentId: string,
+    messageOrForm: string | { message?: string; session_id?: string; user_id?: string; audioFile?: File }
+  ): Observable<StreamResponse> {
     const url = `${this.apiUrl}/${agentId}/runs`
 
     const formData = new FormData()
-    formData.append("message", message)
+    const payload = typeof messageOrForm === 'string' ? { message: messageOrForm } : (messageOrForm || {})
+    if (payload.message) formData.append("message", payload.message)
     formData.append("stream", "true")
     formData.append("monitor", "false")
-    formData.append("session_id", "default_session")
-    formData.append("user_id", "default_user")
+    formData.append("session_id", payload.session_id ?? "")
+    formData.append("user_id", payload.user_id ?? "")
+    if (payload.audioFile) {
+      formData.append('audio', payload.audioFile)
+    }
 
     return new Observable<StreamResponse>((observer) => {
-      const controller = new AbortController()
+  const controller = new AbortController()
+  this.abortController = controller
       let fullContent = ""
       let buffer = ""
 
@@ -88,7 +111,7 @@ export class SseService {
                 console.log("📨 Evento SSE:", sseMessage.event, "Contenido:", sseMessage.content)
 
                 // Actualizar fullContent ANTES de procesar el mensaje
-                if (sseMessage.event === "RunResponse" && sseMessage.content) {
+                if ((sseMessage.event === "RunResponse" || sseMessage.event === "RunResponseContent") && sseMessage.content) {
                   fullContent += sseMessage.content
                   console.log("📝 Contenido acumulado:", fullContent)
                 }
@@ -114,7 +137,7 @@ export class SseService {
         })
 
       return () => {
-        controller.abort()
+  controller.abort()
       }
     })
   }
@@ -182,7 +205,7 @@ export class SseService {
   }
 
   private processSSEMessage(sseMessage: SSEMessage, fullContent: string, observer: any): void {
-    if (sseMessage.event === "RunResponse" && sseMessage.content) {
+    if ((sseMessage.event === "RunResponse" || sseMessage.event === "RunResponseContent") && sseMessage.content) {
       const streamResponse: StreamResponse = {
         fullContent: fullContent,
         currentChunk: sseMessage.content,
@@ -195,7 +218,7 @@ export class SseService {
       observer.next(streamResponse)
     }
 
-    if (sseMessage.event === "RunCompleted") {
+  if (sseMessage.event === "RunCompleted") {
       const completedResponse: StreamResponse = {
         fullContent: sseMessage.content || fullContent,
         currentChunk: "",
@@ -209,7 +232,7 @@ export class SseService {
       observer.complete()
     }
 
-    if (sseMessage.event === "RunError") {
+  if (sseMessage.event === "RunError") {
       const errorResponse: StreamResponse = {
         fullContent: sseMessage.content || fullContent,
         currentChunk: sseMessage.content,
@@ -223,7 +246,7 @@ export class SseService {
       observer.complete()
     }
 
-    if (sseMessage.event === "UpdatingMemory") {
+  if (sseMessage.event === "UpdatingMemory") {
       const memoryResponse: StreamResponse = {
         fullContent,
         currentChunk: sseMessage.content,
@@ -235,7 +258,7 @@ export class SseService {
       observer.next(memoryResponse)
     }
 
-    if (sseMessage.event === "RunStarted") {
+  if (sseMessage.event === "RunStarted") {
       const startedResponse: StreamResponse = {
         fullContent,
         currentChunk: sseMessage.content,
@@ -247,7 +270,7 @@ export class SseService {
       observer.next(startedResponse)
     }
 
-    if (sseMessage.event === "ToolCallStarted") {
+  if (sseMessage.event === "ToolCallStarted") {
       const toolResponse: StreamResponse = {
         fullContent,
         currentChunk: sseMessage.content,

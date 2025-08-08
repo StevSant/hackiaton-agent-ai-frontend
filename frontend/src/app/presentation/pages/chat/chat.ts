@@ -23,6 +23,9 @@ import { TypewriterService } from '@infrastructure/services/typewriter.service';
 import { ScrollManagerService } from '@infrastructure/services/scroll-manager.service';
 import { MessageManagerService } from '@infrastructure/services/message-manager.service';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
+import { SessionsService } from '@infrastructure/services/sessions.service';
+import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
+import type { SessionEntry } from '@core/models/playground-models';
 
 @Component({
   selector: 'app-chat',
@@ -50,6 +53,9 @@ export class Chat implements OnDestroy, AfterViewChecked {
   currentMessage: ChatMessage | null = null;
   isSending = false;
   debugMode = false;
+  sessions: SessionEntry[] = [];
+  selectedSessionId: string | null = null;
+  audioFile: File | null = null;
 
   // Servicios
   private readonly sseService = inject(SseService);
@@ -63,6 +69,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
   private readonly typewriter = inject(TypewriterService);
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
+  private readonly sessionsService = inject(SessionsService);
 
   // Subscripciones
   private subscription: Subscription | null = null;
@@ -90,6 +97,29 @@ export class Chat implements OnDestroy, AfterViewChecked {
     this.scrollManager.executeScheduledScroll(this.messagesContainer);
   }
 
+  loadSessions() {
+    const id = this.agentIdValue();
+    if (!id) return;
+    const res = this.sessionsService.getSessions(id);
+    res.valueChanges.subscribe((data) => {
+      this.sessions = data || [];
+      this.cdr.markForCheck();
+    });
+  }
+
+  loadSession(sessionId: string) {
+    const id = this.agentIdValue();
+    if (!id) return;
+    this.selectedSessionId = sessionId;
+    const res = this.sessionsService.getSession(id, sessionId);
+    res.valueChanges.subscribe((data: any) => {
+      const chats = data?.chats ?? [];
+      this.messages = adaptChatEntriesToMessages(chats);
+      this.cdr.detectChanges();
+      this.scrollManager.scheduleScrollToBottom();
+    });
+  }
+
   sendMessage() {
   const messageContent = this.msgForm.get('message')?.value?.trim();
   const id = this.agentIdValue();
@@ -115,8 +145,14 @@ export class Chat implements OnDestroy, AfterViewChecked {
     this.cdr.detectChanges();
 
     // Iniciar stream
+    const payload: { message?: string; session_id?: string; user_id?: string; audioFile?: File } = {
+      message: content,
+      session_id: this.selectedSessionId ?? undefined,
+      user_id: undefined,
+      audioFile: this.audioFile ?? undefined,
+    };
     this.subscription = this.sseService
-      .streamFromAgent(this.agentIdValue() as string, content)
+      .streamFromAgent(this.agentIdValue() as string, payload)
       .subscribe({
         next: (data: StreamResponse) => this.handleStreamData(data),
         error: (error) => this.handleError(error),
@@ -196,10 +232,52 @@ export class Chat implements OnDestroy, AfterViewChecked {
         );
       }
     }
+    if (this.currentMessage) {
+      if (data.currentChunk) {
+        this.currentMessage.content = data.fullContent;
+      }
+      const raw: any = data.rawMessage;
+      if (raw?.extra_data?.reasoning_steps) {
+        this.currentMessage.extra_data = {
+          ...this.currentMessage.extra_data,
+          reasoning_steps: raw.extra_data.reasoning_steps,
+          references: this.currentMessage.extra_data?.references,
+        };
+      }
+      if (raw?.extra_data?.references) {
+        this.currentMessage.extra_data = {
+          ...this.currentMessage.extra_data,
+          references: raw.extra_data.references,
+          reasoning_steps: this.currentMessage.extra_data?.reasoning_steps,
+        };
+      }
+      if (raw?.images) this.currentMessage.images = raw.images;
+      if (raw?.videos) this.currentMessage.videos = raw.videos;
+      if (raw?.audio) this.currentMessage.audio = raw.audio;
+      if (raw?.response_audio?.transcript) {
+        this.currentMessage.response_audio = {
+          ...(this.currentMessage.response_audio || {}),
+          transcript: (this.currentMessage.response_audio?.transcript || '') + raw.response_audio.transcript,
+        };
+      }
+    }
   }
 
   private handleRunCompleted(data: StreamResponse) {
     console.log('✅ Ejecución completada:', data);
+
+    if (this.currentMessage) {
+      const raw: any = data.rawMessage;
+      if (raw?.extra_data) {
+        this.currentMessage.extra_data = {
+          reasoning_steps: raw.extra_data.reasoning_steps ?? this.currentMessage.extra_data?.reasoning_steps,
+          references: raw.extra_data.references ?? this.currentMessage.extra_data?.references,
+        };
+      }
+      if (raw?.images) this.currentMessage.images = raw.images;
+      if (raw?.videos) this.currentMessage.videos = raw.videos;
+      if (raw?.response_audio) this.currentMessage.response_audio = raw.response_audio;
+    }
 
     if (this.currentMessage) {
       this.typewriter.completeMessage(this.currentMessage);
@@ -278,6 +356,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
 
   cancelSending() {
     this.cleanup();
+    this.sseService.cancel();
     this.isSending = false;
     this.connectionStatus.setStatus('idle');
     this.messageManager.addSystemMessage(
@@ -285,6 +364,15 @@ export class Chat implements OnDestroy, AfterViewChecked {
       '🚫 Envío cancelado por el usuario',
       'Cancelled' as EventType
     );
+  }
+
+  onAudioSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.audioFile = input.files[0];
+    } else {
+      this.audioFile = null;
+    }
   }
 
   ngOnDestroy() {
