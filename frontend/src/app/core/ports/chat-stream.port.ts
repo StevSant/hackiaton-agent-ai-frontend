@@ -4,7 +4,13 @@ import type { StreamResponseModel } from '@core/models/stream';
 export interface ChatStreamPort {
   streamFromAgent(
     agentId: string,
-  payload: { message?: string; session_id?: string; user_id?: string; audioFile?: File; files?: File[] }
+    payload: {
+      message?: string;
+      session_id?: string;
+      user_id?: string;
+      audioFile?: File;
+      files?: File[];
+    }
   ): Observable<StreamResponseModel>;
   cancel(): void;
 }
