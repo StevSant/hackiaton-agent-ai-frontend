@@ -7,6 +7,18 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'chat/:agentId/session/:sessionId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'audio/:agentId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'audio/:agentId/session/:sessionId',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: '**',
     renderMode: RenderMode.Prerender,
   },

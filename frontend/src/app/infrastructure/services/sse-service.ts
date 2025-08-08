@@ -49,19 +49,25 @@ export class SseService {
 
   streamFromAgent(
     agentId: string,
-    messageOrForm: string | { message?: string; session_id?: string; user_id?: string; audioFile?: File }
+  messageOrForm: string | { message?: string; session_id?: string; user_id?: string; audioFile?: File; files?: File[] }
   ): Observable<StreamResponse> {
     const url = `${this.apiUrl}/${agentId}/runs`
 
     const formData = new FormData()
     const payload = typeof messageOrForm === 'string' ? { message: messageOrForm } : (messageOrForm || {})
-    if (payload.message) formData.append("message", payload.message)
+    // Ensure message field is always present to avoid 422 from backend expecting it
+    formData.append("message", (payload.message ?? '').toString())
     formData.append("stream", "true")
     formData.append("monitor", "false")
     formData.append("session_id", payload.session_id ?? "")
     formData.append("user_id", payload.user_id ?? "")
     if (payload.audioFile) {
       formData.append('audio', payload.audioFile)
+    }
+    if (payload.files && Array.isArray(payload.files)) {
+      for (const f of payload.files) {
+        if (f) formData.append('files', f)
+      }
     }
 
     return new Observable<StreamResponse>((observer) => {

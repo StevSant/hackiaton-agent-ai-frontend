@@ -70,6 +70,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   sessions: SessionEntry[] = [];
   selectedSessionId: string | null = null;
   audioFile: File | null = null;
+  // Optional file attachments (pdf, images, etc.)
+  attachments: File[] = [];
   toolRunning = false;
   private currentAgentId: string | null = null;
   private streamingSessionId: string | null = null;
@@ -192,13 +194,15 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   sendMessage() {
-  const messageContent = this.msgForm.get('message')?.value?.trim();
+    const messageContent = (this.msgForm.get('message')?.value ?? '').toString().trim();
     const id = this.agentIdValue();
     const hasAudio = !!this.audioFile;
-    if ((!messageContent && !hasAudio) || this.isSending || !id) {
+    const hasFiles = this.attachments.length > 0;
+    // Allow audio-only or file-only sends; backend requires message field but can be empty string
+    if ((!messageContent && !hasAudio && !hasFiles) || this.isSending || !id) {
       return;
     }
-  this.startNewConversation(messageContent || '');
+    this.startNewConversation(messageContent || '');
     this.msgForm.reset();
   }
 
@@ -223,6 +227,10 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       const objectUrl = URL.createObjectURL(this.audioFile);
       (userMsg as any).audio = [{ id: `local-${Date.now()}`, url: objectUrl }];
     }
+    // Attachments preview (basic: list filenames)
+    if (this.attachments.length) {
+      (userMsg as any).attachments = this.attachments.map((f, i) => ({ id: `att-${i}`, name: f.name }));
+    }
     this.scrollManager.scheduleScrollToBottom();
     this.cdr.detectChanges();
 
@@ -232,11 +240,13 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       session_id?: string;
       user_id?: string;
       audioFile?: File;
+      files?: File[];
     } = {
-      message: content,
+      message: content ?? '',
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
       audioFile: this.audioFile ?? undefined,
+      files: this.attachments.length ? this.attachments : undefined,
     };
     this.subscription = this.sendMessageUC
       .execute(this.agentIdValue() as string, payload)
@@ -573,6 +583,16 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     } else {
       this.audioFile = null;
     }
+  }
+
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files) {
+      this.attachments = [];
+      return;
+    }
+    // Accept common docs and images
+    this.attachments = Array.from(input.files);
   }
 
   ngOnDestroy() {

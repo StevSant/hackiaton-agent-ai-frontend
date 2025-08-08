@@ -200,9 +200,9 @@
       }
     </div>
 
-    <!-- Controles de voz -->
+    <!-- Controles de voz y formulario -->
     <div class="bg-base-100 rounded-xl shadow-sm p-4">
-      <div class="w-full flex items-center justify-center gap-4">
+      <div class="w-full flex items-center justify-center gap-4 mb-4">
         <button type="button" class="btn btn-circle btn-lg" [class.btn-error]="isRecording" [class.btn-primary]="!isRecording" (click)="toggleRecording()">
           <span *ngIf="!isRecording">🎤</span>
           <span *ngIf="isRecording">⏹️</span>
@@ -212,6 +212,52 @@
         </div>
       </div>
       <div *ngIf="micError" class="text-error text-sm mt-2 text-center">{{ micError }}</div>
+
+      <form [formGroup]="msgForm" (submit)="sendMessage()" class="w-full">
+        <div class="flex items-end gap-3">
+          <!-- Input de mensaje editable -->
+          <div class="flex-1">
+            <textarea class="textarea textarea-bordered w-full resize-none min-h-[60px] max-h-[120px]"
+              placeholder="Escribe tu mensaje aquí... (Shift + Enter para nueva línea)" rows="2"
+              formControlName="message" (keydown)="handleKeyDown($event)"></textarea>
+
+            <!-- Mensajes de error -->
+            @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {
+            <div class="text-error text-sm mt-1">
+              Por favor, escribe un mensaje o adjunta un archivo/audio.
+            </div>
+            }
+          </div>
+
+          <!-- Botón de envío -->
+          <div class="flex flex-col gap-2">
+            <button type="submit" class="btn btn-primary" [disabled]="isSending"
+              [class.loading]="isSending">
+              {{ isSending ? 'Enviando...' : 'Enviar' }}
+            </button>
+
+            @if (isSending) {
+            <button type="button" class="btn btn-outline btn-sm" (click)="cancelSending()">
+              Cancelar
+            </button>
+            }
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center mt-2 gap-2">
+          <div class="text-xs opacity-60">Adjunta archivos (PDF, imágenes) o audio opcionalmente</div>
+          <div class="flex items-center gap-3">
+            <input type="file" accept="application/pdf,image/*" multiple class="file-input file-input-bordered file-input-sm"
+              (change)="onFilesSelected($event)" />
+            <input type="file" accept="audio/*" class="file-input file-input-bordered file-input-sm"
+              (change)="onAudioSelected($event)" />
+            <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
+          </div>
+        </div>
+  @if (attachments.length) {
+          <div class="mt-2 text-xs opacity-70">Adjuntos: {{ attachments.length }} archivo(s)</div>
+        }
+      </form>
     </div>
   </div>
 </div>
