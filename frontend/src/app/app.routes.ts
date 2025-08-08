@@ -4,6 +4,10 @@ import { Chat } from '@presentation/pages/chat/chat';
 
 export const routes: Routes = [
 	{ path: '', pathMatch: 'full', component: AgentList },
-	{ path: 'chat/:agentId', component: Chat },
+	{
+		path: 'chat/:agentId',
+		component: Chat,
+		// SSR mode controlled in server routes
+	},
 	{ path: '**', redirectTo: '' },
 ];
