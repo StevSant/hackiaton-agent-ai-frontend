@@ -10,6 +10,7 @@ import {
   input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import type { Subscription } from 'rxjs';
 import type { ChatMessage, EventType } from '@core/models/chat-model';
@@ -33,12 +34,12 @@ import type { SessionEntry } from '@core/models/playground-models';
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     CommonModule,
-  MarkdownComponent,
+    MarkdownComponent,
     SidebarComponent,
   ],
   providers: [],
-import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
   styleUrls: ['./chat.css'],
 })
 export class Chat implements OnDestroy, AfterViewChecked, OnInit {
@@ -65,7 +66,6 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly route = inject(ActivatedRoute);
 
   // Servicios de utilidades
-  FormsModule,
   protected chatUtils = inject(ChatUtilsService);
   protected connectionStatus = inject(ConnectionStatusService);
   private readonly typewriter = inject(TypewriterService);
@@ -119,10 +119,11 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     });
   }
 
-  loadSession(sessionId: string) {
+  loadSession(sessionId: string | null) {
     const id = this.agentIdValue();
     if (!id) return;
     this.selectedSessionId = sessionId;
+    if (!sessionId) return;
     this.sessionsService.getSession(id, sessionId).subscribe((data) => {
       const chats = (data as any)?.chats ?? [];
       this.messages = adaptChatEntriesToMessages(chats);
