@@ -146,14 +146,16 @@
             @if (message.images?.length) {
               <div class="mt-2 grid grid-cols-2 gap-2">
                 @for (img of message.images; track img.url) {
-                  <img [src]="img.url" class="rounded-md max-h-48 object-cover" />
+                  <img [src]="img.url" alt="media" class="rounded-md max-h-48 object-cover" />
                 }
               </div>
             }
             @if (message.videos?.length) {
               <div class="mt-2 space-y-2">
                 @for (v of message.videos; track v.url) {
-                  <video class="rounded-md w-full" controls [src]="v.url"></video>
+                  <video class="rounded-md w-full" controls [src]="v.url">
+                    <track kind="captions" />
+                  </video>
                 }
               </div>
             }

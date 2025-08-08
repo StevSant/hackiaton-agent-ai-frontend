@@ -37,7 +37,7 @@ export interface StreamResponse {
 export class SseService {
   private readonly apiUrl = environment.agentsDirectUrl;
   private abortController: AbortController | null = null
-  private cancel$ = new Subject<void>()
+  private readonly cancel$ = new Subject<void>()
 
   cancel() {
     if (this.abortController) {
@@ -79,7 +79,8 @@ export class SseService {
         body: formData,
         signal: controller.signal,
       })
-        .then(async (response) => {
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  .then(async (response) => {
           if (!response.ok || !response.body) {
             const errorText = await response.text()
             throw new Error(`Error SSE: ${response.status} ${response.statusText} - ${errorText}`)
@@ -143,6 +144,7 @@ export class SseService {
   }
 
   // MÉTODO CORREGIDO para extraer objetos JSON completosw
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   private extractCompleteJsonObjects(buffer: string): { jsonObjects: string[]; remainingBuffer: string } {
     const jsonObjects: string[] = []
     let braceCount = 0

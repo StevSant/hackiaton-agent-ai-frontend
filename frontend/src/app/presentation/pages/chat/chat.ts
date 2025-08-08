@@ -9,8 +9,7 @@ import {
   type OnInit,
   input,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import type { Subscription } from 'rxjs';
 import type { ChatMessage, EventType } from '@core/models/chat-model';
@@ -28,6 +27,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { SessionsService } from '@infrastructure/services/sessions.service';
 import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
+import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 
 @Component({
   selector: 'app-chat',
@@ -40,6 +40,7 @@ import type { SessionEntry } from '@core/models/playground-models';
     SidebarComponent,
   ],
   providers: [],
+  templateUrl: './chat.html',
   styleUrls: ['./chat.css'],
 })
 export class Chat implements OnDestroy, AfterViewChecked, OnInit {
@@ -246,34 +247,37 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
         );
       }
     }
-    if (this.currentMessage) {
-      if (data.currentChunk) {
-        this.currentMessage.content = data.fullContent;
-      }
-      const raw: any = data.rawMessage;
-      if (raw?.extra_data?.reasoning_steps) {
-        this.currentMessage.extra_data = {
-          ...this.currentMessage.extra_data,
-          reasoning_steps: raw.extra_data.reasoning_steps,
-          references: this.currentMessage.extra_data?.references,
-        };
-      }
-      if (raw?.extra_data?.references) {
-        this.currentMessage.extra_data = {
-          ...this.currentMessage.extra_data,
-          references: raw.extra_data.references,
-          reasoning_steps: this.currentMessage.extra_data?.reasoning_steps,
-        };
-      }
-      if (raw?.images) this.currentMessage.images = raw.images;
-      if (raw?.videos) this.currentMessage.videos = raw.videos;
-      if (raw?.audio) this.currentMessage.audio = raw.audio;
-      if (raw?.response_audio?.transcript) {
-        this.currentMessage.response_audio = {
-          ...(this.currentMessage.response_audio || {}),
-          transcript: (this.currentMessage.response_audio?.transcript || '') + raw.response_audio.transcript,
-        };
-      }
+    if (this.currentMessage) this.enrichCurrentMessage(data);
+  }
+
+  private enrichCurrentMessage(data: StreamResponse) {
+    if (!this.currentMessage) return;
+    if (data.currentChunk) {
+      this.currentMessage.content = data.fullContent;
+    }
+    const raw: any = data.rawMessage;
+    if (raw?.extra_data?.reasoning_steps) {
+      this.currentMessage.extra_data = {
+        ...this.currentMessage.extra_data,
+        reasoning_steps: raw.extra_data.reasoning_steps,
+        references: this.currentMessage.extra_data?.references,
+      };
+    }
+    if (raw?.extra_data?.references) {
+      this.currentMessage.extra_data = {
+        ...this.currentMessage.extra_data,
+        references: raw.extra_data.references,
+        reasoning_steps: this.currentMessage.extra_data?.reasoning_steps,
+      };
+    }
+    if (raw?.images) this.currentMessage.images = raw.images;
+    if (raw?.videos) this.currentMessage.videos = raw.videos;
+    if (raw?.audio) this.currentMessage.audio = raw.audio;
+    if (raw?.response_audio?.transcript) {
+      this.currentMessage.response_audio = {
+        ...(this.currentMessage.response_audio || {}),
+        transcript: (this.currentMessage.response_audio?.transcript || '') + raw.response_audio.transcript,
+      };
     }
   }
 
@@ -342,20 +346,24 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     if (audio.url) return audio.url;
     if (audio.base64_audio) {
       try {
-        // Default to provided mime or mp3
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { decodeBase64Audio } = require('@infrastructure/services/audio-util');
-        return decodeBase64Audio(audio.base64_audio, audio.mime_type || 'audio/mpeg', audio.sample_rate || 44100, audio.channels || 1);
+        return decodeBase64Audio(
+          audio.base64_audio,
+          audio.mime_type || 'audio/mpeg',
+          audio.sample_rate || 44100,
+          audio.channels || 1
+        );
       } catch {
         return null;
       }
     }
     if (audio.content) {
       try {
-        // attempt treat as base64 content
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { decodeBase64Audio } = require('@infrastructure/services/audio-util');
-        return decodeBase64Audio(audio.content, audio.mime_type || 'audio/mpeg', audio.sample_rate || 44100, audio.channels || 1);
+        return decodeBase64Audio(
+          audio.content,
+          audio.mime_type || 'audio/mpeg',
+          audio.sample_rate || 44100,
+          audio.channels || 1
+        );
       } catch {
         return null;
       }

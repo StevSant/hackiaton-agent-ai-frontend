@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class SessionsService {
   private readonly base = environment.playgroundApiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getSessions(agentId: string): Observable<SessionEntry[]> {
     const url = `${this.base}/v1/playground/agents/${agentId}/sessions`;
