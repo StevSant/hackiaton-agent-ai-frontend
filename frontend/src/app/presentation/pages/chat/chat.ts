@@ -12,9 +12,8 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import type { Subscription } from 'rxjs';
-import type { ChatMessage, EventType } from '@core/models/chat-model';
-import { SseService, type StreamResponse } from '@infrastructure/services/sse-service';
-import { MarkdownComponent } from '@shared/markdown/markdown';
+import type { ChatMessage, EventType } from '@core/models/chat-model';  
+import { type StreamResponse } from '@infrastructure/services/sse-service';
 import { ActivatedRoute } from '@angular/router';
 
 // Servicios de utilidades
@@ -24,10 +23,16 @@ import { TypewriterService } from '@infrastructure/services/typewriter.service';
 import { ScrollManagerService } from '@infrastructure/services/scroll-manager.service';
 import { MessageManagerService } from '@infrastructure/services/message-manager.service';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
-import { SessionsService } from '@infrastructure/services/sessions.service';
+import { CHAT_STREAM_PORT, SESSIONS_PORT } from '@core/tokens';
+import type { ChatStreamPort } from '@core/ports/chat-stream.port';
+import type { SessionsPort } from '@core/ports/sessions.port';
+import { SendMessageUseCase } from '@core/use-cases/send-message.usecase';
+import { ListSessionsUseCase } from '@core/use-cases/list-sessions.usecase';
+import { GetSessionUseCase } from '@core/use-cases/get-session.usecase';
 import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-chat',
@@ -36,7 +41,7 @@ import { decodeBase64Audio } from '@infrastructure/services/audio-util';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    MarkdownComponent,
+    MarkdownModule,
     SidebarComponent,
   ],
   providers: [],
@@ -59,9 +64,10 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   sessions: SessionEntry[] = [];
   selectedSessionId: string | null = null;
   audioFile: File | null = null;
+  toolRunning = false;
 
   // Servicios
-  private readonly sseService = inject(SseService);
+  private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
@@ -72,7 +78,10 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly typewriter = inject(TypewriterService);
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
-  private readonly sessionsService = inject(SessionsService);
+  private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
+  private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
+  private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
+  private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
 
   // Subscripciones
   private subscription: Subscription | null = null;
@@ -114,7 +123,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   loadSessions() {
     const id = this.agentIdValue();
     if (!id) return;
-    this.sessionsService.getSessions(id).subscribe((data: SessionEntry[]) => {
+  this.listSessionsUC.execute(id).subscribe((data: SessionEntry[]) => {
       this.sessions = data || [];
       this.cdr.markForCheck();
     });
@@ -125,7 +134,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     if (!id) return;
     this.selectedSessionId = sessionId;
     if (!sessionId) return;
-    this.sessionsService.getSession(id, sessionId).subscribe((data) => {
+  this.getSessionUC.execute(id, sessionId).subscribe((data) => {
       const chats = (data as any)?.chats ?? [];
       this.messages = adaptChatEntriesToMessages(chats);
       this.cdr.detectChanges();
@@ -166,8 +175,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       user_id: undefined,
       audioFile: this.audioFile ?? undefined,
     };
-    this.subscription = this.sseService
-      .streamFromAgent(this.agentIdValue() as string, payload)
+    this.subscription = this.sendMessageUC
+      .execute(this.agentIdValue() as string, payload)
       .subscribe({
         next: (data: StreamResponse) => this.handleStreamData(data),
         error: (error) => this.handleError(error),
@@ -194,18 +203,10 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
         this.handleRunCompleted(data);
         break;
       case 'UpdatingMemory':
-        this.messageManager.addSystemMessage(
-          this.messages,
-          '🧠 Actualizando memoria del agente...',
-          data.event as EventType
-        );
+        this.toolRunning = true;
         break;
       case 'ToolCallStarted':
-        this.messageManager.addSystemMessage(
-          this.messages,
-          '🔧 Ejecutando herramientas...',
-          data.event as EventType
-        );
+        this.toolRunning = true;
         break;
       default:
         console.log('ℹ️ Evento no manejado:', data.event, data);
@@ -301,7 +302,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       this.typewriter.completeMessage(this.currentMessage);
     }
 
-    this.scrollManager.scheduleScrollToBottom();
+  this.toolRunning = false;
+  this.scrollManager.scheduleScrollToBottom();
     this.cdr.detectChanges();
   }
 
@@ -404,7 +406,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   cancelSending() {
     this.cleanup();
-  this.sseService.cancel();
+  this.sendMessageUC.cancel();
     this.isSending = false;
     this.connectionStatus.setStatus('idle');
     this.messageManager.addSystemMessage(

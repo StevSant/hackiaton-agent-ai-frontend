@@ -188,7 +188,7 @@
         </div>
         } }
 
-        <!-- Indicador de carga -->
+        <!-- Indicador de carga principal (al inicio del chat) -->
         @if (isSending && messages.length <= 1) { <div class="flex justify-center items-center py-8">
           <div class="flex flex-col items-center gap-4">
             <div class="loading loading-dots loading-lg text-primary"></div>
@@ -197,6 +197,14 @@
             </p>
           </div>
       </div>
+      }
+      
+      <!-- Loader sutil cuando se ejecutan herramientas -->
+      @if (toolRunning) {
+        <div class="flex justify-center items-center py-2">
+          <div class="loading loading-dots loading-sm text-info" aria-label="Ejecutando herramientas"></div>
+          <span class="text-xs ml-2 text-info/80">Ejecutando herramientas…</span>
+        </div>
       }
     </div>
 
