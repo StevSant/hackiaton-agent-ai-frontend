@@ -6,7 +6,7 @@
     <!-- Header mejorado -->
     <div
       class="chat-header w-full flex flex-col md:flex-row justify-between items-center gap-4 p-4 bg-base-100 rounded-xl shadow-sm">
-      <div class="text-center md:text-left">
+  <div class="text-center md:text-left">
         <h3 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
           🤖
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
@@ -25,7 +25,7 @@
             }}</span>
         </div>
 
-        <!-- Contador de mensajes -->
+        <!-- Controles de sesión y contador -->
         @if (messages.length > 0) {
         <div class="badge badge-outline">
           {{ messages.length }} mensaje{{
@@ -33,6 +33,16 @@
           }}
         </div>
         }
+
+        <div class="flex items-center gap-2">
+          <button class="btn btn-sm" (click)="loadSessions()">Recargar sesiones</button>
+          <select class="select select-sm select-bordered" [ngModel]="selectedSessionId" (ngModelChange)="loadSession($event)">
+            <option [ngValue]="null">Nueva sesión</option>
+            @for (s of sessions; track s.session_id) {
+              <option [ngValue]="s.session_id">{{ s.title || ('Sesión ' + s.session_id.slice(0,6)) }}</option>
+            }
+          </select>
+        </div>
       </div>
     </div>
 
@@ -96,6 +106,67 @@
                 <!-- {{ message.displayedContent }} -->
               <markdown [data]="message.displayedContent"></markdown>
             </div>
+            <!-- Reasoning steps -->
+            @if (message.extra_data?.reasoning_steps?.length) {
+              <div class="mt-3 border-t pt-2">
+                <div class="text-xs font-semibold mb-1">Razonamiento</div>
+                <ul class="list-disc ml-5 text-xs space-y-1">
+                  @for (step of message.extra_data?.reasoning_steps; track step.title) {
+                    <li>
+                      <div class="font-medium">{{ step.title }}</div>
+                      <div class="opacity-80">{{ step.reasoning }}</div>
+                      @if (step.result) { <div class="opacity-70">→ {{ step.result }}</div> }
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+            <!-- References -->
+            @if (message.extra_data?.references?.length) {
+              <div class="mt-3 border-t pt-2">
+                <div class="text-xs font-semibold mb-1">Referencias</div>
+                <ul class="list-disc ml-5 text-xs space-y-1">
+                  @for (block of message.extra_data?.references; track block.query) {
+                    <li>
+                      <div class="font-medium">Consulta: {{ block.query }}</div>
+                      <ul class="list-disc ml-5">
+                        @for (ref of block.references; track ref.name) {
+                          <li>
+                            <div class="opacity-90">{{ ref.name }}</div>
+                            <div class="opacity-70">{{ ref.content }}</div>
+                          </li>
+                        }
+                      </ul>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+            <!-- Media: images/videos/audio -->
+            @if (message.images?.length) {
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                @for (img of message.images; track img.url) {
+                  <img [src]="img.url" class="rounded-md max-h-48 object-cover" />
+                }
+              </div>
+            }
+            @if (message.videos?.length) {
+              <div class="mt-2 space-y-2">
+                @for (v of message.videos; track v.url) {
+                  <video class="rounded-md w-full" controls [src]="v.url"></video>
+                }
+              </div>
+            }
+            @if (message.audio?.length) {
+              <div class="mt-2 space-y-2">
+                @for (a of message.audio; track a.id) {
+                  <audio controls [src]="getAudioSrc(a)"></audio>
+                }
+              </div>
+            }
+            @if (message.response_audio?.transcript) {
+              <div class="mt-2 text-xs opacity-80">Transcripción: {{ message.response_audio?.transcript }}</div>
+            }
             @if (message.isStreaming && message.displayedContent.length < message.content.length) { <span
               class="inline-block w-2 h-4 bg-current animate-pulse ml-1"></span>
               }
@@ -169,9 +240,12 @@
         </div>
 
         <!-- Información adicional -->
-        <div class="flex justify-between items-center mt-2 text-xs opacity-60">
-          <span>Presiona Shift + Enter para nueva línea</span>
-          <span>{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
+        <div class="flex justify-between items-center mt-2 gap-2">
+          <div class="text-xs opacity-60">Presiona Shift + Enter para nueva línea</div>
+          <div class="flex items-center gap-3">
+            <input type="file" accept="audio/*" class="file-input file-input-bordered file-input-sm" (change)="onAudioSelected($event)" />
+            <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
+          </div>
         </div>
       </form>
     </div>

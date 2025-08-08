@@ -6,6 +6,7 @@ import {
   ViewChild,
   type AfterViewChecked,
   type OnDestroy,
+  type OnInit,
   input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -37,10 +38,10 @@ import type { SessionEntry } from '@core/models/playground-models';
     SidebarComponent,
   ],
   providers: [],
-  templateUrl: './chat.html',
+import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
   styleUrls: ['./chat.css'],
 })
-export class Chat implements OnDestroy, AfterViewChecked {
+export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   @ViewChild('messagesContainer', { static: false })
   private readonly messagesContainer!: ElementRef;
 
@@ -64,6 +65,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
   private readonly route = inject(ActivatedRoute);
 
   // Servicios de utilidades
+  FormsModule,
   protected chatUtils = inject(ChatUtilsService);
   protected connectionStatus = inject(ConnectionStatusService);
   private readonly typewriter = inject(TypewriterService);
@@ -88,6 +90,17 @@ export class Chat implements OnDestroy, AfterViewChecked {
   });
 
   constructor() {}
+  ngOnInit() {
+    // pick preselected session from query param if any
+    const qp = this.route.snapshot.queryParamMap;
+    const sessionId = qp.get('session');
+    if (sessionId) {
+      this.selectedSessionId = sessionId;
+      this.loadSession(sessionId);
+    }
+    // optional: load sessions list for the sidebar to pick up in a shared service if needed
+    this.loadSessions();
+  }
 
   agentIdValue(): string | null {
     return this.agentId() ?? this.route.snapshot.paramMap.get('agentId');
@@ -100,8 +113,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
   loadSessions() {
     const id = this.agentIdValue();
     if (!id) return;
-    const res = this.sessionsService.getSessions(id);
-    res.valueChanges.subscribe((data) => {
+    this.sessionsService.getSessions(id).subscribe((data: SessionEntry[]) => {
       this.sessions = data || [];
       this.cdr.markForCheck();
     });
@@ -111,9 +123,8 @@ export class Chat implements OnDestroy, AfterViewChecked {
     const id = this.agentIdValue();
     if (!id) return;
     this.selectedSessionId = sessionId;
-    const res = this.sessionsService.getSession(id, sessionId);
-    res.valueChanges.subscribe((data: any) => {
-      const chats = data?.chats ?? [];
+    this.sessionsService.getSession(id, sessionId).subscribe((data) => {
+      const chats = (data as any)?.chats ?? [];
       this.messages = adaptChatEntriesToMessages(chats);
       this.cdr.detectChanges();
       this.scrollManager.scheduleScrollToBottom();
@@ -121,11 +132,13 @@ export class Chat implements OnDestroy, AfterViewChecked {
   }
 
   sendMessage() {
-  const messageContent = this.msgForm.get('message')?.value?.trim();
-  const id = this.agentIdValue();
-  if (!messageContent || this.isSending || !id) return;
-
-    this.startNewConversation(messageContent);
+    const messageContent = this.msgForm.get('message')?.value?.trim();
+    const id = this.agentIdValue();
+    const hasAudio = !!this.audioFile;
+    if ((!messageContent && !hasAudio) || this.isSending || !id) {
+      return;
+    }
+    this.startNewConversation(messageContent || '');
     this.msgForm.reset();
   }
 
@@ -323,6 +336,32 @@ export class Chat implements OnDestroy, AfterViewChecked {
     this.cdr.detectChanges();
   }
 
+  getAudioSrc(audio: any): string | null {
+    if (!audio) return null;
+    if (audio.url) return audio.url;
+    if (audio.base64_audio) {
+      try {
+        // Default to provided mime or mp3
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { decodeBase64Audio } = require('@infrastructure/services/audio-util');
+        return decodeBase64Audio(audio.base64_audio, audio.mime_type || 'audio/mpeg', audio.sample_rate || 44100, audio.channels || 1);
+      } catch {
+        return null;
+      }
+    }
+    if (audio.content) {
+      try {
+        // attempt treat as base64 content
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { decodeBase64Audio } = require('@infrastructure/services/audio-util');
+        return decodeBase64Audio(audio.content, audio.mime_type || 'audio/mpeg', audio.sample_rate || 44100, audio.channels || 1);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+
   private cleanup() {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -356,7 +395,7 @@ export class Chat implements OnDestroy, AfterViewChecked {
 
   cancelSending() {
     this.cleanup();
-    this.sseService.cancel();
+  this.sseService.cancel();
     this.isSending = false;
     this.connectionStatus.setStatus('idle');
     this.messageManager.addSystemMessage(
