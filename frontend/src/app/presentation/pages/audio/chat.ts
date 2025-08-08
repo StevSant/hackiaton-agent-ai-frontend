@@ -81,6 +81,9 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private recordedChunks: Blob[] = [];
   private micStream: MediaStream | null = null;
   micError: string | null = null;
+  // Speech-to-Text state
+  private recognition: any = null;
+  isTranscribing = false;
   // Text-to-Speech auto playback (fallback when backend doesn't return audio)
   autoTTS = true;
 
@@ -245,7 +248,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       files?: File[];
     } = {
       // Ensure non-empty message to satisfy backend validation when sending audio-only
-      message: (content && content.trim()) ? content : '[voice message]',
+  message: (content?.trim()) ? content : '[voice message]',
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
       audioFile: this.audioFile ?? undefined,
@@ -390,21 +393,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     console.log('✅ Ejecución completada:', data);
 
     if (this.currentMessage) {
-      const raw: any = data.rawMessage;
-      if (raw?.extra_data) {
-        this.currentMessage.extra_data = {
-          reasoning_steps:
-            raw.extra_data.reasoning_steps ??
-            this.currentMessage.extra_data?.reasoning_steps,
-          references:
-            raw.extra_data.references ??
-            this.currentMessage.extra_data?.references,
-        };
-      }
-      if (raw?.images) this.currentMessage.images = raw.images;
-      if (raw?.videos) this.currentMessage.videos = raw.videos;
-      if (raw?.response_audio)
-        this.currentMessage.response_audio = raw.response_audio;
+      this.applyFinalArtifacts(data);
     }
 
     if (this.currentMessage) {
@@ -430,6 +419,25 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       } catch {}
     }
   }
+
+  }
+
+  private applyFinalArtifacts(data: StreamResponseModel) {
+    if (!this.currentMessage) return;
+    const raw: any = data.rawMessage;
+    if (raw?.extra_data) {
+      this.currentMessage.extra_data = {
+        reasoning_steps:
+          raw.extra_data.reasoning_steps ??
+          this.currentMessage.extra_data?.reasoning_steps,
+        references:
+          raw.extra_data.references ??
+          this.currentMessage.extra_data?.references,
+      };
+    }
+    if (raw?.images) this.currentMessage.images = raw.images;
+    if (raw?.videos) this.currentMessage.videos = raw.videos;
+    if (raw?.response_audio) this.currentMessage.response_audio = raw.response_audio;
   }
 
   // Audio recording helpers
@@ -449,14 +457,15 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       this.mediaRecorder.onstop = () => {
         const blob = new Blob(this.recordedChunks, { type: this.mediaRecorder?.mimeType || 'audio/webm' });
         this.audioFile = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
-        // Enviar automáticamente al parar
-        this.sendMessage();
+        // No enviar automáticamente: permitir revisar/editar transcripción antes de enviar
         // Liberar stream
         this.micStream?.getTracks().forEach(t => t.stop());
         this.micStream = null;
       };
       this.mediaRecorder.start();
       this.isRecording = true;
+      // Start speech recognition if supported
+      this.startSpeechRecognition();
       this.cdr.detectChanges();
     } catch (err: any) {
       this.micError = err?.message || 'No se pudo acceder al micrófono';
@@ -470,6 +479,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     if (!this.mediaRecorder || !this.isRecording) return;
     try { this.mediaRecorder.stop(); } catch {}
     this.isRecording = false;
+  // Stop speech recognition if active
+  this.stopSpeechRecognition();
     this.cdr.detectChanges();
   }
 
@@ -614,6 +625,66 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
   ngOnDestroy() {
     this.cleanup();
+    this.stopSpeechRecognition();
     this.connectionStatus.destroy();
+  }
+
+  // Speech Recognition helpers (Web Speech API)
+  private get speechRecognitionCtor(): any {
+    const w = window as any;
+    return w?.SpeechRecognition || w?.webkitSpeechRecognition || null;
+  }
+
+  get supportsSpeechRecognition(): boolean {
+    return typeof window !== 'undefined' && !!this.speechRecognitionCtor;
+  }
+
+  private startSpeechRecognition() {
+    if (!this.supportsSpeechRecognition) return;
+    try {
+      const Ctor = this.speechRecognitionCtor;
+      this.recognition = new Ctor();
+      this.recognition.lang = 'es-ES';
+      this.recognition.continuous = true;
+      this.recognition.interimResults = true;
+      this.isTranscribing = true;
+      let finalTranscript = '';
+      this.recognition.onresult = (event: any) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const result = event.results[i];
+          const text = result[0]?.transcript || '';
+          if (result.isFinal) {
+            finalTranscript += text + ' ';
+          } else {
+            interim += text + ' ';
+          }
+        }
+        const combined = (finalTranscript + ' ' + interim).trim();
+        this.msgForm.get('message')?.setValue(combined, { emitEvent: false });
+        this.cdr.detectChanges();
+      };
+      this.recognition.onerror = () => {
+        this.isTranscribing = false;
+        this.cdr.detectChanges();
+      };
+      this.recognition.onend = () => {
+        this.isTranscribing = false;
+        this.cdr.detectChanges();
+      };
+      this.recognition.start();
+    } catch {
+      this.isTranscribing = false;
+    }
+  }
+
+  private stopSpeechRecognition() {
+    try {
+      if (this.recognition && this.isTranscribing) {
+        this.recognition.stop();
+      }
+    } catch {}
+    this.isTranscribing = false;
+    this.recognition = null;
   }
 }

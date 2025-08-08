@@ -208,8 +208,11 @@
           <span *ngIf="isRecording">⏹️</span>
         </button>
         <div class="text-sm opacity-70">
-          {{ isRecording ? 'Grabando... toca para detener y enviar' : 'Toca para grabar un mensaje de voz' }}
+          {{ isRecording ? 'Grabando... toca para detener' : 'Toca para grabar un mensaje de voz' }}
         </div>
+        @if (isRecording && isTranscribing) {
+          <div class="badge badge-outline">Transcribiendo…</div>
+        }
       </div>
       <div *ngIf="micError" class="text-error text-sm mt-2 text-center">{{ micError }}</div>
 
