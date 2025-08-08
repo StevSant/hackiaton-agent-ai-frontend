@@ -69,12 +69,12 @@ export class SidebarComponent {
 
   openSession(session: SessionEntry) {
     if (!this.agentId) return;
-    this.router.navigate(['/agent', this.agentId], { queryParams: { session: session.session_id } });
+    this.router.navigate(['/chat', this.agentId], { queryParams: { session: session.session_id } });
   }
 
   newChat() {
     if (!this.agentId) return;
-    this.router.navigate(['/agent', this.agentId], { queryParams: {} });
+    this.router.navigate(['/chat', this.agentId], { queryParams: {} });
   }
 
   deleteSession(session: SessionEntry, event?: Event) {

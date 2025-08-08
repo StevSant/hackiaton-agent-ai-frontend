@@ -118,7 +118,9 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   agentIdValue(): string | null {
-    return this.agentId() ?? this.route.snapshot.paramMap.get('agentId');
+    const fromParam: string | null = this.route.snapshot.paramMap.get('agentId');
+    const fromInput: string | undefined = this.agentId();
+  return (fromParam ?? (fromInput ?? null));
   }
 
   ngAfterViewChecked() {
