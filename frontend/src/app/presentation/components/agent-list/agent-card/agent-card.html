@@ -9,9 +9,16 @@
     <p class="text-blue-100">
         {{agentLocal.description}}
     </p>
-    <button type="button"
-        (click)="openChat(agentLocal.agent_id)"
-        class="px-5 py-2 max-w-[135px] text-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all">
-        Iniciar Chat
-    </button>
+        <div class="flex gap-2 mt-2">
+            <button type="button"
+                (click)="openChat(agentLocal.agent_id)"
+                class="px-5 py-2 max-w-[135px] text-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all">
+                Iniciar Chat
+            </button>
+            <button type="button"
+                (click)="openAudioChat(agentLocal.agent_id)"
+                class="px-5 py-2 max-w-[135px] text-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition-all">
+                Chat por Audio
+            </button>
+        </div>
 </div>

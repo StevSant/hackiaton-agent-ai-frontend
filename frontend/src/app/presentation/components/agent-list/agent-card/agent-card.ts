@@ -35,4 +35,21 @@ export class AgentCard {
       },
     });
   }
+
+  openAudioChat(agentId: string) {
+    // Try to open the most recent session; if none, go to new audio chat
+    this.listSessionsUC.execute(agentId).subscribe({
+      next: (sessions: any[]) => {
+        const latest = (sessions || []).slice().sort((a: any, b: any) => b.created_at - a.created_at)[0];
+        if (latest) {
+          this.router.navigate(['/audio', agentId, 'session', latest.session_id]);
+        } else {
+          this.router.navigate(['/audio', agentId]);
+        }
+      },
+      error: () => {
+        this.router.navigate(['/audio', agentId]);
+      },
+    });
+  }
 }
