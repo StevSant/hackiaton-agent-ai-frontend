@@ -71,6 +71,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   selectedSessionId: string | null = null;
   audioFile: File | null = null;
   toolRunning = false;
+  private currentAgentId: string | null = null;
+  private streamingSessionId: string | null = null;
 
   // Servicios
   private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
@@ -110,9 +112,14 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   ngOnInit() {
     // React to either /chat/:agentId/session/:sessionId param or legacy ?session= query param
     this.route.paramMap.subscribe((p) => {
+      this.currentAgentId = p.get('agentId');
       const paramSession = p.get('sessionId');
       if (paramSession) {
         this.selectedSessionId = paramSession;
+        // Si estamos en medio de un stream y este sessionId acaba de ser creado, no cargamos aún para no abortar SSE
+        if (this.isSending && this.streamingSessionId === paramSession) {
+          return;
+        }
         this.loadSession(paramSession);
         return;
       }
@@ -133,8 +140,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   agentIdValue(): string | null {
-    const fromParam: string | null =
-      this.route.snapshot.paramMap.get('agentId');
+  const fromParam: string | null = this.currentAgentId ?? this.route.snapshot.paramMap.get('agentId');
     const fromInput: string | undefined = this.agentId();
     return fromParam ?? fromInput ?? null;
   }
@@ -164,11 +170,18 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('idle');
     this.currentMessage = null;
 
-    this.getSessionUC.execute(id, sessionId).subscribe((data) => {
-      const chats = (data as any)?.chats ?? [];
-      this.messages = adaptChatEntriesToMessages(chats);
-      this.cdr.detectChanges();
-      this.scrollManager.scheduleScrollToBottom();
+    this.getSessionUC.execute(id, sessionId).subscribe({
+      next: (data) => {
+        const d: any = data as any;
+        const chats = d?.chats ?? d?.session?.chats ?? (Array.isArray(d) ? d : []);
+        this.messages = adaptChatEntriesToMessages(chats);
+        this.cdr.detectChanges();
+        this.scrollManager.scheduleScrollToBottom();
+      },
+      error: (err) => {
+        // Manejar 404 sin romper la vista; puede que la sesión aún no esté persistida
+        console.warn('No se pudo cargar la sesión aún:', err);
+      },
     });
   }
 
@@ -293,6 +306,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     const raw: any = data.rawMessage;
     if (!this.selectedSessionId && raw?.session_id && this.agentIdValue()) {
       this.selectedSessionId = raw.session_id;
+      this.streamingSessionId = raw.session_id;
+      // Actualizamos la URL pero evitamos recargar historial durante el stream
       this.router.navigate(['/chat', this.agentIdValue()!, 'session', raw.session_id], { replaceUrl: true });
     }
   }
@@ -357,7 +372,9 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
     this.toolRunning = false;
     this.scrollManager.scheduleScrollToBottom();
-    this.cdr.detectChanges();
+  this.cdr.detectChanges();
+  // Ya terminó el stream; si teníamos sessionId en curso, liberamos bandera
+  this.streamingSessionId = null;
   }
 
   private handleError(error: any) {
