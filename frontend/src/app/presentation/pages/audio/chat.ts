@@ -41,6 +41,8 @@ import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
 import { SttService } from '@infrastructure/services/stt.service';
+import { VoiceService } from '@infrastructure/services/voice.service';
+import { VoskSttService } from '@infrastructure/services/vosk-stt.service';
 
 @Component({
   selector: 'app-audio-chat',
@@ -114,6 +116,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly messageManager = inject(MessageManagerService);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
   private readonly stt = inject(SttService);
+  private readonly voice = inject(VoiceService);
+  private readonly vosk = inject(VoskSttService);
   private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
   private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
@@ -668,45 +672,25 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   get supportsSpeechRecognition(): boolean {
-    return typeof window !== 'undefined' && !!this.speechRecognitionCtor;
+  return this.voice.isSupported();
   }
 
   private startSpeechRecognition() {
-    if (!this.supportsSpeechRecognition) return;
+    // Prefer Web Speech API; fallback to Vosk offline if not supported
+    if (!this.supportsSpeechRecognition) {
+      this.startVoskFallback();
+      return;
+    }
     try {
-      const Ctor = this.speechRecognitionCtor;
-      this.recognition = new Ctor();
-  // Prefer browser locale and fall back to Spanish
-  try { this.recognition.lang = (navigator?.language || 'es-ES'); } catch { this.recognition.lang = 'es-ES'; }
-      this.recognition.continuous = true;
-      this.recognition.interimResults = true;
       this.isTranscribing = true;
-  this.sttError = null;
-      let finalTranscript = '';
-      this.recognition.onstart = () => {
-        this.zone.run(() => { this.isTranscribing = true; this.cdr.detectChanges(); });
-      };
-      this.recognition.onresult = (event: any) => {
-        this.zone.run(() => {
-          let interim = '';
-          for (let i = event.resultIndex; i < event.results.length; i++) {
-            const result = event.results[i];
-            const text = result[0]?.transcript || '';
-            if (result.isFinal) {
-              finalTranscript += text + ' ';
-            } else {
-              interim += text + ' ';
-            }
-          }
-          const combined = (finalTranscript + ' ' + interim).trim();
-          this.msgForm.get('message')?.setValue(combined, { emitEvent: false });
+      this.sttError = null;
+  this.voice.start({ interim: true, continuous: false }).subscribe({
+        next: (e) => {
+          this.msgForm.get('message')?.setValue(e.text, { emitEvent: false });
           this.cdr.detectChanges();
-        });
-      };
-      this.recognition.onerror = (e: any) => {
-        this.zone.run(() => {
-          this.isTranscribing = false;
-          const code = (e && (e.error || e.name)) || 'unknown';
+        },
+        error: (err) => {
+          const code = (err && (err.error || err.name)) || 'unknown';
           const map: Record<string, string> = {
             'no-speech': 'No se detectó voz. Intenta hablar más cerca del micrófono.',
             'audio-capture': 'No se encontró micrófono. Revisa los permisos.',
@@ -715,30 +699,51 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
             'network': 'Error de red con el servicio de voz.',
           };
           this.sttError = map[code] || `Error de reconocimiento: ${code}`;
-          this.cdr.detectChanges();
-        });
-      };
-      this.recognition.onend = () => {
-        this.zone.run(() => {
           this.isTranscribing = false;
           this.cdr.detectChanges();
-          // Auto-restart while still recording to keep continuous dictation
-          if (this.isRecording) {
-            try { setTimeout(() => { try { this.recognition?.start?.(); } catch {} }, 150); } catch {}
-          }
-        });
-      };
-      this.recognition.start();
+        },
+        complete: () => {
+          this.isTranscribing = false;
+          this.cdr.detectChanges();
+        },
+      });
     } catch {
       this.isTranscribing = false;
     }
   }
 
+  private async startVoskFallback() {
+    try {
+      this.isTranscribing = true;
+      this.sttError = null;
+      await this.vosk.init({ wasmPath: '/assets/vosk/', modelPath: '/assets/vosk/es/' });
+      const stream$ = await this.vosk.start();
+      stream$.subscribe({
+        next: (text) => {
+          this.msgForm.get('message')?.setValue(text, { emitEvent: false });
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.sttError = err?.message || 'Error en Vosk';
+          this.isTranscribing = false;
+          this.cdr.detectChanges();
+        },
+        complete: () => {
+          this.isTranscribing = false;
+          this.cdr.detectChanges();
+        }
+      });
+    } catch (e: any) {
+      this.sttError = e?.message || 'No se pudo iniciar Vosk';
+      this.isTranscribing = false;
+      this.cdr.detectChanges();
+    }
+  }
+
   private stopSpeechRecognition() {
     try {
-      if (this.recognition && this.isTranscribing) {
-        this.recognition.stop();
-      }
+  this.voice.stop();
+  this.vosk.stop();
     } catch {}
     this.isTranscribing = false;
     this.recognition = null;
