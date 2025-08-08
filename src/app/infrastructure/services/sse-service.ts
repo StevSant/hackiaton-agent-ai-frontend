@@ -1,6 +1,7 @@
-import { Injectable } from "@angular/core"
+import { Injectable, inject } from "@angular/core"
 import { Observable, Subject } from "rxjs"
 import { environment } from '@environments/environment';
+import { TokenStorageService } from './token-storage.service';
 
 
 export interface SSEMessage {
@@ -38,6 +39,7 @@ export class SseService {
   private readonly apiUrl = environment.agentsDirectUrl;
   private abortController: AbortController | null = null
   private readonly cancel$ = new Subject<void>()
+  private readonly tokenStorage = inject(TokenStorageService);
 
   cancel() {
     if (this.abortController) {
@@ -77,12 +79,16 @@ export class SseService {
       let fullContent = ""
       let buffer = ""
 
+      const headers: Record<string, string> = {
+        Accept: "text/event-stream",
+        "Cache-Control": "no-cache",
+      };
+      const token = this.tokenStorage.getToken();
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+
       fetch(url, {
         method: "POST",
-        headers: {
-          Accept: "text/event-stream",
-          "Cache-Control": "no-cache",
-        },
+        headers,
         body: formData,
         signal: controller.signal,
       })

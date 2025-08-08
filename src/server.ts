@@ -11,6 +11,7 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+app.use(express.json());
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -35,6 +36,28 @@ app.post('/api/stt', async (req, res) => {
   } catch (e: any) {
     res.status(500).send(e?.message || 'stt failed');
   }
+});
+
+// Simple in-memory auth stub for dev/demo (DO NOT use in production)
+app.post('/auth/login', (req, res) => {
+  const { email, username } = req.body || {};
+  // Issue a dummy token; in real life, verify credentials
+  res.json({ token: 'dev-token-' + (email || username || 'user') });
+});
+
+app.post('/auth/register', (req, res) => {
+  const { email, username } = req.body || {};
+  // Pretend user is created and return token
+  res.json({ token: 'dev-token-' + (email || username || 'user') });
+});
+
+app.get('/auth/me', (req, res) => {
+  const auth = req.headers['authorization'] || '';
+  if (!auth.startsWith('Bearer ')) { res.status(401).json({ message: 'Unauthorized' }); return; }
+  const token = auth.substring('Bearer '.length);
+  // Derive a fake profile from token suffix
+  const suffix = token.replace(/^dev-token-/, '') || 'user';
+  res.json({ id: '1', username: suffix, email: `${suffix}@example.com` });
 });
 
 /**

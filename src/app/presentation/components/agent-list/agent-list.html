@@ -1,5 +1,13 @@
 @let agentsLocal = agents.value();
 
+<div class="auth-bar" style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:12px;">
+    @if (token.isAuthenticated()) {
+        <button (click)="logout()">Logout</button>
+    } @else {
+        <a routerLink="/login">Login</a>
+        <a routerLink="/register">Register</a>
+    }
+</div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 w-full max-w-5xl mx-auto">
     @for (agent of agentsLocal; track agent.agent_id) {
     <app-agent-card [agent]="agent"></app-agent-card>
