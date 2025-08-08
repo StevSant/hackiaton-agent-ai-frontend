@@ -3,7 +3,8 @@ import type { ChatMessage } from '../models/chat-model';
 
 export function adaptChatEntriesToMessages(entries: ChatEntry[]): ChatMessage[] {
 	const messages: ChatMessage[] = [];
-	for (const entry of entries) {
+	const sorted = [...entries].sort((a, b) => a.message.created_at - b.message.created_at);
+	for (const entry of sorted) {
 		// user message
 		messages.push({
 			id: `user-${entry.message.created_at}`,

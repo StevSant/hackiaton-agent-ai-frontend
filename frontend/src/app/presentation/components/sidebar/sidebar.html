@@ -32,7 +32,7 @@
                             </button>
                             <div class="flex items-center gap-1">
                                 <button class="btn btn-ghost btn-xs" (click)="togglePreview(s)" title="Ver mensajes">
-                                    <mat-icon fontIcon="expand_more"></mat-icon>
+                                    <mat-icon fontIcon="expand_more" [ngClass]="{'rotate-180': expanded[s.session_id]}" class="transition-transform"></mat-icon>
                                 </button>
                                 <button class="btn btn-ghost btn-xs text-error" (click)="deleteSession(s, $event)" title="Eliminar">
                                     <mat-icon fontIcon="delete"></mat-icon>
@@ -41,7 +41,7 @@
                         </div>
                         <div *ngIf="expanded[s.session_id]" class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
                             <div *ngIf="!previews[s.session_id]" class="text-xs opacity-60">Cargando…</div>
-                              <div *ngFor="let m of previews[s.session_id]" class="text-xs opacity-80 truncate">• {{ m.who }}: {{ m.text }}</div>
+                            <div *ngFor="let m of previews[s.session_id]" class="text-xs opacity-80 truncate">• {{ m.who }}: {{ m.text }}</div>
                         </div>
                     </li>
                 </ul>

@@ -9,13 +9,18 @@ import {
   type OnInit,
   input,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+  FormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import type { Subscription } from 'rxjs';
-import type { ChatMessage, EventType } from '@core/models/chat-model';  
+import type { ChatMessage, EventType } from '@core/models/chat-model';
 import { type StreamResponse as InfraStreamResponse } from '@infrastructure/services/sse-service';
 import type { StreamResponseModel } from '@core/models/stream';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 // Servicios de utilidades
 import { ChatUtilsService } from '@infrastructure/services/chat-utils.service';
@@ -72,6 +77,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   // Servicios de utilidades
   protected chatUtils = inject(ChatUtilsService);
@@ -102,25 +108,35 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   constructor() {}
   ngOnInit() {
-    // react to session query param changes
-    this.route.queryParamMap.subscribe((params) => {
-      const sessionId = params.get('session');
-      this.selectedSessionId = sessionId;
-      if (sessionId) {
-        this.loadSession(sessionId);
-      } else {
-        // new chat view: clear current messages if coming from a session
-        this.messageManager.clearMessages(this.messages);
-        this.currentMessage = null;
-        this.cdr.detectChanges();
+    // React to either /chat/:agentId/session/:sessionId param or legacy ?session= query param
+    this.route.paramMap.subscribe((p) => {
+      const paramSession = p.get('sessionId');
+      if (paramSession) {
+        this.selectedSessionId = paramSession;
+        this.loadSession(paramSession);
+        return;
       }
+      // Fallback to query param for backward compatibility
+      this.route.queryParamMap.subscribe((params) => {
+        const sessionId = params.get('session');
+        this.selectedSessionId = sessionId;
+        if (sessionId) {
+          this.loadSession(sessionId);
+        } else {
+          // new chat view: clear current messages if coming from a session
+          this.messageManager.clearMessages(this.messages);
+          this.currentMessage = null;
+          this.cdr.detectChanges();
+        }
+      });
     });
   }
 
   agentIdValue(): string | null {
-    const fromParam: string | null = this.route.snapshot.paramMap.get('agentId');
+    const fromParam: string | null =
+      this.route.snapshot.paramMap.get('agentId');
     const fromInput: string | undefined = this.agentId();
-  return (fromParam ?? (fromInput ?? null));
+    return fromParam ?? fromInput ?? null;
   }
 
   ngAfterViewChecked() {
@@ -130,7 +146,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   loadSessions() {
     const id = this.agentIdValue();
     if (!id) return;
-  this.listSessionsUC.execute(id).subscribe((data: SessionEntry[]) => {
+    this.listSessionsUC.execute(id).subscribe((data: SessionEntry[]) => {
       this.sessions = data || [];
       this.cdr.markForCheck();
     });
@@ -141,7 +157,14 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     if (!id) return;
     this.selectedSessionId = sessionId;
     if (!sessionId) return;
-  this.getSessionUC.execute(id, sessionId).subscribe((data) => {
+    // Reset current streaming and UI state before loading session
+    this.cleanup();
+    this.isSending = false;
+    this.toolRunning = false;
+    this.connectionStatus.setStatus('idle');
+    this.currentMessage = null;
+
+    this.getSessionUC.execute(id, sessionId).subscribe((data) => {
       const chats = (data as any)?.chats ?? [];
       this.messages = adaptChatEntriesToMessages(chats);
       this.cdr.detectChanges();
@@ -165,7 +188,10 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
     // Limpiar estado anterior
     this.cleanup();
-    this.messageManager.clearMessages(this.messages);
+    // Si no hay sesión seleccionada, es un chat nuevo, limpiamos historial
+    if (!this.selectedSessionId) {
+      this.messageManager.clearMessages(this.messages);
+    }
     this.currentMessage = null;
     this.isSending = true;
     this.connectionStatus.setStatus('connecting');
@@ -176,7 +202,12 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.cdr.detectChanges();
 
     // Iniciar stream
-    const payload: { message?: string; session_id?: string; user_id?: string; audioFile?: File } = {
+    const payload: {
+      message?: string;
+      session_id?: string;
+      user_id?: string;
+      audioFile?: File;
+    } = {
       message: content,
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
@@ -185,7 +216,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.subscription = this.sendMessageUC
       .execute(this.agentIdValue() as string, payload)
       .subscribe({
-  next: (data: StreamResponseModel | InfraStreamResponse) => this.handleStreamData(data as any),
+        next: (data: StreamResponseModel | InfraStreamResponse) =>
+          this.handleStreamData(data as any),
         error: (error) => this.handleError(error),
         complete: () => this.handleComplete(),
       });
@@ -230,7 +262,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     console.log('🤖 Respuesta del run:', data);
 
     // Crear nuevo mensaje si no existe o el actual está completo
-  if (!this.currentMessage || this.currentMessage.isComplete) {
+    if (!this.currentMessage || this.currentMessage.isComplete) {
       this.currentMessage = this.messageManager.createBotMessage(
         this.messages,
         data.rawMessage.run_id || this.chatUtils.generateId(),
@@ -256,6 +288,13 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       }
     }
     if (this.currentMessage) this.enrichCurrentMessage(data);
+
+    // If we didn't have a session yet, as soon as the API returns a session_id, reflect it in URL
+    const raw: any = data.rawMessage;
+    if (!this.selectedSessionId && raw?.session_id && this.agentIdValue()) {
+      this.selectedSessionId = raw.session_id;
+      this.router.navigate(['/chat', this.agentIdValue()!, 'session', raw.session_id], { replaceUrl: true });
+    }
   }
 
   private enrichCurrentMessage(data: StreamResponseModel) {
@@ -284,7 +323,9 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     if (raw?.response_audio?.transcript) {
       this.currentMessage.response_audio = {
         ...(this.currentMessage.response_audio || {}),
-        transcript: (this.currentMessage.response_audio?.transcript || '') + raw.response_audio.transcript,
+        transcript:
+          (this.currentMessage.response_audio?.transcript || '') +
+          raw.response_audio.transcript,
       };
     }
   }
@@ -296,21 +337,26 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       const raw: any = data.rawMessage;
       if (raw?.extra_data) {
         this.currentMessage.extra_data = {
-          reasoning_steps: raw.extra_data.reasoning_steps ?? this.currentMessage.extra_data?.reasoning_steps,
-          references: raw.extra_data.references ?? this.currentMessage.extra_data?.references,
+          reasoning_steps:
+            raw.extra_data.reasoning_steps ??
+            this.currentMessage.extra_data?.reasoning_steps,
+          references:
+            raw.extra_data.references ??
+            this.currentMessage.extra_data?.references,
         };
       }
       if (raw?.images) this.currentMessage.images = raw.images;
       if (raw?.videos) this.currentMessage.videos = raw.videos;
-      if (raw?.response_audio) this.currentMessage.response_audio = raw.response_audio;
+      if (raw?.response_audio)
+        this.currentMessage.response_audio = raw.response_audio;
     }
 
     if (this.currentMessage) {
       this.typewriter.completeMessage(this.currentMessage);
     }
 
-  this.toolRunning = false;
-  this.scrollManager.scheduleScrollToBottom();
+    this.toolRunning = false;
+    this.scrollManager.scheduleScrollToBottom();
     this.cdr.detectChanges();
   }
 
@@ -319,7 +365,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('error');
     this.typewriter.stopTypewriter();
     this.isSending = false;
-  this.toolRunning = false;
+    this.toolRunning = false;
 
     // Finalizar mensaje actual si existe
     if (this.currentMessage) {
@@ -342,7 +388,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('idle');
     this.typewriter.stopTypewriter();
     this.isSending = false;
-  this.toolRunning = false;
+    this.toolRunning = false;
 
     // Asegurar que el último mensaje se muestre completamente
     if (this.currentMessage) {
@@ -415,9 +461,9 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   cancelSending() {
     this.cleanup();
-  this.sendMessageUC.cancel();
+    this.sendMessageUC.cancel();
     this.isSending = false;
-  this.toolRunning = false;
+    this.toolRunning = false;
     this.connectionStatus.setStatus('idle');
     this.messageManager.addSystemMessage(
       this.messages,

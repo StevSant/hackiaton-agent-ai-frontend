@@ -4,10 +4,8 @@ import { Chat } from '@presentation/pages/chat/chat';
 
 export const routes: Routes = [
 	{ path: '', pathMatch: 'full', component: AgentList },
-	{
-		path: 'chat/:agentId',
-		component: Chat,
-		// SSR mode controlled in server routes
-	},
+	// More specific route first to allow session deep-linking
+	{ path: 'chat/:agentId/session/:sessionId', component: Chat },
+	{ path: 'chat/:agentId', component: Chat },
 	{ path: '**', redirectTo: '' },
 ];

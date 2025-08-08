@@ -9,8 +9,9 @@
     <p class="text-blue-100">
         {{agentLocal.description}}
     </p>
-    <a [routerLink]="[chatRoutes.base.path, agentLocal.agent_id]"
+    <button type="button"
+        (click)="openChat(agentLocal.agent_id)"
         class="px-5 py-2 max-w-[135px] text-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all">
         Iniciar Chat
-    </a>
+    </button>
 </div>
