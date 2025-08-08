@@ -102,15 +102,19 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   constructor() {}
   ngOnInit() {
-    // pick preselected session from query param if any
-    const qp = this.route.snapshot.queryParamMap;
-    const sessionId = qp.get('session');
-    if (sessionId) {
+    // react to session query param changes
+    this.route.queryParamMap.subscribe((params) => {
+      const sessionId = params.get('session');
       this.selectedSessionId = sessionId;
-      this.loadSession(sessionId);
-    }
-    // optional: load sessions list for the sidebar to pick up in a shared service if needed
-    this.loadSessions();
+      if (sessionId) {
+        this.loadSession(sessionId);
+      } else {
+        // new chat view: clear current messages if coming from a session
+        this.messageManager.clearMessages(this.messages);
+        this.currentMessage = null;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   agentIdValue(): string | null {
