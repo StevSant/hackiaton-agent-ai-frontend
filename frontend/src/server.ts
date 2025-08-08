@@ -23,6 +23,19 @@ const angularApp = new AngularNodeAppEngine();
  * });
  * ```
  */
+// Minimal STT endpoint: accepts audio and returns a transcript string
+// Simple endpoint; relies on frontend to use fetch with FormData. Here we do not parse the file,
+// just acknowledge and return an empty transcript placeholder to keep the flow working without extra deps.
+app.post('/api/stt', async (req, res) => {
+  try {
+  // NOTE: For real STT, integrate a provider and parse multipart/form-data here.
+    // Placeholder: integrate a real STT provider here (Azure, Deepgram, Whisper, etc.)
+    // For now, just return an empty transcript to avoid breaking the UI.
+    res.json({ transcript: '' });
+  } catch (e: any) {
+    res.status(500).send(e?.message || 'stt failed');
+  }
+});
 
 /**
  * Serve static files from /browser

@@ -61,8 +61,9 @@ export class SseService {
     formData.append("monitor", "false")
     formData.append("session_id", payload.session_id ?? "")
     formData.append("user_id", payload.user_id ?? "")
+    // OpenAPI shows only 'files' array for binaries; include audio there if present
     if (payload.audioFile) {
-      formData.append('audio', payload.audioFile)
+      formData.append('files', payload.audioFile)
     }
     if (payload.files && Array.isArray(payload.files)) {
       for (const f of payload.files) {

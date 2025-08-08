@@ -21,6 +21,7 @@ import type { ChatMessage, EventType } from '@core/models/chat-model';
 import { type StreamResponse as InfraStreamResponse } from '@infrastructure/services/sse-service';
 import type { StreamResponseModel } from '@core/models/stream';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 
 // Servicios de utilidades
 import { ChatUtilsService } from '@infrastructure/services/chat-utils.service';
@@ -39,6 +40,7 @@ import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
+import { SttService } from '@infrastructure/services/stt.service';
 
 @Component({
   selector: 'app-audio-chat',
@@ -84,8 +86,17 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   // Speech-to-Text state
   private recognition: any = null;
   isTranscribing = false;
+  sttError: string | null = null;
   // Text-to-Speech auto playback (fallback when backend doesn't return audio)
-  autoTTS = true;
+  // Disabled by default; user can use controls to play.
+  autoTTS = false;
+  // User option: include original recorded audio in the request
+  includeAudioOriginal = false;
+  // TTS control state
+  private ttsUtter: SpeechSynthesisUtterance | null = null;
+  ttsMessageId: string | null = null;
+  ttsState: 'idle' | 'playing' | 'paused' = 'idle';
+  ttsVolume = 1;
 
   // Servicios
   private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
@@ -93,6 +104,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly zone = inject(NgZone);
 
   // Servicios de utilidades
   protected chatUtils = inject(ChatUtilsService);
@@ -101,6 +113,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
+  private readonly stt = inject(SttService);
   private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
   private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
@@ -201,10 +214,9 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   sendMessage() {
     const messageContent = (this.msgForm.get('message')?.value ?? '').toString().trim();
     const id = this.agentIdValue();
-    const hasAudio = !!this.audioFile;
-    const hasFiles = this.attachments.length > 0;
-    // Allow audio-only or file-only sends; backend requires message field but can be empty string
-    if ((!messageContent && !hasAudio && !hasFiles) || this.isSending || !id) {
+    // Require non-empty text message to avoid backend interpreting it as a voice-only request
+    if (!messageContent || this.isSending || !id) {
+      this.msgForm.get('message')?.markAsTouched();
       return;
     }
     this.startNewConversation(messageContent || '');
@@ -225,10 +237,10 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('connecting');
 
     // Agregar mensaje del usuario
-    const label = content || '🎙️ Mensaje de voz';
-    const userMsg = this.messageManager.addUserMessage(this.messages, label);
+  // Use the exact typed/transcribed content for the visible user message
+  const userMsg = this.messageManager.addUserMessage(this.messages, content);
     // Adjuntar reproducción local del audio grabado (si existe)
-    if (this.audioFile) {
+  if (this.audioFile && this.includeAudioOriginal) {
       const objectUrl = URL.createObjectURL(this.audioFile);
       (userMsg as any).audio = [{ id: `local-${Date.now()}`, url: objectUrl }];
     }
@@ -244,14 +256,14 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       message?: string;
       session_id?: string;
       user_id?: string;
-      audioFile?: File;
+  audioFile?: File;
       files?: File[];
     } = {
-      // Ensure non-empty message to satisfy backend validation when sending audio-only
-  message: (content?.trim()) ? content : '[voice message]',
+      // Send the actual text content only; do not fall back to placeholders
+  message: content,
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
-      audioFile: this.audioFile ?? undefined,
+  audioFile: this.includeAudioOriginal ? (this.audioFile ?? undefined) : undefined,
       files: this.attachments.length ? this.attachments : undefined,
     };
     this.subscription = this.sendMessageUC
@@ -446,23 +458,39 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   async startRecording() {
-    if (!this.canRecord || this.isRecording) return;
+    if (this.isRecording) return;
     this.micError = null;
     try {
-      this.micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm';
-      this.mediaRecorder = new MediaRecorder(this.micStream, { mimeType });
-      this.recordedChunks = [];
-      this.mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) this.recordedChunks.push(e.data); };
-      this.mediaRecorder.onstop = () => {
-        const blob = new Blob(this.recordedChunks, { type: this.mediaRecorder?.mimeType || 'audio/webm' });
-        this.audioFile = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
-        // No enviar automáticamente: permitir revisar/editar transcripción antes de enviar
-        // Liberar stream
-        this.micStream?.getTracks().forEach(t => t.stop());
-        this.micStream = null;
-      };
-      this.mediaRecorder.start();
+      // Only capture raw audio if user wants to attach it; otherwise rely on SpeechRecognition only
+      if (this.includeAudioOriginal && this.canRecord) {
+        this.micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm';
+        this.mediaRecorder = new MediaRecorder(this.micStream, { mimeType });
+        this.recordedChunks = [];
+        this.mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) this.recordedChunks.push(e.data); };
+        this.mediaRecorder.onstop = async () => {
+          const blob = new Blob(this.recordedChunks, { type: this.mediaRecorder?.mimeType || 'audio/webm' });
+          this.audioFile = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
+          // Release stream
+          this.micStream?.getTracks().forEach(t => t.stop());
+          this.micStream = null;
+          // If no text captured via browser STT, attempt server-side STT to populate textarea
+          const current = (this.msgForm.get('message')?.value || '').toString().trim();
+          if (!current && this.audioFile) {
+            try {
+              const transcript = await this.stt.transcribeBlob(blob);
+              if (transcript) {
+                this.msgForm.get('message')?.setValue(transcript);
+                this.cdr.detectChanges();
+              }
+            } catch (e: any) {
+              this.sttError = e?.message || 'No se pudo transcribir el audio en el servidor';
+              this.cdr.detectChanges();
+            }
+          }
+        };
+        this.mediaRecorder.start();
+      }
       this.isRecording = true;
       // Start speech recognition if supported
       this.startSpeechRecognition();
@@ -471,6 +499,9 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       this.micError = err?.message || 'No se pudo acceder al micrófono';
       this.isRecording = false;
       this.mediaRecorder = null;
+      if (this.micStream) {
+        try { this.micStream.getTracks().forEach(t => t.stop()); } catch {}
+      }
       this.micStream = null;
     }
   }
@@ -626,6 +657,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   ngOnDestroy() {
     this.cleanup();
     this.stopSpeechRecognition();
+  this.ttsStop();
     this.connectionStatus.destroy();
   }
 
@@ -644,33 +676,57 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     try {
       const Ctor = this.speechRecognitionCtor;
       this.recognition = new Ctor();
-      this.recognition.lang = 'es-ES';
+  // Prefer browser locale and fall back to Spanish
+  try { this.recognition.lang = (navigator?.language || 'es-ES'); } catch { this.recognition.lang = 'es-ES'; }
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
       this.isTranscribing = true;
+  this.sttError = null;
       let finalTranscript = '';
-      this.recognition.onresult = (event: any) => {
-        let interim = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const result = event.results[i];
-          const text = result[0]?.transcript || '';
-          if (result.isFinal) {
-            finalTranscript += text + ' ';
-          } else {
-            interim += text + ' ';
-          }
-        }
-        const combined = (finalTranscript + ' ' + interim).trim();
-        this.msgForm.get('message')?.setValue(combined, { emitEvent: false });
-        this.cdr.detectChanges();
+      this.recognition.onstart = () => {
+        this.zone.run(() => { this.isTranscribing = true; this.cdr.detectChanges(); });
       };
-      this.recognition.onerror = () => {
-        this.isTranscribing = false;
-        this.cdr.detectChanges();
+      this.recognition.onresult = (event: any) => {
+        this.zone.run(() => {
+          let interim = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const result = event.results[i];
+            const text = result[0]?.transcript || '';
+            if (result.isFinal) {
+              finalTranscript += text + ' ';
+            } else {
+              interim += text + ' ';
+            }
+          }
+          const combined = (finalTranscript + ' ' + interim).trim();
+          this.msgForm.get('message')?.setValue(combined, { emitEvent: false });
+          this.cdr.detectChanges();
+        });
+      };
+      this.recognition.onerror = (e: any) => {
+        this.zone.run(() => {
+          this.isTranscribing = false;
+          const code = (e && (e.error || e.name)) || 'unknown';
+          const map: Record<string, string> = {
+            'no-speech': 'No se detectó voz. Intenta hablar más cerca del micrófono.',
+            'audio-capture': 'No se encontró micrófono. Revisa los permisos.',
+            'not-allowed': 'Permiso denegado para usar el micrófono. Otorga permisos en el navegador.',
+            'service-not-allowed': 'El reconocimiento de voz no está permitido en este contexto.',
+            'network': 'Error de red con el servicio de voz.',
+          };
+          this.sttError = map[code] || `Error de reconocimiento: ${code}`;
+          this.cdr.detectChanges();
+        });
       };
       this.recognition.onend = () => {
-        this.isTranscribing = false;
-        this.cdr.detectChanges();
+        this.zone.run(() => {
+          this.isTranscribing = false;
+          this.cdr.detectChanges();
+          // Auto-restart while still recording to keep continuous dictation
+          if (this.isRecording) {
+            try { setTimeout(() => { try { this.recognition?.start?.(); } catch {} }, 150); } catch {}
+          }
+        });
       };
       this.recognition.start();
     } catch {
@@ -686,5 +742,62 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     } catch {}
     this.isTranscribing = false;
     this.recognition = null;
+  }
+
+  // TTS Controls (SpeechSynthesis)
+  get supportsSpeechSynthesis(): boolean {
+    return typeof window !== 'undefined' && 'speechSynthesis' in window;
+  }
+
+  ttsPlay(message: ChatMessage) {
+    if (!this.supportsSpeechSynthesis) return;
+    this.ttsStop();
+    const text = message.displayedContent || message.content || '';
+    if (!text) return;
+    try {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'es-ES';
+      utter.rate = 1;
+      utter.pitch = 1;
+      utter.volume = this.ttsVolume; // 0..1
+      utter.onend = () => {
+        this.ttsState = 'idle';
+        this.ttsMessageId = null;
+        this.ttsUtter = null;
+        this.cdr.detectChanges();
+      };
+      this.ttsUtter = utter;
+      this.ttsMessageId = message.id;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utter);
+      this.ttsState = 'playing';
+      this.cdr.detectChanges();
+    } catch {}
+  }
+
+  ttsPause() {
+    if (!this.supportsSpeechSynthesis || this.ttsState !== 'playing') return;
+    try { window.speechSynthesis.pause(); this.ttsState = 'paused'; this.cdr.detectChanges(); } catch {}
+  }
+
+  ttsResume() {
+    if (!this.supportsSpeechSynthesis || this.ttsState !== 'paused') return;
+    try { window.speechSynthesis.resume(); this.ttsState = 'playing'; this.cdr.detectChanges(); } catch {}
+  }
+
+  ttsStop() {
+    if (!this.supportsSpeechSynthesis) return;
+    try { window.speechSynthesis.cancel(); } catch {}
+    this.ttsState = 'idle';
+    this.ttsMessageId = null;
+    this.ttsUtter = null;
+    this.cdr.detectChanges();
+  }
+
+  setTtsVolume(v: number) {
+    const clamped = Math.max(0, Math.min(1, v));
+    this.ttsVolume = clamped;
+    // Takes effect on next play
+    this.cdr.detectChanges();
   }
 }
