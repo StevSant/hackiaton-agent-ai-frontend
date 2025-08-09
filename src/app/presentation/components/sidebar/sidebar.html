@@ -45,6 +45,14 @@
                                                 <button class="btn btn-xs" (click)="switchLang('en')">{{ 'COMMON.ENGLISH' | translate }}</button>
                                             </div>
                                         </div>
+                                                                                <div class="mt-2 pt-2 border-t border-white/10">
+                                                                                    <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}</div>
+                                                                                    <div class="flex gap-2">
+                                                                                        <button class="btn btn-xs" (click)="setTheme('light')">{{ 'COMMON.THEME_LIGHT' | translate }}</button>
+                                                                                        <button class="btn btn-xs" (click)="setTheme('dark')">{{ 'COMMON.THEME_DARK' | translate }}</button>
+                                                                                        <button class="btn btn-xs" (click)="setTheme('system')">{{ 'COMMON.THEME_SYSTEM' | translate }}</button>
+                                                                                    </div>
+                                                                                </div>
                 </div>
             </div>
         </div>

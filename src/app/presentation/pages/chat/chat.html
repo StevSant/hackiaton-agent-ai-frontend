@@ -9,10 +9,10 @@
         <h3 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
           🤖
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-            Chat con Agente
+            {{ 'CHAT.TITLE' | translate }}
           </span>
         </h3>
-  <p class="text-sm opacity-70 mt-1"><span *ngIf="selectedSessionId">Sesión: {{ selectedSessionId }}</span></p>
+  <p class="text-sm opacity-70 mt-1"><span *ngIf="selectedSessionId">{{ 'CHAT.SESSION' | translate }}: {{ selectedSessionId }}</span></p>
       </div>
 
       <!-- Estado de conexión mejorado -->
@@ -46,14 +46,9 @@
         <!-- Estado vacío mejorado -->
         @if (messages.length === 0 && !isSending) {
         <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
-          <div class="text-6xl mb-4">💬</div>
-          <h4 class="text-xl font-semibold mb-2">
-            ¡Comienza una conversación!
-          </h4>
-          <p class="text-base-content/70 max-w-md">
-            Escribe tu mensaje abajo para comenzar a chatear con el agente
-            de IA.
-          </p>
+            <div class="text-6xl mb-4">💬</div>
+          <h4 class="text-xl font-semibold mb-2">{{ 'CHAT.EMPTY.TITLE' | translate }}</h4>
+          <p class="text-base-content/70 max-w-md">{{ 'CHAT.EMPTY.SUBTITLE' | translate }}</p>
         </div>
         }
 
@@ -183,9 +178,7 @@
         @if (isSending && messages.length <= 1) { <div class="flex justify-center items-center py-8">
           <div class="flex flex-col items-center gap-4">
             <div class="loading loading-dots loading-lg text-primary"></div>
-            <p class="text-base-content/70">
-              El agente está procesando tu mensaje...
-            </p>
+            <p class="text-base-content/70">{{ 'CHAT.SENDING' | translate }}</p>
           </div>
       </div>
       }
@@ -193,8 +186,8 @@
       <!-- Loader sutil cuando se ejecutan herramientas -->
       @if (toolRunning) {
       <div class="flex justify-center items-center py-2">
-        <div class="loading loading-dots loading-sm text-info" aria-label="Ejecutando herramientas"></div>
-        <span class="text-xs ml-2 text-info/80">Ejecutando herramientas…</span>
+        <div class="loading loading-dots loading-sm text-info" [attr.aria-label]="'CHAT.RUNNING_TOOLS' | translate"></div>
+        <span class="text-xs ml-2 text-info/80">{{ 'CHAT.RUNNING_TOOLS' | translate }}</span>
       </div>
       }
     </div>
@@ -206,15 +199,13 @@
           <!-- Input de mensaje -->
           <div class="flex-1">
             <textarea class="textarea textarea-bordered w-full resize-none min-h-[60px] max-h-[120px]"
-              placeholder="Escribe tu mensaje aquí... (Shift + Enter para nueva línea)" rows="2"
+              [placeholder]="('CHAT.PLACEHOLDER' | translate)" rows="2"
               formControlName="message" (keydown)="handleKeyDown($event)"></textarea>
 
             <!-- Mensajes de error -->
             @if (msgForm.get('message')?.invalid &&
             msgForm.get('message')?.touched) {
-            <div class="text-error text-sm mt-1">
-              Por favor, escribe un mensaje antes de enviar.
-            </div>
+            <div class="text-error text-sm mt-1">{{ 'CHAT.ERROR_REQUIRED' | translate }}</div>
             }
           </div>
 
@@ -228,26 +219,24 @@
                   d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
               </svg>
               }
-              {{ isSending ? 'Enviando...' : 'Enviar' }}
+              {{ isSending ? ('CHAT.SENDING_BTN' | translate) : ('CHAT.SEND' | translate) }}
             </button>
 
             <!-- Botón de cancelar (solo visible cuando está enviando) -->
             @if (isSending) {
-            <button type="button" class="btn btn-outline btn-sm" (click)="cancelSending()">
-              Cancelar
-            </button>
+            <button type="button" class="btn btn-outline btn-sm" (click)="cancelSending()">{{ 'CHAT.CANCEL' | translate }}</button>
             }
           </div>
         </div>
 
         <!-- Información adicional -->
         <div class="flex justify-between items-center mt-2 gap-2">
-          <div class="text-xs opacity-60">Presiona Shift + Enter para nueva línea</div>
+      <div class="text-xs opacity-60">{{ 'CHAT.HINT' | translate }}</div>
           <div class="flex items-center gap-3">
             <input type="file" multiple class="file-input file-input-bordered file-input-sm"
               (change)="onFilesSelected($event)" />
             @if (filesToUpload.length) {
-              <div class="badge badge-info">{{ filesToUpload.length }} archivo(s)</div>
+        <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesToUpload.length } }}</div>
             }
             <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
           </div>

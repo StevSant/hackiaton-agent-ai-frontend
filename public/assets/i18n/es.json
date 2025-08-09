@@ -1,0 +1,42 @@
+{
+  "COMMON": {
+    "REFRESH": "Refrescar",
+    "LOADING": "Cargando…",
+    "ACCOUNT": "Cuenta",
+    "LOGIN": "Iniciar sesión",
+    "LOGOUT": "Cerrar sesión",
+    "NEW_CHAT": "Nuevo chat",
+    "HISTORY": "Historial",
+    "NO_SESSIONS": "Sin sesiones todavía",
+    "VIEW_MESSAGES": "Ver mensajes",
+    "DELETE": "Eliminar",
+    "CLEAR_CONVERSATIONS": "Borrar conversaciones",
+    "LIGHT_MODE": "Modo claro",
+    "MY_ACCOUNT": "Mi cuenta",
+    "HOME": "Inicio",
+    "LANGUAGE": "Idioma",
+    "SPANISH": "Español",
+  "ENGLISH": "Inglés",
+  "THEME": "Tema",
+  "THEME_LIGHT": "Claro",
+  "THEME_DARK": "Oscuro",
+  "THEME_SYSTEM": "Sistema"
+  },
+  "CHAT": {
+    "TITLE": "Chat con Agente",
+    "SESSION": "Sesión",
+    "EMPTY": {
+      "TITLE": "¡Comienza una conversación!",
+      "SUBTITLE": "Escribe tu mensaje abajo para comenzar a chatear con el agente de IA."
+    },
+    "SENDING": "El agente está procesando tu mensaje...",
+    "RUNNING_TOOLS": "Ejecutando herramientas…",
+    "PLACEHOLDER": "Escribe tu mensaje aquí... (Shift + Enter para nueva línea)",
+    "ERROR_REQUIRED": "Por favor, escribe un mensaje antes de enviar.",
+    "SEND": "Enviar",
+    "SENDING_BTN": "Enviando...",
+    "CANCEL": "Cancelar",
+    "HINT": "Presiona Shift + Enter para nueva línea",
+    "FILES_COUNT": "{{count}} archivo(s)"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "COMMON": {
+    "REFRESH": "Refresh",
+    "LOADING": "Loading…",
+    "ACCOUNT": "Account",
+    "LOGIN": "Log in",
+    "LOGOUT": "Log out",
+    "NEW_CHAT": "New chat",
+    "HISTORY": "History",
+    "NO_SESSIONS": "No sessions yet",
+    "VIEW_MESSAGES": "View messages",
+    "DELETE": "Delete",
+    "CLEAR_CONVERSATIONS": "Clear conversations",
+    "LIGHT_MODE": "Light mode",
+    "MY_ACCOUNT": "My account",
+    "HOME": "Home",
+    "LANGUAGE": "Language",
+    "SPANISH": "Spanish",
+  "ENGLISH": "English",
+  "THEME": "Theme",
+  "THEME_LIGHT": "Light",
+  "THEME_DARK": "Dark",
+  "THEME_SYSTEM": "System"
+  },
+  "CHAT": {
+    "TITLE": "Chat with Agent",
+    "SESSION": "Session",
+    "EMPTY": {
+      "TITLE": "Start a conversation!",
+      "SUBTITLE": "Type your message below to start chatting with the AI agent."
+    },
+    "SENDING": "The agent is processing your message...",
+    "RUNNING_TOOLS": "Running tools…",
+    "PLACEHOLDER": "Type your message here... (Shift + Enter for a new line)",
+    "ERROR_REQUIRED": "Please write a message before sending.",
+    "SEND": "Send",
+    "SENDING_BTN": "Sending...",
+    "CANCEL": "Cancel",
+    "HINT": "Press Shift + Enter for a new line",
+    "FILES_COUNT": "{{count}} file(s)"
+  }
+}

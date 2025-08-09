@@ -5,7 +5,7 @@ import {
   importProvidersFrom,
 } from '@angular/core';
 import { provideRouter, withViewTransitions } from '@angular/router';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import {
@@ -19,12 +19,17 @@ import { SessionsService } from '@infrastructure/services/sessions.service';
 import { AuthService } from '@infrastructure/services/auth.service';
 import { authInterceptorFn } from '@infrastructure/interceptors/auth.interceptor';
 import { AppInfoService } from '@infrastructure/services/app-info.service';
-import { HttpClient } from '@angular/common/http';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, type TranslationObject } from '@ngx-translate/core';
+
+class AppTranslateLoader implements TranslateLoader {
+  constructor(private readonly http: HttpClient) {}
+  getTranslation(lang: string) {
+    return this.http.get<TranslationObject>(`/assets/i18n/${lang}.json`);
+  }
+}
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new AppTranslateLoader(http);
 }
 
 export const appConfig: ApplicationConfig = {
@@ -42,7 +47,7 @@ export const appConfig: ApplicationConfig = {
           useFactory: HttpLoaderFactory,
           deps: [HttpClient],
         },
-        defaultLanguage: 'es',
+        fallbackLang: 'es',
       })
     ),
     { provide: CHAT_STREAM_PORT, useExisting: SseService },

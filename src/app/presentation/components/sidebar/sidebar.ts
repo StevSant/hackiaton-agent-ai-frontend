@@ -12,12 +12,15 @@ import { DeleteSessionUseCase } from '@core/use-cases/delete-session.usecase';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 import { GetProfileUseCase } from '@core/use-cases/auth/get-profile.usecase';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
+import { LanguageService } from '@infrastructure/services/language.service';
+import { ThemeService } from '@infrastructure/services/theme.service';
+import { TranslateModule } from '@ngx-translate/core';
 // Simple route config for home navigation
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, ChatButtonComponent, RouterLink, MatIconModule],
+  imports: [CommonModule, ChatButtonComponent, RouterLink, MatIconModule, TranslateModule],
   templateUrl: './sidebar.html'
 })
 
@@ -35,6 +38,8 @@ export class SidebarComponent {
   private readonly getProfileUC = inject(GetProfileUseCase);
   private readonly sessionsEvents = inject(SessionsEventsService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly lang = inject(LanguageService);
+  protected readonly theme = inject(ThemeService);
 
   // auth/profile state
   profileEmail = signal<string | null>(null);
@@ -153,6 +158,14 @@ export class SidebarComponent {
     this.profileEmail.set(null);
     this.profileMenuOpen.set(false);
     this.router.navigateByUrl('/login');
+  }
+
+  switchLang(lang: 'es' | 'en') {
+    this.lang.switch(lang);
+  }
+
+  setTheme(value: 'light' | 'dark' | 'system') {
+    this.theme.setTheme(value);
   }
 
   @HostListener('document:click')

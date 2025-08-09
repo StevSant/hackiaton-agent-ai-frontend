@@ -38,6 +38,7 @@ import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
+import { TranslateModule } from '@ngx-translate/core';
 import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
 
@@ -49,6 +50,7 @@ import { SessionsEventsService } from '@infrastructure/services/sessions-events.
     FormsModule,
   CommonModule,
   MarkdownModule,
+  TranslateModule,
   ],
   providers: [],
   templateUrl: './chat.html',
