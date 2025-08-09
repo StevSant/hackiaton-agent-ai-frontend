@@ -35,7 +35,7 @@ export class AdminUsersService {
   private readonly http = inject(HttpClient);
   private readonly base = environment.baseUrl;
 
-  async list(params?: { page?: number; limit?: number; email?: string }): Promise<Paginated<AdminUserItem>> {
+  async list(params?: { page?: number; limit?: number; email?: string; sort_by?: 'email'|'username'|'created_at'; sort_order?: 'asc'|'desc' }): Promise<Paginated<AdminUserItem>> {
     const url = `${this.base}/users/`;
     const data = await firstValueFrom(
       this.http.get<PaginatedApi<AdminUserItem>>(url, { params: (params as any) || {} })

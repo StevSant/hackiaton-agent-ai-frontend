@@ -40,7 +40,7 @@ export class AdminUsersPage {
   async ngOnInit() { await this.refresh(); }
 
   async refresh() {
-  const res = await this.api.list({ page: this.page(), limit: this.limit(), email: this.search() || undefined });
+  const res = await this.api.list({ page: this.page(), limit: this.limit(), email: this.search() || undefined, sort_by: (this.sortBy() || undefined) as any, sort_order: this.sortOrder() });
     this.users.set(res.items || []);
     this.total.set(res.total || 0);
   }
@@ -61,6 +61,17 @@ export class AdminUsersPage {
     this.search.set(value.trim());
     this.page.set(1);
     await this.refresh();
+  }
+
+  setSort(field: 'email'|'username'|'created_at') {
+    if (this.sortBy() === field) {
+      this.sortOrder.update(o => (o === 'asc' ? 'desc' : 'asc'));
+    } else {
+      this.sortBy.set(field);
+      this.sortOrder.set('asc');
+    }
+    this.page.set(1);
+    this.refresh();
   }
 
   async create() {

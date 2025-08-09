@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between gap-3">
     <h2 class="text-xl font-semibold">Archivos ({{ total() }})</h2>
     <div class="flex items-center gap-2">
-  <select #t class="select select-bordered select-sm" (change)="type_file.set(t.value as (''|'image'|'pdf'|'document')); applyFilters()">
+      <select #t class="select select-bordered select-sm" (change)="onTypeChange(t.value)">
         <option value="">Todos</option>
         <option value="image">image</option>
         <option value="pdf">pdf</option>

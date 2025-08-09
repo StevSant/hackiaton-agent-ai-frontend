@@ -28,8 +28,9 @@ export class AdminFilesPage {
   async next() {
     if (this.offset() + this.limit() >= this.total()) return;
     this.offset.update(o => o + this.limit());
-  const res = await this.files.list({ limit: this.limit(), offset: this.offset(), type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
+    const res = await this.files.list({ limit: this.limit(), offset: this.offset(), type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
     this.items.set(res.items || []);
+    this.total.set(res.total || 0);
   }
 
   async prev() {
@@ -37,6 +38,7 @@ export class AdminFilesPage {
     this.offset.update(o => Math.max(0, o - this.limit()));
     const res = await this.files.list({ limit: this.limit(), offset: this.offset(), type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
     this.items.set(res.items || []);
+    this.total.set(res.total || 0);
   }
 
   async applyFilters() {
@@ -44,5 +46,13 @@ export class AdminFilesPage {
     const res = await this.files.list({ limit: this.limit(), offset: 0, type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
+  }
+
+  onTypeChange(val: string) {
+    const v = (val ?? '').trim();
+    if (v === '' || v === 'image' || v === 'pdf' || v === 'document') {
+      this.type_file.set(v as any);
+      this.applyFilters();
+    }
   }
 }

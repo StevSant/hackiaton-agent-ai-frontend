@@ -41,10 +41,22 @@
     <table class="table table-sm">
       <thead>
         <tr>
-          <th>Username</th>
-          <th>Email</th>
+          <th>
+            <button class="btn btn-ghost btn-xs" (click)="setSort('username')">Username
+              <span *ngIf="sortBy()==='username'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
+            </button>
+          </th>
+          <th>
+            <button class="btn btn-ghost btn-xs" (click)="setSort('email')">Email
+              <span *ngIf="sortBy()==='email'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
+            </button>
+          </th>
           <th>Role</th>
-          <th>Created</th>
+          <th>
+            <button class="btn btn-ghost btn-xs" (click)="setSort('created_at')">Created
+              <span *ngIf="sortBy()==='created_at'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
+            </button>
+          </th>
           <th></th>
         </tr>
       </thead>

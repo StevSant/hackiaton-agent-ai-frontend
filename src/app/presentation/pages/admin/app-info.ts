@@ -16,6 +16,8 @@ export class AdminAppInfoPage {
   form = this.fb.group({ site_name: ['', Validators.required], site_icon: [''], site_logo: [''] });
   loaded = signal(false);
   error = signal<string | null>(null);
+  saving = signal(false);
+  saved = signal(false);
 
   async ngOnInit() {
     try {
@@ -27,5 +29,18 @@ export class AdminAppInfoPage {
     }
   }
 
-  // Note: backend lacks update endpoint; we only display.
+  async save() {
+    if (this.form.invalid || this.saving()) return;
+    this.saving.set(true); this.error.set(null); this.saved.set(false);
+    try {
+      const res = await this.api.updateAppInfo(this.form.value as any);
+      this.form.patchValue(res as any);
+      this.saved.set(true);
+    } catch (e: any) {
+      this.error.set(e?.error?.detail || e?.message || 'No se pudo guardar');
+    } finally {
+      this.saving.set(false);
+      setTimeout(() => this.saved.set(false), 2000);
+    }
+  }
 }

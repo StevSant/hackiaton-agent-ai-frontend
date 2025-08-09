@@ -26,4 +26,9 @@ export class AppInfoService implements AppInfoPort {
       )
     );
   }
+
+  async updateAppInfo(payload: Partial<AppInfo>): Promise<AppInfo> {
+    const url = `${this.base}/app-info`;
+    return firstValueFrom(this.http.put<AppInfo>(url, payload));
+  }
 }

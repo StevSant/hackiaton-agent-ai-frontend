@@ -1,16 +1,36 @@
 <div class="p-6 space-y-4">
   <h2 class="text-xl font-semibold">Compañías</h2>
-  <form [formGroup]="form" (ngSubmit)="search()" class="flex gap-2">
+  <form [formGroup]="form" (ngSubmit)="applySearch()" class="flex gap-2 items-end">
     <input class="input input-bordered" formControlName="search" placeholder="Buscar..." />
     <button class="btn btn-primary" type="submit">Buscar</button>
+    <div class="ml-auto flex items-center gap-2">
+      <label class="text-xs" for="companies-limit">Límite</label>
+      <select id="companies-limit" class="select select-bordered select-sm" [value]="limit()" (change)="limit.set(+$any($event.target).value); applySearch()">
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+      </select>
+    </div>
   </form>
   <div class="overflow-x-auto">
     <table class="table table-sm">
       <thead>
         <tr>
-          <th>RUC</th>
-          <th>Nombre</th>
-          <th>Sector</th>
+          <th>
+            <button class="btn btn-ghost btn-xs" (click)="setSort('tax_id')">RUC
+              <span *ngIf="sortBy()==='tax_id'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
+            </button>
+          </th>
+          <th>
+            <button class="btn btn-ghost btn-xs" (click)="setSort('name')">Nombre
+              <span *ngIf="sortBy()==='name'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
+            </button>
+          </th>
+          <th>
+            <button class="btn btn-ghost btn-xs" (click)="setSort('sector')">Sector
+              <span *ngIf="sortBy()==='sector'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -21,5 +41,10 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="flex items-center justify-end gap-2">
+    <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">Anterior</button>
+    <span class="text-sm opacity-70">Página {{ page() }}</span>
+    <button class="btn btn-sm" (click)="nextPage()">Siguiente</button>
   </div>
 </div>
