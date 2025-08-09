@@ -15,7 +15,7 @@ export class CompaniesService {
   private readonly http = inject(HttpClient);
   private readonly base = environment.baseUrl;
 
-  async list(params?: { page?: number; limit?: number; search?: string }): Promise<CompanyItem[]> {
+  async list(params?: { page?: number; limit?: number; search?: string; sort_by?: 'tax_id'|'name'|'sector'; sort_order?: 'asc'|'desc' }): Promise<CompanyItem[]> {
     const url = `${this.base}/companies/`;
     return firstValueFrom(this.http.get<CompanyItem[]>(url, { params: (params as any) || {} }));
   }

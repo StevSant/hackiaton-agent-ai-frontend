@@ -26,7 +26,7 @@ export class AdminCompaniesPage {
 
   async refresh() {
     const q = this.form.value.search?.trim() || '';
-    const res = await this.api.list({ page: this.page(), limit: this.limit(), search: q || undefined });
+    const res = await this.api.list({ page: this.page(), limit: this.limit(), search: q || undefined, sort_by: (this.sortBy() || undefined) as any, sort_order: this.sortOrder() });
     // Backend returns list only; total unknown. We'll approximate using length for now.
     this.items.set(res || []);
     // If backend adds pagination metadata, wire it; for now, simple count.

@@ -34,6 +34,11 @@ export class AdminRiskWeightsPage {
     (this.weights as any).addControl(key, new FormControl(0, { nonNullable: true }));
   }
 
+  onVersionChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.version.set(input.valueAsNumber || 1);
+  }
+
   async save() {
     try {
       const weights = this.weights.getRawValue() as Record<string, number>;
