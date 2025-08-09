@@ -11,7 +11,19 @@ import {
 import { ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
-  ReactiveFormsModule,
+     const payload: {
+      message: string;
+      session_id?: string;
+      user_id?: string;
+      files?: File[];
+      file_ids?: string[];
+    } = {
+      message: content,
+      session_id: this.selectedSessionId ?? undefined,
+      user_id: undefined,
+      files: this.filesToUpload.length ? this.filesToUpload : undefined,
+      file_ids: fileIds,
+    };odule,
   Validators,
   FormsModule,
 } from '@angular/forms';
@@ -37,7 +49,6 @@ import { ListSessionsUseCase } from '@core/use-cases/list-sessions.usecase';
 import { GetSessionUseCase } from '@core/use-cases/get-session.usecase';
 import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
-import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
 import { TranslateModule } from '@ngx-translate/core';
 import type { UploadedFileMeta } from '@core/ports/files.port';
@@ -76,7 +87,6 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   debugMode = false;
   sessions: SessionEntry[] = [];
   selectedSessionId: string | null = null;
-  audioFile: File | null = null;
   filesToUpload: File[] = [];
   uploadedFiles: UploadedFileMeta[] = [];
   toolRunning = false;
@@ -218,13 +228,12 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   sendMessage() {
-  const messageContent = this.msgForm.get('message')?.value?.trim();
-  const hasAudio = !!this.audioFile;
-  const hasFiles = this.filesToUpload.length > 0;
-  if ((!messageContent && !hasAudio && !hasFiles) || this.isSending) {
+    const messageContent = this.msgForm.get('message')?.value?.trim();
+    const hasFiles = this.filesToUpload.length > 0;
+    if ((!messageContent && !hasFiles) || this.isSending) {
       return;
     }
-  this.startNewConversation(messageContent || '');
+    this.startNewConversation(messageContent || '');
     this.msgForm.reset();
   }
 
@@ -494,34 +503,15 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     }
   }
 
-  getAudioSrc(audio: any): string | null {
-    if (!audio) return null;
-    if (audio.url) return audio.url;
-    if (audio.base64_audio) {
-      try {
-        return decodeBase64Audio(
-          audio.base64_audio,
-          audio.mime_type || 'audio/mpeg',
-          audio.sample_rate || 44100,
-          audio.channels || 1
-        );
-      } catch {
-        return null;
-      }
+  // Add TTS functionality for agent responses
+  playAgentResponse(text: string) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'es-ES'; // Spanish language
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      speechSynthesis.speak(utterance);
     }
-    if (audio.content) {
-      try {
-        return decodeBase64Audio(
-          audio.content,
-          audio.mime_type || 'audio/mpeg',
-          audio.sample_rate || 44100,
-          audio.channels || 1
-        );
-      } catch {
-        return null;
-      }
-    }
-    return null;
   }
 
   private cleanup() {
