@@ -12,11 +12,12 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 import { provideMarkdown } from 'ngx-markdown';
-import { CHAT_STREAM_PORT, SESSIONS_PORT, AUTH_PORT } from '@core/tokens';
+import { CHAT_STREAM_PORT, SESSIONS_PORT, AUTH_PORT, APP_INFO_PORT } from '@core/tokens';
 import { SseService } from '@infrastructure/services/sse-service';
 import { SessionsService } from '@infrastructure/services/sessions.service';
 import { AuthService } from '@infrastructure/services/auth.service';
 import { authInterceptorFn } from '@infrastructure/interceptors/auth.interceptor';
+import { AppInfoService } from '@infrastructure/services/app-info.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,5 +30,6 @@ export const appConfig: ApplicationConfig = {
   { provide: CHAT_STREAM_PORT, useExisting: SseService },
   { provide: SESSIONS_PORT, useExisting: SessionsService },
   { provide: AUTH_PORT, useExisting: AuthService },
+  { provide: APP_INFO_PORT, useExisting: AppInfoService },
   ],
 };

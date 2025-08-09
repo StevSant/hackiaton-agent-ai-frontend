@@ -15,7 +15,7 @@ import {
   Validators,
   FormsModule,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import type { Subscription } from 'rxjs';
 import type { ChatMessage, EventType } from '@core/models/chat-model';
 import { type StreamResponse as InfraStreamResponse } from '@infrastructure/services/sse-service';
@@ -29,7 +29,6 @@ import { ConnectionStatusService } from '@infrastructure/services/connection-sta
 import { TypewriterService } from '@infrastructure/services/typewriter.service';
 import { ScrollManagerService } from '@infrastructure/services/scroll-manager.service';
 import { MessageManagerService } from '@infrastructure/services/message-manager.service';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { CHAT_STREAM_PORT, SESSIONS_PORT } from '@core/tokens';
 import type { ChatStreamPort } from '@core/ports/chat-stream.port';
 import type { SessionsPort } from '@core/ports/sessions.port';
@@ -51,8 +50,7 @@ import { VoskSttService } from '@infrastructure/services/vosk-stt.service';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    MarkdownModule,
-    SidebarComponent,
+  MarkdownModule,
   ],
   providers: [],
   templateUrl: './chat.html',
@@ -106,6 +104,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly location = inject(Location);
   private readonly zone = inject(NgZone);
 
   // Servicios de utilidades
@@ -351,8 +350,9 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     if (!this.selectedSessionId && raw?.session_id && this.agentIdValue()) {
       this.selectedSessionId = raw.session_id;
       this.streamingSessionId = raw.session_id;
-      // Actualizamos la URL pero evitamos recargar historial durante el stream
-      this.router.navigate(['/chat', this.agentIdValue()!, 'session', raw.session_id], { replaceUrl: true });
+  // Actualizamos la URL sin navegar para no abortar el SSE
+  const agent = this.agentIdValue()!;
+  this.location.replaceState(`/chat/${agent}/session/${raw.session_id}`);
     }
 
     // Auto-reproducir audio del asistente si llegó

@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import type { AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '@core/models/auth';
 import type { AuthPort } from '@core/ports/auth.port';
+import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService implements AuthPort {
   private readonly http = inject(HttpClient);
   // Use same-origin endpoints served by SSR express server
-  private readonly base = '';
+  private readonly base = environment.baseUrl;
 
   login(payload: LoginRequest): Promise<AuthResponse> {
   const url = `${this.base}/auth/login`;
