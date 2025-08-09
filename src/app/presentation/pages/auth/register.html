@@ -25,10 +25,17 @@
           </div>
           <!-- Password -->
           <div class="space-y-1.5">
-            <label for="password" class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase">Contraseña</label>
-            <input id="password" type="password" formControlName="password" placeholder="••••••"
-              class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition" />
-            @if (form.get('password')?.invalid && form.get('password')?.touched) {<div class="text-xs text-[hsl(var(--destructive))]">Mínimo 6 caracteres</div>}
+            <div class="flex items-center justify-between">
+              <label for="password" class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase">Contraseña</label>
+            </div>
+            <div class="relative">
+              <input id="password" [type]="showPassword() ? 'text' : 'password'" formControlName="password" placeholder="••••••"
+                class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur pr-10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition" />
+              <button type="button" (click)="toggleShowPassword()" [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'" class="absolute right-2 top-1/2 -translate-y-1/2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]">
+                <mat-icon fontIcon="{{ showPassword() ? 'visibility_off' : 'visibility' }}"></mat-icon>
+              </button>
+            </div>
+            @if (form.get('password')?.invalid && form.get('password')?.touched) {<div class="text-xs text-[hsl(var(--destructive))]">Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 dígito</div>}
           </div>
           <!-- Error -->
           @if (error()) {<div class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2">

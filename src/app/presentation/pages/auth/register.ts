@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, Validati
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { RegisterUseCase } from '@core/use-cases/auth/register.usecase';
+import { MatIconModule } from '@angular/material/icon';
 
 // Validator para complejidad de contraseña
 export function passwordComplexityValidator(control: AbstractControl): ValidationErrors | null {
@@ -21,7 +22,7 @@ export function passwordComplexityValidator(control: AbstractControl): Validatio
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, MatIconModule],
   templateUrl: './register.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -38,6 +39,11 @@ export class RegisterPage {
   
   readonly submitting = signal(false);
   readonly error = signal<string | null>(null);
+  readonly showPassword = signal(false);
+
+  toggleShowPassword() {
+    this.showPassword.update(v => !v);
+  }
 
   async submit() {
     if (this.form.invalid || this.submitting()) return;

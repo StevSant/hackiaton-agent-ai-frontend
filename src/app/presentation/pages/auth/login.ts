@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LoginUseCase } from '@core/use-cases/auth/login.usecase';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, MatIconModule],
   templateUrl: './login.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -25,6 +26,11 @@ export class LoginPage {
   
   readonly submitting = signal(false);
   readonly error = signal<string | null>(null);
+  readonly showPassword = signal(false);
+
+  toggleShowPassword() {
+    this.showPassword.update(v => !v);
+  }
 
   async submit() {
     if (this.form.invalid || this.submitting()) return;
