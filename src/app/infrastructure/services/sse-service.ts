@@ -1,26 +1,27 @@
-import { Injectable, inject } from "@angular/core"
-import { Observable, Subject } from "rxjs"
+import { Injectable, inject } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 import { environment } from '@environments/environment';
 import { TokenStorageService } from './token-storage.service';
 
 
+// Legacy-ish shape used by UI. We'll map backend SSE events into this.
 export interface SSEMessage {
-  content: string
-  content_type: string
-  event: string
-  run_id: string
-  agent_id: string
-  session_id: string
-  created_at: number
-  model?: string
-  messages?: any[]
-  metrics?: any
-  failed_generation?: any
-  extra_data?: any
-  images?: any[]
-  videos?: any[]
-  audio?: any[]
-  response_audio?: any
+  content: string;
+  content_type: string;
+  event: string;
+  run_id: string;
+  agent_id: string;
+  session_id: string;
+  created_at: number;
+  model?: string;
+  messages?: any[];
+  metrics?: any;
+  failed_generation?: any;
+  extra_data?: any;
+  images?: any[];
+  videos?: any[];
+  audio?: any[];
+  response_audio?: any;
 }
 
 export interface StreamResponse {
@@ -36,7 +37,7 @@ export interface StreamResponse {
   providedIn: "root",
 })
 export class SseService {
-  private readonly apiUrl = environment.agentsDirectUrl;
+  private readonly baseUrl = environment.baseUrl;
   private abortController: AbortController | null = null
   private readonly cancel$ = new Subject<void>()
   private readonly tokenStorage = inject(TokenStorageService);
@@ -50,251 +51,211 @@ export class SseService {
   }
 
   streamFromAgent(
-    agentId: string,
-  messageOrForm: string | { message?: string; session_id?: string; user_id?: string; audioFile?: File; files?: File[] }
+    _agentId: string,
+    payload: { message?: string; session_id?: string; user_id?: string; audioFile?: File; files?: File[]; file_ids?: string[] }
   ): Observable<StreamResponse> {
-    const url = `${this.apiUrl}/${agentId}/runs`
-
-    const formData = new FormData()
-    const payload = typeof messageOrForm === 'string' ? { message: messageOrForm } : (messageOrForm || {})
-    // Ensure message field is always present to avoid 422 from backend expecting it
-    formData.append("message", (payload.message ?? '').toString())
-    formData.append("stream", "true")
-    formData.append("monitor", "false")
-    formData.append("session_id", payload.session_id ?? "")
-    formData.append("user_id", payload.user_id ?? "")
-    // OpenAPI shows only 'files' array for binaries; include audio there if present
-    if (payload.audioFile) {
-      formData.append('files', payload.audioFile)
-    }
-    if (payload.files && Array.isArray(payload.files)) {
-      for (const f of payload.files) {
-        if (f) formData.append('files', f)
-      }
-    }
+    // New backend endpoint: JSON body -> POST /agent/message/stream
+    const url = `${this.baseUrl}/agent/message/stream`;
 
     return new Observable<StreamResponse>((observer) => {
-  const controller = new AbortController()
-  this.abortController = controller
-      let fullContent = ""
-      let buffer = ""
+      const controller = new AbortController();
+      this.abortController = controller;
+      let fullContent = "";
 
       const headers: Record<string, string> = {
         Accept: "text/event-stream",
         "Cache-Control": "no-cache",
+        "Content-Type": "application/json",
       };
       const token = this.tokenStorage.getToken();
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
+      const body = JSON.stringify({
+        content: payload?.message ?? "",
+        session_id: payload?.session_id ?? undefined,
+        file_ids: payload?.file_ids ?? [],
+      });
+
       fetch(url, {
         method: "POST",
         headers,
-        body: formData,
+        body,
         signal: controller.signal,
       })
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  .then(async (response) => {
+        .then(async (response) => {
           if (!response.ok || !response.body) {
-            const errorText = await response.text()
-            throw new Error(`Error SSE: ${response.status} ${response.statusText} - ${errorText}`)
+            const errorText = await response.text();
+            throw new Error(`Error SSE: ${response.status} ${response.statusText} - ${errorText}`);
           }
 
-          const reader = response.body.getReader()
-          const decoder = new TextDecoder("utf-8")
-          console.log("📦 Iniciando lectura SSE...")
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder("utf-8");
+          let buffer = "";
+          let currentEvent: string | null = null;
+          let dataBuffer = "";
 
-          while (true) {
-            const { value, done } = await reader.read()
-            if (done) {
-              console.log("📦 Lectura SSE completada")
-              break
+          const emit = (event: string, data: any) => {
+            // Map backend events to UI model events
+            if (event === 'start') {
+              const msg: SSEMessage = {
+                content: '',
+                content_type: 'text',
+                event: 'RunStarted',
+                run_id: '',
+                agent_id: '',
+                session_id: data?.session_id || '',
+                created_at: Date.now(),
+              } as SSEMessage;
+              observer.next({
+                fullContent,
+                currentChunk: '',
+                event: 'RunStarted',
+                isComplete: false,
+                isError: false,
+                rawMessage: msg,
+              });
+              return;
             }
 
-            const decodedChunk = decoder.decode(value, { stream: true })
-            buffer += decodedChunk
+            if (event === 'user_message') {
+              // Inform session id early if provided
+              const msg: SSEMessage = {
+                content: data?.message?.content || '',
+                content_type: 'text',
+                event: 'UserMessage',
+                run_id: '',
+                agent_id: '',
+                session_id: data?.session_id || '',
+                created_at: Date.now(),
+              } as SSEMessage;
+              observer.next({
+                fullContent,
+                currentChunk: '',
+                event: 'UserMessage',
+                isComplete: false,
+                isError: false,
+                rawMessage: msg,
+              });
+              return;
+            }
 
-            // Extraer objetos JSON completos del buffer (VERSIÓN CORREGIDA)
-            const { jsonObjects, remainingBuffer } = this.extractCompleteJsonObjects(buffer)
-            buffer = remainingBuffer
+            if (event === 'responding') {
+              const delta: string = data?.delta ?? '';
+              if (delta) fullContent += delta;
+              const msg: SSEMessage = {
+                content: delta,
+                content_type: 'text',
+                event: 'RunResponse',
+                run_id: '',
+                agent_id: '',
+                session_id: data?.session_id || '',
+                created_at: Date.now(),
+              } as SSEMessage;
+              observer.next({
+                fullContent,
+                currentChunk: delta,
+                event: 'RunResponse',
+                isComplete: false,
+                isError: false,
+                rawMessage: msg,
+              });
+              return;
+            }
 
-            console.log(`📦 Objetos JSON extraídos: ${jsonObjects.length}`)
+            if (event === 'end') {
+              const content: string = data?.agent_message?.content ?? fullContent;
+              if (!fullContent) fullContent = content;
+              const msg: SSEMessage = {
+                content,
+                content_type: 'text',
+                event: 'RunCompleted',
+                run_id: '',
+                agent_id: '',
+                session_id: data?.session_id || '',
+                created_at: Date.now(),
+              } as SSEMessage;
+              observer.next({
+                fullContent,
+                currentChunk: '',
+                event: 'RunCompleted',
+                isComplete: true,
+                isError: false,
+                rawMessage: msg,
+              });
+              observer.complete();
+              return;
+            }
 
-            for (const jsonStr of jsonObjects) {
-              try {
-                const sseMessage: SSEMessage = JSON.parse(jsonStr)
-                console.log("📨 Evento SSE:", sseMessage.event, "Contenido:", sseMessage.content)
+            if (event === 'error') {
+              const msg: SSEMessage = {
+                content: data?.error || 'Error',
+                content_type: 'text',
+                event: 'RunError',
+                run_id: '',
+                agent_id: '',
+                session_id: data?.session_id || '',
+                created_at: Date.now(),
+              } as SSEMessage;
+              observer.next({
+                fullContent,
+                currentChunk: msg.content,
+                event: 'RunError',
+                isComplete: true,
+                isError: true,
+                rawMessage: msg,
+              });
+              observer.complete();
+              return;
+            }
+          };
 
-                // Actualizar fullContent ANTES de procesar el mensaje
-                if ((sseMessage.event === "RunResponse" || sseMessage.event === "RunResponseContent") && sseMessage.content) {
-                  fullContent += sseMessage.content
-                  console.log("📝 Contenido acumulado:", fullContent)
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+
+            let lineEndIdx: number;
+            while ((lineEndIdx = buffer.indexOf('\n')) !== -1) {
+              const line = buffer.slice(0, lineEndIdx).trimEnd();
+              buffer = buffer.slice(lineEndIdx + 1);
+
+              if (!line) {
+                // dispatch event with accumulated data
+                if (currentEvent && dataBuffer) {
+                  try {
+                    const parsed = JSON.parse(dataBuffer);
+                    emit(currentEvent, parsed);
+                  } catch (e) {
+                    // fallback raw text
+                    emit(currentEvent, { delta: dataBuffer });
+                  }
                 }
+                currentEvent = null;
+                dataBuffer = "";
+                continue;
+              }
 
-                this.processSSEMessage(sseMessage, fullContent, observer)
-
-                // Terminar si es un evento de finalización
-                if (sseMessage.event === "RunCompleted" || sseMessage.event === "RunError") {
-                  console.log("🏁 Finalizando stream por evento:", sseMessage.event)
-                  return
-                }
-              } catch (parseError) {
-                console.warn("Error parsing JSON object:", parseError, "JSON:", jsonStr)
+              if (line.startsWith('event:')) {
+                currentEvent = line.slice(6).trim();
+              } else if (line.startsWith('data:')) {
+                const chunk = line.slice(5).trimStart();
+                dataBuffer += chunk;
               }
             }
           }
 
-          observer.complete()
+          observer.complete();
         })
         .catch((err) => {
-          console.error("SSE Error:", err)
-          observer.error(err)
-        })
+          console.error('SSE Error:', err);
+          observer.error(err);
+        });
 
       return () => {
-  controller.abort()
-      }
-    })
+        controller.abort();
+      };
+    });
   }
 
-  // MÉTODO CORREGIDO para extraer objetos JSON completosw
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  private extractCompleteJsonObjects(buffer: string): { jsonObjects: string[]; remainingBuffer: string } {
-    const jsonObjects: string[] = []
-    let braceCount = 0
-    let startIndex = 0
-    let inString = false
-    let escapeNext = false
-    let currentIndex = 0
-
-    while (currentIndex < buffer.length) {
-      const char = buffer[currentIndex]
-
-      if (escapeNext) {
-        escapeNext = false
-        currentIndex++
-        continue
-      }
-
-      if (char === "\\") {
-        escapeNext = true
-        currentIndex++
-        continue
-      }
-
-      if (char === '"' && !escapeNext) {
-        inString = !inString
-        currentIndex++
-        continue
-      }
-
-      if (!inString) {
-        if (char === "{") {
-          if (braceCount === 0) {
-            startIndex = currentIndex
-          }
-          braceCount++
-        } else if (char === "}") {
-          braceCount--
-          if (braceCount === 0) {
-            // Objeto JSON completo encontrado
-            const jsonStr = buffer.substring(startIndex, currentIndex + 1)
-            if (jsonStr.trim()) {
-              jsonObjects.push(jsonStr)
-              console.log("✅ JSON completo extraído:", jsonStr.substring(0, 100) + "...")
-            }
-          }
-        }
-      }
-
-      currentIndex++
-    }
-
-    // Si hay un objeto JSON incompleto, mantenerlo en el buffer
-    let remainingBuffer = ""
-    if (braceCount > 0) {
-      remainingBuffer = buffer.substring(startIndex)
-      console.log("📦 JSON incompleto en buffer:", remainingBuffer.substring(0, 100) + "...")
-    }
-
-    return { jsonObjects, remainingBuffer }
-  }
-
-  private processSSEMessage(sseMessage: SSEMessage, fullContent: string, observer: any): void {
-    if ((sseMessage.event === "RunResponse" || sseMessage.event === "RunResponseContent") && sseMessage.content) {
-      const streamResponse: StreamResponse = {
-        fullContent: fullContent,
-        currentChunk: sseMessage.content,
-        event: sseMessage.event,
-        isComplete: false,
-        isError: false,
-        rawMessage: sseMessage,
-      }
-      console.log("➡️ Enviando respuesta al componente:", streamResponse)
-      observer.next(streamResponse)
-    }
-
-  if (sseMessage.event === "RunCompleted") {
-      const completedResponse: StreamResponse = {
-        fullContent: sseMessage.content || fullContent,
-        currentChunk: "",
-        event: sseMessage.event,
-        isComplete: true,
-        isError: false,
-        rawMessage: sseMessage,
-      }
-      console.log("✅ Enviando respuesta completada:", completedResponse)
-      observer.next(completedResponse)
-      observer.complete()
-    }
-
-  if (sseMessage.event === "RunError") {
-      const errorResponse: StreamResponse = {
-        fullContent: sseMessage.content || fullContent,
-        currentChunk: sseMessage.content,
-        event: sseMessage.event,
-        isComplete: true,
-        isError: true,
-        rawMessage: sseMessage,
-      }
-      console.log("❌ Enviando respuesta de error:", errorResponse)
-      observer.next(errorResponse)
-      observer.complete()
-    }
-
-  if (sseMessage.event === "UpdatingMemory") {
-      const memoryResponse: StreamResponse = {
-        fullContent,
-        currentChunk: sseMessage.content,
-        event: sseMessage.event,
-        isComplete: false,
-        isError: false,
-        rawMessage: sseMessage,
-      }
-      observer.next(memoryResponse)
-    }
-
-  if (sseMessage.event === "RunStarted") {
-      const startedResponse: StreamResponse = {
-        fullContent,
-        currentChunk: sseMessage.content,
-        event: sseMessage.event,
-        isComplete: false,
-        isError: false,
-        rawMessage: sseMessage,
-      }
-      observer.next(startedResponse)
-    }
-
-  if (sseMessage.event === "ToolCallStarted") {
-      const toolResponse: StreamResponse = {
-        fullContent,
-        currentChunk: sseMessage.content,
-        event: sseMessage.event,
-        isComplete: false,
-        isError: false,
-        rawMessage: sseMessage,
-      }
-      observer.next(toolResponse)
-    }
-  }
+  // Legacy processors removed; now using standard SSE parsing above
 }

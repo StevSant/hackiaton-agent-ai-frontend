@@ -39,6 +39,7 @@ import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
+import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
 import { SttService } from '@infrastructure/services/stt.service';
 import { VoiceService } from '@infrastructure/services/voice.service';
 import { VoskSttService } from '@infrastructure/services/vosk-stt.service';
@@ -74,6 +75,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   audioFile: File | null = null;
   // Optional file attachments (pdf, images, etc.)
   attachments: File[] = [];
+  uploadedFiles: UploadedFileMeta[] = [];
   toolRunning = false;
   private currentAgentId: string | null = null;
   private streamingSessionId: string | null = null;
@@ -113,6 +115,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly typewriter = inject(TypewriterService);
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
+  private readonly filesService = inject(FilesService);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
   private readonly stt = inject(SttService);
   private readonly voice = inject(VoiceService);
@@ -226,7 +229,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     this.msgForm.reset();
   }
 
-  private startNewConversation(content: string) {
+  private async startNewConversation(content: string) {
     console.log('🚀 Iniciando nueva conversación:', content);
 
     // Limpiar estado anterior
@@ -255,19 +258,35 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     this.cdr.detectChanges();
 
     // Iniciar stream
+    // Upload attachments to get file_ids
+    let fileIds: string[] = [];
+    if (this.attachments.length) {
+      try {
+        const uploaded: UploadedFileMeta[] = [];
+        for (const f of this.attachments) {
+          const meta = await this.filesService.upload(f);
+          uploaded.push(meta);
+        }
+        this.uploadedFiles = uploaded;
+        fileIds = uploaded.map(u => u.id);
+      } catch (e) {
+        console.error('Error subiendo archivos:', e);
+      }
+    }
+
     const payload: {
       message?: string;
       session_id?: string;
       user_id?: string;
-  audioFile?: File;
-      files?: File[];
+      audioFile?: File;
+      file_ids?: string[];
     } = {
       // Send the actual text content only; do not fall back to placeholders
-  message: content,
+      message: content,
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
-  audioFile: this.includeAudioOriginal ? (this.audioFile ?? undefined) : undefined,
-      files: this.attachments.length ? this.attachments : undefined,
+      audioFile: this.includeAudioOriginal ? (this.audioFile ?? undefined) : undefined,
+      file_ids: fileIds,
     };
     this.subscription = this.sendMessageUC
       .execute(this.agentIdValue() as string, payload)

@@ -1,0 +1,30 @@
+<div class="p-4 space-y-4">
+  <div class="flex items-center gap-3">
+    <select class="select select-bordered select-sm" [(ngModel)]="type" (change)="load()">
+      <option value="">Todos</option>
+      <option value="image">Imágenes</option>
+      <option value="pdf">PDFs</option>
+      <option value="document">Documentos</option>
+    </select>
+    <input type="file" multiple class="file-input file-input-bordered file-input-sm" (change)="onUpload($event)" />
+  </div>
+
+  <div *ngIf="loading" class="text-sm opacity-70">Cargando...</div>
+  <div *ngIf="error" class="text-sm text-error">{{ error }}</div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div *ngFor="let item of items" class="card bg-base-100 shadow p-3">
+      <div class="text-sm font-semibold">{{ item.filename }}</div>
+      <div class="text-xs opacity-70">{{ item.type_file }} • {{ item.content_type }}</div>
+      <div class="text-xs break-all">ID: {{ item.id }}</div>
+      <div class="mt-2">
+        <ng-container [ngSwitch]="item.type_file">
+          <img *ngSwitchCase="'image'" [src]="item.url" class="rounded max-h-40 object-cover" />
+          <a *ngSwitchCase="'pdf'" class="link link-primary" [href]="item.url" target="_blank">Ver PDF</a>
+          <a *ngSwitchDefault class="link link-primary" [href]="item.url" target="_blank">Descargar</a>
+        </ng-container>
+      </div>
+      <div class="mt-2 text-xs">Copiar ID para usar en el chat.</div>
+    </div>
+  </div>
+</div>

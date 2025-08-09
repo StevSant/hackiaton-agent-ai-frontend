@@ -39,6 +39,7 @@ import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
+import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
 
 @Component({
   selector: 'app-chat',
@@ -69,6 +70,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   sessions: SessionEntry[] = [];
   selectedSessionId: string | null = null;
   audioFile: File | null = null;
+  filesToUpload: File[] = [];
+  uploadedFiles: UploadedFileMeta[] = [];
   toolRunning = false;
   private currentAgentId: string | null = null;
   private streamingSessionId: string | null = null;
@@ -87,6 +90,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly typewriter = inject(TypewriterService);
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
+  private readonly filesService = inject(FilesService);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
   private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
@@ -188,15 +192,16 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   sendMessage() {
     const messageContent = this.msgForm.get('message')?.value?.trim();
     const id = this.agentIdValue();
-    const hasAudio = !!this.audioFile;
-    if ((!messageContent && !hasAudio) || this.isSending || !id) {
+  const hasAudio = !!this.audioFile;
+  const hasFiles = this.filesToUpload.length > 0;
+  if ((!messageContent && !hasAudio && !hasFiles) || this.isSending || !id) {
       return;
     }
-    this.startNewConversation(messageContent || '');
+  this.startNewConversation(messageContent || '');
     this.msgForm.reset();
   }
 
-  private startNewConversation(content: string) {
+  private async startNewConversation(content: string) {
     console.log('🚀 Iniciando nueva conversación:', content);
 
     // Limpiar estado anterior
@@ -215,16 +220,36 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.cdr.detectChanges();
 
     // Iniciar stream
+    // If there are files selected, upload them first to get file_ids
+    let fileIds: string[] = [];
+    if (this.filesToUpload.length > 0) {
+      try {
+        const uploaded: UploadedFileMeta[] = [];
+        for (const f of this.filesToUpload) {
+          const meta = await this.filesService.upload(f);
+          uploaded.push(meta);
+        }
+        this.uploadedFiles = uploaded;
+        fileIds = uploaded.map(u => u.id);
+      } catch (e) {
+        console.error('Error subiendo archivos:', e);
+      }
+    }
+
     const payload: {
       message?: string;
       session_id?: string;
       user_id?: string;
       audioFile?: File;
+      files?: File[];
+      file_ids?: string[];
     } = {
       message: content,
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
       audioFile: this.audioFile ?? undefined,
+      files: this.filesToUpload.length ? this.filesToUpload : undefined,
+      file_ids: fileIds,
     };
     this.subscription = this.sendMessageUC
       .execute(this.agentIdValue() as string, payload)
@@ -496,6 +521,15 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       this.audioFile = input.files[0];
     } else {
       this.audioFile = null;
+    }
+  }
+
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.filesToUpload = Array.from(input.files);
+    } else {
+      this.filesToUpload = [];
     }
   }
 

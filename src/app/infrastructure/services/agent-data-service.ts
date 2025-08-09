@@ -9,7 +9,7 @@ import { adaptAgents } from '@core/adapters/agent-adapter';
 export class AgentDataService {
   private readonly agentsDirectUrl = environment.agentsDirectUrl;
   getAgents() {
-    return httpResource(() => this.agentsDirectUrl, {
+  return httpResource(() => this.agentsDirectUrl, {
       parse: (response: any) => {
         console.log(response);
         return adaptAgents(response);

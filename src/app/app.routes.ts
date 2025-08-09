@@ -27,6 +27,9 @@ export const routes: Routes = [
       // Voice-first chat routes
       { path: 'audio/:agentId/session/:sessionId', component: AudioChat },
       { path: 'audio/:agentId', component: AudioChat },
+  // Files and Risk pages
+  { path: 'files', loadComponent: () => import('@presentation/pages/files/files').then(m => m.FilesPage) },
+  { path: 'risk', loadComponent: () => import('@presentation/pages/risk/risk').then(m => m.RiskPage) },
     ],
   },
 

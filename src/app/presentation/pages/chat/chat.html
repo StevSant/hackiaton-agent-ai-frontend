@@ -247,6 +247,11 @@
           <div class="flex items-center gap-3">
             <input type="file" accept="audio/*" class="file-input file-input-bordered file-input-sm"
               (change)="onAudioSelected($event)" />
+            <input type="file" multiple class="file-input file-input-bordered file-input-sm"
+              (change)="onFilesSelected($event)" />
+            @if (filesToUpload.length) {
+              <div class="badge badge-info">{{ filesToUpload.length }} archivo(s)</div>
+            }
             <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
           </div>
         </div>

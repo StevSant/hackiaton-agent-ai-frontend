@@ -1,4 +1,5 @@
 @let agentsLocal = agents.value();
+@let agentsStatus = getAgentsStatus();
 
 <div class="auth-bar" style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:12px;">
     @if (token.isAuthenticated()) {
@@ -8,8 +9,24 @@
         <a routerLink="/register">Register</a>
     }
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 w-full max-w-5xl mx-auto">
-    @for (agent of agentsLocal; track agent.agent_id) {
-    <app-agent-card [agent]="agent"></app-agent-card>
+<div class="w-full max-w-5xl mx-auto">
+    @if (agentsStatus === 'loading') {
+        <div class="flex items-center gap-3 py-10 justify-center text-sm opacity-70">
+            <span class="loading loading-dots loading-md"></span>
+            Cargando agentes…
+        </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 animate-pulse">
+                        @for (i of [1,2,3,4]; track i) {
+                            <div class="h-40 rounded-xl bg-white/5 border border-white/10"></div>
+                        }
+                </div>
+    } @else if (agentsLocal?.length === 0) {
+        <div class="py-12 text-center text-sm opacity-60">No hay agentes disponibles.</div>
+    } @else {
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+            @for (agent of agentsLocal; track agent.agent_id) {
+            <app-agent-card [agent]="agent"></app-agent-card>
+            }
+        </div>
     }
 </div>

@@ -20,4 +20,11 @@ export class AgentList {
     this.router.navigateByUrl('/login');
   }
 
+  getAgentsStatus() {
+    try {
+      // @ts-ignore accessing experimental status()
+      return (this.agents as any).status();
+    } catch { return null; }
+  }
+
 }

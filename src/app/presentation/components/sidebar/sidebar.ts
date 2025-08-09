@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatButtonComponent } from '../chat-button/chat-button';
 import { Router, RouterLink } from '@angular/router';
@@ -9,6 +9,8 @@ import type { SessionsPort } from '@core/ports/sessions.port';
 import { ListSessionsUseCase } from '@core/use-cases/list-sessions.usecase';
 import { GetSessionUseCase } from '@core/use-cases/get-session.usecase';
 import { DeleteSessionUseCase } from '@core/use-cases/delete-session.usecase';
+import { TokenStorageService } from '@infrastructure/services/token-storage.service';
+import { GetProfileUseCase } from '@core/use-cases/auth/get-profile.usecase';
 // Simple route config for home navigation
 
 @Component({
@@ -27,7 +29,14 @@ export class SidebarComponent {
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
   private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
   private readonly deleteSessionUC = new DeleteSessionUseCase(this.sessionsPort);
-  private readonly router = inject(Router);
+  readonly router = inject(Router);
+  readonly token = inject(TokenStorageService);
+  private readonly getProfileUC = inject(GetProfileUseCase);
+
+  // auth/profile state
+  profileEmail = signal<string | null>(null);
+  profileLoading = signal(false);
+  profileMenuOpen = signal(false);
 
   sessions: SessionEntry[] = [];
   isLoading = false;
@@ -40,6 +49,7 @@ export class SidebarComponent {
 
   ngOnInit() {
     this.tryLoad();
+  this.loadProfileIfAuthenticated();
   }
 
   tryLoad() {
@@ -99,5 +109,52 @@ export class SidebarComponent {
       },
       complete: () => this.tryLoad(),
     });
+  }
+
+  isAuthenticated() { return this.token.isAuthenticated(); }
+
+  // --- Auth / Profile dropdown logic ---
+  private async loadProfileIfAuthenticated() {
+    if (!this.token.isAuthenticated() || this.profileEmail()) return;
+    const t = this.token.getToken();
+    if (!t) return;
+    this.profileLoading.set(true);
+    try {
+      const profile = await this.getProfileUC.execute(t);
+      this.profileEmail.set(profile.email || profile.username || null);
+    } catch {
+      // si falla, limpiamos token para evitar estado inconsistente
+      // this.token.clear(); // opcional: comentar para no forzar logout automático
+    } finally {
+      this.profileLoading.set(false);
+    }
+  }
+
+  toggleProfileMenu(event?: Event) {
+    event?.stopPropagation();
+    if (!this.token.isAuthenticated()) {
+      this.router.navigateByUrl('/login');
+      return;
+    }
+    if (!this.profileEmail() && !this.profileLoading()) {
+      // intentar cargar si aún no está
+      this.loadProfileIfAuthenticated();
+    }
+    this.profileMenuOpen.update(v => !v);
+  }
+
+  logout(event?: Event) {
+    event?.stopPropagation();
+    this.token.clear();
+    this.profileEmail.set(null);
+    this.profileMenuOpen.set(false);
+    this.router.navigateByUrl('/login');
+  }
+
+  @HostListener('document:click')
+  closeOnOutsideClick() {
+    if (this.profileMenuOpen()) {
+      this.profileMenuOpen.set(false);
+    }
   }
 }
