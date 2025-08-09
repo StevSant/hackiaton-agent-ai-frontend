@@ -8,11 +8,29 @@
     </div>
     <div>
       <label class="text-xs" for="site_icon">Site icon</label>
-      <input id="site_icon" class="input input-bordered w-full" formControlName="site_icon" />
+      <div class="flex items-center gap-2">
+        <input id="site_icon" class="input input-bordered w-full" formControlName="site_icon" />
+        <label class="btn btn-sm">
+          <input type="file" accept="image/*" class="hidden" (change)="onPickIcon($event)" />
+          {{ uploadingIcon() ? 'Subiendo…' : 'Subir' }}
+        </label>
+      </div>
+      <div class="mt-2" *ngIf="form.value.site_icon">
+        <img [src]="form.value.site_icon!" alt="icon preview" class="h-10 w-10 object-contain border rounded" />
+      </div>
     </div>
     <div>
       <label class="text-xs" for="site_logo">Site logo</label>
-      <input id="site_logo" class="input input-bordered w-full" formControlName="site_logo" />
+      <div class="flex items-center gap-2">
+        <input id="site_logo" class="input input-bordered w-full" formControlName="site_logo" />
+        <label class="btn btn-sm">
+          <input type="file" accept="image/*" class="hidden" (change)="onPickLogo($event)" />
+          {{ uploadingLogo() ? 'Subiendo…' : 'Subir' }}
+        </label>
+      </div>
+      <div class="mt-2" *ngIf="form.value.site_logo">
+        <img [src]="form.value.site_logo!" alt="logo preview" class="h-16 object-contain border rounded" />
+      </div>
     </div>
     <div class="md:col-span-2 flex items-center gap-2">
       <button class="btn btn-primary" type="submit" [disabled]="form.invalid || saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>

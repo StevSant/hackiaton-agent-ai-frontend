@@ -15,7 +15,7 @@ export class RoleGuardService {
     const role = this.token.getRole();
     if (role && allowed.includes(role)) return true;
 
-  this.router.navigateByUrl('/forbidden');
+    this.router.navigateByUrl('/forbidden');
     return false;
   }
 }
