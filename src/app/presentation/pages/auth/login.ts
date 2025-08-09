@@ -44,6 +44,9 @@ export class LoginPage {
         password: this.form.value.password!,
       });
       this.token.setToken(res.token.access_token);
+      if (res.user?.role) {
+        this.token.setRole(res.user.role);
+      }
       this.router.navigateByUrl('/');
     } catch (e: any) {
       this.error.set(e?.error?.message || e?.message || 'Login failed');

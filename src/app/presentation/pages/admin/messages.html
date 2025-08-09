@@ -1,0 +1,20 @@
+<div class="p-6 space-y-4">
+  <h2 class="text-xl font-semibold">Mensajes</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="md:col-span-1 border rounded p-2 max-h-[70vh] overflow-y-auto">
+  <button *ngFor="let s of sessions()" class="w-full text-left p-2 border-b hover:bg-base-200/40" (click)="open(s.session_id)">
+        <div class="font-medium truncate">{{ s.title || s.session_id }}</div>
+        <div class="text-xs opacity-70">{{ s.updated_at }}</div>
+  </button>
+    </div>
+    <div class="md:col-span-2 border rounded p-3 max-h-[70vh] overflow-y-auto">
+      <div *ngIf="!selected()" class="opacity-70">Selecciona una sesión para ver mensajes</div>
+      <div *ngIf="selected()">
+        <div *ngFor="let m of messages()" class="mb-2">
+          <div class="text-xs opacity-60">{{ m.role }} • {{ m.created_at }}</div>
+          <div>{{ m.content }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

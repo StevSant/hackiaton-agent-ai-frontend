@@ -1,0 +1,19 @@
+<div class="p-6 space-y-4">
+  <h2 class="text-xl font-semibold">App Info</h2>
+  <div *ngIf="error()" class="alert alert-error">{{ error() }}</div>
+  <form [formGroup]="form" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div>
+      <label class="text-xs" for="site_name">Site name</label>
+      <input id="site_name" class="input input-bordered w-full" formControlName="site_name" />
+    </div>
+    <div>
+      <label class="text-xs" for="site_icon">Site icon</label>
+      <input id="site_icon" class="input input-bordered w-full" formControlName="site_icon" />
+    </div>
+    <div>
+      <label class="text-xs" for="site_logo">Site logo</label>
+      <input id="site_logo" class="input input-bordered w-full" formControlName="site_logo" />
+    </div>
+  </form>
+  <div class="text-sm opacity-70">Nota: Solo lectura por ahora. Podemos agregar un endpoint de actualización en el backend si quieres.</div>
+</div>

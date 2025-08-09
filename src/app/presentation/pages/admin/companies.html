@@ -1,0 +1,25 @@
+<div class="p-6 space-y-4">
+  <h2 class="text-xl font-semibold">Compañías</h2>
+  <form [formGroup]="form" (ngSubmit)="search()" class="flex gap-2">
+    <input class="input input-bordered" formControlName="search" placeholder="Buscar..." />
+    <button class="btn btn-primary" type="submit">Buscar</button>
+  </form>
+  <div class="overflow-x-auto">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>RUC</th>
+          <th>Nombre</th>
+          <th>Sector</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of items()">
+          <td>{{ c.tax_id }}</td>
+          <td>{{ c.name || '-' }}</td>
+          <td>{{ c.sector || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

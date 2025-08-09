@@ -18,7 +18,7 @@ export class AuthService implements AuthPort {
 
   async register(payload: RegisterRequest): Promise<RegisterSuccessResponse> {
     const url = `${this.base}/auth/register`;
-    const body = { email: payload.email, password: payload.password };
+  const body = { email: payload.email, password: payload.password, username: payload.username };
     return firstValueFrom(this.http.post<RegisterSuccessResponse>(url, body));
   }
 

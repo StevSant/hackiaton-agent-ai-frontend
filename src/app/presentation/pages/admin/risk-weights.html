@@ -1,0 +1,17 @@
+<div class="p-6 space-y-4">
+  <h2 class="text-xl font-semibold">Risk Weights</h2>
+  <div class="flex items-center gap-2">
+    <label class="text-xs" for="version">Versión</label>
+    <input id="version" class="input input-bordered w-24" type="number" [value]="version()" (input)="version.set(($event.target as HTMLInputElement).valueAsNumber || 1)" />
+    <button class="btn btn-sm" (click)="addKey()">+ Agregar factor</button>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <ng-container *ngFor="let key of (weights?.controls | keyvalue)">
+      <div>
+        <label class="text-xs" [for]="'w_'+key.key">{{ key.key }}</label>
+        <input class="input input-bordered w-full" [id]="'w_'+key.key" type="number" [formControl]="key.value" />
+      </div>
+    </ng-container>
+  </div>
+  <button class="btn btn-primary" (click)="save()">Guardar</button>
+</div>

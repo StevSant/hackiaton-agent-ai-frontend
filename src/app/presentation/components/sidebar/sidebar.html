@@ -31,13 +31,14 @@
                     <div *ngIf="profileLoading()" class="text-sm flex items-center gap-2">
                         <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
                     </div>
-                    <div *ngIf="!profileLoading() && profileEmail()" class="flex items-center gap-2 mb-3">
+            <div *ngIf="!profileLoading() && profileEmail()" class="flex items-center gap-2 mb-3">
                         <div
                             class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
                             {{ profileEmail()!.charAt(0).toUpperCase() }}
                         </div>
                         <div class="text-xs break-all leading-tight">
                             <div class="font-medium text-base-content/90">{{ profileEmail() }}</div>
+                <div class="opacity-70" *ngIf="profileRole()">Rol: {{ profileRole() }}</div>
                         </div>
                     </div>
                     <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); router.navigateByUrl('/login')"

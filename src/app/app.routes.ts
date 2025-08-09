@@ -7,11 +7,14 @@ import { AuthGuard } from '@infrastructure/guards/auth.guard';
 import { GuestGuard } from '@infrastructure/guards/guest.guard';
 import { NotFoundPage } from '@presentation/pages/not-found/not-found';
 import { ShellLayout } from '@presentation/layouts/shell/shell';
+import { RoleGuard } from '@infrastructure/guards/role.guard';
+import { ForbiddenPage } from '@presentation/pages/forbidden/forbidden';
 
 export const routes: Routes = [
   // Auth pages without shell
   { path: 'login', component: LoginPage, canActivate: [GuestGuard] },
   { path: 'register', component: RegisterPage, canActivate: [GuestGuard] },
+  { path: 'forbidden', component: ForbiddenPage },
 
   // Shell-wrapped authenticated area
   {
@@ -36,6 +39,21 @@ export const routes: Routes = [
         path: 'risk',
         loadComponent: () =>
           import('@presentation/pages/risk/risk').then((m) => m.RiskPage),
+      },
+      // Admin area (role: admin)
+      {
+        path: 'admin',
+        canActivate: [RoleGuard],
+        data: { roles: ['admin'] },
+        children: [
+          { path: '', loadComponent: () => import('./presentation/pages/admin/dashboard').then(m => m.AdminDashboardPage) },
+          { path: 'users', loadComponent: () => import('./presentation/pages/admin/users').then(m => m.AdminUsersPage) },
+          { path: 'files', loadComponent: () => import('./presentation/pages/admin/files').then(m => m.AdminFilesPage) },
+          { path: 'messages', loadComponent: () => import('./presentation/pages/admin/messages').then(m => m.AdminMessagesPage) },
+          { path: 'app-info', loadComponent: () => import('./presentation/pages/admin/app-info').then(m => m.AdminAppInfoPage) },
+          { path: 'risk-weights', loadComponent: () => import('./presentation/pages/admin/risk-weights').then(m => m.AdminRiskWeightsPage) },
+          { path: 'companies', loadComponent: () => import('./presentation/pages/admin/companies').then(m => m.AdminCompaniesPage) },
+        ]
       },
     ],
   },

@@ -1,0 +1,16 @@
+<div class="p-6 space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold">Archivos ({{ total() }})</h2>
+    <div class="flex gap-2">
+      <button class="btn btn-sm" (click)="prev()" [disabled]="offset()<=0">Anterior</button>
+      <button class="btn btn-sm" (click)="next()" [disabled]="offset()+limit()>=total()">Siguiente</button>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div *ngFor="let f of items()" class="p-3 border rounded">
+      <div class="font-medium">{{ f.filename }}</div>
+      <div class="text-xs opacity-70">{{ f.content_type }} • {{ f.type_file }}</div>
+      <a [href]="f.url" target="_blank" class="text-primary text-sm">Abrir</a>
+    </div>
+  </div>
+</div>

@@ -44,6 +44,7 @@ export class SidebarComponent {
 
   // auth/profile state
   profileEmail = signal<string | null>(null);
+  profileRole = signal<string | null>(null);
   profileLoading = signal(false);
   profileMenuOpen = signal(false);
 
@@ -136,6 +137,7 @@ export class SidebarComponent {
     try {
       const profile = await this.getProfileUC.execute(t);
       this.profileEmail.set(profile.email || profile.username || null);
+  this.profileRole.set(profile.role || null);
     } catch {
       // si falla, limpiamos token para evitar estado inconsistente
       // this.token.clear(); // opcional: comentar para no forzar logout automático
@@ -161,6 +163,7 @@ export class SidebarComponent {
     event?.stopPropagation();
     this.token.clear();
     this.profileEmail.set(null);
+  this.profileRole.set(null);
     this.profileMenuOpen.set(false);
     this.router.navigateByUrl('/login');
   }

@@ -32,7 +32,7 @@ export class RegisterPage {
   private readonly router = inject(Router);
 
   readonly form = this.fb.group({
-    username: [''], // opcional
+  username: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, passwordComplexityValidator]],
   });
@@ -54,6 +54,7 @@ export class RegisterPage {
     try {
       // Normalizar entrada
       const email = (this.form.value.email || '').trim().toLowerCase();
+  const username = (this.form.value.username || '').trim();
       const password = this.form.value.password || '';
       
       // Si el validator marca error, no llamar backend
@@ -62,11 +63,7 @@ export class RegisterPage {
         return;
       }
       
-      await this.registerUC.execute({
-        email,
-        password,
-        username: this.form.value.username || undefined,
-      });
+  await this.registerUC.execute({ email, password, username });
       
       this.router.navigateByUrl('/login');
     } catch (e: any) {

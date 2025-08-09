@@ -1,0 +1,65 @@
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold">Usuarios</h2>
+
+  <div class="flex items-end justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <label for="userSearch" class="text-xs">Buscar email</label>
+      <input #userSearch id="userSearch" class="input input-bordered input-sm" (keyup.enter)="applySearch(userSearch.value)" placeholder="email contiene..." />
+      <button class="btn btn-sm" (click)="applySearch(userSearch.value)" type="button">Buscar</button>
+    </div>
+    <div class="text-sm opacity-70">{{ start() }}–{{ end() }} de {{ total() }}</div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="create()" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
+    <div>
+      <label class="text-xs" for="username">Usuario</label>
+      <input id="username" class="input input-bordered w-full" formControlName="username" placeholder="username" />
+    </div>
+    <div>
+      <label class="text-xs" for="email">Email</label>
+      <input id="email" class="input input-bordered w-full" formControlName="email" placeholder="email" type="email" />
+    </div>
+  <div class="md:col-span-2">
+      <label class="text-xs" for="password">Password</label>
+      <input id="password" class="input input-bordered w-full" formControlName="password" placeholder="password" type="password" />
+    </div>
+    <div>
+      <label class="text-xs" for="role">Role</label>
+      <select id="role" class="select select-bordered w-full" formControlName="role">
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+      </select>
+    </div>
+    <div>
+      <button class="btn btn-primary" [disabled]="form.invalid || creating()" type="submit">Crear</button>
+    </div>
+  </form>
+
+  <div *ngIf="error()" class="alert alert-error">{{ error() }}</div>
+
+  <div class="overflow-x-auto">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users()">
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.role }}</td>
+          <td>{{ u.created_at || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex items-center justify-end gap-2 pt-2">
+    <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">Anterior</button>
+    <button class="btn btn-sm" (click)="nextPage()" [disabled]="page()*limit()>=total()">Siguiente</button>
+  </div>
+</div>

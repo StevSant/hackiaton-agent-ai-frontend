@@ -1,0 +1,268 @@
+[2025-08-09 14:17:00] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
+[2025-08-09 14:18:45] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
+[2025-08-09 14:19:44] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
+[2025-08-09 14:19:53] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:37 in create_app() - 🚀 Creating FastAPI application: Hackiathon agents AI
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring middlewares
+[2025-08-09 14:19:53] INFO - app_setup/middlewares.py:23 in add_middlewares() - Configuring middlewares for FastAPI application
+[2025-08-09 14:19:53] INFO - app_setup/middlewares.py:27 in add_middlewares() - Configuring CORS middleware for environment: dev
+[2025-08-09 14:19:53] INFO - app_setup/middlewares.py:30 in add_middlewares() - Allowed origins: ['*']
+[2025-08-09 14:19:53] INFO - app_setup/middlewares.py:45 in add_middlewares() - Adding request logging and error tracking middleware
+[2025-08-09 14:19:53] INFO - app_setup/middlewares.py:57 in add_middlewares() - Development environment - skipping production security middlewares
+[2025-08-09 14:19:53] INFO - app_setup/middlewares.py:61 in add_middlewares() - Development mode - enabling detailed request logging
+[2025-08-09 14:19:53] INFO - app_setup/middlewares.py:63 in add_middlewares() - ✅ All middlewares configured successfully
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ middlewares configured successfully
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring exception_handlers
+[2025-08-09 14:19:53] INFO - app_setup/exception_handlers.py:12 in setup_exception_handlers() - Setting up standardized global exception handlers
+[2025-08-09 14:19:53] INFO - api/http/common/exception_handler.py:135 in setup_exception_handlers() - ✅ Exception handlers configured (Beanie/MongoDB style)
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ exception_handlers configured successfully
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring routers
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:20 in add_routers() - 🔌 Starting router configuration
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /app-info (1 routes) Tags: ['App Info']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /users (2 routes) Tags: ['Users']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /auth (3 routes) Tags: ['Authentication']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /files (4 routes) Tags: ['files']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/analysis (2 routes) Tags: ['Risk Analysis (LLM)']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/scoring (2 routes) Tags: ['Risk Scoring (Structured)']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/weights (2 routes) Tags: ['Risk Weights Config']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /companies (2 routes) Tags: ['Companies']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /agent (8 routes) Tags: ['agent']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /stt (1 routes) Tags: ['stt']
+[2025-08-09 14:19:53] INFO - app_setup/routers.py:65 in add_routers() - 🎯 Router configuration complete: 10/10 successful
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ routers configured successfully
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:150 in _log_startup_success() - ==================================================
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:151 in _log_startup_success() - 🎉 Hackiathon agents AI configured successfully!
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:152 in _log_startup_success() - 📊 Environment: dev
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:153 in _log_startup_success() - 🔧 Debug mode: True
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:154 in _log_startup_success() - ⚙️ Configured components: middlewares, exception_handlers, routers
+[2025-08-09 14:19:53] INFO - app_setup/app_configurator.py:157 in _log_startup_success() - ==================================================
+[2025-08-09 14:19:54] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
+[2025-08-09 14:20:01] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:37 in create_app() - 🚀 Creating FastAPI application: Hackiathon agents AI
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring middlewares
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:23 in add_middlewares() - Configuring middlewares for FastAPI application
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:27 in add_middlewares() - Configuring CORS middleware for environment: dev
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:30 in add_middlewares() - Allowed origins: ['*']
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:45 in add_middlewares() - Adding request logging and error tracking middleware
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:57 in add_middlewares() - Development environment - skipping production security middlewares
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:61 in add_middlewares() - Development mode - enabling detailed request logging
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:63 in add_middlewares() - ✅ All middlewares configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ middlewares configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring exception_handlers
+[2025-08-09 14:20:02] INFO - app_setup/exception_handlers.py:12 in setup_exception_handlers() - Setting up standardized global exception handlers
+[2025-08-09 14:20:02] INFO - api/http/common/exception_handler.py:135 in setup_exception_handlers() - ✅ Exception handlers configured (Beanie/MongoDB style)
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ exception_handlers configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring routers
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:20 in add_routers() - 🔌 Starting router configuration
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /app-info (1 routes) Tags: ['App Info']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /users (2 routes) Tags: ['Users']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /auth (3 routes) Tags: ['Authentication']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /files (4 routes) Tags: ['files']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/analysis (2 routes) Tags: ['Risk Analysis (LLM)']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/scoring (2 routes) Tags: ['Risk Scoring (Structured)']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/weights (2 routes) Tags: ['Risk Weights Config']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /companies (2 routes) Tags: ['Companies']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /agent (8 routes) Tags: ['agent']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /stt (1 routes) Tags: ['stt']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:65 in add_routers() - 🎯 Router configuration complete: 10/10 successful
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ routers configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:150 in _log_startup_success() - ==================================================
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:151 in _log_startup_success() - 🎉 Hackiathon agents AI configured successfully!
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:152 in _log_startup_success() - 📊 Environment: dev
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:153 in _log_startup_success() - 🔧 Debug mode: True
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:154 in _log_startup_success() - ⚙️ Configured components: exception_handlers, middlewares, routers
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:157 in _log_startup_success() - ==================================================
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:37 in create_app() - 🚀 Creating FastAPI application: Hackiathon agents AI
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring middlewares
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:23 in add_middlewares() - Configuring middlewares for FastAPI application
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:27 in add_middlewares() - Configuring CORS middleware for environment: dev
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:30 in add_middlewares() - Allowed origins: ['*']
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:45 in add_middlewares() - Adding request logging and error tracking middleware
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:57 in add_middlewares() - Development environment - skipping production security middlewares
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:61 in add_middlewares() - Development mode - enabling detailed request logging
+[2025-08-09 14:20:02] INFO - app_setup/middlewares.py:63 in add_middlewares() - ✅ All middlewares configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ middlewares configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring exception_handlers
+[2025-08-09 14:20:02] INFO - app_setup/exception_handlers.py:12 in setup_exception_handlers() - Setting up standardized global exception handlers
+[2025-08-09 14:20:02] INFO - api/http/common/exception_handler.py:135 in setup_exception_handlers() - ✅ Exception handlers configured (Beanie/MongoDB style)
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ exception_handlers configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring routers
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:20 in add_routers() - 🔌 Starting router configuration
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /app-info (1 routes) Tags: ['App Info']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /users (2 routes) Tags: ['Users']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /auth (3 routes) Tags: ['Authentication']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /files (4 routes) Tags: ['files']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/analysis (2 routes) Tags: ['Risk Analysis (LLM)']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/scoring (2 routes) Tags: ['Risk Scoring (Structured)']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/weights (2 routes) Tags: ['Risk Weights Config']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /companies (2 routes) Tags: ['Companies']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /agent (8 routes) Tags: ['agent']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /stt (1 routes) Tags: ['stt']
+[2025-08-09 14:20:02] INFO - app_setup/routers.py:65 in add_routers() - 🎯 Router configuration complete: 10/10 successful
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ routers configured successfully
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:150 in _log_startup_success() - ==================================================
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:151 in _log_startup_success() - 🎉 Hackiathon agents AI configured successfully!
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:152 in _log_startup_success() - 📊 Environment: dev
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:153 in _log_startup_success() - 🔧 Debug mode: True
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:154 in _log_startup_success() - ⚙️ Configured components: exception_handlers, middlewares, routers
+[2025-08-09 14:20:02] INFO - app_setup/app_configurator.py:157 in _log_startup_success() - ==================================================
+[2025-08-09 14:20:02] INFO - app_setup/lifespan.py:17 in lifespan() - 🚀 Starting application...
+[2025-08-09 14:20:02] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
+[2025-08-09 14:20:02] INFO - app_setup/lifespan.py:22 in lifespan() - ✅ Beanie ODM initialized
+[2025-08-09 14:20:52] INFO - app_setup/lifespan.py:32 in lifespan() - 👋 Shutting down application...
+[2025-08-09 14:21:45] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
+[2025-08-09 14:21:49] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
+[2025-08-09 14:21:49] INFO - app_setup/app_configurator.py:37 in create_app() - 🚀 Creating FastAPI application: Hackiathon agents AI
+[2025-08-09 14:21:49] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring middlewares
+[2025-08-09 14:21:49] INFO - app_setup/middlewares.py:23 in add_middlewares() - Configuring middlewares for FastAPI application
+[2025-08-09 14:21:49] INFO - app_setup/middlewares.py:27 in add_middlewares() - Configuring CORS middleware for environment: dev
+[2025-08-09 14:21:49] INFO - app_setup/middlewares.py:30 in add_middlewares() - Allowed origins: ['*']
+[2025-08-09 14:21:49] INFO - app_setup/middlewares.py:45 in add_middlewares() - Adding request logging and error tracking middleware
+[2025-08-09 14:21:49] INFO - app_setup/middlewares.py:57 in add_middlewares() - Development environment - skipping production security middlewares
+[2025-08-09 14:21:49] INFO - app_setup/middlewares.py:61 in add_middlewares() - Development mode - enabling detailed request logging
+[2025-08-09 14:21:49] INFO - app_setup/middlewares.py:63 in add_middlewares() - ✅ All middlewares configured successfully
+[2025-08-09 14:21:49] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ middlewares configured successfully
+[2025-08-09 14:21:49] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring exception_handlers
+[2025-08-09 14:21:49] INFO - app_setup/exception_handlers.py:12 in setup_exception_handlers() - Setting up standardized global exception handlers
+[2025-08-09 14:21:49] INFO - api/http/common/exception_handler.py:135 in setup_exception_handlers() - ✅ Exception handlers configured (Beanie/MongoDB style)
+[2025-08-09 14:21:49] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ exception_handlers configured successfully
+[2025-08-09 14:21:49] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring routers
+[2025-08-09 14:21:49] INFO - app_setup/routers.py:20 in add_routers() - 🔌 Starting router configuration
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /app-info (1 routes) Tags: ['App Info']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /users (2 routes) Tags: ['Users']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /auth (3 routes) Tags: ['Authentication']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /files (4 routes) Tags: ['files']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/analysis (2 routes) Tags: ['Risk Analysis (LLM)']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/scoring (2 routes) Tags: ['Risk Scoring (Structured)']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/weights (2 routes) Tags: ['Risk Weights Config']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /companies (2 routes) Tags: ['Companies']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /agent (8 routes) Tags: ['agent']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /stt (1 routes) Tags: ['stt']
+[2025-08-09 14:21:50] INFO - app_setup/routers.py:65 in add_routers() - 🎯 Router configuration complete: 10/10 successful
+[2025-08-09 14:21:50] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ routers configured successfully
+[2025-08-09 14:21:50] INFO - app_setup/app_configurator.py:150 in _log_startup_success() - ==================================================
+[2025-08-09 14:21:50] INFO - app_setup/app_configurator.py:151 in _log_startup_success() - 🎉 Hackiathon agents AI configured successfully!
+[2025-08-09 14:21:50] INFO - app_setup/app_configurator.py:152 in _log_startup_success() - 📊 Environment: dev
+[2025-08-09 14:21:50] INFO - app_setup/app_configurator.py:153 in _log_startup_success() - 🔧 Debug mode: True
+[2025-08-09 14:21:50] INFO - app_setup/app_configurator.py:154 in _log_startup_success() - ⚙️ Configured components: middlewares, routers, exception_handlers
+[2025-08-09 14:21:50] INFO - app_setup/app_configurator.py:157 in _log_startup_success() - ==================================================
+[2025-08-09 14:21:50] INFO - infrastructure/middleware/logging_middleware.py:28 in dispatch() - [bab4ece3] GET http://testserver/app-info - IP: testclient - User-Agent: testclient...
+[2025-08-09 14:21:50] INFO - infrastructure/middleware/logging_middleware.py:43 in dispatch() - [bab4ece3] GET http://testserver/app-info - Status: 307 - Time: 0.001s
+[2025-08-09 14:21:50] INFO - infrastructure/middleware/logging_middleware.py:28 in dispatch() - [156fb286] GET http://testserver/app-info/ - IP: testclient - User-Agent: testclient...
+[2025-08-09 14:21:50] INFO - api/http/routes/app_info_routes.py:18 in get_app_info() - Fetching app info
+[2025-08-09 14:21:50] INFO - infrastructure/db/repositories/app_info_repository.py:19 in get_app_info() - Fetching app info from Beanie
+[2025-08-09 14:21:50] WARNING - infrastructure/db/repositories/app_info_repository.py:22 in get_app_info() - Beanie is not initialized; returning no app info
+[2025-08-09 14:21:50] WARNING - api/http/common/exception_handler.py:21 in handle_domain_exception() - [app_info_not_found] App information not found - Path: http://testserver/app-info/
+[2025-08-09 14:21:50] INFO - infrastructure/middleware/logging_middleware.py:43 in dispatch() - [156fb286] GET http://testserver/app-info/ - Status: 404 - Time: 0.008s
+[2025-08-09 14:21:50] INFO - infrastructure/middleware/logging_middleware.py:28 in dispatch() - [7673874c] GET http://testserver/ - IP: testclient - User-Agent: testclient...
+[2025-08-09 14:21:50] INFO - infrastructure/middleware/logging_middleware.py:43 in dispatch() - [7673874c] GET http://testserver/ - Status: 404 - Time: 0.000s
+[2025-08-09 14:22:15] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
+[2025-08-09 14:22:19] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:37 in create_app() - 🚀 Creating FastAPI application: Hackiathon agents AI
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring middlewares
+[2025-08-09 14:22:19] INFO - app_setup/middlewares.py:23 in add_middlewares() - Configuring middlewares for FastAPI application
+[2025-08-09 14:22:19] INFO - app_setup/middlewares.py:27 in add_middlewares() - Configuring CORS middleware for environment: dev
+[2025-08-09 14:22:19] INFO - app_setup/middlewares.py:30 in add_middlewares() - Allowed origins: ['*']
+[2025-08-09 14:22:19] INFO - app_setup/middlewares.py:45 in add_middlewares() - Adding request logging and error tracking middleware
+[2025-08-09 14:22:19] INFO - app_setup/middlewares.py:57 in add_middlewares() - Development environment - skipping production security middlewares
+[2025-08-09 14:22:19] INFO - app_setup/middlewares.py:61 in add_middlewares() - Development mode - enabling detailed request logging
+[2025-08-09 14:22:19] INFO - app_setup/middlewares.py:63 in add_middlewares() - ✅ All middlewares configured successfully
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ middlewares configured successfully
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring exception_handlers
+[2025-08-09 14:22:19] INFO - app_setup/exception_handlers.py:12 in setup_exception_handlers() - Setting up standardized global exception handlers
+[2025-08-09 14:22:19] INFO - api/http/common/exception_handler.py:135 in setup_exception_handlers() - ✅ Exception handlers configured (Beanie/MongoDB style)
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ exception_handlers configured successfully
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring routers
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:20 in add_routers() - 🔌 Starting router configuration
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /app-info (1 routes) Tags: ['App Info']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /users (2 routes) Tags: ['Users']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /auth (3 routes) Tags: ['Authentication']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /files (4 routes) Tags: ['files']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/analysis (2 routes) Tags: ['Risk Analysis (LLM)']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/scoring (2 routes) Tags: ['Risk Scoring (Structured)']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/weights (2 routes) Tags: ['Risk Weights Config']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /companies (2 routes) Tags: ['Companies']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /agent (8 routes) Tags: ['agent']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /stt (1 routes) Tags: ['stt']
+[2025-08-09 14:22:19] INFO - app_setup/routers.py:65 in add_routers() - 🎯 Router configuration complete: 10/10 successful
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ routers configured successfully
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:150 in _log_startup_success() - ==================================================
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:151 in _log_startup_success() - 🎉 Hackiathon agents AI configured successfully!
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:152 in _log_startup_success() - 📊 Environment: dev
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:153 in _log_startup_success() - 🔧 Debug mode: True
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:154 in _log_startup_success() - ⚙️ Configured components: exception_handlers, middlewares, routers
+[2025-08-09 14:22:19] INFO - app_setup/app_configurator.py:157 in _log_startup_success() - ==================================================
+[2025-08-09 14:22:20] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
+[2025-08-09 14:22:24] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:37 in create_app() - 🚀 Creating FastAPI application: Hackiathon agents AI
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring middlewares
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:23 in add_middlewares() - Configuring middlewares for FastAPI application
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:27 in add_middlewares() - Configuring CORS middleware for environment: dev
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:30 in add_middlewares() - Allowed origins: ['*']
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:45 in add_middlewares() - Adding request logging and error tracking middleware
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:57 in add_middlewares() - Development environment - skipping production security middlewares
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:61 in add_middlewares() - Development mode - enabling detailed request logging
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:63 in add_middlewares() - ✅ All middlewares configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ middlewares configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring exception_handlers
+[2025-08-09 14:22:24] INFO - app_setup/exception_handlers.py:12 in setup_exception_handlers() - Setting up standardized global exception handlers
+[2025-08-09 14:22:24] INFO - api/http/common/exception_handler.py:135 in setup_exception_handlers() - ✅ Exception handlers configured (Beanie/MongoDB style)
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ exception_handlers configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring routers
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:20 in add_routers() - 🔌 Starting router configuration
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /app-info (1 routes) Tags: ['App Info']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /users (2 routes) Tags: ['Users']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /auth (3 routes) Tags: ['Authentication']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /files (4 routes) Tags: ['files']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/analysis (2 routes) Tags: ['Risk Analysis (LLM)']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/scoring (2 routes) Tags: ['Risk Scoring (Structured)']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/weights (2 routes) Tags: ['Risk Weights Config']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /companies (2 routes) Tags: ['Companies']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /agent (8 routes) Tags: ['agent']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /stt (1 routes) Tags: ['stt']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:65 in add_routers() - 🎯 Router configuration complete: 10/10 successful
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ routers configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:150 in _log_startup_success() - ==================================================
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:151 in _log_startup_success() - 🎉 Hackiathon agents AI configured successfully!
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:152 in _log_startup_success() - 📊 Environment: dev
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:153 in _log_startup_success() - 🔧 Debug mode: True
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:154 in _log_startup_success() - ⚙️ Configured components: middlewares, routers, exception_handlers
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:157 in _log_startup_success() - ==================================================
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:37 in create_app() - 🚀 Creating FastAPI application: Hackiathon agents AI
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring middlewares
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:23 in add_middlewares() - Configuring middlewares for FastAPI application
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:27 in add_middlewares() - Configuring CORS middleware for environment: dev
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:30 in add_middlewares() - Allowed origins: ['*']
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:45 in add_middlewares() - Adding request logging and error tracking middleware
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:57 in add_middlewares() - Development environment - skipping production security middlewares
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:61 in add_middlewares() - Development mode - enabling detailed request logging
+[2025-08-09 14:22:24] INFO - app_setup/middlewares.py:63 in add_middlewares() - ✅ All middlewares configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ middlewares configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring exception_handlers
+[2025-08-09 14:22:24] INFO - app_setup/exception_handlers.py:12 in setup_exception_handlers() - Setting up standardized global exception handlers
+[2025-08-09 14:22:24] INFO - api/http/common/exception_handler.py:135 in setup_exception_handlers() - ✅ Exception handlers configured (Beanie/MongoDB style)
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ exception_handlers configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:120 in _configure_all_components() - ⚙️ Configuring routers
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:20 in add_routers() - 🔌 Starting router configuration
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /app-info (1 routes) Tags: ['App Info']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /users (2 routes) Tags: ['Users']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /auth (3 routes) Tags: ['Authentication']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /files (4 routes) Tags: ['files']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/analysis (2 routes) Tags: ['Risk Analysis (LLM)']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/scoring (2 routes) Tags: ['Risk Scoring (Structured)']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /risk/weights (2 routes) Tags: ['Risk Weights Config']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /companies (2 routes) Tags: ['Companies']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /agent (8 routes) Tags: ['agent']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:43 in add_routers() - ✅ Router configured: /stt (1 routes) Tags: ['stt']
+[2025-08-09 14:22:24] INFO - app_setup/routers.py:65 in add_routers() - 🎯 Router configuration complete: 10/10 successful
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:123 in _configure_all_components() - ✅ routers configured successfully
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:150 in _log_startup_success() - ==================================================
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:151 in _log_startup_success() - 🎉 Hackiathon agents AI configured successfully!
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:152 in _log_startup_success() - 📊 Environment: dev
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:153 in _log_startup_success() - 🔧 Debug mode: True
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:154 in _log_startup_success() - ⚙️ Configured components: middlewares, routers, exception_handlers
+[2025-08-09 14:22:24] INFO - app_setup/app_configurator.py:157 in _log_startup_success() - ==================================================
+[2025-08-09 14:22:24] INFO - app_setup/lifespan.py:17 in lifespan() - 🚀 Starting application...
+[2025-08-09 14:22:24] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
+[2025-08-09 14:22:24] INFO - app_setup/lifespan.py:22 in lifespan() - ✅ Beanie ODM initialized
+[2025-08-09 14:23:03] INFO - app_setup/lifespan.py:32 in lifespan() - 👋 Shutting down application...
