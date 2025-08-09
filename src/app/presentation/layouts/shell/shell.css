@@ -28,3 +28,11 @@
 .bg-base-100\/80{background-color:rgba(var(--b1)/.8)}
 .border-b{border-bottom:1px solid var(--b2)}
 .border-base-200{--b2:var(--b2)}
+
+/* Sidebar responsive visibility to avoid class purge issues */
+.desktop-sidebar{display:none}
+.mobile-overlay{display:block}
+@media (min-width: 768px){
+	.desktop-sidebar{display:block}
+	.mobile-overlay{display:none}
+}

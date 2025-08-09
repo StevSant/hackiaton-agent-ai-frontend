@@ -1,11 +1,11 @@
 <div class="flex min-h-screen">
   <!-- Desktop sidebar (does not overlap) -->
-  <div class="hidden md:block">
+  <div class="desktop-sidebar">
     <app-sidebar></app-sidebar>
   </div>
 
   <!-- Mobile overlay sidebar -->
-  <div class="md:hidden" [class.hidden]="!isSidebarOpen">
+  <div class="mobile-overlay" [class.hidden]="!isSidebarOpen">
     <button class="fixed inset-0 bg-black/50 z-40" (click)="closeSidebar()" aria-label="Cerrar menú"></button>
     <div class="fixed inset-y-0 left-0 w-72 z-50">
       <app-sidebar></app-sidebar>
