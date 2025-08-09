@@ -8,6 +8,7 @@ import {
   type OnDestroy,
   type OnInit,
 } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -59,6 +60,7 @@ import { MatIconModule } from '@angular/material/icon';
   providers: [],
   templateUrl: './chat.html',
   styleUrls: ['./chat.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   @ViewChild('messagesContainer', { static: false })

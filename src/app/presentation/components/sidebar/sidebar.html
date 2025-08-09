@@ -83,9 +83,13 @@
         <div class="flex-1 overflow-y-auto">
             <div class="text-sm opacity-70 px-2 mb-2">{{ 'COMMON.HISTORY' | translate }}</div>
             <ng-container>
-                <div *ngIf="isLoading" class="px-2 py-2 text-xs text-info flex items-center gap-2">
-                    <span class="loading loading-dots loading-xs"></span>
-                    {{ 'COMMON.LOADING' | translate }}
+                <div *ngIf="isLoading" class="px-2 py-2">
+                    <div class="space-y-2">
+                        <div class="h-8 rounded-md bg-base-200 animate-pulse"></div>
+                        <div class="h-8 rounded-md bg-base-200 animate-pulse"></div>
+                        <div class="h-8 rounded-md bg-base-200 animate-pulse"></div>
+                        <div class="h-8 rounded-md bg-base-200 animate-pulse"></div>
+                    </div>
                 </div>
                 <div *ngIf="!isLoading && sessions.length === 0" class="px-2 py-2 text-xs opacity-60">{{
                     'COMMON.NO_SESSIONS' | translate }}</div>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AgentDataService } from '@infrastructure/services/agent-data-service';
 import { AgentCard } from "./agent-card/agent-card";
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-agent-list',
   imports: [AgentCard],
   templateUrl: './agent-list.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AgentList {
   private readonly agentService = inject(AgentDataService);
