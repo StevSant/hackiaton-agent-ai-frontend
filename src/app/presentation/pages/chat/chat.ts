@@ -39,6 +39,7 @@ import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
 import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
+import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
 
 @Component({
   selector: 'app-chat',
@@ -89,6 +90,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
   private readonly filesService = inject(FilesService);
+  private readonly sessionsEvents = inject(SessionsEventsService);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
   private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
@@ -259,6 +261,17 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('streaming');
 
     switch (data.event) {
+      case 'UserMessage': {
+        // As soon as backend confirms/creates session, reflect it in URL and refresh sidebar
+        const sid = (data as any)?.rawMessage?.session_id;
+        if (!this.selectedSessionId && sid) {
+          this.selectedSessionId = sid;
+          this.streamingSessionId = sid;
+          this.location.replaceState(`/chat/session/${sid}`);
+          this.sessionsEvents.triggerRefresh();
+        }
+        break;
+      }
       case 'RunResponse':
         this.handleRunResponse(data);
         break;
@@ -327,6 +340,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       this.streamingSessionId = raw.session_id;
       // Update the URL without reloading component
       this.location.replaceState(`/chat/session/${raw.session_id}`);
+      this.sessionsEvents.triggerRefresh();
     }
   }
 
@@ -393,6 +407,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   this.cdr.detectChanges();
   // Ya terminó el stream; si teníamos sessionId en curso, liberamos bandera
   this.streamingSessionId = null;
+  // Ensure sidebar reflects new/updated session
+  this.sessionsEvents.triggerRefresh();
   }
 
   private handleError(error: any) {
@@ -431,6 +447,10 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     }
 
     this.cdr.detectChanges();
+    // In case completion arrived without RunCompleted
+    if (this.selectedSessionId) {
+      this.sessionsEvents.triggerRefresh();
+    }
   }
 
   getAudioSrc(audio: any): string | null {

@@ -41,6 +41,7 @@ export class SseService {
   private abortController: AbortController | null = null
   private readonly cancel$ = new Subject<void>()
   private readonly tokenStorage = inject(TokenStorageService);
+  private lastSessionId: string | null = null;
 
   cancel() {
     if (this.abortController) {
@@ -62,7 +63,7 @@ export class SseService {
       this.abortController = controller;
       let fullContent = "";
 
-      const headers: Record<string, string> = {
+  const headers: Record<string, string> = {
         Accept: "text/event-stream",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json",
@@ -97,13 +98,14 @@ export class SseService {
           const emit = (event: string, data: any) => {
             // Map backend events to UI model events
             if (event === 'start') {
+              if (data?.session_id) this.lastSessionId = data.session_id;
               const msg: SSEMessage = {
                 content: '',
                 content_type: 'text',
                 event: 'RunStarted',
                 run_id: '',
                 agent_id: '',
-                session_id: data?.session_id || '',
+                session_id: data?.session_id || this.lastSessionId || '',
                 created_at: Date.now(),
               } as SSEMessage;
               observer.next({
@@ -119,13 +121,14 @@ export class SseService {
 
             if (event === 'user_message') {
               // Inform session id early if provided
+              if (data?.session_id) this.lastSessionId = data.session_id;
               const msg: SSEMessage = {
                 content: data?.message?.content || '',
                 content_type: 'text',
                 event: 'UserMessage',
                 run_id: '',
                 agent_id: '',
-                session_id: data?.session_id || '',
+                session_id: data?.session_id || this.lastSessionId || '',
                 created_at: Date.now(),
               } as SSEMessage;
               observer.next({
@@ -148,7 +151,7 @@ export class SseService {
                 event: 'RunResponse',
                 run_id: '',
                 agent_id: '',
-                session_id: data?.session_id || '',
+                session_id: data?.session_id || this.lastSessionId || '',
                 created_at: Date.now(),
               } as SSEMessage;
               observer.next({
@@ -171,7 +174,7 @@ export class SseService {
                 event: 'RunCompleted',
                 run_id: '',
                 agent_id: '',
-                session_id: data?.session_id || '',
+                session_id: data?.session_id || this.lastSessionId || '',
                 created_at: Date.now(),
               } as SSEMessage;
               observer.next({
@@ -193,7 +196,7 @@ export class SseService {
                 event: 'RunError',
                 run_id: '',
                 agent_id: '',
-                session_id: data?.session_id || '',
+                session_id: data?.session_id || this.lastSessionId || '',
                 created_at: Date.now(),
               } as SSEMessage;
               observer.next({
@@ -257,6 +260,7 @@ export class SseService {
 
       return () => {
         try { controller.abort(); } catch {}
+        this.lastSessionId = null;
       };
     });
   }

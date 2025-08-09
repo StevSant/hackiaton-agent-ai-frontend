@@ -11,6 +11,7 @@ import { GetSessionUseCase } from '@core/use-cases/get-session.usecase';
 import { DeleteSessionUseCase } from '@core/use-cases/delete-session.usecase';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 import { GetProfileUseCase } from '@core/use-cases/auth/get-profile.usecase';
+import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
 // Simple route config for home navigation
 
 @Component({
@@ -32,6 +33,7 @@ export class SidebarComponent {
   readonly router = inject(Router);
   readonly token = inject(TokenStorageService);
   private readonly getProfileUC = inject(GetProfileUseCase);
+  private readonly sessionsEvents = inject(SessionsEventsService);
 
   // auth/profile state
   profileEmail = signal<string | null>(null);
@@ -47,15 +49,18 @@ export class SidebarComponent {
 
   ngOnInit() {
     this.tryLoad();
-  this.loadProfileIfAuthenticated();
+    this.loadProfileIfAuthenticated();
+    // refresh when someone triggers a sessions update
+    this.sessionsEvents.onRefresh().subscribe(() => this.tryLoad());
   }
 
   tryLoad() {
+    if (this.isLoading) return;
     this.isLoading = true;
     // agentId is ignored by backend; pass a placeholder
     this.listSessionsUC.execute('default').subscribe({
       next: (list) => (this.sessions = list || []),
-      error: () => {},
+      error: () => { /* silent */ },
       complete: () => (this.isLoading = false),
     });
   }
