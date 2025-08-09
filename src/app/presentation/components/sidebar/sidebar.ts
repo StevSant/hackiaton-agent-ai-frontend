@@ -52,6 +52,9 @@ export class SidebarComponent {
   isLoading = false;
   expanded: Record<string, boolean> = {};
   previews: Record<string, Array<{ who: string; text: string }>> = {};
+  // delete confirmation state
+  confirmOpen = signal(false);
+  toDelete = signal<SessionEntry | null>(null);
 
   // trackBy helpers
   trackBySessionId = (_: number, s: SessionEntry) => s.session_id;
@@ -112,18 +115,39 @@ export class SidebarComponent {
     });
   }
 
-  deleteSession(session: SessionEntry, event?: Event) {
+  openDeleteModal(session: SessionEntry, event?: Event) {
     event?.stopPropagation();
-  this.deleteSessionUC.execute('default', session.session_id).subscribe({
+    this.toDelete.set(session);
+    this.confirmOpen.set(true);
+  }
+
+  confirmDelete() {
+    const session = this.toDelete();
+    if (!session) { this.confirmOpen.set(false); return; }
+    this.deleteSessionUC.execute('default', session.session_id).subscribe({
       next: () => {
-        // quitar de la lista sin esperar a otra llamada
+        // remove locally
         this.sessions = this.sessions.filter(s => s.session_id !== session.session_id);
         delete this.expanded[session.session_id];
         delete this.previews[session.session_id];
         this.cdr.markForCheck();
+        // redirect to new chat page
+        this.router.navigate(['/chat']).then(() => setTimeout(() => this.tryLoad()));
       },
-      complete: () => setTimeout(() => this.tryLoad()),
+      complete: () => {
+        this.confirmOpen.set(false);
+        this.toDelete.set(null);
+      },
+      error: () => {
+        this.confirmOpen.set(false);
+        this.toDelete.set(null);
+      }
     });
+  }
+
+  cancelDelete() {
+    this.confirmOpen.set(false);
+    this.toDelete.set(null);
   }
 
   isAuthenticated() { return this.token.isAuthenticated(); }

@@ -7,75 +7,12 @@
                     <mat-icon>home</mat-icon>
                     {{ 'COMMON.HOME' | translate }}
                 </button>
-                <!-- Admin dashboard entry (only for admin users) -->
-                <button *ngIf="profileRole() === 'admin'" [routerLink]="['/admin']"
-                    class="flex items-center gap-2 rounded-lg bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all cursor-pointer py-2 px-3 text-white font-semibold">
-                    <mat-icon>admin_panel_settings</mat-icon>
-                    Admin
-                </button>
                 <button class="flex items-center gap-1 text-xs opacity-70 hover:opacity-100" (click)="tryLoad()"
                     [disabled]="isLoading">
                     <mat-icon fontIcon="refresh"></mat-icon>{{ 'COMMON.REFRESH' | translate }}
                 </button>
             </div>
-            <!-- Profile icon / menu -->
-            <div class="relative" (click)="$event.stopPropagation()" (keydown.escape)="profileMenuOpen.set(false)">
-                <button
-                    class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-inner shadow-black/30 hover:scale-105 transition"
-                    (click)="toggleProfileMenu($event)" title="Cuenta">
-                    <ng-container *ngIf="profileEmail(); else userIcon">
-                        {{ profileEmail()!.charAt(0).toUpperCase() }}
-                    </ng-container>
-                    <ng-template #userIcon>
-                        <mat-icon fontIcon="person"></mat-icon>
-                    </ng-template>
-                </button>
-                <div *ngIf="profileMenuOpen()"
-                    class="absolute right-0 mt-2 w-56 rounded-xl profile-menu-surface p-3 shadow-lg animate-in fade-in zoom-in text-base-content z-50"
-                    style="animation-duration:120ms;">
-                    <div class="profile-menu-header mb-2">{{ 'COMMON.ACCOUNT' | translate }}</div>
-                    <div *ngIf="profileLoading()" class="text-sm flex items-center gap-2">
-                        <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
-                    </div>
-            <div *ngIf="!profileLoading() && profileEmail()" class="flex items-center gap-2 mb-3">
-                        <div
-                            class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
-                            {{ profileEmail()!.charAt(0).toUpperCase() }}
-                        </div>
-                        <div class="text-xs break-all leading-tight">
-                            <div class="font-medium text-base-content/90">{{ profileEmail() }}</div>
-                <div class="opacity-70" *ngIf="profileRole()">Rol: {{ profileRole() }}</div>
-                        </div>
-                    </div>
-                    <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); router.navigateByUrl('/login')"
-                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200">{{ 'COMMON.LOGIN' |
-                        translate }}</button>
-                    <button *ngIf="isAuthenticated()" (click)="logout($event)"
-                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200 flex items-center gap-2 text-error">
-                        <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
-                    </button>
-                    <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
-                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}</div>
-                        <div class="flex gap-2 flex-wrap">
-                            <button class="btn btn-xs" (click)="switchLang('es')">{{ 'COMMON.SPANISH' | translate
-                                }}</button>
-                            <button class="btn btn-xs" (click)="switchLang('en')">{{ 'COMMON.ENGLISH' | translate
-                                }}</button>
-                        </div>
-                    </div>
-                    <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
-                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}</div>
-                        <div class="flex gap-2 flex-wrap">
-                            <button class="btn btn-xs" (click)="setTheme('light')">{{ 'COMMON.THEME_LIGHT' | translate
-                                }}</button>
-                            <button class="btn btn-xs" (click)="setTheme('dark')">{{ 'COMMON.THEME_DARK' | translate
-                                }}</button>
-                            <button class="btn btn-xs" (click)="setTheme('system')">{{ 'COMMON.THEME_SYSTEM' | translate
-                                }}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Profile icon/menu moved to footer -->
         </div>
 
         <button
@@ -111,7 +48,7 @@
                                     <mat-icon fontIcon="expand_more" [ngClass]="{'rotate-180': expanded[s.session_id]}"
                                         class="transition-transform"></mat-icon>
                                 </button>
-                                <button class="btn btn-ghost btn-xs text-error" (click)="deleteSession(s, $event)"
+                                <button class="btn btn-ghost btn-xs text-error" (click)="openDeleteModal(s, $event)"
                                     [title]="('COMMON.DELETE' | translate)">
                                     <mat-icon fontIcon="delete"></mat-icon>
                                 </button>
@@ -129,6 +66,85 @@
 
         </div>
 
+        <!-- Footer: profile trigger and admin button at the bottom -->
+        <div class="mt-3 pt-3 border-t border-base-200 text-xs relative" (click)="$event.stopPropagation()" (keydown.escape)="profileMenuOpen.set(false)">
+            <div class="flex items-center justify-between gap-2">
+                <button class="flex items-center gap-2 group" (click)="toggleProfileMenu($event)" title="Cuenta">
+                    <div
+                        class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold group-hover:scale-105 transition">
+                        <ng-container *ngIf="profileEmail(); else footerUserIcon">
+                            {{ profileEmail()!.charAt(0).toUpperCase() }}
+                        </ng-container>
+                        <ng-template #footerUserIcon>
+                            <mat-icon fontIcon="person" class="!text-base"></mat-icon>
+                        </ng-template>
+                    </div>
+                    <div class="leading-tight text-left">
+                        <div class="font-medium text-base-content/90 truncate max-w-[9rem]">{{ profileEmail() || 'Invitado' }}</div>
+                        <div class="opacity-70 flex items-center gap-2" *ngIf="isAuthenticated()">
+                            <span class="badge badge-outline" [ngClass]="{'badge-primary': profileRole() === 'admin'}">
+                                {{ profileRole() === 'admin' ? 'Admin' : 'Usuario' }}
+                            </span>
+                        </div>
+                    </div>
+                </button>
+                <!-- Admin button moved here -->
+                <button *ngIf="profileRole() === 'admin'" [routerLink]="['/admin']"
+                    class="ml-auto flex items-center gap-2 rounded-lg bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all cursor-pointer py-1.5 px-3 text-white font-semibold">
+                    <mat-icon fontIcon="admin_panel_settings" class="!text-base"></mat-icon>
+                    Admin
+                </button>
+            </div>
 
+            <!-- Profile dropdown anchored to footer -->
+            <div *ngIf="profileMenuOpen()"
+                class="absolute right-0 bottom-12 w-56 rounded-xl profile-menu-surface p-3 shadow-lg animate-in fade-in zoom-in text-base-content z-50"
+                style="animation-duration:120ms;">
+                <div class="profile-menu-header mb-2">{{ 'COMMON.ACCOUNT' | translate }}</div>
+                <div *ngIf="profileLoading()" class="text-sm flex items-center gap-2">
+                    <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
+                </div>
+                <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); router.navigateByUrl('/login')"
+                    class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200">{{ 'COMMON.LOGIN' |
+                    translate }}</button>
+                <button *ngIf="isAuthenticated()" (click)="logout($event)"
+                    class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200 flex items-center gap-2 text-error">
+                    <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
+                </button>
+                <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
+                    <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}</div>
+                    <div class="flex gap-2 flex-wrap">
+                        <button class="btn btn-xs" (click)="switchLang('es')">{{ 'COMMON.SPANISH' | translate
+                            }}</button>
+                        <button class="btn btn-xs" (click)="switchLang('en')">{{ 'COMMON.ENGLISH' | translate
+                            }}</button>
+                    </div>
+                </div>
+                <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
+                    <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}</div>
+                    <div class="flex gap-2 flex-wrap">
+                        <button class="btn btn-xs" (click)="setTheme('light')">{{ 'COMMON.THEME_LIGHT' | translate
+                            }}</button>
+                        <button class="btn btn-xs" (click)="setTheme('dark')">{{ 'COMMON.THEME_DARK' | translate
+                            }}</button>
+                        <button class="btn btn-xs" (click)="setTheme('system')">{{ 'COMMON.THEME_SYSTEM' | translate
+                            }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Delete confirmation modal -->
+    <div class="modal modal-open" *ngIf="confirmOpen()" (click)="cancelDelete()" (keydown.escape)="cancelDelete()" (keydown.enter)="cancelDelete()">
+        <div class="modal-box" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+            <h3 class="font-bold text-lg">Eliminar chat</h3>
+            <p class="py-2">¿Seguro que deseas eliminar esta sesión? Esta acción no se puede deshacer.</p>
+            <div class="modal-action">
+                <button class="btn" (click)="cancelDelete()">Cancelar</button>
+                <button class="btn btn-error" (click)="confirmDelete()">Eliminar</button>
+            </div>
+        </div>
     </div>
 </aside>

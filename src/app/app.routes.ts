@@ -66,62 +66,68 @@ export const routes: Routes = [
         loadComponent: () =>
           import('@presentation/pages/risk/risk').then((m) => m.RiskPage),
       },
-      // Admin area (role: admin)
+      // Admin area is no longer under the normal shell
+    ],
+  },
+
+  // Admin area (separate layout), protected by RoleGuard
+  {
+    path: 'admin',
+    canActivate: [RoleGuard],
+    data: { roles: ['admin'] },
+    loadComponent: () =>
+      import('./presentation/layouts/admin-shell/admin-shell').then(
+        (m) => m.AdminShellLayout
+      ),
+    children: [
       {
-        path: 'admin',
-        canActivate: [RoleGuard],
-        data: { roles: ['admin'] },
-        children: [
-          {
-            path: '',
-            loadComponent: () =>
-              import('./presentation/pages/admin/dashboard').then(
-                (m) => m.AdminDashboardPage
-              ),
-          },
-          {
-            path: 'users',
-            loadComponent: () =>
-              import('./presentation/pages/admin/users').then(
-                (m) => m.AdminUsersPage
-              ),
-          },
-          {
-            path: 'files',
-            loadComponent: () =>
-              import('./presentation/pages/admin/files').then(
-                (m) => m.AdminFilesPage
-              ),
-          },
-          {
-            path: 'messages',
-            loadComponent: () =>
-              import('./presentation/pages/admin/messages').then(
-                (m) => m.AdminMessagesPage
-              ),
-          },
-          {
-            path: 'app-info',
-            loadComponent: () =>
-              import('./presentation/pages/admin/app-info').then(
-                (m) => m.AdminAppInfoPage
-              ),
-          },
-          {
-            path: 'risk-weights',
-            loadComponent: () =>
-              import('./presentation/pages/admin/risk-weights').then(
-                (m) => m.AdminRiskWeightsPage
-              ),
-          },
-          {
-            path: 'companies',
-            loadComponent: () =>
-              import('./presentation/pages/admin/companies').then(
-                (m) => m.AdminCompaniesPage
-              ),
-          },
-        ],
+        path: '',
+        loadComponent: () =>
+          import('./presentation/pages/admin/dashboard').then(
+            (m) => m.AdminDashboardPage
+          ),
+      },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('./presentation/pages/admin/users').then(
+            (m) => m.AdminUsersPage
+          ),
+      },
+      {
+        path: 'files',
+        loadComponent: () =>
+          import('./presentation/pages/admin/files').then(
+            (m) => m.AdminFilesPage
+          ),
+      },
+      {
+        path: 'messages',
+        loadComponent: () =>
+          import('./presentation/pages/admin/messages').then(
+            (m) => m.AdminMessagesPage
+          ),
+      },
+      {
+        path: 'app-info',
+        loadComponent: () =>
+          import('./presentation/pages/admin/app-info').then(
+            (m) => m.AdminAppInfoPage
+          ),
+      },
+      {
+        path: 'risk-weights',
+        loadComponent: () =>
+          import('./presentation/pages/admin/risk-weights').then(
+            (m) => m.AdminRiskWeightsPage
+          ),
+      },
+      {
+        path: 'companies',
+        loadComponent: () =>
+          import('./presentation/pages/admin/companies').then(
+            (m) => m.AdminCompaniesPage
+          ),
       },
     ],
   },
