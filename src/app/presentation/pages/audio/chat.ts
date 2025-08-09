@@ -7,7 +7,6 @@ import {
   type AfterViewChecked,
   type OnDestroy,
   type OnInit,
-  input,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -62,7 +61,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly messagesContainer!: ElementRef;
 
   // Configuración
-  readonly agentId = input<string>();
+  // No agent selection required anymore
   private readonly typewriterSpeed = 25;
 
   // Estado reactivo
@@ -77,7 +76,6 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   attachments: File[] = [];
   uploadedFiles: UploadedFileMeta[] = [];
   toolRunning = false;
-  private currentAgentId: string | null = null;
   private streamingSessionId: string | null = null;
   // Audio recording state
   isRecording = false;
@@ -142,9 +140,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
   constructor() {}
   ngOnInit() {
-    // React to either /chat/:agentId/session/:sessionId param or legacy ?session= query param
+    // React to /audio/session/:sessionId or legacy query param
     this.route.paramMap.subscribe((p) => {
-      this.currentAgentId = p.get('agentId');
       const paramSession = p.get('sessionId');
       if (paramSession) {
         this.selectedSessionId = paramSession;
@@ -171,10 +168,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     });
   }
 
-  agentIdValue(): string | null {
-  const fromParam: string | null = this.currentAgentId ?? this.route.snapshot.paramMap.get('agentId');
-    const fromInput: string | undefined = this.agentId();
-    return fromParam ?? fromInput ?? null;
+  agentIdValue(): string {
+    return 'default';
   }
 
   ngAfterViewChecked() {
@@ -183,7 +178,6 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
   loadSessions() {
     const id = this.agentIdValue();
-    if (!id) return;
     this.listSessionsUC.execute(id).subscribe((data: SessionEntry[]) => {
       this.sessions = data || [];
       this.cdr.markForCheck();
@@ -192,7 +186,6 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
   loadSession(sessionId: string | null) {
     const id = this.agentIdValue();
-    if (!id) return;
     this.selectedSessionId = sessionId;
     if (!sessionId) return;
     // Reset current streaming and UI state before loading session
@@ -219,9 +212,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
   sendMessage() {
     const messageContent = (this.msgForm.get('message')?.value ?? '').toString().trim();
-    const id = this.agentIdValue();
     // Require non-empty text message to avoid backend interpreting it as a voice-only request
-    if (!messageContent || this.isSending || !id) {
+  if (!messageContent || this.isSending) {
       this.msgForm.get('message')?.markAsTouched();
       return;
     }
@@ -289,7 +281,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
       file_ids: fileIds,
     };
     this.subscription = this.sendMessageUC
-      .execute(this.agentIdValue() as string, payload)
+      .execute(this.agentIdValue(), payload)
       .subscribe({
         next: (data: StreamResponseModel | InfraStreamResponse) =>
           this.handleStreamData(data as any),
@@ -366,12 +358,11 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
     // If we didn't have a session yet, as soon as the API returns a session_id, reflect it in URL
     const raw: any = data.rawMessage;
-    if (!this.selectedSessionId && raw?.session_id && this.agentIdValue()) {
+    if (!this.selectedSessionId && raw?.session_id) {
       this.selectedSessionId = raw.session_id;
       this.streamingSessionId = raw.session_id;
-  // Actualizamos la URL sin navegar para no abortar el SSE
-  const agent = this.agentIdValue()!;
-  this.location.replaceState(`/chat/${agent}/session/${raw.session_id}`);
+      // Update URL to new format
+      this.location.replaceState(`/audio/session/${raw.session_id}`);
     }
 
     // Auto-reproducir audio del asistente si llegó

@@ -50,4 +50,12 @@ export class FilesPage {
       this.loading = false;
     }
   }
+
+  async copyId(id: string) {
+    try {
+      await navigator.clipboard.writeText(id);
+    } catch {
+      // fallback: nothing
+    }
+  }
 }

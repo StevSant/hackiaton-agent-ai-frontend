@@ -11,6 +11,8 @@ export interface UploadedFileMeta {
   type_file: 'image' | 'pdf' | 'document';
   converted?: boolean;
   original_extension?: string | null;
+  source_extension?: string | null; // backend may return this field name
+  extracted_available?: boolean; // present when metadata extraction exists
 }
 
 export interface ListFilesResponse {

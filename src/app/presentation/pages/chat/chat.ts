@@ -7,7 +7,6 @@ import {
   type AfterViewChecked,
   type OnDestroy,
   type OnInit,
-  input,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -59,7 +58,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly messagesContainer!: ElementRef;
 
   // Configuración
-  readonly agentId = input<string>();
+  // No agent selection required anymore
   private readonly typewriterSpeed = 25;
 
   // Estado reactivo
@@ -73,7 +72,6 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   filesToUpload: File[] = [];
   uploadedFiles: UploadedFileMeta[] = [];
   toolRunning = false;
-  private currentAgentId: string | null = null;
   private streamingSessionId: string | null = null;
 
   // Servicios
@@ -114,9 +112,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   constructor() {}
   ngOnInit() {
-    // React to either /chat/:agentId/session/:sessionId param or legacy ?session= query param
+    // React to either /chat/session/:sessionId or legacy query param
     this.route.paramMap.subscribe((p) => {
-      this.currentAgentId = p.get('agentId');
       const paramSession = p.get('sessionId');
       if (paramSession) {
         this.selectedSessionId = paramSession;
@@ -127,7 +124,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
         this.loadSession(paramSession);
         return;
       }
-      // Fallback to query param for backward compatibility
+  // Fallback to query param for backward compatibility
       this.route.queryParamMap.subscribe((params) => {
         const sessionId = params.get('session');
         this.selectedSessionId = sessionId;
@@ -143,10 +140,9 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     });
   }
 
-  agentIdValue(): string | null {
-  const fromParam: string | null = this.currentAgentId ?? this.route.snapshot.paramMap.get('agentId');
-    const fromInput: string | undefined = this.agentId();
-    return fromParam ?? fromInput ?? null;
+  agentIdValue(): string {
+    // Backend ignores agent; return a constant placeholder
+    return 'default';
   }
 
   ngAfterViewChecked() {
@@ -155,7 +151,6 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   loadSessions() {
     const id = this.agentIdValue();
-    if (!id) return;
     this.listSessionsUC.execute(id).subscribe((data: SessionEntry[]) => {
       this.sessions = data || [];
       this.cdr.markForCheck();
@@ -164,7 +159,6 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   loadSession(sessionId: string | null) {
     const id = this.agentIdValue();
-    if (!id) return;
     this.selectedSessionId = sessionId;
     if (!sessionId) return;
     // Reset current streaming and UI state before loading session
@@ -190,11 +184,10 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   sendMessage() {
-    const messageContent = this.msgForm.get('message')?.value?.trim();
-    const id = this.agentIdValue();
+  const messageContent = this.msgForm.get('message')?.value?.trim();
   const hasAudio = !!this.audioFile;
   const hasFiles = this.filesToUpload.length > 0;
-  if ((!messageContent && !hasAudio && !hasFiles) || this.isSending || !id) {
+  if ((!messageContent && !hasAudio && !hasFiles) || this.isSending) {
       return;
     }
   this.startNewConversation(messageContent || '');
@@ -252,7 +245,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       file_ids: fileIds,
     };
     this.subscription = this.sendMessageUC
-      .execute(this.agentIdValue() as string, payload)
+      .execute(this.agentIdValue(), payload)
       .subscribe({
         next: (data: StreamResponseModel | InfraStreamResponse) =>
           this.handleStreamData(data as any),
@@ -329,12 +322,11 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
     // If we didn't have a session yet, as soon as the API returns a session_id, reflect it in URL
     const raw: any = data.rawMessage;
-    if (!this.selectedSessionId && raw?.session_id && this.agentIdValue()) {
+    if (!this.selectedSessionId && raw?.session_id) {
       this.selectedSessionId = raw.session_id;
       this.streamingSessionId = raw.session_id;
-  // Actualizamos la URL SIN navegar (evita destruir el componente y abortar el SSE)
-  const agent = this.agentIdValue()!;
-  this.location.replaceState(`/chat/${agent}/session/${raw.session_id}`);
+      // Update the URL without reloading component
+      this.location.replaceState(`/chat/session/${raw.session_id}`);
     }
   }
 

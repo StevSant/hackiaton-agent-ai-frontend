@@ -1,4 +1,4 @@
-import { Component, Input, inject, signal, HostListener } from '@angular/core';
+import { Component, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatButtonComponent } from '../chat-button/chat-button';
 import { Router, RouterLink } from '@angular/router';
@@ -23,7 +23,7 @@ import { GetProfileUseCase } from '@core/use-cases/auth/get-profile.usecase';
 export class SidebarComponent {
   readonly siteRoutesConfig = { base: { url: '/' } } as const;
 
-  @Input() agentId: string | null = null;
+  // No agentId required anymore
 
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
@@ -43,9 +43,7 @@ export class SidebarComponent {
   expanded: Record<string, boolean> = {};
   previews: Record<string, Array<{ who: string; text: string }>> = {};
 
-  ngOnChanges() {
-    this.tryLoad();
-  }
+  ngOnChanges() { this.tryLoad(); }
 
   ngOnInit() {
     this.tryLoad();
@@ -53,10 +51,10 @@ export class SidebarComponent {
   }
 
   tryLoad() {
-    if (!this.agentId) return;
     this.isLoading = true;
-    this.listSessionsUC.execute(this.agentId).subscribe({
-  next: (list) => (this.sessions = list || []),
+    // agentId is ignored by backend; pass a placeholder
+    this.listSessionsUC.execute('default').subscribe({
+      next: (list) => (this.sessions = list || []),
       error: () => {},
       complete: () => (this.isLoading = false),
     });
@@ -65,8 +63,8 @@ export class SidebarComponent {
   togglePreview(session: SessionEntry) {
     const id = session.session_id;
     this.expanded[id] = !this.expanded[id];
-    if (this.expanded[id] && !this.previews[id] && this.agentId) {
-      this.getSessionUC.execute(this.agentId, id).subscribe((res) => {
+    if (this.expanded[id] && !this.previews[id]) {
+      this.getSessionUC.execute('default', id).subscribe((res) => {
         const chats: ChatEntry[] = (res as any)?.chats || [];
         const items = chats.slice(-6).flatMap((c) => {
           const arr: Array<{ who: string; text: string }> = [
@@ -83,24 +81,21 @@ export class SidebarComponent {
   }
 
   openSession(session: SessionEntry) {
-    if (!this.agentId) return;
-  this.router.navigate(['/chat', this.agentId, 'session', session.session_id]).then(() => {
+  this.router.navigate(['/chat', 'session', session.session_id]).then(() => {
       // tras navegar, refrescar lista para reflejar títulos/orden si el backend los cambia
       this.tryLoad();
     });
   }
 
   newChat() {
-    if (!this.agentId) return;
-  this.router.navigate(['/chat', this.agentId]).then(() => {
+  this.router.navigate(['/chat']).then(() => {
       this.tryLoad();
     });
   }
 
   deleteSession(session: SessionEntry, event?: Event) {
     event?.stopPropagation();
-    if (!this.agentId) return;
-    this.deleteSessionUC.execute(this.agentId, session.session_id).subscribe({
+  this.deleteSessionUC.execute('default', session.session_id).subscribe({
       next: () => {
         // quitar de la lista sin esperar a otra llamada
         this.sessions = this.sessions.filter(s => s.session_id !== session.session_id);

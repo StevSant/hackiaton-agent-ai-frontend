@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-header-chat',
@@ -6,6 +6,5 @@ import { Component, input } from '@angular/core';
   templateUrl: './header-chat.html'
 })
 export class HeaderChat {
-  agentId = input<string>();
-  
+  // Agent header without specific agent id
 }

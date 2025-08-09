@@ -3,19 +3,19 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 export const serverRoutes: ServerRoute[] = [
   // Dynamic chat route should render on client only to avoid prerender params
   {
-    path: 'chat/:agentId',
+  path: 'chat',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'chat/:agentId/session/:sessionId',
+  path: 'chat/session/:sessionId',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'audio/:agentId',
+  path: 'audio',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'audio/:agentId/session/:sessionId',
+  path: 'audio/session/:sessionId',
     renderMode: RenderMode.Client,
   },
   {

@@ -3,7 +3,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideMarkdown(),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes),
+  provideRouter(routes, withViewTransitions()),
     provideClientHydration(withEventReplay()),
   provideHttpClient(withFetch(), withInterceptors([ authInterceptorFn ])),
   { provide: CHAT_STREAM_PORT, useExisting: SseService },
