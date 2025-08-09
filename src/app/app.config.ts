@@ -13,12 +13,14 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 import { provideMarkdown } from 'ngx-markdown';
-import { CHAT_STREAM_PORT, SESSIONS_PORT, AUTH_PORT, APP_INFO_PORT } from '@core/tokens';
+import { CHAT_STREAM_PORT, SESSIONS_PORT, AUTH_PORT, APP_INFO_PORT, FILES_PORT, STT_PORT } from '@core/tokens';
 import { SseService } from '@infrastructure/services/sse-service';
 import { SessionsService } from '@infrastructure/services/sessions.service';
 import { AuthService } from '@infrastructure/services/auth.service';
 import { authInterceptorFn } from '@infrastructure/interceptors/auth.interceptor';
 import { AppInfoService } from '@infrastructure/services/app-info.service';
+import { FilesService } from '@infrastructure/services/files.service';
+import { SttService } from '@infrastructure/services/stt.service';
 import { TranslateLoader, TranslateModule, type TranslationObject } from '@ngx-translate/core';
 
 class AppTranslateLoader implements TranslateLoader {
@@ -54,5 +56,7 @@ export const appConfig: ApplicationConfig = {
     { provide: SESSIONS_PORT, useExisting: SessionsService },
     { provide: AUTH_PORT, useExisting: AuthService },
     { provide: APP_INFO_PORT, useExisting: AppInfoService },
+  { provide: FILES_PORT, useExisting: FilesService },
+  { provide: STT_PORT, useExisting: SttService },
   ],
 };

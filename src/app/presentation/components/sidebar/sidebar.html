@@ -7,104 +7,134 @@
                     <mat-icon>home</mat-icon>
                     {{ 'COMMON.HOME' | translate }}
                 </button>
-                <button class="flex items-center gap-1 text-xs opacity-70 hover:opacity-100" (click)="tryLoad()" [disabled]="isLoading">
+                <button class="flex items-center gap-1 text-xs opacity-70 hover:opacity-100" (click)="tryLoad()"
+                    [disabled]="isLoading">
                     <mat-icon fontIcon="refresh"></mat-icon>{{ 'COMMON.REFRESH' | translate }}
                 </button>
             </div>
             <!-- Profile icon / menu -->
             <div class="relative" (click)="$event.stopPropagation()" (keydown.escape)="profileMenuOpen.set(false)">
-                <button class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-inner shadow-black/30 hover:scale-105 transition" (click)="toggleProfileMenu($event)" title="Cuenta">
-                    <ng-container *ngIf="profileEmail(); else userIcon">
+                <button
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-inner shadow-black/30 hover:scale-105 transition"
+                    (click)="toggleProfileMenu($event)" title="Cuenta">
+                    @if (profileEmail()) {
                         {{ profileEmail()!.charAt(0).toUpperCase() }}
-                    </ng-container>
-                    <ng-template #userIcon>
+                    } @else {
                         <mat-icon fontIcon="person"></mat-icon>
-                    </ng-template>
+                    }
                 </button>
-                                <div *ngIf="profileMenuOpen()" class="absolute right-0 mt-2 w-56 rounded-xl border border-white/10 bg-white/5 backdrop-blur p-3 shadow-lg animate-in fade-in zoom-in" style="animation-duration:120ms;">
-                                        <div class="text-xs uppercase tracking-wide opacity-60 mb-2">{{ 'COMMON.ACCOUNT' | translate }}</div>
-                                        <div *ngIf="profileLoading()" class="text-sm flex items-center gap-2">
-                                                <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
-                                        </div>
-                    <div *ngIf="!profileLoading() && profileEmail()" class="flex items-center gap-2 mb-3">
-                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
+                @if (profileMenuOpen()) {
+                    class="absolute right-0 mt-2 w-56 rounded-xl border border-white/10 bg-white/5 backdrop-blur p-3 shadow-lg animate-in fade-in zoom-in"
+                    style="animation-duration:120ms;">
+                    <div class="text-xs uppercase tracking-wide opacity-60 mb-2">{{ 'COMMON.ACCOUNT' | translate }}
+                    </div>
+                    @if (profileLoading()) {
+                        <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
+                    }
+                    @if (!profileLoading() && profileEmail()) {
+                    <div class="flex items-center gap-2 mb-3">
+                        <div
+                            class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
                             {{ profileEmail()!.charAt(0).toUpperCase() }}
                         </div>
                         <div class="text-xs break-all leading-tight">
                             <div class="font-medium text-white/90">{{ profileEmail() }}</div>
                         </div>
                     </div>
-                                        <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); router.navigateByUrl('/login')" class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10">{{ 'COMMON.LOGIN' | translate }}</button>
-                                        <button *ngIf="isAuthenticated()" (click)="logout($event)" class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10 flex items-center gap-2 text-red-300">
-                                                <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
-                                        </button>
-                                        <div class="mt-2 pt-2 border-t border-white/10">
-                                            <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}</div>
-                                            <div class="flex gap-2">
-                                                <button class="btn btn-xs" (click)="switchLang('es')">{{ 'COMMON.SPANISH' | translate }}</button>
-                                                <button class="btn btn-xs" (click)="switchLang('en')">{{ 'COMMON.ENGLISH' | translate }}</button>
-                                            </div>
-                                        </div>
-                                                                                <div class="mt-2 pt-2 border-t border-white/10">
-                                                                                    <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}</div>
-                                                                                    <div class="flex gap-2">
-                                                                                        <button class="btn btn-xs" (click)="setTheme('light')">{{ 'COMMON.THEME_LIGHT' | translate }}</button>
-                                                                                        <button class="btn btn-xs" (click)="setTheme('dark')">{{ 'COMMON.THEME_DARK' | translate }}</button>
-                                                                                        <button class="btn btn-xs" (click)="setTheme('system')">{{ 'COMMON.THEME_SYSTEM' | translate }}</button>
-                                                                                    </div>
-                                                                                </div>
-                </div>
+                    }
+                    @if (!isAuthenticated()) {
+                    <button (click)="toggleProfileMenu(); router.navigateByUrl('/login')"
+                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10">{{ 'COMMON.LOGIN' |
+                        translate }}</button>
+                    }
+                    @if (isAuthenticated()) {
+                    <button (click)="logout($event)"
+                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10 flex items-center gap-2 text-red-300">
+                        <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
+                    </button>
+                    }
+                    <div class="mt-2 pt-2 border-t border-white/10">
+                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="btn btn-xs" (click)="switchLang('es')">{{ 'COMMON.SPANISH' | translate
+                                }}</button>
+                            <button class="btn btn-xs" (click)="switchLang('en')">{{ 'COMMON.ENGLISH' | translate
+                                }}</button>
+                        </div>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-white/10">
+                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="btn btn-xs" (click)="setTheme('light')">{{ 'COMMON.THEME_LIGHT' | translate
+                                }}</button>
+                            <button class="btn btn-xs" (click)="setTheme('dark')">{{ 'COMMON.THEME_DARK' | translate
+                                }}</button>
+                            <button class="btn btn-xs" (click)="setTheme('system')">{{ 'COMMON.THEME_SYSTEM' | translate
+                                }}</button>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
 
-    <button class="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all cursor-pointer py-2 px-4 text-white font-semibold" (click)="newChat()">
+        <button
+            class="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all cursor-pointer py-2 px-4 text-white font-semibold"
+            (click)="newChat()">
             <mat-icon>edit_square</mat-icon> {{ 'COMMON.NEW_CHAT' | translate }}
         </button>
 
         <div class="flex-1 overflow-y-auto">
             <div class="text-sm opacity-70 px-2 mb-2">{{ 'COMMON.HISTORY' | translate }}</div>
             <ng-container>
-                <div *ngIf="isLoading" class="px-2 py-2 text-xs text-info flex items-center gap-2">
+                @if (isLoading) {
+                <div class="px-2 py-2 text-xs text-info flex items-center gap-2">
                     <span class="loading loading-dots loading-xs"></span>
                     {{ 'COMMON.LOADING' | translate }}
                 </div>
-                <div *ngIf="!isLoading && sessions.length === 0" class="px-2 py-2 text-xs opacity-60">{{ 'COMMON.NO_SESSIONS' | translate }}</div>
+                }
+                @if (!isLoading && sessions.length === 0) {
+                <div class="px-2 py-2 text-xs opacity-60">{{ 'COMMON.NO_SESSIONS' | translate }}</div>
+                }
                 <ul class="space-y-2">
-                    <li *ngFor="let s of sessions" class="group border border-white/10 rounded-md hover:bg-white/5">
+                    @for (s of sessions; track s.session_id) {
+                    <li class="group border border-white/10 rounded-md hover:bg-white/5">
                         <div class="flex items-center justify-between px-2 py-2 gap-2">
                             <button class="text-left flex-1 truncate" (click)="openSession(s)">
-                                <div class="text-sm font-medium truncate">{{ s.title || ('Sesión ' + s.session_id.slice(0,6)) }}</div>
+                                <div class="text-sm font-medium truncate">{{ s.title || ('Sesión ' +
+                                    s.session_id.slice(0,6)) }}</div>
                                 <div class="text-xs opacity-60 truncate">{{ s.session_id }}</div>
                             </button>
                             <div class="flex items-center gap-1">
-                                <button class="btn btn-ghost btn-xs" (click)="togglePreview(s)" [title]="('COMMON.VIEW_MESSAGES' | translate)">
-                                    <mat-icon fontIcon="expand_more" [ngClass]="{'rotate-180': expanded[s.session_id]}" class="transition-transform"></mat-icon>
+                                <button class="btn btn-ghost btn-xs" (click)="togglePreview(s)"
+                                    [title]="('COMMON.VIEW_MESSAGES' | translate)">
+                                    <mat-icon fontIcon="expand_more" [ngClass]="{'rotate-180': expanded[s.session_id]}"
+                                        class="transition-transform"></mat-icon>
                                 </button>
-                                <button class="btn btn-ghost btn-xs text-error" (click)="deleteSession(s, $event)" [title]="('COMMON.DELETE' | translate)">
+                                <button class="btn btn-ghost btn-xs text-error" (click)="deleteSession(s, $event)"
+                                    [title]="('COMMON.DELETE' | translate)">
                                     <mat-icon fontIcon="delete"></mat-icon>
                                 </button>
                             </div>
                         </div>
-                        <div *ngIf="expanded[s.session_id]" class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
-                            <div *ngIf="!previews[s.session_id]" class="text-xs opacity-60">{{ 'COMMON.LOADING' | translate }}</div>
-                            <div *ngFor="let m of previews[s.session_id]" class="text-xs opacity-80 truncate">• {{ m.who }}: {{ m.text }}</div>
+                        @if (expanded[s.session_id]) {
+                        <div class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
+                            @if (!previews[s.session_id]) {
+                            <div class="text-xs opacity-60">{{ 'COMMON.LOADING' | translate }}</div>
+                            }
+                            @for (m of previews[s.session_id]; track m) {
+                            <div class="text-xs opacity-80 truncate">• {{ m.who }}: {{ m.text }}</div>
+                            }
                         </div>
+                        }
                     </li>
+                    }
                 </ul>
             </ng-container>
-            
+
         </div>
 
-    <div class="border-t border-blue-800/50 pt-2">
-            <app-chat-button [text]="'COMMON.CLEAR_CONVERSATIONS' | translate"
-                icon="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M10 3h4a1 1 0 011 1v1H9V4a1 1 0 011-1z">
-            </app-chat-button>
-            <app-chat-button [text]="'COMMON.LIGHT_MODE' | translate"
-                icon="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m15.36-6.36l-.7.7M6.34 17.66l-.7.7m12.02 0l-.7-.7M6.34 6.34l-.7-.7M12 5a7 7 0 100 14 7 7 0 000-14z">
-            </app-chat-button>
-            <app-chat-button [text]="'COMMON.MY_ACCOUNT' | translate"
-                icon="M5.121 17.804A9.004 9.004 0 0112 15c2.216 0 4.244.806 5.879 2.137M15 11a3 3 0 11-6 0 3 3 0 016 0z">
-            </app-chat-button>
-        </div>
+
     </div>
 </aside>

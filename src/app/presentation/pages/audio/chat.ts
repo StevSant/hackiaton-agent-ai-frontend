@@ -39,9 +39,10 @@ import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
 import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
-import { SttService } from '@infrastructure/services/stt.service';
+import { TranscribeBlobUseCase } from '@core/use-cases/stt/transcribe-blob.usecase';
 import { VoiceService } from '@infrastructure/services/voice.service';
 import { VoskSttService } from '@infrastructure/services/vosk-stt.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-audio-chat',
@@ -51,6 +52,7 @@ import { VoskSttService } from '@infrastructure/services/vosk-stt.service';
     FormsModule,
     CommonModule,
   MarkdownModule,
+  MatIconModule,
   ],
   providers: [],
   templateUrl: './chat.html',
@@ -115,7 +117,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly messageManager = inject(MessageManagerService);
   private readonly filesService = inject(FilesService);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
-  private readonly stt = inject(SttService);
+  private readonly transcribeBlobUC = new TranscribeBlobUseCase();
   private readonly voice = inject(VoiceService);
   private readonly vosk = inject(VoskSttService);
   private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
@@ -492,7 +494,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
           const current = (this.msgForm.get('message')?.value || '').toString().trim();
           if (!current && this.audioFile) {
             try {
-              const transcript = await this.stt.transcribeBlob(blob);
+              const transcript = await this.transcribeBlobUC.execute(blob);
               if (transcript) {
                 this.msgForm.get('message')?.setValue(transcript);
                 this.cdr.detectChanges();

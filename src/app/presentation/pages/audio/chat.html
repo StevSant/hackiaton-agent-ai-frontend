@@ -12,7 +12,7 @@
             Chat con Agente
           </span>
         </h3>
-  <p class="text-sm opacity-70 mt-1"><span *ngIf="selectedSessionId">Sesión: {{ selectedSessionId }}</span></p>
+  <p class="text-sm opacity-70 mt-1">@if (selectedSessionId) { <span>Sesión: {{ selectedSessionId }}</span> }</p>
       </div>
 
       <!-- Estado de conexión mejorado -->
@@ -213,8 +213,8 @@
     <div class="bg-base-100 rounded-xl shadow-sm p-4">
       <div class="w-full flex items-center justify-center gap-4 mb-4">
         <button type="button" class="btn btn-circle btn-lg" [class.btn-error]="isRecording" [class.btn-primary]="!isRecording" (click)="toggleRecording()">
-          <span *ngIf="!isRecording">🎤</span>
-          <span *ngIf="isRecording">⏹️</span>
+          @if (!isRecording) { <mat-icon fontIcon="mic"></mat-icon> }
+          @if (isRecording) { <mat-icon fontIcon="stop"></mat-icon> }
         </button>
         <div class="text-sm opacity-70">
           {{ isRecording ? 'Grabando... toca para detener' : 'Toca para grabar un mensaje de voz' }}
@@ -223,15 +223,15 @@
           <div class="badge badge-outline">Transcribiendo…</div>
         }
       </div>
-      @if (!supportsSpeechRecognition) {
+  @if (!supportsSpeechRecognition) {
         <div class="alert alert-warning text-sm mb-2">
           Tu navegador no soporta reconocimiento de voz (Web Speech API). Escribe tu mensaje o adjunta audio.
         </div>
       }
-      @if (sttError) {
+  @if (sttError) {
         <div class="text-error text-sm mb-2">{{ sttError }}</div>
       }
-      <div *ngIf="micError" class="text-error text-sm mt-2 text-center">{{ micError }}</div>
+  @if (micError) { <div class="text-error text-sm mt-2 text-center">{{ micError }}</div> }
 
   <form [formGroup]="msgForm" (submit)="sendMessage()" class="w-full">
         <div class="flex items-end gap-3">
@@ -242,11 +242,9 @@
               formControlName="message" (keydown)="handleKeyDown($event)"></textarea>
 
             <!-- Mensajes de error -->
-            @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {
-            <div class="text-error text-sm mt-1">
+            @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {<div class="text-error text-sm mt-1">
               Por favor, escribe un mensaje o adjunta un archivo/audio.
-            </div>
-            }
+            </div>}
           </div>
 
           <!-- Botón de envío -->

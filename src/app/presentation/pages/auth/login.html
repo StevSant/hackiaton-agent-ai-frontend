@@ -17,7 +17,7 @@
             <label for="email" class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase">Email</label>
             <input id="email" type="email" formControlName="email"
               class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition placeholder:text-[hsl(var(--muted-foreground)/0.7)]" placeholder="tucorreo@empresa.com" />
-            <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-xs text-[hsl(var(--destructive))]">Email inválido</div>
+            @if (form.get('email')?.invalid && form.get('email')?.touched) {<div class="text-xs text-[hsl(var(--destructive))]">Email inválido</div>}
           </div>
 
           <!-- Password -->
@@ -28,20 +28,21 @@
             </div>
             <input id="password" type="password" formControlName="password"
               class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition" placeholder="••••••" />
-            <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="text-xs text-[hsl(var(--destructive))]">Mínimo 6 caracteres</div>
+            @if (form.get('password')?.invalid && form.get('password')?.touched) {<div class="text-xs text-[hsl(var(--destructive))]">Mínimo 6 caracteres</div>}
           </div>
 
           <!-- Error -->
-          <div *ngIf="error" class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2">
+          @if (error) {<div class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2">
             <span class="inline-block h-2 w-2 rounded-full bg-[hsl(var(--destructive))]"></span>{{ error }}
-          </div>
+          </div>}
 
           <!-- Submit -->
           <button type="submit" [disabled]="form.invalid || submitting"
             class="relative w-full inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-medium text-sm text-white transition focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[hsl(var(--brand-primary))] to-[hsl(var(--accent))] shadow-lg shadow-[hsl(var(--brand-primary)/0.35)] hover:shadow-[0_0_32px_hsl(var(--brand-primary)/0.45)]">
-            <span *ngIf="!submitting">Entrar</span>
-            <span *ngIf="submitting" class="flex items-center gap-2"><span
+            @if (!submitting) {<span>Entrar</span>}
+            @if (submitting) {<span class="flex items-center gap-2"><span
                 class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>Procesando…</span>
+            }
           </button>
         </form>
 

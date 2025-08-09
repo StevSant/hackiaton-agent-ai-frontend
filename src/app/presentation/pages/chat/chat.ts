@@ -39,8 +39,10 @@ import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
 import { TranslateModule } from '@ngx-translate/core';
-import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
+import type { UploadedFileMeta } from '@core/ports/files.port';
+import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chat',
@@ -51,6 +53,7 @@ import { SessionsEventsService } from '@infrastructure/services/sessions-events.
   CommonModule,
   MarkdownModule,
   TranslateModule,
+  MatIconModule,
   ],
   providers: [],
   templateUrl: './chat.html',
@@ -91,7 +94,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly typewriter = inject(TypewriterService);
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
-  private readonly filesService = inject(FilesService);
+  private readonly uploadFileUC = new UploadFileUseCase();
   private readonly sessionsEvents = inject(SessionsEventsService);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
   private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
@@ -225,7 +228,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       try {
         const uploaded: UploadedFileMeta[] = [];
         for (const f of this.filesToUpload) {
-          const meta = await this.filesService.upload(f);
+          const meta = await this.uploadFileUC.execute(f);
           uploaded.push(meta);
         }
         this.uploadedFiles = uploaded;

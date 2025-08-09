@@ -1,6 +1,5 @@
 import { Component, inject, signal, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChatButtonComponent } from '../chat-button/chat-button';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import type { SessionEntry, ChatEntry } from '@core/models/playground-models';
@@ -20,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, ChatButtonComponent, RouterLink, MatIconModule, TranslateModule],
+  imports: [CommonModule, RouterLink, MatIconModule, TranslateModule],
   templateUrl: './sidebar.html'
 })
 

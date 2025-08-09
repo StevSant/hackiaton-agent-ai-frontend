@@ -12,7 +12,8 @@
             {{ 'CHAT.TITLE' | translate }}
           </span>
         </h3>
-  <p class="text-sm opacity-70 mt-1"><span *ngIf="selectedSessionId">{{ 'CHAT.SESSION' | translate }}: {{ selectedSessionId }}</span></p>
+    <p class="text-sm opacity-70 mt-1">@if (selectedSessionId) {<span>{{ 'CHAT.SESSION' | translate }}: {{
+      selectedSessionId }}</span>}</p>
       </div>
 
       <!-- Estado de conexión mejorado -->
@@ -46,7 +47,7 @@
         <!-- Estado vacío mejorado -->
         @if (messages.length === 0 && !isSending) {
         <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
-            <div class="text-6xl mb-4">💬</div>
+          <div class="text-6xl mb-4">💬</div>
           <h4 class="text-xl font-semibold mb-2">{{ 'CHAT.EMPTY.TITLE' | translate }}</h4>
           <p class="text-base-content/70 max-w-md">{{ 'CHAT.EMPTY.SUBTITLE' | translate }}</p>
         </div>
@@ -155,9 +156,9 @@
             @if (message.response_audio?.transcript) {
             <div class="mt-2 text-xs opacity-80">Transcripción: {{ message.response_audio?.transcript }}</div>
             }
-            @if (message.isStreaming && message.displayedContent.length < message.content.length) {
-              <span class="inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70"></span>
-            }
+            @if (message.isStreaming && message.displayedContent.length < message.content.length) { <span
+              class="inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70"></span>
+              }
           </div>
         </div>
         }
@@ -186,7 +187,8 @@
       <!-- Loader sutil cuando se ejecutan herramientas -->
       @if (toolRunning) {
       <div class="flex justify-center items-center py-2">
-        <div class="loading loading-dots loading-sm text-info" [attr.aria-label]="'CHAT.RUNNING_TOOLS' | translate"></div>
+        <div class="loading loading-dots loading-sm text-info" [attr.aria-label]="'CHAT.RUNNING_TOOLS' | translate">
+        </div>
         <span class="text-xs ml-2 text-info/80">{{ 'CHAT.RUNNING_TOOLS' | translate }}</span>
       </div>
       }
@@ -199,8 +201,8 @@
           <!-- Input de mensaje -->
           <div class="flex-1">
             <textarea class="textarea textarea-bordered w-full resize-none min-h-[60px] max-h-[120px]"
-              [placeholder]="('CHAT.PLACEHOLDER' | translate)" rows="2"
-              formControlName="message" (keydown)="handleKeyDown($event)"></textarea>
+              [placeholder]="('CHAT.PLACEHOLDER' | translate)" rows="2" formControlName="message"
+              (keydown)="handleKeyDown($event)"></textarea>
 
             <!-- Mensajes de error -->
             @if (msgForm.get('message')?.invalid &&
@@ -214,29 +216,27 @@
             <button type="submit" class="btn btn-primary" [disabled]="isSending || !msgForm.valid"
               [class.loading]="isSending">
               @if (!isSending) {
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-              </svg>
+              <mat-icon fontIcon="send"></mat-icon>
               }
               {{ isSending ? ('CHAT.SENDING_BTN' | translate) : ('CHAT.SEND' | translate) }}
             </button>
 
             <!-- Botón de cancelar (solo visible cuando está enviando) -->
             @if (isSending) {
-            <button type="button" class="btn btn-outline btn-sm" (click)="cancelSending()">{{ 'CHAT.CANCEL' | translate }}</button>
+            <button type="button" class="btn btn-outline btn-sm" (click)="cancelSending()">{{ 'CHAT.CANCEL' | translate
+              }}</button>
             }
           </div>
         </div>
 
         <!-- Información adicional -->
         <div class="flex justify-between items-center mt-2 gap-2">
-      <div class="text-xs opacity-60">{{ 'CHAT.HINT' | translate }}</div>
+          <div class="text-xs opacity-60">{{ 'CHAT.HINT' | translate }}</div>
           <div class="flex items-center gap-3">
             <input type="file" multiple class="file-input file-input-bordered file-input-sm"
               (change)="onFilesSelected($event)" />
             @if (filesToUpload.length) {
-        <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesToUpload.length } }}</div>
+            <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesToUpload.length } }}</div>
             }
             <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
           </div>

@@ -5,15 +5,19 @@
     <div class="flex gap-2">
       <button class="btn btn-primary" (click)="analyzeText()" [disabled]="loading || !inputText.trim()">Analizar</button>
     </div>
-    <pre *ngIf="resultText" class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultText | json }}</pre>
+  @if (resultText) {
+  <pre class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultText | json }}</pre>
+  }
   </section>
 
   <section class="space-y-2">
     <h2 class="text-xl font-semibold">Análisis de PDF</h2>
-    <input type="file" accept="application/pdf" class="file-input file-input-bordered" (change)="analyzePdf($event)" />
-    <pre *ngIf="resultPdf" class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultPdf | json }}</pre>
+  <input type="file" accept="application/pdf" class="file-input file-input-bordered" (change)="analyzePdf($event)" />
+  @if (resultPdf) {
+  <pre class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultPdf | json }}</pre>
+  }
   </section>
 
-  <div *ngIf="loading" class="text-sm opacity-70">Procesando...</div>
-  <div *ngIf="error" class="text-sm text-error">{{ error }}</div>
+  @if (loading) { <div class="text-sm opacity-70">Procesando...</div> }
+  @if (error) { <div class="text-sm text-error">{{ error }}</div> }
 </div>

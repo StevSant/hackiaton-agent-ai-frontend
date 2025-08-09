@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
+import type { UploadedFileMeta } from '@core/ports/files.port';
+import { ListFilesUseCase } from '@core/use-cases/files/list-files.usecase';
+import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
 
 @Component({
   standalone: true,
@@ -11,7 +13,8 @@ import { FilesService, type UploadedFileMeta } from '@infrastructure/services/fi
   imports: [CommonModule, FormsModule],
 })
 export class FilesPage {
-  private readonly files = inject(FilesService);
+  private readonly listFilesUC = new ListFilesUseCase();
+  private readonly uploadFileUC = new UploadFileUseCase();
   items: UploadedFileMeta[] = [];
   loading = false;
   error: string | null = null;
@@ -25,7 +28,7 @@ export class FilesPage {
     this.loading = true;
     this.error = null;
     try {
-      const res = await this.files.list({ type_file: this.type || undefined, limit: 20, offset: 0 });
+  const res = await this.listFilesUC.execute({ type_file: this.type || undefined, limit: 20, offset: 0 });
       this.items = res.items || [];
     } catch (e: any) {
       this.error = e?.message || 'Error cargando archivos';
@@ -35,12 +38,14 @@ export class FilesPage {
   }
 
   async onUpload(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files || !input.files.length) return;
+  const input = event.target as HTMLInputElement;
+  if (!input.files?.length) {
+    return;
+  }
     this.loading = true;
     try {
       for (const f of Array.from(input.files)) {
-        await this.files.upload(f);
+  await this.uploadFileUC.execute(f);
       }
       await this.load();
       input.value = '';
