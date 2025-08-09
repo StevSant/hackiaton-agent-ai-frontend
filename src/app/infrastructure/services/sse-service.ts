@@ -182,7 +182,7 @@ export class SseService {
                 isError: false,
                 rawMessage: msg,
               });
-              observer.complete();
+              // Let the outer reader loop finish naturally; don't double-complete
               return;
             }
 
@@ -247,12 +247,16 @@ export class SseService {
           observer.complete();
         })
         .catch((err) => {
+          // Swallow aborts as user-initiated cancels
+          if (err && (err.name === 'AbortError' || String(err).includes('aborted'))) {
+            return;
+          }
           console.error('SSE Error:', err);
           observer.error(err);
         });
 
       return () => {
-        controller.abort();
+        try { controller.abort(); } catch {}
       };
     });
   }

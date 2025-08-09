@@ -160,9 +160,9 @@
             @if (message.response_audio?.transcript) {
             <div class="mt-2 text-xs opacity-80">Transcripción: {{ message.response_audio?.transcript }}</div>
             }
-            @if (message.isStreaming && message.displayedContent.length < message.content.length) { <span
-              class="inline-block w-2 h-4 bg-current animate-pulse ml-1"></span>
-              }
+            @if (message.isStreaming && message.displayedContent.length < message.content.length) {
+              <span class="inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70"></span>
+            }
           </div>
         </div>
         }
