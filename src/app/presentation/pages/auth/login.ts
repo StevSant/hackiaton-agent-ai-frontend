@@ -36,7 +36,7 @@ export class LoginPage {
         email: this.form.value.email!,
         password: this.form.value.password!,
       });
-      this.token.setToken(res.token);
+      this.token.setToken(res.token.access_token);
       this.router.navigateByUrl('/');
     } catch (e: any) {
       this.error = e?.error?.message || e?.message || 'Login failed';

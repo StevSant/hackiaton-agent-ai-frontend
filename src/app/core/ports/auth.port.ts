@@ -1,7 +1,7 @@
-import type { AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '../models/auth';
+import type { LoginRequest, RegisterRequest, UserProfile, LoginSuccessResponse, RegisterSuccessResponse } from '../models/auth';
 
 export interface AuthPort {
-  login(payload: LoginRequest): Promise<AuthResponse>;
-  register(payload: RegisterRequest): Promise<AuthResponse>;
+  login(payload: LoginRequest): Promise<LoginSuccessResponse>;
+  register(payload: RegisterRequest): Promise<RegisterSuccessResponse>;
   getProfile(token: string): Promise<UserProfile>;
 }
