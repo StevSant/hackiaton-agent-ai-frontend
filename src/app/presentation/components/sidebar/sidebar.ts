@@ -77,7 +77,11 @@ export class SidebarComponent {
         this.sessions = list || [];
         this.cdr.markForCheck();
       },
-      error: () => { /* silent */ },
+      error: () => {
+        // ensure loading state is cleared so future refresh triggers work
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
       complete: () => setTimeout(() => { this.isLoading = false; this.cdr.markForCheck(); }),
     });
   }

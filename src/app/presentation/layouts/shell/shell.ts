@@ -1,8 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { MatIconModule } from '@angular/material/icon';
+import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
 
 @Component({
   selector: 'app-shell',
@@ -15,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class ShellLayout implements OnInit {
   // Mobile sidebar state
   isSidebarOpen = false;
+  private readonly sessionsEvents = inject(SessionsEventsService);
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
@@ -30,5 +32,7 @@ export class ShellLayout implements OnInit {
       const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches;
       this.isSidebarOpen = !!isDesktop;
     } catch {}
+  // Ensure sessions list tries to load at app start (helps after F5 on deep links)
+  queueMicrotask(() => this.sessionsEvents.triggerRefresh());
   }
 }

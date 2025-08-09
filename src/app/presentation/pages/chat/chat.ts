@@ -77,6 +77,18 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   // UI: show floating scroll-to-bottom button when user is far from bottom
   showScrollToBottom = false;
 
+  // TTS state
+  tts = {
+    currentUtterance: null as SpeechSynthesisUtterance | null,
+    currentMessageId: null as string | null,
+    isSpeaking: false,
+    isPaused: false,
+    volume: 0.9,
+    rate: 0.9,
+    pitch: 1,
+    lang: 'es-ES',
+  };
+
   // Servicios
   private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -118,29 +130,51 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   // Helper to defer change-producing actions to next microtask
   private defer(fn: () => void) { queueMicrotask(fn); }
   ngOnInit() {
+    // Carga inmediata basada en snapshot para refrescos directos
+    const snapSession = this.route.snapshot.paramMap.get('sessionId')
+      || this.route.snapshot.queryParamMap.get('session');
+    if (snapSession) {
+      this.selectedSessionId = snapSession;
+      this.cdr.markForCheck();
+      // Cargar inmediatamente sin defer para F5
+      this.loadSession(snapSession);
+    }
+    // Emitir refresh para que el sidebar cargue sesiones tras F5
+    this.defer(() => this.sessionsEvents.triggerRefresh());
+
     // React to either /chat/session/:sessionId or legacy query param
     this.route.paramMap.subscribe((p) => {
       const paramSession = p.get('sessionId');
       if (paramSession) {
-        this.defer(() => { this.selectedSessionId = paramSession; this.cdr.markForCheck(); });
-        // Si estamos en medio de un stream y este sessionId acaba de ser creado, no cargamos aún para no abortar SSE
-        if (this.isSending && this.streamingSessionId === paramSession) {
-          return;
+        // Solo actualizar si es diferente al actual
+        if (this.selectedSessionId !== paramSession) {
+          this.selectedSessionId = paramSession;
+          this.cdr.markForCheck();
+          // Si estamos en medio de un stream y este sessionId acaba de ser creado, no cargamos aún para no abortar SSE
+          if (this.isSending && this.streamingSessionId === paramSession) {
+            return;
+          }
+          this.loadSession(paramSession);
+          this.defer(() => this.sessionsEvents.triggerRefresh());
         }
-        this.defer(() => this.loadSession(paramSession));
         return;
       }
-  // Fallback to query param for backward compatibility
+      // Fallback to query param for backward compatibility
       this.route.queryParamMap.subscribe((params) => {
         const sessionId = params.get('session');
-        this.defer(() => { this.selectedSessionId = sessionId; this.cdr.markForCheck(); });
-        if (sessionId) {
-          this.defer(() => this.loadSession(sessionId));
-        } else {
-          // new chat view: clear current messages if coming from a session
-          this.messageManager.clearMessages(this.messages);
-          this.currentMessage = null;
-          this.defer(() => this.cdr.detectChanges());
+        if (this.selectedSessionId !== sessionId) {
+          this.selectedSessionId = sessionId;
+          this.cdr.markForCheck();
+          if (sessionId) {
+            this.loadSession(sessionId);
+            this.defer(() => this.sessionsEvents.triggerRefresh());
+          } else {
+            // new chat view: clear current messages if coming from a session
+            this.messageManager.clearMessages(this.messages);
+            this.currentMessage = null;
+            this.cdr.detectChanges();
+            this.defer(() => this.sessionsEvents.triggerRefresh());
+          }
         }
       });
     });
@@ -184,10 +218,13 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     });
   }
 
-  loadSession(sessionId: string | null) {
+  loadSession(sessionId: string | null, attempt: number = 0) {
     const id = this.agentIdValue();
-  this.selectedSessionId = sessionId;
+    this.selectedSessionId = sessionId;
     if (!sessionId) return;
+    
+    console.log(`🔄 Cargando sesión: ${sessionId} (intento ${attempt + 1})`);
+    
     // Reset current streaming and UI state before loading session
     this.cleanup();
     this.isSending = false;
@@ -197,15 +234,46 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
     this.getSessionUC.execute(id, sessionId).subscribe({
       next: (data) => {
+        console.log(`✅ Sesión cargada exitosamente: ${sessionId}`, data);
         const d: any = data as any;
         const chats = d?.chats ?? d?.session?.chats ?? (Array.isArray(d) ? d : []);
-  this.messages = adaptChatEntriesToMessages(chats);
-  this.defer(() => this.cdr.detectChanges());
-        this.scrollManager.scheduleScrollToBottom();
+        this.messages = adaptChatEntriesToMessages(chats);
+        
+        console.log(`📝 Mensajes cargados: ${this.messages.length}`);
+        
+        // Forzar múltiples ciclos de detección para asegurar renderizado
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
+        
+        // Programar scroll después del renderizado
+        setTimeout(() => {
+          this.scrollManager.scheduleScrollToBottom();
+          this.cdr.detectChanges();
+        }, 100);
+        
+        // Una detección adicional para casos edge
+        this.defer(() => {
+          this.cdr.detectChanges();
+          this.scrollManager.scheduleScrollToBottom();
+        });
       },
       error: (err) => {
-        // Manejar 404 sin romper la vista; puede que la sesión aún no esté persistida
-        console.warn('No se pudo cargar la sesión aún:', err);
+        console.error(`❌ Error cargando sesión ${sessionId}:`, err);
+        // Si es 404 no reintentar (aún no existe o se borró)
+        const status = (err && (err.status ?? err.code)) as number | undefined;
+        const isNotFound = status === 404;
+        if (!isNotFound && attempt < 3) {
+          const delays = [300, 800, 1500];
+          const delay = delays[Math.min(attempt, delays.length - 1)];
+          console.warn(`🔄 Reintentando cargar sesión en ${delay}ms (intento ${attempt + 1})...`);
+          setTimeout(() => this.loadSession(sessionId, attempt + 1), delay);
+          return;
+        }
+        // Manejar 404 sin romper la vista o agotados los intentos
+        console.warn(`⚠️ No se pudo cargar la sesión después de ${attempt + 1} intentos`);
+        // Limpiar mensajes en caso de error para evitar mostrar contenido de otra sesión
+        this.messages = [];
+        this.cdr.detectChanges();
       },
     });
   }
@@ -424,7 +492,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       // Trigger TTS for the final response
       if (this.currentMessage.content.trim()) {
         setTimeout(() => {
-          this.playAgentResponse(this.currentMessage!.content);
+          this.playAgentResponse(this.currentMessage!.content, (this.currentMessage as any).id);
         }, 500);
       }
     }
@@ -483,15 +551,123 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     }
   }
 
-  // Add TTS functionality for agent responses
-  playAgentResponse(text: string) {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'es-ES'; // Spanish language
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-      speechSynthesis.speak(utterance);
+  // Add TTS functionality for agent responses with controls
+  playAgentResponse(text: string, messageId?: string | null) {
+    try {
+      if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+      // Stop any current playback
+      if (this.tts.isSpeaking || this.tts.isPaused) {
+        window.speechSynthesis.cancel();
+      }
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = this.tts.lang;
+      utter.rate = this.tts.rate;
+      utter.pitch = this.tts.pitch;
+      utter.volume = this.tts.volume;
+
+      // Set UI state immediately for responsiveness
+      this.tts.currentUtterance = utter;
+      this.tts.currentMessageId = messageId ?? null;
+      this.tts.isSpeaking = true;
+      this.tts.isPaused = false;
+      this.cdr.markForCheck();
+
+      utter.onstart = () => {
+        this.cdr.markForCheck();
+      };
+      utter.onpause = () => {
+        this.tts.isPaused = true;
+        this.cdr.markForCheck();
+      };
+      utter.onresume = () => {
+        this.tts.isPaused = false;
+        this.cdr.markForCheck();
+      };
+      const onFinish = () => {
+        this.tts.currentUtterance = null;
+        this.tts.isSpeaking = false;
+        this.tts.isPaused = false;
+        this.tts.currentMessageId = null;
+        this.cdr.markForCheck();
+      };
+      utter.onend = onFinish;
+      utter.onerror = onFinish;
+
+      window.speechSynthesis.speak(utter);
+    } catch {}
+  }
+
+  ttsPause() {
+    try {
+      if (typeof window === 'undefined') return;
+      if (this.tts.isSpeaking && !this.tts.isPaused) {
+        window.speechSynthesis.pause();
+        this.tts.isPaused = true;
+        this.cdr.markForCheck();
+      }
+    } catch {}
+  }
+
+  ttsResume() {
+    try {
+      if (typeof window === 'undefined') return;
+      if (this.tts.isPaused) {
+        window.speechSynthesis.resume();
+        this.tts.isPaused = false;
+        this.cdr.markForCheck();
+      }
+    } catch {}
+  }
+
+  ttsStop() {
+    try {
+      if (typeof window === 'undefined') return;
+      window.speechSynthesis.cancel();
+      this.tts.currentUtterance = null;
+      this.tts.isSpeaking = false;
+      this.tts.isPaused = false;
+      this.tts.currentMessageId = null;
+      this.cdr.markForCheck();
+    } catch {}
+  }
+
+  // Volume change: apply to next playback; if currently speaking, optionally restart
+  setTtsVolume(val: number, restartCurrent = false) {
+    this.tts.volume = Math.max(0, Math.min(1, val));
+    if (restartCurrent && this.tts.isSpeaking && this.tts.currentMessageId) {
+      const current = this.messages.find((m: any) => m.id === this.tts.currentMessageId);
+      if (current?.content?.trim()) {
+        this.playAgentResponse(current.content, current.id);
+      }
     }
+    // If an utterance exists, update property for any queueing that remains
+    if (this.tts.currentUtterance) {
+      this.tts.currentUtterance.volume = this.tts.volume;
+    }
+    this.cdr.markForCheck();
+  }
+
+  isPlayingFor(messageId: string) {
+    return this.tts.isSpeaking && this.tts.currentMessageId === messageId;
+  }
+
+  isPausedFor(messageId: string) {
+    return this.tts.isPaused && this.tts.currentMessageId === messageId;
+  }
+
+  onVolumeInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const v = parseFloat(input.value || '0');
+    this.setTtsVolume(v, false);
+  }
+
+  onVolumeCommit(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const v = parseFloat(input.value || '0');
+    // Restart playback with new volume if currently speaking
+    this.setTtsVolume(v, true);
   }
 
   private cleanup() {
