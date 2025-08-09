@@ -1,13 +1,2 @@
-@if (info) {
-@let i = info;
-<header class="flex items-center gap-3 p-3 border-b border-white/10">
-  @if (i.site_icon) {
-  <img [src]="i.site_icon" alt="icon" class="w-6 h-6" />
-  }
-  @if (!i.site_icon && i.site_logo) {
-  <img [src]="i.site_logo" alt="logo" class="h-6" />
-  }
-  <strong class="text-sm">{{ i.site_name }}</strong>
-</header>
-}
+<!-- Title and favicon are set programmatically in App component -->
 <router-outlet />

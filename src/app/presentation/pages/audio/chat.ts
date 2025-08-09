@@ -81,6 +81,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   uploadedFiles: UploadedFileMeta[] = [];
   toolRunning = false;
   private streamingSessionId: string | null = null;
+  // UI: show floating scroll-to-bottom button when user is far from bottom
+  showScrollToBottom = false;
   // Audio recording state
   isRecording = false;
   private mediaRecorder: MediaRecorder | null = null;
@@ -193,6 +195,27 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
   ngAfterViewChecked() {
     this.scrollManager.executeScheduledScroll(this.messagesContainer);
+  }
+
+  // Called on messages container scroll
+  onMessagesScroll() {
+    try {
+      const el = this.messagesContainer?.nativeElement as HTMLElement | undefined;
+      if (!el) return;
+      const threshold = 120; // px from bottom to consider "at bottom"
+      const distanceFromBottom = el.scrollHeight - (el.scrollTop + el.clientHeight);
+      const shouldShow = distanceFromBottom > threshold;
+      if (shouldShow !== this.showScrollToBottom) {
+        this.showScrollToBottom = shouldShow;
+        this.cdr.markForCheck();
+      }
+    } catch {}
+  }
+
+  scrollToBottom() {
+    this.scrollManager.scrollToBottom(this.messagesContainer);
+    this.showScrollToBottom = false;
+    this.cdr.markForCheck();
   }
 
   loadSessions() {
@@ -494,12 +517,23 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     if (this.isRecording) return;
     this.micError = null;
     try {
+  // Reset previous STT text and errors when starting a new capture
+  this.msgForm.get('message')?.setValue('');
+  this.sttError = null;
+  this.isTranscribing = false;
   // Always capture raw audio for potential server-side STT fallback.
   // includeAudioOriginal only controls whether to attach audio to the chat payload.
   if (this.canRecord) {
-        this.micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm';
-        this.mediaRecorder = new MediaRecorder(this.micStream, { mimeType });
+        this.micStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            channelCount: 1,
+          } as any,
+        });
+  const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm';
+  this.mediaRecorder = new MediaRecorder(this.micStream, { mimeType, audioBitsPerSecond: 128000 } as any);
         this.recordedChunks = [];
         this.mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) this.recordedChunks.push(e.data); };
         this.mediaRecorder.onstop = async () => {
@@ -830,8 +864,10 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   private async maybeServerTranscribe(blob: Blob) {
-    const current = (this.msgForm.get('message')?.value || '').toString().trim();
-    if (current || !this.audioFile) return;
+  // If there's no audio, nothing to do. If there is audio, prefer server STT regardless of current interim text
+    if (!this.audioFile) return;
+    this.isTranscribing = true;
+    this.sttError = null;
     try {
       let langPref: string | undefined;
       if (this.sttLanguage === 'auto') {
@@ -848,6 +884,8 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     } catch (e: any) {
       this.sttError = this.mapSttError(e);
       this.cdr.detectChanges();
+    } finally {
+      this.isTranscribing = false;
     }
   }
 
@@ -855,6 +893,15 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   onUseServerToggleChange(v: boolean) {
     this.useServerSttAlways = v;
     try { if (typeof window !== 'undefined') window.localStorage.setItem('useServerSttAlways', String(v)); } catch {}
+    // If switched to server-only while recording, stop browser recognition
+    if (this.isRecording) {
+      if (v) {
+        this.stopSpeechRecognition();
+      } else {
+        // restart recognition if previously stopped and still recording
+        this.startSpeechRecognition();
+      }
+    }
   }
 
   onSttLanguageChange(v: string) {

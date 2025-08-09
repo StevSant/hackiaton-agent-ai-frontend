@@ -79,6 +79,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   uploadedFiles: UploadedFileMeta[] = [];
   toolRunning = false;
   private streamingSessionId: string | null = null;
+  // UI: show floating scroll-to-bottom button when user is far from bottom
+  showScrollToBottom = false;
 
   // Servicios
   private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
@@ -156,6 +158,27 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   ngAfterViewChecked() {
     this.scrollManager.executeScheduledScroll(this.messagesContainer);
+  }
+
+  // Called on messages container scroll
+  onMessagesScroll() {
+    try {
+      const el = this.messagesContainer?.nativeElement as HTMLElement | undefined;
+      if (!el) return;
+      const threshold = 120; // px from bottom to consider "at bottom"
+      const distanceFromBottom = el.scrollHeight - (el.scrollTop + el.clientHeight);
+      const shouldShow = distanceFromBottom > threshold;
+      if (shouldShow !== this.showScrollToBottom) {
+        this.showScrollToBottom = shouldShow;
+        this.cdr.markForCheck();
+      }
+    } catch {}
+  }
+
+  scrollToBottom() {
+    this.scrollManager.scrollToBottom(this.messagesContainer);
+    this.showScrollToBottom = false;
+    this.cdr.markForCheck();
   }
 
   loadSessions() {

@@ -8,7 +8,7 @@
       <div class="text-center md:text-left">
         <h3 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
           🤖
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+          <span class="gradient-animate">
             {{ 'CHAT.TITLE' | translate }}
           </span>
         </h3>
@@ -42,7 +42,8 @@
     <div class="flex-1 flex flex-col gap-4 min-h-0">
       <!-- Contenedor de mensajes con scroll -->
       <div #messagesContainer
-        class="messages-container flex-1 overflow-y-auto p-4 space-y-4 bg-base-100 rounded-xl shadow-sm"
+        class="messages-container flex-1 overflow-y-auto p-4 space-y-4 bg-base-100 rounded-xl shadow-sm relative"
+        (scroll)="onMessagesScroll()"
         style="max-height: calc(100vh - 250px);">
         <!-- Estado vacío mejorado -->
         @if (messages.length === 0 && !isSending) {
@@ -191,6 +192,14 @@
         </div>
         <span class="text-xs ml-2 text-info/80">{{ 'CHAT.RUNNING_TOOLS' | translate }}</span>
       </div>
+      }
+
+      <!-- Botón flotante para bajar al final -->
+      @if (showScrollToBottom) {
+        <button type="button" class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg"
+          (click)="scrollToBottom()" title="Bajar al final">
+          <mat-icon fontIcon="arrow_downward"></mat-icon>
+        </button>
       }
     </div>
 

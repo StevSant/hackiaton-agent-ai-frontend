@@ -8,7 +8,7 @@
       <div class="text-center md:text-left">
         <h3 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
           🤖
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+          <span class="gradient-animate">
             Chat con Agente
           </span>
         </h3>
@@ -41,8 +41,9 @@
     <div class="flex-1 flex flex-col gap-4 min-h-0">
       <!-- Contenedor de mensajes con scroll -->
       <div #messagesContainer
-        class="messages-container flex-1 overflow-y-auto p-4 space-y-4 bg-base-100 rounded-xl shadow-sm"
-        style="max-height: calc(100vh - 250px);">
+        class="messages-container flex-1 overflow-y-auto p-4 space-y-4 bg-base-100 rounded-xl shadow-sm relative"
+        style="max-height: calc(100vh - 250px);"
+        (scroll)="onMessagesScroll()">
         <!-- Estado vacío mejorado -->
         @if (messages.length === 0 && !isSending) {
         <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
@@ -207,19 +208,27 @@
         <span class="text-xs ml-2 text-info/80">Ejecutando herramientas…</span>
       </div>
       }
+
+      <!-- Botón flotante para bajar al final -->
+      @if (showScrollToBottom) {
+        <button type="button" class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg"
+          (click)="scrollToBottom()" title="Bajar al final">
+          <mat-icon fontIcon="arrow_downward"></mat-icon>
+        </button>
+      }
     </div>
 
     <!-- Controles de voz y formulario -->
     <div class="bg-base-100 rounded-xl shadow-sm p-4">
     <div class="w-full flex items-center justify-center gap-4 mb-4">
-        <button type="button" class="btn btn-circle btn-lg" [class.btn-error]="isRecording" [class.btn-primary]="!isRecording" (click)="toggleRecording()">
+  <button type="button" class="btn btn-circle btn-lg" [disabled]="isTranscribing" [class.btn-error]="isRecording" [class.btn-primary]="!isRecording" (click)="toggleRecording()">
           @if (!isRecording) { <mat-icon fontIcon="mic"></mat-icon> }
           @if (isRecording) { <mat-icon fontIcon="stop"></mat-icon> }
         </button>
         <div class="text-sm opacity-70">
       {{ isRecording ? ('AUDIO.REC_HINT_STOP' | translate) : ('AUDIO.REC_HINT' | translate) }}
         </div>
-        @if (isRecording && isTranscribing) {
+        @if (isTranscribing) {
       <div class="badge badge-outline">{{ 'AUDIO.TRANSCRIBING' | translate }}</div>
         }
       </div>
@@ -239,7 +248,7 @@
           <div class="flex-1">
             <textarea class="textarea textarea-bordered w-full resize-none min-h-[60px] max-h-[120px]"
               placeholder="Escribe tu mensaje aquí... (Shift + Enter para nueva línea)" rows="2"
-              formControlName="message" (keydown)="handleKeyDown($event)"></textarea>
+              formControlName="message" (keydown)="handleKeyDown($event)" [readOnly]="isTranscribing"></textarea>
 
             <!-- Mensajes de error -->
             @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {<div class="text-error text-sm mt-1">
@@ -249,7 +258,7 @@
 
           <!-- Botón de envío -->
           <div class="flex flex-col gap-2 items-end">
-            <button type="submit" class="btn btn-primary" [disabled]="isSending"
+            <button type="submit" class="btn btn-primary" [disabled]="isSending || isTranscribing"
               [class.loading]="isSending">
               {{ isSending ? 'Enviando...' : 'Enviar' }}
             </button>
@@ -269,7 +278,7 @@
         <div class="flex justify-between items-center mt-2 gap-2">
           <div class="text-xs opacity-60">{{ 'AUDIO.ATTACH_HINT' | translate }}</div>
           <div class="flex items-center gap-3">
-            <input type="file" accept="application/pdf,image/*" multiple class="file-input file-input-bordered file-input-sm"
+            <input type="file" accept="application/pdf,image/*" multiple class="file-input file-input-bordered file-input-sm" [disabled]="isTranscribing"
               (change)="onFilesSelected($event)" />
             <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
           </div>
@@ -286,18 +295,24 @@
       }
       <div class="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
         <div class="flex items-center gap-3">
-          <input type="checkbox" class="checkbox checkbox-sm" [ngModel]="useServerSttAlways" (ngModelChange)="onUseServerToggleChange($event)" [ngModelOptions]="{standalone: true}" name="useServerSttAlways" />
+          <input type="checkbox" class="checkbox checkbox-sm" [disabled]="isTranscribing" [ngModel]="useServerSttAlways" (ngModelChange)="onUseServerToggleChange($event)" [ngModelOptions]="{standalone: true}" name="useServerSttAlways" />
           <label class="text-sm" for="useServerSttAlways">{{ 'AUDIO.USE_SERVER_STT_ALWAYS' | translate }}</label>
         </div>
         <div class="flex items-center gap-2">
           <label class="text-sm opacity-70" for="sttLangSel">{{ 'AUDIO.LANG_LABEL' | translate }}</label>
-          <select id="sttLangSel" class="select select-bordered select-sm" [ngModel]="sttLanguage" (ngModelChange)="onSttLanguageChange($event)" [ngModelOptions]="{standalone: true}">
+          <select id="sttLangSel" class="select select-bordered select-sm" [disabled]="isTranscribing" [ngModel]="sttLanguage" (ngModelChange)="onSttLanguageChange($event)" [ngModelOptions]="{standalone: true}">
             @for (opt of sttLanguageOptions; track opt) {
               <option [ngValue]="opt">{{ opt === 'auto' ? ('AUDIO.LANG_AUTO' | translate) : opt }}</option>
             }
           </select>
         </div>
       </div>
+      @if (isTranscribing) {
+      <div class="mt-3 flex items-center gap-2 text-info">
+        <span class="loading loading-spinner loading-sm"></span>
+        <span class="text-sm">{{ 'AUDIO.TRANSCRIBING' | translate }}</span>
+      </div>
+      }
     </div>
   </div>
 </div>
