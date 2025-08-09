@@ -113,30 +113,32 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   });
 
   constructor() {}
+  // Helper to defer change-producing actions to next microtask
+  private defer(fn: () => void) { queueMicrotask(fn); }
   ngOnInit() {
     // React to either /chat/session/:sessionId or legacy query param
     this.route.paramMap.subscribe((p) => {
       const paramSession = p.get('sessionId');
       if (paramSession) {
-        this.selectedSessionId = paramSession;
+        this.defer(() => { this.selectedSessionId = paramSession; this.cdr.markForCheck(); });
         // Si estamos en medio de un stream y este sessionId acaba de ser creado, no cargamos aún para no abortar SSE
         if (this.isSending && this.streamingSessionId === paramSession) {
           return;
         }
-        this.loadSession(paramSession);
+        this.defer(() => this.loadSession(paramSession));
         return;
       }
   // Fallback to query param for backward compatibility
       this.route.queryParamMap.subscribe((params) => {
         const sessionId = params.get('session');
-        this.selectedSessionId = sessionId;
+        this.defer(() => { this.selectedSessionId = sessionId; this.cdr.markForCheck(); });
         if (sessionId) {
-          this.loadSession(sessionId);
+          this.defer(() => this.loadSession(sessionId));
         } else {
           // new chat view: clear current messages if coming from a session
           this.messageManager.clearMessages(this.messages);
           this.currentMessage = null;
-          this.cdr.detectChanges();
+          this.defer(() => this.cdr.detectChanges());
         }
       });
     });
@@ -161,7 +163,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   loadSession(sessionId: string | null) {
     const id = this.agentIdValue();
-    this.selectedSessionId = sessionId;
+  this.selectedSessionId = sessionId;
     if (!sessionId) return;
     // Reset current streaming and UI state before loading session
     this.cleanup();
@@ -174,8 +176,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       next: (data) => {
         const d: any = data as any;
         const chats = d?.chats ?? d?.session?.chats ?? (Array.isArray(d) ? d : []);
-        this.messages = adaptChatEntriesToMessages(chats);
-        this.cdr.detectChanges();
+  this.messages = adaptChatEntriesToMessages(chats);
+  this.defer(() => this.cdr.detectChanges());
         this.scrollManager.scheduleScrollToBottom();
       },
       error: (err) => {
@@ -265,10 +267,13 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
         // As soon as backend confirms/creates session, reflect it in URL and refresh sidebar
         const sid = (data as any)?.rawMessage?.session_id;
         if (!this.selectedSessionId && sid) {
-          this.selectedSessionId = sid;
-          this.streamingSessionId = sid;
-          this.location.replaceState(`/chat/session/${sid}`);
-          this.sessionsEvents.triggerRefresh();
+          this.defer(() => {
+            this.selectedSessionId = sid;
+            this.streamingSessionId = sid;
+            this.location.replaceState(`/chat/session/${sid}`);
+            this.sessionsEvents.triggerRefresh();
+            this.cdr.markForCheck();
+          });
         }
         break;
       }
@@ -298,8 +303,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
         }
     }
 
-    this.scrollManager.scheduleScrollToBottom();
-    this.cdr.detectChanges();
+  this.scrollManager.scheduleScrollToBottom();
+  this.defer(() => this.cdr.detectChanges());
   }
 
   private handleRunResponse(data: StreamResponseModel) {
@@ -336,11 +341,14 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     // If we didn't have a session yet, as soon as the API returns a session_id, reflect it in URL
     const raw: any = data.rawMessage;
     if (!this.selectedSessionId && raw?.session_id) {
-      this.selectedSessionId = raw.session_id;
-      this.streamingSessionId = raw.session_id;
-      // Update the URL without reloading component
-      this.location.replaceState(`/chat/session/${raw.session_id}`);
-      this.sessionsEvents.triggerRefresh();
+      this.defer(() => {
+        this.selectedSessionId = raw.session_id;
+        this.streamingSessionId = raw.session_id;
+        // Update the URL without reloading component
+        this.location.replaceState(`/chat/session/${raw.session_id}`);
+        this.sessionsEvents.triggerRefresh();
+        this.cdr.markForCheck();
+      });
     }
   }
 
@@ -404,11 +412,14 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
     this.toolRunning = false;
     this.scrollManager.scheduleScrollToBottom();
-  this.cdr.detectChanges();
-  // Ya terminó el stream; si teníamos sessionId en curso, liberamos bandera
-  this.streamingSessionId = null;
-  // Ensure sidebar reflects new/updated session
-  this.sessionsEvents.triggerRefresh();
+    this.defer(() => {
+      this.cdr.detectChanges();
+      // Ya terminó el stream; si teníamos sessionId en curso, liberamos bandera
+      this.streamingSessionId = null;
+      // Ensure sidebar reflects new/updated session
+      this.sessionsEvents.triggerRefresh();
+      this.cdr.markForCheck();
+    });
   }
 
   private handleError(error: any) {
@@ -446,10 +457,10 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       this.messageManager.completeMessage(this.currentMessage);
     }
 
-    this.cdr.detectChanges();
+    this.defer(() => this.cdr.detectChanges());
     // In case completion arrived without RunCompleted
     if (this.selectedSessionId) {
-      this.sessionsEvents.triggerRefresh();
+      this.defer(() => this.sessionsEvents.triggerRefresh());
     }
   }
 

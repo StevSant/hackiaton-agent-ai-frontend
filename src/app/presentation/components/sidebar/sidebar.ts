@@ -1,4 +1,4 @@
-import { Component, inject, signal, HostListener } from '@angular/core';
+import { Component, inject, signal, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatButtonComponent } from '../chat-button/chat-button';
 import { Router, RouterLink } from '@angular/router';
@@ -34,6 +34,7 @@ export class SidebarComponent {
   readonly token = inject(TokenStorageService);
   private readonly getProfileUC = inject(GetProfileUseCase);
   private readonly sessionsEvents = inject(SessionsEventsService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   // auth/profile state
   profileEmail = signal<string | null>(null);
@@ -45,8 +46,6 @@ export class SidebarComponent {
   expanded: Record<string, boolean> = {};
   previews: Record<string, Array<{ who: string; text: string }>> = {};
 
-  ngOnChanges() { this.tryLoad(); }
-
   ngOnInit() {
     this.tryLoad();
     this.loadProfileIfAuthenticated();
@@ -56,12 +55,16 @@ export class SidebarComponent {
 
   tryLoad() {
     if (this.isLoading) return;
-    this.isLoading = true;
+    // Defer loading flag to avoid NG0100 when toggling quickly in same tick
+    setTimeout(() => { this.isLoading = true; this.cdr.markForCheck(); });
     // agentId is ignored by backend; pass a placeholder
     this.listSessionsUC.execute('default').subscribe({
-      next: (list) => (this.sessions = list || []),
+      next: (list) => {
+        this.sessions = list || [];
+        this.cdr.markForCheck();
+      },
       error: () => { /* silent */ },
-      complete: () => (this.isLoading = false),
+      complete: () => setTimeout(() => { this.isLoading = false; this.cdr.markForCheck(); }),
     });
   }
 
@@ -88,13 +91,13 @@ export class SidebarComponent {
   openSession(session: SessionEntry) {
   this.router.navigate(['/chat', 'session', session.session_id]).then(() => {
       // tras navegar, refrescar lista para reflejar títulos/orden si el backend los cambia
-      this.tryLoad();
+  setTimeout(() => this.tryLoad());
     });
   }
 
   newChat() {
   this.router.navigate(['/chat']).then(() => {
-      this.tryLoad();
+  setTimeout(() => this.tryLoad());
     });
   }
 
@@ -106,8 +109,9 @@ export class SidebarComponent {
         this.sessions = this.sessions.filter(s => s.session_id !== session.session_id);
         delete this.expanded[session.session_id];
         delete this.previews[session.session_id];
+        this.cdr.markForCheck();
       },
-      complete: () => this.tryLoad(),
+      complete: () => setTimeout(() => this.tryLoad()),
     });
   }
 
