@@ -110,15 +110,16 @@
               }
             </div>
             }
-            @if (message.audio?.length) {
-            <div class="mt-2 space-y-2">
-              @for (a of message.audio; track a.id) {
-              <audio controls [src]="getAudioSrc(a)"></audio>
-              }
+            <!-- TTS Button for Bot Messages -->
+            @if (isBotMessage(message) && message.content.trim()) {
+            <div class="mt-2">
+              <button 
+                class="btn btn-sm btn-ghost"
+                (click)="playAgentResponse(message.content)"
+                title="Escuchar respuesta">
+                <mat-icon>volume_up</mat-icon>
+              </button>
             </div>
-            }
-            @if (message.response_audio?.transcript) {
-            <div class="mt-2 text-xs opacity-80">Transcripción: {{ message.response_audio?.transcript }}</div>
             }
             @if (message.isStreaming && message.displayedContent.length < message.content.length) { <span
               class="inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70"></span>

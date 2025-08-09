@@ -9,24 +9,7 @@ import {
   type OnInit,
 } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
-import {
-  FormBuilder,
-     const payload: {
-      message: string;
-      session_id?: string;
-      user_id?: string;
-      files?: File[];
-      file_ids?: string[];
-    } = {
-      message: content,
-      session_id: this.selectedSessionId ?? undefined,
-      user_id: undefined,
-      files: this.filesToUpload.length ? this.filesToUpload : undefined,
-      file_ids: fileIds,
-    };odule,
-  Validators,
-  FormsModule,
-} from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import type { Subscription } from 'rxjs';
 import type { ChatMessage, EventType } from '@core/models/chat-model';
@@ -283,7 +266,6 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       message: content,
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
-      audioFile: this.audioFile ?? undefined,
       files: this.filesToUpload.length ? this.filesToUpload : undefined,
       file_ids: fileIds,
     };
@@ -413,15 +395,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     }
     if (raw?.images) this.currentMessage.images = raw.images;
     if (raw?.videos) this.currentMessage.videos = raw.videos;
-    if (raw?.audio) this.currentMessage.audio = raw.audio;
-    if (raw?.response_audio?.transcript) {
-      this.currentMessage.response_audio = {
-        ...(this.currentMessage.response_audio || {}),
-        transcript:
-          (this.currentMessage.response_audio?.transcript || '') +
-          raw.response_audio.transcript,
-      };
-    }
+    // Audio handling removed - using TTS instead
   }
 
   private handleRunCompleted(data: StreamResponseModel) {
@@ -441,12 +415,18 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       }
       if (raw?.images) this.currentMessage.images = raw.images;
       if (raw?.videos) this.currentMessage.videos = raw.videos;
-      if (raw?.response_audio)
-        this.currentMessage.response_audio = raw.response_audio;
+      // Audio handling removed - using TTS instead
     }
 
     if (this.currentMessage) {
       this.typewriter.completeMessage(this.currentMessage);
+      
+      // Trigger TTS for the final response
+      if (this.currentMessage.content.trim()) {
+        setTimeout(() => {
+          this.playAgentResponse(this.currentMessage!.content);
+        }, 500);
+      }
     }
 
     this.toolRunning = false;
@@ -564,15 +544,6 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       '🚫 Envío cancelado por el usuario',
       'Cancelled' as EventType
     );
-  }
-
-  onAudioSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.audioFile = input.files[0];
-    } else {
-      this.audioFile = null;
-    }
   }
 
   onFilesSelected(event: Event) {
