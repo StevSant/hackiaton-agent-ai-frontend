@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { UploadedFileMeta } from '@core/ports/files.port';
@@ -11,6 +11,7 @@ import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
   templateUrl: './files.html',
   styleUrls: ['./files.css'],
   imports: [CommonModule, FormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilesPage {
   private readonly listFilesUC = new ListFilesUseCase();

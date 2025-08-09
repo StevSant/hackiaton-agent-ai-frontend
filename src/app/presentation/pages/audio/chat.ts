@@ -7,8 +7,9 @@ import {
   type AfterViewChecked,
   type OnDestroy,
   type OnInit,
+  ChangeDetectionStrategy,
+  NgZone,
 } from '@angular/core';
-import { ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -21,7 +22,6 @@ import type { ChatMessage, EventType } from '@core/models/chat-model';
 import { type StreamResponse as InfraStreamResponse } from '@infrastructure/services/sse-service';
 import type { StreamResponseModel } from '@core/models/stream';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgZone } from '@angular/core';
 
 // Servicios de utilidades
 import { ChatUtilsService } from '@infrastructure/services/chat-utils.service';

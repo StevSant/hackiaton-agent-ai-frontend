@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [CommonModule, RouterOutlet, SidebarComponent, MatIconModule],
   templateUrl: './shell.html',
   styleUrls: ['./shell.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShellLayout {
   // Mobile sidebar state

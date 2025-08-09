@@ -1,4 +1,4 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AgentModel } from '@core/models/agent-model';
 import { SESSIONS_PORT } from '@core/tokens';
@@ -8,7 +8,8 @@ import { ListSessionsUseCase } from '@core/use-cases/list-sessions.usecase';
 @Component({
   selector: 'app-agent-card',
   imports: [],
-  templateUrl: './agent-card.html'
+  templateUrl: './agent-card.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AgentCard {
   agent = input.required<AgentModel>();

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { ChatMessage } from '@core/models/chat-model';
 import { CommonModule } from '@angular/common';
 
@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-bot-text',
   imports: [CommonModule],
   templateUrl: './bot-text.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BotText {
   message = input.required<ChatMessage>();

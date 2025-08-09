@@ -59,8 +59,8 @@
         {
 
         <!-- Mensaje del Usuario -->
-        @if (isUserMessage(message)) {
-  <div class="chat chat-end msg-user">
+    @if (isUserMessage(message)) {
+  <div class="chat chat-start msg-user">
           <div class="chat-header mb-1">
             <span class="text-xs opacity-60">{{
               getEventLabel(message.event)
@@ -76,8 +76,8 @@
         }
 
         <!-- Mensaje del Bot -->
-        @if (isBotMessage(message)) {
-  <div class="chat chat-start msg-bot">
+    @if (isBotMessage(message)) {
+  <div class="chat chat-end msg-bot">
           <div class="chat-header mb-1">
             <span class="text-xs opacity-60">{{
               getEventLabel(message.event)

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -6,7 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
     selector: 'app-chat-button',
     standalone: true,
     imports: [CommonModule, MatIconModule],
-    templateUrl: './chat-button.html'
+    templateUrl: './chat-button.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatButtonComponent {
     // Nombre del ícono de Material o fontIcon registrado
