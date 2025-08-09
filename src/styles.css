@@ -1,4 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+/* Tailwind v4 config-less setup */
+@import "tailwindcss";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Design tokens (HSL) */
+:root {
+  --brand-primary: 217.2 91.2% 59.8%;
+  --brand-primary-glow: 217.2 91.2% 66%;
+  --brand-secondary: 215 28% 17%;
+  --brand-accent: 160 84% 39%;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: var(--brand-primary);
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: var(--brand-accent);
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: var(--brand-primary);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: var(--brand-secondary);
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 6%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 6%;
+  --popover-foreground: 210 40% 98%;
+  --primary: var(--brand-primary);
+  --primary-foreground: 0 0% 100%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: var(--brand-accent);
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: var(--brand-primary);
+}
+
+/* Base */
+* { border-color: hsl(var(--border)); }
+body { background: hsl(var(--background)); color: hsl(var(--foreground)); font-family: system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+/* Utilities (custom) */
+.btn-brand { @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 font-medium shadow-sm bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:brightness-110 transition; }
+.btn-hero { @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-semibold bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] text-white shadow-lg hover:shadow-[0_0_40px_hsl(var(--brand-primary-glow)_/_0.35)] transition; }
+.card { @apply rounded-xl border bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] shadow-sm; }

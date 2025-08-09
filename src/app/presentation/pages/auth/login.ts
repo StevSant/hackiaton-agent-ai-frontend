@@ -25,7 +25,10 @@ export class LoginPage {
   error: string | null = null;
 
   async submit() {
+    console.log('Login submit');
     if (this.form.invalid || this.submitting) return;
+    console.log('Login submit');
+
     this.submitting = true;
     this.error = null;
     try {
