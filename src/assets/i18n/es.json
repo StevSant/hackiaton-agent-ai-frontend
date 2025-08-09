@@ -35,4 +35,20 @@
     "HINT": "Presiona Shift + Enter para nueva línea",
     "FILES_COUNT": "{{count}} archivo(s)"
   }
+  ,
+  "AUDIO": {
+    "REC_HINT": "Toca para grabar un mensaje de voz",
+    "REC_HINT_STOP": "Grabando... toca para detener",
+    "TRANSCRIBING": "Transcribiendo…",
+    "WARN_NO_SPEECH_API": "Tu navegador no soporta reconocimiento de voz (Web Speech API). Escribe tu mensaje o adjunta audio.",
+    "ATTACH_HINT": "Adjunta archivos (PDF, imágenes) opcionalmente",
+    "USE_SERVER_STT_ALWAYS": "Usar siempre STT del servidor (ignorar reconocimiento del navegador)",
+  "ERR_MIC": "No se pudo acceder al micrófono",
+  "ERR_STT_SERVER": "No se pudo transcribir el audio en el servidor",
+  "ERR_STT_TOO_LARGE": "El archivo de audio es demasiado grande (límite 25 MB)",
+  "ERR_STT_BAD_TYPE": "Tipo de archivo de audio no permitido",
+  "ERR_STT_BAD_REQUEST": "Solicitud de transcripción inválida",
+  "LANG_LABEL": "Idioma STT",
+  "LANG_AUTO": "Automático (navegador)"
+  }
 }

@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Subject, firstValueFrom } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '@environments/environment';
 
 export type SttEngine = 'browser' | 'server' | 'azure';
 
 @Injectable({ providedIn: 'root' })
 export class SttService {
+  private readonly http = inject(HttpClient);
+  private readonly base = environment.baseUrl;
   private engine: SttEngine = 'browser';
   private readonly results$ = new Subject<{ text: string; isFinal: boolean }>();
 
@@ -26,15 +30,12 @@ export class SttService {
   }
 
   // Server-based STT: upload an audio Blob to the backend and receive transcript
-  async transcribeBlob(blob: Blob): Promise<string> {
-    const form = new FormData();
-    form.append('audio', blob, 'recording.webm');
-    const res = await fetch('/api/stt', { method: 'POST', body: form });
-    if (!res.ok) {
-      const msg = await res.text().catch(() => '');
-      throw new Error(msg || `Transcripción fallida (${res.status})`);
-    }
-    const data = await res.json().catch(() => ({}));
-    return (data && (data.transcript || data.text)) || '';
+  async transcribeBlob(blob: Blob, language?: string): Promise<string> {
+  const form = new FormData();
+  form.append('audio', blob, 'recording.webm');
+  const url = `${this.base}/stt`;
+  const params = language ? new HttpParams().set('language', language) : undefined;
+  const data = await firstValueFrom(this.http.post<{ transcript?: string; text?: string }>(url, form, { params }));
+  return (data && (data.transcript || data.text)) || '';
   }
 }

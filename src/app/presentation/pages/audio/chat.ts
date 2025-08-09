@@ -38,6 +38,7 @@ import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
 import { decodeBase64Audio } from '@infrastructure/services/audio-util';
 import { MarkdownModule } from 'ngx-markdown';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FilesService, type UploadedFileMeta } from '@infrastructure/services/files.service';
 import { TranscribeBlobUseCase } from '@core/use-cases/stt/transcribe-blob.usecase';
 import { VoiceService } from '@infrastructure/services/voice.service';
@@ -53,6 +54,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
   MarkdownModule,
   MatIconModule,
+  TranslateModule,
   ],
   providers: [],
   templateUrl: './chat.html',
@@ -99,6 +101,11 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   ttsMessageId: string | null = null;
   ttsState: 'idle' | 'playing' | 'paused' = 'idle';
   ttsVolume = 1;
+  // Prefer server STT instead of browser STT
+  useServerSttAlways = false;
+  // STT language selector (auto uses navigator.language)
+  sttLanguage: string = 'auto';
+  sttLanguageOptions: string[] = ['auto', 'es-ES', 'en-US'];
 
   // Servicios
   private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
@@ -120,6 +127,7 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly transcribeBlobUC = new TranscribeBlobUseCase();
   private readonly voice = inject(VoiceService);
   private readonly vosk = inject(VoskSttService);
+  private readonly translate = inject(TranslateService);
   private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
   private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
@@ -142,6 +150,15 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
 
   constructor() {}
   ngOnInit() {
+    // Restore persisted preferences
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const storedToggle = window.localStorage.getItem('useServerSttAlways');
+        if (storedToggle != null) this.useServerSttAlways = storedToggle === 'true';
+        const storedLang = window.localStorage.getItem('sttLanguage');
+        if (storedLang) this.sttLanguage = storedLang;
+      }
+    } catch {}
     // React to /audio/session/:sessionId or legacy query param
     this.route.paramMap.subscribe((p) => {
       const paramSession = p.get('sessionId');
@@ -477,8 +494,9 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     if (this.isRecording) return;
     this.micError = null;
     try {
-      // Only capture raw audio if user wants to attach it; otherwise rely on SpeechRecognition only
-      if (this.includeAudioOriginal && this.canRecord) {
+  // Always capture raw audio for potential server-side STT fallback.
+  // includeAudioOriginal only controls whether to attach audio to the chat payload.
+  if (this.canRecord) {
         this.micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm';
         this.mediaRecorder = new MediaRecorder(this.micStream, { mimeType });
@@ -487,29 +505,16 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
         this.mediaRecorder.onstop = async () => {
           const blob = new Blob(this.recordedChunks, { type: this.mediaRecorder?.mimeType || 'audio/webm' });
           this.audioFile = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
-          // Release stream
-          this.micStream?.getTracks().forEach(t => t.stop());
-          this.micStream = null;
-          // If no text captured via browser STT, attempt server-side STT to populate textarea
-          const current = (this.msgForm.get('message')?.value || '').toString().trim();
-          if (!current && this.audioFile) {
-            try {
-              const transcript = await this.transcribeBlobUC.execute(blob);
-              if (transcript) {
-                this.msgForm.get('message')?.setValue(transcript);
-                this.cdr.detectChanges();
-              }
-            } catch (e: any) {
-              this.sttError = e?.message || 'No se pudo transcribir el audio en el servidor';
-              this.cdr.detectChanges();
-            }
-          }
+          this.finalizeMicStream();
+          await this.maybeServerTranscribe(blob);
         };
         this.mediaRecorder.start();
       }
       this.isRecording = true;
-      // Start speech recognition if supported
-      this.startSpeechRecognition();
+      // Start speech recognition if supported and not bypassed
+      if (!this.useServerSttAlways) {
+        this.startSpeechRecognition();
+      }
       this.cdr.detectChanges();
     } catch (err: any) {
       this.micError = err?.message || 'No se pudo acceder al micrófono';
@@ -816,5 +821,60 @@ export class AudioChat implements OnDestroy, AfterViewChecked, OnInit {
     this.ttsVolume = clamped;
     // Takes effect on next play
     this.cdr.detectChanges();
+  }
+
+  // Helpers to reduce complexity
+  private finalizeMicStream() {
+    try { this.micStream?.getTracks().forEach(t => t.stop()); } catch {}
+    this.micStream = null;
+  }
+
+  private async maybeServerTranscribe(blob: Blob) {
+    const current = (this.msgForm.get('message')?.value || '').toString().trim();
+    if (current || !this.audioFile) return;
+    try {
+      let langPref: string | undefined;
+      if (this.sttLanguage === 'auto') {
+        const navAny: any = typeof navigator !== 'undefined' ? (navigator as any) : undefined;
+        langPref = navAny?.language;
+      } else {
+        langPref = this.sttLanguage;
+      }
+      const transcript = await this.transcribeBlobUC.execute(blob, langPref);
+      if (transcript) {
+        this.msgForm.get('message')?.setValue(transcript);
+        this.cdr.detectChanges();
+      }
+    } catch (e: any) {
+      this.sttError = this.mapSttError(e);
+      this.cdr.detectChanges();
+    }
+  }
+
+  // Persisted preferences handlers
+  onUseServerToggleChange(v: boolean) {
+    this.useServerSttAlways = v;
+    try { if (typeof window !== 'undefined') window.localStorage.setItem('useServerSttAlways', String(v)); } catch {}
+  }
+
+  onSttLanguageChange(v: string) {
+    this.sttLanguage = v || 'auto';
+    try { if (typeof window !== 'undefined') window.localStorage.setItem('sttLanguage', this.sttLanguage); } catch {}
+  }
+
+  private mapSttError(err: any): string {
+    const status = err?.status;
+    const detail: string = (err?.error && (err.error.detail || err.error.message)) || err?.message || '';
+    if (status === 413) return this.translate.instant('AUDIO.ERR_STT_TOO_LARGE');
+    if (status === 400) {
+      if (typeof detail === 'string' && /tipo de audio no permitido|unsupported|content[- ]type/i.test(detail)) {
+        return this.translate.instant('AUDIO.ERR_STT_BAD_TYPE');
+      }
+      if (typeof detail === 'string' && /vac[ií]o|empty/i.test(detail)) {
+        return this.translate.instant('AUDIO.ERR_STT_BAD_REQUEST');
+      }
+      return this.translate.instant('AUDIO.ERR_STT_BAD_REQUEST');
+    }
+    return this.translate.instant('AUDIO.ERR_STT_SERVER');
   }
 }

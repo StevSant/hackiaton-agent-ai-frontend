@@ -17,22 +17,22 @@
                 <button
                     class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-inner shadow-black/30 hover:scale-105 transition"
                     (click)="toggleProfileMenu($event)" title="Cuenta">
-                    @if (profileEmail()) {
+                    <ng-container *ngIf="profileEmail(); else userIcon">
                         {{ profileEmail()!.charAt(0).toUpperCase() }}
-                    } @else {
+                    </ng-container>
+                    <ng-template #userIcon>
                         <mat-icon fontIcon="person"></mat-icon>
-                    }
+                    </ng-template>
                 </button>
-                @if (profileMenuOpen()) {
+                <div *ngIf="profileMenuOpen()"
                     class="absolute right-0 mt-2 w-56 rounded-xl border border-white/10 bg-white/5 backdrop-blur p-3 shadow-lg animate-in fade-in zoom-in"
                     style="animation-duration:120ms;">
                     <div class="text-xs uppercase tracking-wide opacity-60 mb-2">{{ 'COMMON.ACCOUNT' | translate }}
                     </div>
-                    @if (profileLoading()) {
+                    <div *ngIf="profileLoading()" class="text-sm flex items-center gap-2">
                         <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
-                    }
-                    @if (!profileLoading() && profileEmail()) {
-                    <div class="flex items-center gap-2 mb-3">
+                    </div>
+                    <div *ngIf="!profileLoading() && profileEmail()" class="flex items-center gap-2 mb-3">
                         <div
                             class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
                             {{ profileEmail()!.charAt(0).toUpperCase() }}
@@ -41,18 +41,13 @@
                             <div class="font-medium text-white/90">{{ profileEmail() }}</div>
                         </div>
                     </div>
-                    }
-                    @if (!isAuthenticated()) {
-                    <button (click)="toggleProfileMenu(); router.navigateByUrl('/login')"
+                    <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); router.navigateByUrl('/login')"
                         class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10">{{ 'COMMON.LOGIN' |
                         translate }}</button>
-                    }
-                    @if (isAuthenticated()) {
-                    <button (click)="logout($event)"
+                    <button *ngIf="isAuthenticated()" (click)="logout($event)"
                         class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10 flex items-center gap-2 text-red-300">
                         <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
                     </button>
-                    }
                     <div class="mt-2 pt-2 border-t border-white/10">
                         <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}
                         </div>
@@ -75,7 +70,7 @@
                                 }}</button>
                         </div>
                     </div>
-                }
+                </div>
             </div>
         </div>
 
@@ -88,18 +83,14 @@
         <div class="flex-1 overflow-y-auto">
             <div class="text-sm opacity-70 px-2 mb-2">{{ 'COMMON.HISTORY' | translate }}</div>
             <ng-container>
-                @if (isLoading) {
-                <div class="px-2 py-2 text-xs text-info flex items-center gap-2">
+                <div *ngIf="isLoading" class="px-2 py-2 text-xs text-info flex items-center gap-2">
                     <span class="loading loading-dots loading-xs"></span>
                     {{ 'COMMON.LOADING' | translate }}
                 </div>
-                }
-                @if (!isLoading && sessions.length === 0) {
-                <div class="px-2 py-2 text-xs opacity-60">{{ 'COMMON.NO_SESSIONS' | translate }}</div>
-                }
+                <div *ngIf="!isLoading && sessions.length === 0" class="px-2 py-2 text-xs opacity-60">{{
+                    'COMMON.NO_SESSIONS' | translate }}</div>
                 <ul class="space-y-2">
-                    @for (s of sessions; track s.session_id) {
-                    <li class="group border border-white/10 rounded-md hover:bg-white/5">
+                    <li *ngFor="let s of sessions" class="group border border-white/10 rounded-md hover:bg-white/5">
                         <div class="flex items-center justify-between px-2 py-2 gap-2">
                             <button class="text-left flex-1 truncate" (click)="openSession(s)">
                                 <div class="text-sm font-medium truncate">{{ s.title || ('Sesión ' +
@@ -118,18 +109,13 @@
                                 </button>
                             </div>
                         </div>
-                        @if (expanded[s.session_id]) {
-                        <div class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
-                            @if (!previews[s.session_id]) {
-                            <div class="text-xs opacity-60">{{ 'COMMON.LOADING' | translate }}</div>
-                            }
-                            @for (m of previews[s.session_id]; track m) {
-                            <div class="text-xs opacity-80 truncate">• {{ m.who }}: {{ m.text }}</div>
-                            }
+                        <div *ngIf="expanded[s.session_id]" class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
+                            <div *ngIf="!previews[s.session_id]" class="text-xs opacity-60">{{ 'COMMON.LOADING' |
+                                translate }}</div>
+                            <div *ngFor="let m of previews[s.session_id]" class="text-xs opacity-80 truncate">• {{ m.who
+                                }}: {{ m.text }}</div>
                         </div>
-                        }
                     </li>
-                    }
                 </ul>
             </ng-container>
 

@@ -1,4 +1,4 @@
 export interface SttPort {
-  transcribeBlob(blob: Blob): Promise<string>;
+  transcribeBlob(blob: Blob, language?: string): Promise<string>;
   setEngine?(engine: string): void;
 }

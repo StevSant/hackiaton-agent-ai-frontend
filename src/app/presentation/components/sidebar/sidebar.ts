@@ -1,4 +1,4 @@
-import { Component, inject, signal, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-sidebar',
   standalone: true,
   imports: [CommonModule, RouterLink, MatIconModule, TranslateModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './sidebar.html'
 })
 
