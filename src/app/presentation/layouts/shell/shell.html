@@ -1,6 +1,28 @@
 <div class="flex min-h-screen">
-  <app-sidebar></app-sidebar>
+  <!-- Responsive Sidebar Wrapper -->
+  <div
+    class="sidebar-wrapper w-0 md:w-72 md:relative md:translate-x-0 fixed inset-y-0 left-0 z-50 transform transition-transform duration-200 ease-out"
+    [class.-translate-x-full]="!isSidebarOpen"
+    [class.translate-x-0]="isSidebarOpen"
+  >
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <!-- Backdrop for mobile sidebar -->
+  <button *ngIf="isSidebarOpen" class="fixed inset-0 bg-black/50 md:hidden z-40" (click)="closeSidebar()" aria-label="Cerrar menú"></button>
+
   <main class="flex-1 overflow-y-auto">
+    <!-- Mobile Topbar -->
+    <div class="md:hidden sticky top-0 z-30 bg-base-100/80 backdrop-blur border-b border-base-200">
+      <div class="flex items-center justify-between px-3 py-2">
+        <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" title="Menú">
+          <mat-icon fontIcon="menu"></mat-icon>
+        </button>
+        <div class="text-sm opacity-70">Agente IA</div>
+        <div class="w-8"></div>
+      </div>
+    </div>
+
     <router-outlet />
   </main>
 </div>

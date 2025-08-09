@@ -12,7 +12,7 @@
             Chat con Agente
           </span>
         </h3>
-  <p class="text-sm opacity-70 mt-1">@if (selectedSessionId) { <span>Sesión: {{ selectedSessionId }}</span> }</p>
+        <p class="text-sm opacity-70 mt-1">@if (selectedSessionId) { <span>Sesión: {{ selectedSessionId }}</span> }</p>
       </div>
 
       <!-- Estado de conexión mejorado -->
@@ -42,8 +42,7 @@
       <!-- Contenedor de mensajes con scroll -->
       <div #messagesContainer
         class="messages-container flex-1 overflow-y-auto p-4 space-y-4 bg-base-100 rounded-xl shadow-sm relative"
-        style="max-height: calc(100vh - 250px);"
-        (scroll)="onMessagesScroll()">
+        style="max-height: calc(100vh - 250px);" (scroll)="onMessagesScroll()">
         <!-- Estado vacío mejorado -->
         @if (messages.length === 0 && !isSending) {
         <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
@@ -102,9 +101,12 @@
             @if (supportsSpeechSynthesis) {
             <div class="mt-2 flex items-center gap-2 text-xs">
               <span class="opacity-70">Leer:</span>
-              <button class="btn btn-ghost btn-xs" (click)="ttsPlay(message)" [disabled]="ttsState==='playing' && ttsMessageId===message.id">▶</button>
-              <button class="btn btn-ghost btn-xs" (click)="ttsPause()" [disabled]="!(ttsState==='playing' && ttsMessageId===message.id)">⏸</button>
-              <button class="btn btn-ghost btn-xs" (click)="ttsResume()" [disabled]="ttsState!=='paused' || ttsMessageId!==message.id">⏯</button>
+              <button class="btn btn-ghost btn-xs" (click)="ttsPlay(message)"
+                [disabled]="ttsState==='playing' && ttsMessageId===message.id">▶</button>
+              <button class="btn btn-ghost btn-xs" (click)="ttsPause()"
+                [disabled]="!(ttsState==='playing' && ttsMessageId===message.id)">⏸</button>
+              <button class="btn btn-ghost btn-xs" (click)="ttsResume()"
+                [disabled]="ttsState!=='paused' || ttsMessageId!==message.id">⏯</button>
               <button class="btn btn-ghost btn-xs" (click)="ttsStop()" [disabled]="ttsMessageId!==message.id">⏹</button>
             </div>
             }
@@ -211,38 +213,39 @@
 
       <!-- Botón flotante para bajar al final -->
       @if (showScrollToBottom) {
-        <button type="button" class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg"
-          (click)="scrollToBottom()" title="Bajar al final">
-          <mat-icon fontIcon="arrow_downward"></mat-icon>
-        </button>
+      <button type="button" class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg" (click)="scrollToBottom()"
+        title="Bajar al final">
+        <mat-icon fontIcon="arrow_downward"></mat-icon>
+      </button>
       }
     </div>
 
     <!-- Controles de voz y formulario -->
     <div class="bg-base-100 rounded-xl shadow-sm p-4">
-    <div class="w-full flex items-center justify-center gap-4 mb-4">
-  <button type="button" class="btn btn-circle btn-lg" [disabled]="isTranscribing" [class.btn-error]="isRecording" [class.btn-primary]="!isRecording" (click)="toggleRecording()">
+      <div class="w-full flex items-center justify-center gap-4 mb-4">
+        <button type="button" class="btn btn-circle btn-lg" [disabled]="isTranscribing" [class.btn-error]="isRecording"
+          [class.btn-primary]="!isRecording" (click)="toggleRecording()">
           @if (!isRecording) { <mat-icon fontIcon="mic"></mat-icon> }
           @if (isRecording) { <mat-icon fontIcon="stop"></mat-icon> }
         </button>
         <div class="text-sm opacity-70">
-      {{ isRecording ? ('AUDIO.REC_HINT_STOP' | translate) : ('AUDIO.REC_HINT' | translate) }}
+          {{ isRecording ? ('AUDIO.REC_HINT_STOP' | translate) : ('AUDIO.REC_HINT' | translate) }}
         </div>
         @if (isTranscribing) {
-      <div class="badge badge-outline">{{ 'AUDIO.TRANSCRIBING' | translate }}</div>
+        <div class="badge badge-outline">{{ 'AUDIO.TRANSCRIBING' | translate }}</div>
         }
       </div>
-  @if (!supportsSpeechRecognition) {
-        <div class="alert alert-warning text-sm mb-2">
-          {{ 'AUDIO.WARN_NO_SPEECH_API' | translate }}
-        </div>
+      @if (!supportsSpeechRecognition) {
+      <div class="alert alert-warning text-sm mb-2">
+        {{ 'AUDIO.WARN_NO_SPEECH_API' | translate }}
+      </div>
       }
-  @if (sttError) {
-        <div class="text-error text-sm mb-2">{{ sttError }}</div>
+      @if (sttError) {
+      <div class="text-error text-sm mb-2">{{ sttError }}</div>
       }
-  @if (micError) { <div class="text-error text-sm mt-2 text-center">{{ micError }}</div> }
+      @if (micError) { <div class="text-error text-sm mt-2 text-center">{{ micError }}</div> }
 
-  <form [formGroup]="msgForm" (submit)="sendMessage()" class="w-full">
+      <form [formGroup]="msgForm" (submit)="sendMessage()" class="w-full">
         <div class="flex items-end gap-3">
           <!-- Input de mensaje editable -->
           <div class="flex-1">
@@ -251,7 +254,8 @@
               formControlName="message" (keydown)="handleKeyDown($event)" [readOnly]="isTranscribing"></textarea>
 
             <!-- Mensajes de error -->
-            @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {<div class="text-error text-sm mt-1">
+            @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {<div
+              class="text-error text-sm mt-1">
               Por favor, escribe un mensaje o adjunta un archivo/audio.
             </div>}
           </div>
@@ -269,7 +273,8 @@
             </button>
             }
             <div class="flex items-center gap-2 text-xs mt-1">
-              <input type="checkbox" class="checkbox checkbox-sm" [(ngModel)]="includeAudioOriginal" [ngModelOptions]="{standalone: true}" name="includeAudioOriginal" />
+              <input type="checkbox" class="checkbox checkbox-sm" [(ngModel)]="includeAudioOriginal"
+                [ngModelOptions]="{standalone: true}" name="includeAudioOriginal" />
               <label for="includeAudioOriginal">Adjuntar audio original</label>
             </div>
           </div>
@@ -278,31 +283,36 @@
         <div class="flex justify-between items-center mt-2 gap-2">
           <div class="text-xs opacity-60">{{ 'AUDIO.ATTACH_HINT' | translate }}</div>
           <div class="flex items-center gap-3">
-            <input type="file" accept="application/pdf,image/*" multiple class="file-input file-input-bordered file-input-sm" [disabled]="isTranscribing"
+            <input type="file" accept="application/pdf,image/*" multiple
+              class="file-input file-input-bordered file-input-sm" [disabled]="isTranscribing"
               (change)="onFilesSelected($event)" />
             <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
           </div>
         </div>
-  @if (attachments.length) {
-          <div class="mt-2 text-xs opacity-70">Adjuntos: {{ attachments.length }} archivo(s)</div>
+        @if (attachments.length) {
+        <div class="mt-2 text-xs opacity-70">Adjuntos: {{ attachments.length }} archivo(s)</div>
         }
       </form>
       @if (supportsSpeechSynthesis) {
       <div class="mt-3 flex items-center gap-3">
         <span class="text-xs opacity-70">Volumen TTS</span>
-        <input type="range" min="0" max="1" step="0.05" [ngModel]="ttsVolume" (ngModelChange)="setTtsVolume($event)" class="range range-xs w-48" />
+        <input type="range" min="0" max="1" step="0.05" [ngModel]="ttsVolume" (ngModelChange)="setTtsVolume($event)"
+          class="range range-xs w-48" />
       </div>
       }
       <div class="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
         <div class="flex items-center gap-3">
-          <input type="checkbox" class="checkbox checkbox-sm" [disabled]="isTranscribing" [ngModel]="useServerSttAlways" (ngModelChange)="onUseServerToggleChange($event)" [ngModelOptions]="{standalone: true}" name="useServerSttAlways" />
+          <input type="checkbox" class="checkbox checkbox-sm" [disabled]="isTranscribing" [ngModel]="useServerSttAlways"
+            (ngModelChange)="onUseServerToggleChange($event)" [ngModelOptions]="{standalone: true}"
+            name="useServerSttAlways" />
           <label class="text-sm" for="useServerSttAlways">{{ 'AUDIO.USE_SERVER_STT_ALWAYS' | translate }}</label>
         </div>
         <div class="flex items-center gap-2">
           <label class="text-sm opacity-70" for="sttLangSel">{{ 'AUDIO.LANG_LABEL' | translate }}</label>
-          <select id="sttLangSel" class="select select-bordered select-sm" [disabled]="isTranscribing" [ngModel]="sttLanguage" (ngModelChange)="onSttLanguageChange($event)" [ngModelOptions]="{standalone: true}">
+          <select id="sttLangSel" class="select select-bordered select-sm" [disabled]="isTranscribing"
+            [ngModel]="sttLanguage" (ngModelChange)="onSttLanguageChange($event)" [ngModelOptions]="{standalone: true}">
             @for (opt of sttLanguageOptions; track opt) {
-              <option [ngValue]="opt">{{ opt === 'auto' ? ('AUDIO.LANG_AUTO' | translate) : opt }}</option>
+            <option [ngValue]="opt">{{ opt === 'auto' ? ('AUDIO.LANG_AUTO' | translate) : opt }}</option>
             }
           </select>
         </div>

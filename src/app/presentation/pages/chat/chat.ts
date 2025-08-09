@@ -553,6 +553,14 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     }
   }
 
+  handleComposerInput(e: Event) {
+    const ta = e.target as HTMLTextAreaElement | null;
+    if (!ta) return;
+    ta.style.height = 'auto';
+    const max = 160; // px
+    ta.style.height = Math.min(max, ta.scrollHeight) + 'px';
+  }
+
   cancelSending() {
     this.cleanup();
     this.sendMessageUC.cancel();

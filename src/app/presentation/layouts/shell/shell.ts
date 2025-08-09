@@ -1,15 +1,25 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SidebarComponent],
+  imports: [CommonModule, RouterOutlet, SidebarComponent, MatIconModule],
   templateUrl: './shell.html',
   styleUrls: ['./shell.css'],
 })
 export class ShellLayout {
-  // No agentId needed anymore
+  // Mobile sidebar state
+  isSidebarOpen = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen = false;
+  }
 }

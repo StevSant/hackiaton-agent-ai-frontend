@@ -60,7 +60,7 @@
 
         <!-- Mensaje del Usuario -->
         @if (isUserMessage(message)) {
-        <div class="chat chat-end">
+  <div class="chat chat-end msg-user">
           <div class="chat-header mb-1">
             <span class="text-xs opacity-60">{{
               getEventLabel(message.event)
@@ -77,7 +77,7 @@
 
         <!-- Mensaje del Bot -->
         @if (isBotMessage(message)) {
-        <div class="chat chat-start">
+  <div class="chat chat-start msg-bot">
           <div class="chat-header mb-1">
             <span class="text-xs opacity-60">{{
               getEventLabel(message.event)
@@ -166,7 +166,7 @@
 
         <!-- Mensaje del Sistema -->
         @if (isSystemMessage(message)) {
-        <div class="flex justify-center my-2">
+  <div class="flex justify-center my-2 msg-system">
           <div class="flex items-center gap-2 px-4 py-2 bg-info/10 text-info rounded-full text-sm">
             <span class="opacity-70">{{
               formatTimestamp(message.timestamp)
@@ -203,51 +203,54 @@
       }
     </div>
 
-    <!-- Formulario mejorado -->
-    <div class="bg-base-100 rounded-xl shadow-sm p-4">
+    <!-- Composer estilo ChatGPT -->
+    <div class="bg-base-100 rounded-xl shadow-sm p-3 md:p-4">
       <form [formGroup]="msgForm" (submit)="sendMessage()" class="w-full">
-        <div class="flex items-end gap-3">
-          <!-- Input de mensaje -->
-          <div class="flex-1">
-            <textarea class="textarea textarea-bordered w-full resize-none min-h-[60px] max-h-[120px]"
-              [placeholder]="('CHAT.PLACEHOLDER' | translate)" rows="2" formControlName="message"
-              (keydown)="handleKeyDown($event)"></textarea>
+        <div class="flex flex-col gap-3">
+          <div class="flex items-end gap-2 md:gap-3">
+            <!-- Botón adjuntar -->
+            <label class="btn btn-ghost btn-square btn-sm md:btn-md" title="Adjuntar archivos">
+              <input type="file" multiple class="hidden" (change)="onFilesSelected($event)" />
+              <mat-icon fontIcon="attach_file"></mat-icon>
+            </label>
 
-            <!-- Mensajes de error -->
-            @if (msgForm.get('message')?.invalid &&
-            msgForm.get('message')?.touched) {
-            <div class="text-error text-sm mt-1">{{ 'CHAT.ERROR_REQUIRED' | translate }}</div>
-            }
-          </div>
-
-          <!-- Botón de envío -->
-          <div class="flex flex-col gap-2">
-            <button type="submit" class="btn btn-primary" [disabled]="isSending || !msgForm.valid"
-              [class.loading]="isSending">
-              @if (!isSending) {
-              <mat-icon fontIcon="send"></mat-icon>
+            <!-- Área de texto con auto-resize y pills -->
+            <div class="flex-1">
+              <div class="rounded-xl border border-base-300 bg-base-100 focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3">
+                <textarea class="w-full bg-transparent outline-none resize-none leading-6 md:leading-7"
+                  [placeholder]="('CHAT.PLACEHOLDER' | translate)"
+                  rows="1" spellcheck="true" formControlName="message"
+                  (input)="handleComposerInput($event)"
+                  (keydown)="handleKeyDown($event)"></textarea>
+              </div>
+              @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {
+                <div class="text-error text-xs md:text-sm mt-1">{{ 'CHAT.ERROR_REQUIRED' | translate }}</div>
               }
-              {{ isSending ? ('CHAT.SENDING_BTN' | translate) : ('CHAT.SEND' | translate) }}
-            </button>
+            </div>
 
-            <!-- Botón de cancelar (solo visible cuando está enviando) -->
-            @if (isSending) {
-            <button type="button" class="btn btn-outline btn-sm" (click)="cancelSending()">{{ 'CHAT.CANCEL' | translate
-              }}</button>
-            }
+            <!-- Enviar / Cancelar -->
+            <div class="flex items-center gap-2">
+              <button type="submit" class="btn btn-primary btn-square btn-sm md:btn-md"
+                [disabled]="isSending || !msgForm.valid" [class.loading]="isSending" title="Enviar">
+                @if (!isSending) { <mat-icon fontIcon="send"></mat-icon> }
+              </button>
+              @if (isSending) {
+                <button type="button" class="btn btn-outline btn-square btn-sm md:btn-md" (click)="cancelSending()" title="Cancelar">
+                  <mat-icon fontIcon="close"></mat-icon>
+                </button>
+              }
+            </div>
           </div>
-        </div>
 
-        <!-- Información adicional -->
-        <div class="flex justify-between items-center mt-2 gap-2">
-          <div class="text-xs opacity-60">{{ 'CHAT.HINT' | translate }}</div>
-          <div class="flex items-center gap-3">
-            <input type="file" multiple class="file-input file-input-bordered file-input-sm"
-              (change)="onFilesSelected($event)" />
-            @if (filesToUpload.length) {
-            <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesToUpload.length } }}</div>
-            }
-            <span class="text-xs opacity-60">{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
+          <!-- Línea de información secundaria -->
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs opacity-70">
+            <div class="hidden sm:block">{{ 'CHAT.HINT' | translate }}</div>
+            <div class="flex items-center gap-2">
+              @if (filesToUpload.length) {
+                <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesToUpload.length } }}</div>
+              }
+              <span>{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
+            </div>
           </div>
         </div>
       </form>
