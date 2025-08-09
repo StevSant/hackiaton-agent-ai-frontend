@@ -6,12 +6,12 @@
     <button class="btn btn-sm" (click)="addKey()">+ Agregar factor</button>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <ng-container *ngFor="let key of (weights?.controls | keyvalue)">
+    @for (key of (weights.controls | keyvalue); track key.key) {
       <div>
         <label class="text-xs" [for]="'w_'+key.key">{{ key.key }}</label>
         <input class="input input-bordered w-full" [id]="'w_'+key.key" type="number" [formControl]="key.value" />
       </div>
-    </ng-container>
+    }
   </div>
   <button class="btn btn-primary" (click)="save()">Guardar</button>
 </div>

@@ -16,10 +16,12 @@
     </div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-    <div *ngFor="let f of items()" class="p-3 border rounded">
-      <div class="font-medium">{{ f.filename }}</div>
-      <div class="text-xs opacity-70">{{ f.content_type }} • {{ f.type_file }}</div>
-      <a [href]="f.url" target="_blank" class="text-primary text-sm">Abrir</a>
-    </div>
+    @for (f of items(); track f.url) {
+      <div class="p-3 border rounded">
+        <div class="font-medium truncate" [title]="f.filename">{{ f.filename }}</div>
+        <div class="text-xs opacity-70">{{ f.content_type }} • {{ f.type_file }}</div>
+        <a [href]="f.url" target="_blank" class="text-primary text-sm">Abrir</a>
+      </div>
+    }
   </div>
 </div>
