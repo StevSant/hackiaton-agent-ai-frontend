@@ -2,13 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
-
-export interface Paginated<T> {
-  items: T[];
-  page: number;
-  limit: number;
-  total: number;
-}
+import { Paginated } from '@core/models/paginated';
 
 interface PaginatedApi<T> {
   info: {
@@ -63,5 +57,15 @@ export class AdminUsersService {
     // Backend's register endpoint creates users
     const url = `${this.base}/auth/register`;
     return firstValueFrom(this.http.post<AdminUserItem>(url, payload));
+  }
+
+  async update(userId: string, payload: Partial<CreateUserPayload>): Promise<AdminUserItem> {
+    const url = `${this.base}/users/${userId}`;
+    return firstValueFrom(this.http.put<AdminUserItem>(url, payload));
+  }
+
+  async delete(userId: string): Promise<void> {
+    const url = `${this.base}/users/${userId}`;
+    await firstValueFrom(this.http.delete(url));
   }
 }

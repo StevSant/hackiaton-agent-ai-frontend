@@ -45,15 +45,37 @@
           <th>Email</th>
           <th>Role</th>
           <th>Created</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let u of users()">
-          <td>{{ u.username }}</td>
-          <td>{{ u.email }}</td>
-          <td>{{ u.role }}</td>
-          <td>{{ u.created_at || '-' }}</td>
-        </tr>
+        <ng-container *ngFor="let u of users()">
+          <tr *ngIf="editingId()!==u.user_id">
+            <td>{{ u.username }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.role }}</td>
+            <td>{{ u.created_at || '-' }}</td>
+            <td class="text-right">
+              <button class="btn btn-ghost btn-xs" (click)="startEdit(u)">Editar</button>
+              <button class="btn btn-ghost btn-xs text-error" (click)="confirmDelete(u)">Eliminar</button>
+            </td>
+          </tr>
+          <tr *ngIf="editingId()===u.user_id">
+            <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.username" /></td>
+            <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.email" /></td>
+            <td>
+              <select class="select select-bordered select-xs" [formControl]="editForm.controls.role">
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+              </select>
+            </td>
+            <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.password" placeholder="new password (opcional)" /></td>
+            <td class="text-right">
+              <button class="btn btn-primary btn-xs" (click)="saveEdit()">Guardar</button>
+              <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">Cancelar</button>
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>

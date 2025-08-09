@@ -1,6 +1,15 @@
 <div class="p-6 space-y-4">
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between gap-3">
     <h2 class="text-xl font-semibold">Archivos ({{ total() }})</h2>
+    <div class="flex items-center gap-2">
+  <select #t class="select select-bordered select-sm" (change)="type_file.set(t.value as (''|'image'|'pdf'|'document')); applyFilters()">
+        <option value="">Todos</option>
+        <option value="image">image</option>
+        <option value="pdf">pdf</option>
+        <option value="document">document</option>
+      </select>
+      <input #sf class="input input-bordered input-sm" [value]="subfolder()" (change)="subfolder.set(sf.value); applyFilters()" placeholder="subfolder" />
+    </div>
     <div class="flex gap-2">
       <button class="btn btn-sm" (click)="prev()" [disabled]="offset()<=0">Anterior</button>
       <button class="btn btn-sm" (click)="next()" [disabled]="offset()+limit()>=total()">Siguiente</button>

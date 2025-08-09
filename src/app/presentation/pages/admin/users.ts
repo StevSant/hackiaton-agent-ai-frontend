@@ -24,6 +24,11 @@ export class AdminUsersPage {
   search = signal<string>('');
   readonly start = computed(() => (this.page() - 1) * this.limit() + 1);
   readonly end = computed(() => Math.min(this.page() * this.limit(), this.total()));
+  sortBy = signal<'email' | 'username' | 'created_at' | ''>('');
+  sortOrder = signal<'asc' | 'desc'>('asc');
+
+  editingId = signal<string | null>(null);
+  editForm = this.fb.group({ username: [''], email: [''], role: ['user' as 'admin' | 'user'], password: [''] });
 
   form = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,7 +40,7 @@ export class AdminUsersPage {
   async ngOnInit() { await this.refresh(); }
 
   async refresh() {
-    const res = await this.api.list({ page: this.page(), limit: this.limit(), email: this.search() || undefined });
+  const res = await this.api.list({ page: this.page(), limit: this.limit(), email: this.search() || undefined });
     this.users.set(res.items || []);
     this.total.set(res.total || 0);
   }
@@ -70,6 +75,32 @@ export class AdminUsersPage {
       this.error.set(e?.error?.detail || e?.message || 'Error creando usuario');
     } finally {
       this.creating.set(false);
+    }
+  }
+
+  startEdit(u: AdminUserItem) {
+    this.editingId.set(u.user_id);
+    this.editForm.setValue({ username: u.username || '', email: u.email || '', role: (u.role as any) || 'user', password: '' });
+  }
+
+  cancelEdit() {
+    this.editingId.set(null);
+    this.editForm.reset({ role: 'user' });
+  }
+
+  async saveEdit() {
+    const id = this.editingId();
+    if (!id) return;
+    const payload = this.editForm.value as any;
+    await this.api.update(id, payload);
+    this.cancelEdit();
+    await this.refresh();
+  }
+
+  async confirmDelete(u: AdminUserItem) {
+    if (confirm(`Eliminar usuario ${u.email}?`)) {
+      await this.api.delete(u.user_id);
+      await this.refresh();
     }
   }
 }
