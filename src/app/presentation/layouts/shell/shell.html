@@ -1,26 +1,33 @@
 <div class="flex min-h-screen">
   <!-- Desktop sidebar (does not overlap) -->
-  <div class="desktop-sidebar">
-    <app-sidebar></app-sidebar>
+  <div class="desktop-sidebar" [class.hidden]="!isSidebarOpen">
+    <div class="sidebar-surface">
+      <app-sidebar></app-sidebar>
+    </div>
   </div>
 
   <!-- Mobile overlay sidebar -->
   <div class="mobile-overlay" [class.hidden]="!isSidebarOpen">
-    <button class="fixed inset-0 bg-black/50 z-40" (click)="closeSidebar()" aria-label="Cerrar menú"></button>
-    <div class="fixed inset-y-0 left-0 w-72 z-50">
+    <button class="fixed inset-0 overlay-backdrop z-40" (click)="closeSidebar()" aria-label="Cerrar menú"></button>
+    <div class="fixed inset-y-0 left-0 w-72 z-50 sidebar-surface">
       <app-sidebar></app-sidebar>
     </div>
   </div>
 
   <main class="flex-1 overflow-y-auto">
     <!-- Mobile Topbar -->
-    <div class="md:hidden sticky top-0 z-30 bg-base-100/80 backdrop-blur border-b border-base-200">
+    <div class="sticky top-0 z-30 topbar-surface">
       <div class="flex items-center justify-between px-3 py-2">
         <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" title="Menú">
           <mat-icon fontIcon="menu"></mat-icon>
         </button>
         <div class="text-sm opacity-70">Agente IA</div>
-        <div class="w-8"></div>
+        <div class="w-8 hidden md:block">
+          <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" title="Mostrar/Ocultar panel">
+            <mat-icon fontIcon="chevron_left" *ngIf="isSidebarOpen"></mat-icon>
+            <mat-icon fontIcon="chevron_right" *ngIf="!isSidebarOpen"></mat-icon>
+          </button>
+        </div>
       </div>
     </div>
 

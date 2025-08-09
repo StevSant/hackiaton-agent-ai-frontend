@@ -36,3 +36,27 @@
 	.desktop-sidebar{display:block}
 	.mobile-overlay{display:none}
 }
+
+/* Utility */
+.hidden{display:none !important}
+
+/* Frosted surfaces */
+.sidebar-surface{
+	height:100vh;
+	/* Theme-aware translucent background */
+	background-color: rgba(var(--b1)/.85);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border-right: 1px solid rgba(var(--bc)/.08);
+}
+.overlay-backdrop{
+	background-color: rgba(var(--b1)/.45);
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px);
+}
+.topbar-surface{
+	background-color: rgba(var(--b1)/.75);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	border-bottom: 1px solid rgba(var(--bc)/.08);
+}

@@ -5,16 +5,6 @@
     <!-- Header mejorado -->
     <div
       class="chat-header w-full flex flex-col md:flex-row justify-between items-center gap-4 p-4 bg-base-100 rounded-xl shadow-sm">
-      <div class="text-center md:text-left">
-        <h3 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
-          🤖
-          <span class="gradient-animate">
-            {{ 'CHAT.TITLE' | translate }}
-          </span>
-        </h3>
-    <p class="text-sm opacity-70 mt-1">@if (selectedSessionId) {<span>{{ 'CHAT.SESSION' | translate }}: {{
-      selectedSessionId }}</span>}</p>
-      </div>
 
       <!-- Estado de conexión mejorado -->
       <div class="flex items-center gap-3">
@@ -43,8 +33,7 @@
       <!-- Contenedor de mensajes con scroll -->
       <div #messagesContainer
         class="messages-container flex-1 overflow-y-auto p-4 space-y-4 bg-base-100 rounded-xl shadow-sm relative"
-        (scroll)="onMessagesScroll()"
-        style="max-height: calc(100vh - 250px);">
+        (scroll)="onMessagesScroll()" style="max-height: calc(100vh - 250px);">
         <!-- Estado vacío mejorado -->
         @if (messages.length === 0 && !isSending) {
         <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
@@ -59,8 +48,8 @@
         {
 
         <!-- Mensaje del Usuario -->
-    @if (isUserMessage(message)) {
-  <div class="chat chat-start msg-user">
+        @if (isUserMessage(message)) {
+        <div class="chat chat-start msg-user">
           <div class="chat-header mb-1">
             <span class="text-xs opacity-60">{{
               getEventLabel(message.event)
@@ -76,8 +65,8 @@
         }
 
         <!-- Mensaje del Bot -->
-    @if (isBotMessage(message)) {
-  <div class="chat chat-end msg-bot">
+        @if (isBotMessage(message)) {
+        <div class="chat chat-end msg-bot">
           <div class="chat-header mb-1">
             <span class="text-xs opacity-60">{{
               getEventLabel(message.event)
@@ -166,7 +155,7 @@
 
         <!-- Mensaje del Sistema -->
         @if (isSystemMessage(message)) {
-  <div class="flex justify-center my-2 msg-system">
+        <div class="flex justify-center my-2 msg-system">
           <div class="flex items-center gap-2 px-4 py-2 bg-info/10 text-info rounded-full text-sm">
             <span class="opacity-70">{{
               formatTimestamp(message.timestamp)
@@ -196,15 +185,15 @@
 
       <!-- Botón flotante para bajar al final -->
       @if (showScrollToBottom) {
-        <button type="button" class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg"
-          (click)="scrollToBottom()" title="Bajar al final">
-          <mat-icon fontIcon="arrow_downward"></mat-icon>
-        </button>
+      <button type="button" class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg" (click)="scrollToBottom()"
+        title="Bajar al final">
+        <mat-icon fontIcon="arrow_downward"></mat-icon>
+      </button>
       }
     </div>
 
     <!-- Composer estilo ChatGPT -->
-    <div class="bg-base-100 rounded-xl shadow-sm p-3 md:p-4">
+  <div class="composer-surface bg-base-100 rounded-xl shadow-sm p-3 md:p-4">
       <form [formGroup]="msgForm" (submit)="sendMessage()" class="w-full">
         <div class="flex flex-col gap-3">
           <div class="flex items-end gap-2 md:gap-3">
@@ -216,15 +205,14 @@
 
             <!-- Área de texto con auto-resize y pills -->
             <div class="flex-1">
-              <div class="rounded-xl border border-base-300 bg-base-100 focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3">
+              <div
+                class="rounded-xl border border-base-300 bg-base-100 focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3">
                 <textarea class="w-full bg-transparent outline-none resize-none leading-6 md:leading-7"
-                  [placeholder]="('CHAT.PLACEHOLDER' | translate)"
-                  rows="1" spellcheck="true" formControlName="message"
-                  (input)="handleComposerInput($event)"
-                  (keydown)="handleKeyDown($event)"></textarea>
+                  [placeholder]="('CHAT.PLACEHOLDER' | translate)" rows="1" spellcheck="true" formControlName="message"
+                  (input)="handleComposerInput($event)" (keydown)="handleKeyDown($event)"></textarea>
               </div>
               @if (msgForm.get('message')?.invalid && msgForm.get('message')?.touched) {
-                <div class="text-error text-xs md:text-sm mt-1">{{ 'CHAT.ERROR_REQUIRED' | translate }}</div>
+              <div class="text-error text-xs md:text-sm mt-1">{{ 'CHAT.ERROR_REQUIRED' | translate }}</div>
               }
             </div>
 
@@ -235,9 +223,10 @@
                 @if (!isSending) { <mat-icon fontIcon="send"></mat-icon> }
               </button>
               @if (isSending) {
-                <button type="button" class="btn btn-outline btn-square btn-sm md:btn-md" (click)="cancelSending()" title="Cancelar">
-                  <mat-icon fontIcon="close"></mat-icon>
-                </button>
+              <button type="button" class="btn btn-outline btn-square btn-sm md:btn-md" (click)="cancelSending()"
+                title="Cancelar">
+                <mat-icon fontIcon="close"></mat-icon>
+              </button>
               }
             </div>
           </div>
@@ -247,7 +236,7 @@
             <div class="hidden sm:block">{{ 'CHAT.HINT' | translate }}</div>
             <div class="flex items-center gap-2">
               @if (filesToUpload.length) {
-                <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesToUpload.length } }}</div>
+              <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesToUpload.length } }}</div>
               }
               <span>{{ msgForm.get('message')?.value?.length || 0 }}/1000</span>
             </div>

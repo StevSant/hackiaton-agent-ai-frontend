@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./shell.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShellLayout {
+export class ShellLayout implements OnInit {
   // Mobile sidebar state
   isSidebarOpen = false;
 
@@ -22,5 +22,13 @@ export class ShellLayout {
 
   closeSidebar() {
     this.isSidebarOpen = false;
+  }
+
+  ngOnInit() {
+    // Open by default on desktop, closed on mobile
+    try {
+      const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches;
+      this.isSidebarOpen = !!isDesktop;
+    } catch {}
   }
 }
