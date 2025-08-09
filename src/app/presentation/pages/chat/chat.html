@@ -244,8 +244,6 @@
         <div class="flex justify-between items-center mt-2 gap-2">
           <div class="text-xs opacity-60">Presiona Shift + Enter para nueva línea</div>
           <div class="flex items-center gap-3">
-            <input type="file" accept="audio/*" class="file-input file-input-bordered file-input-sm"
-              (change)="onAudioSelected($event)" />
             <input type="file" multiple class="file-input file-input-bordered file-input-sm"
               (change)="onFilesSelected($event)" />
             @if (filesToUpload.length) {
