@@ -44,17 +44,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('@presentation/pages/chat/chat').then((m) => m.Chat),
       },
-      // Voice-first chat routes (no agent)
-      {
-        path: 'audio',
-        loadComponent: () =>
-          import('@presentation/pages/audio/chat').then((m) => m.AudioChat),
-      },
-      {
-        path: 'audio/session/:sessionId',
-        loadComponent: () =>
-          import('@presentation/pages/audio/chat').then((m) => m.AudioChat),
-      },
       // Files and Risk pages
       {
         path: 'files',
