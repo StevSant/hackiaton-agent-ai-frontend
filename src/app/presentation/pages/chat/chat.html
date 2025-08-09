@@ -2,32 +2,6 @@
   <!-- Sidebar placeholder - puedes agregar tu sidebar aquí -->
 
   <div class="chat-container h-screen w-full p-4 md:p-8 flex flex-col gap-4 max-h-screen">
-    <!-- Header mejorado -->
-    <div
-      class="chat-header w-full flex flex-col md:flex-row justify-between items-center gap-4 p-4 bg-base-100 rounded-xl shadow-sm">
-
-      <!-- Estado de conexión mejorado -->
-      <div class="flex items-center gap-3">
-        <div class="flex items-center gap-2 px-3 py-2 rounded-full bg-base-200">
-          <div class="w-3 h-3 rounded-full transition-all duration-300" [class]="getConnectionStatusClass()"></div>
-          <span class="text-sm font-medium">{{
-            getConnectionStatusText()
-            }}</span>
-        </div>
-
-        <!-- Controles de sesión y contador -->
-        @if (messages.length > 0) {
-        <div class="badge badge-outline">
-          {{ messages.length }} mensaje{{
-          messages.length !== 1 ? 's' : ''
-          }}
-        </div>
-        }
-
-
-      </div>
-    </div>
-
     <!-- Contenedor de chat -->
     <div class="flex-1 flex flex-col gap-4 min-h-0">
       <!-- Contenedor de mensajes con scroll -->
