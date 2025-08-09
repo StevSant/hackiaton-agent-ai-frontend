@@ -25,7 +25,7 @@
 .px-3{padding-left:.75rem;padding-right:.75rem}
 .py-2{padding-top:.5rem;padding-bottom:.5rem}
 .bg-black\/50{background-color:rgba(0,0,0,.5)}
-.bg-base-100\/80{background-color:rgba(var(--b1)/.8)}
+.bg-base-100\/80{background-color:rgb(var(--b1) / .8)}
 .border-b{border-bottom:1px solid var(--b2)}
 .border-base-200{--b2:var(--b2)}
 
@@ -44,19 +44,19 @@
 .sidebar-surface{
 	height:100vh;
 	/* Theme-aware translucent background */
-	background-color: rgba(var(--b1)/.85);
+	background-color: rgb(var(--b1) / .85);
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
-	border-right: 1px solid rgba(var(--bc)/.08);
+	border-right: 1px solid rgb(var(--bc) / .08);
 }
 .overlay-backdrop{
-	background-color: rgba(var(--b1)/.45);
+	background-color: rgb(var(--b1) / .45);
 	backdrop-filter: blur(3px);
 	-webkit-backdrop-filter: blur(3px);
 }
 .topbar-surface{
-	background-color: rgba(var(--b1)/.75);
+	background-color: rgb(var(--b1) / .75);
 	backdrop-filter: blur(8px);
 	-webkit-backdrop-filter: blur(8px);
-	border-bottom: 1px solid rgba(var(--bc)/.08);
+	border-bottom: 1px solid rgb(var(--bc) / .08);
 }

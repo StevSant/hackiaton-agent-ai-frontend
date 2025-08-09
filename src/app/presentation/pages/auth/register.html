@@ -31,14 +31,14 @@
             @if (form.get('password')?.invalid && form.get('password')?.touched) {<div class="text-xs text-[hsl(var(--destructive))]">Mínimo 6 caracteres</div>}
           </div>
           <!-- Error -->
-          @if (error) {<div class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2">
-            <span class="inline-block h-2 w-2 rounded-full bg-[hsl(var(--destructive))]"></span>{{ error }}
+          @if (error()) {<div class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2">
+            <span class="inline-block h-2 w-2 rounded-full bg-[hsl(var(--destructive))]"></span>{{ error() }}
           </div>}
           <!-- Submit -->
-          <button type="submit" [disabled]="form.invalid || submitting"
+          <button type="submit" [disabled]="form.invalid || submitting()"
             class="relative w-full inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-medium text-sm text-white transition focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[hsl(var(--accent))] to-[hsl(var(--brand-primary))] shadow-lg shadow-[hsl(var(--accent)/0.35)] hover:shadow-[0_0_32px_hsl(var(--accent)/0.45)]">
-            @if (!submitting) {<span>Crear cuenta</span>}
-            @if (submitting) {<span class="flex items-center gap-2"><span class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>Procesando…</span>}
+            @if (!submitting()) {<span>Crear cuenta</span>}
+            @if (submitting()) {<span class="flex items-center gap-2"><span class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>Procesando…</span>}
           </button>
         </form>
         <div class="mt-8 text-center text-sm text-[hsl(var(--muted-foreground))]">

@@ -21,7 +21,8 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, RouterLink, MatIconModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './sidebar.html'
+  templateUrl: './sidebar.html',
+  styleUrls: ['./sidebar.css']
 })
 
 export class SidebarComponent {
@@ -50,6 +51,10 @@ export class SidebarComponent {
   isLoading = false;
   expanded: Record<string, boolean> = {};
   previews: Record<string, Array<{ who: string; text: string }>> = {};
+
+  // trackBy helpers
+  trackBySessionId = (_: number, s: SessionEntry) => s.session_id;
+  trackByIndex = (i: number) => i;
 
   ngOnInit() {
     this.tryLoad();

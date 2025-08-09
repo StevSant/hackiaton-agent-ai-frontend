@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -18,20 +18,20 @@ export class LoginPage {
   private readonly token = inject(TokenStorageService);
   private readonly router = inject(Router);
 
-  form = this.fb.group({
+  readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
-  submitting = false;
-  error: string | null = null;
+  
+  readonly submitting = signal(false);
+  readonly error = signal<string | null>(null);
 
   async submit() {
-    console.log('Login submit');
-    if (this.form.invalid || this.submitting) return;
-    console.log('Login submit');
+    if (this.form.invalid || this.submitting()) return;
 
-    this.submitting = true;
-    this.error = null;
+    this.submitting.set(true);
+    this.error.set(null);
+    
     try {
       const res = await this.loginUC.execute({
         email: this.form.value.email!,
@@ -40,9 +40,9 @@ export class LoginPage {
       this.token.setToken(res.token.access_token);
       this.router.navigateByUrl('/');
     } catch (e: any) {
-      this.error = e?.error?.message || e?.message || 'Login failed';
+      this.error.set(e?.error?.message || e?.message || 'Login failed');
     } finally {
-      this.submitting = false;
+      this.submitting.set(false);
     }
   }
 }

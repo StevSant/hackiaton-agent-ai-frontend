@@ -70,10 +70,10 @@
 .composer-surface{
   position: sticky;
   bottom: 0;
-  background-color: rgba(var(--b1)/.85);
+  background-color: rgb(var(--b1) / .85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(var(--bc)/.06);
+  border: 1px solid rgb(var(--bc) / .06);
   box-shadow: 0 6px 14px rgba(0,0,0,.06), 0 -2px 10px rgba(0,0,0,.05) inset;
   animation: composerReveal 180ms ease-out;
 }
@@ -82,4 +82,6 @@
   from{ opacity: 0; transform: translateY(6px); }
   to{ opacity: 1; transform: translateY(0); }
 }
+
+/* end of chat page styles */
 

@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -15,41 +15,52 @@ import { firstValueFrom } from 'rxjs';
 })
 export class RiskPage {
   private readonly http = inject(HttpClient);
-  private readonly base = environment.baseUrl;
+  private readonly baseUrl = environment.baseUrl;
 
-  inputText = '';
-  resultText: any = null;
-  resultPdf: any = null;
-  loading = false;
-  error: string | null = null;
+  readonly inputText = signal('');
+  readonly resultText = signal<any>(null);
+  readonly resultPdf = signal<any>(null);
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
 
   async analyzeText() {
-    if (!this.inputText.trim()) return;
-    this.loading = true;
-    this.error = null;
+    if (!this.inputText().trim()) return;
+    
+    this.loading.set(true);
+    this.error.set(null);
     try {
-  this.resultText = await firstValueFrom(this.http.post(`${this.base}/risk/analysis/text`, { text: this.inputText }));
+      const result = await firstValueFrom(
+        this.http.post(`${this.baseUrl}/risk/analysis/text`, { 
+          text: this.inputText() 
+        })
+      );
+      this.resultText.set(result);
     } catch (e: any) {
-      this.error = e?.message || 'Error en análisis';
+      this.error.set(e?.message || 'Error en análisis');
     } finally {
-      this.loading = false;
+      this.loading.set(false);
     }
   }
 
   async analyzePdf(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
-  const file = input.files[0];
-    const form = new FormData();
-    form.append('file', file);
-    this.loading = true;
-    this.error = null;
+    
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    this.loading.set(true);
+    this.error.set(null);
     try {
-      this.resultPdf = await firstValueFrom(this.http.post(`${this.base}/risk/analysis/pdf`, form));
+      const result = await firstValueFrom(
+        this.http.post(`${this.baseUrl}/risk/analysis/pdf`, formData)
+      );
+      this.resultPdf.set(result);
     } catch (e: any) {
-      this.error = e?.message || 'Error analizando PDF';
+      this.error.set(e?.message || 'Error analizando PDF');
     } finally {
-      this.loading = false;
+      this.loading.set(false);
       input.value = '';
     }
   }

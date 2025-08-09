@@ -25,10 +25,9 @@
                     </ng-template>
                 </button>
                 <div *ngIf="profileMenuOpen()"
-                    class="absolute right-0 mt-2 w-56 rounded-xl border border-white/10 bg-white/5 backdrop-blur p-3 shadow-lg animate-in fade-in zoom-in"
+                    class="absolute right-0 mt-2 w-56 rounded-xl profile-menu-surface p-3 shadow-lg animate-in fade-in zoom-in text-base-content z-50"
                     style="animation-duration:120ms;">
-                    <div class="text-xs uppercase tracking-wide opacity-60 mb-2">{{ 'COMMON.ACCOUNT' | translate }}
-                    </div>
+                    <div class="profile-menu-header mb-2">{{ 'COMMON.ACCOUNT' | translate }}</div>
                     <div *ngIf="profileLoading()" class="text-sm flex items-center gap-2">
                         <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
                     </div>
@@ -38,30 +37,28 @@
                             {{ profileEmail()!.charAt(0).toUpperCase() }}
                         </div>
                         <div class="text-xs break-all leading-tight">
-                            <div class="font-medium text-white/90">{{ profileEmail() }}</div>
+                            <div class="font-medium text-base-content/90">{{ profileEmail() }}</div>
                         </div>
                     </div>
                     <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); router.navigateByUrl('/login')"
-                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10">{{ 'COMMON.LOGIN' |
+                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200">{{ 'COMMON.LOGIN' |
                         translate }}</button>
                     <button *ngIf="isAuthenticated()" (click)="logout($event)"
-                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-white/10 flex items-center gap-2 text-red-300">
+                        class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200 flex items-center gap-2 text-error">
                         <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
                     </button>
-                    <div class="mt-2 pt-2 border-t border-white/10">
-                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}
-                        </div>
-                        <div class="flex gap-2">
+                    <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
+                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}</div>
+                        <div class="flex gap-2 flex-wrap">
                             <button class="btn btn-xs" (click)="switchLang('es')">{{ 'COMMON.SPANISH' | translate
                                 }}</button>
                             <button class="btn btn-xs" (click)="switchLang('en')">{{ 'COMMON.ENGLISH' | translate
                                 }}</button>
                         </div>
                     </div>
-                    <div class="mt-2 pt-2 border-t border-white/10">
-                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}
-                        </div>
-                        <div class="flex gap-2">
+                    <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
+                        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}</div>
+                        <div class="flex gap-2 flex-wrap">
                             <button class="btn btn-xs" (click)="setTheme('light')">{{ 'COMMON.THEME_LIGHT' | translate
                                 }}</button>
                             <button class="btn btn-xs" (click)="setTheme('dark')">{{ 'COMMON.THEME_DARK' | translate
@@ -94,7 +91,7 @@
                 <div *ngIf="!isLoading && sessions.length === 0" class="px-2 py-2 text-xs opacity-60">{{
                     'COMMON.NO_SESSIONS' | translate }}</div>
                 <ul class="space-y-2">
-                    <li *ngFor="let s of sessions" class="group border border-white/10 rounded-md hover:bg-white/5">
+                    <li *ngFor="let s of sessions; trackBy: trackBySessionId" class="group border border-white/10 rounded-md hover:bg-white/5">
                         <div class="flex items-center justify-between px-2 py-2 gap-2">
                             <button class="text-left flex-1 truncate" (click)="openSession(s)">
                                 <div class="text-sm font-medium truncate">{{ s.title || ('Sesión ' +
@@ -116,7 +113,7 @@
                         <div *ngIf="expanded[s.session_id]" class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
                             <div *ngIf="!previews[s.session_id]" class="text-xs opacity-60">{{ 'COMMON.LOADING' |
                                 translate }}</div>
-                            <div *ngFor="let m of previews[s.session_id]" class="text-xs opacity-80 truncate">• {{ m.who
+                            <div *ngFor="let m of previews[s.session_id]; trackBy: trackByIndex" class="text-xs opacity-80 truncate">• {{ m.who
                                 }}: {{ m.text }}</div>
                         </div>
                     </li>

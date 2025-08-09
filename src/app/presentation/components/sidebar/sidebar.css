@@ -1,0 +1,25 @@
+.profile-menu-surface{
+  /* Solid, theme-aware surface so underlying content does not show */
+  background-color: rgb(var(--b1));
+  color: rgb(var(--bc));
+  border: 1px solid rgb(var(--bc) / .16);
+  box-shadow: 0 12px 28px rgba(0,0,0,.22);
+  overflow: hidden; /* ensure rounded corners clip inner elements */
+}
+.profile-menu-divider{
+  border-top: 1px solid rgb(var(--bc) / .10);
+}
+
+.profile-menu-header{
+  background-color: rgb(var(--bc) / .08);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.profile-menu-section{
+  background-color: rgb(var(--bc) / .04);
+  border-radius: 10px;
+}

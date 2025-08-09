@@ -9,11 +9,11 @@
     <input type="file" multiple class="file-input file-input-bordered file-input-sm" (change)="onUpload($event)" />
   </div>
 
-  @if (loading) { <div class="text-sm opacity-70">Cargando...</div> }
-  @if (error) { <div class="text-sm text-error">{{ error }}</div> }
+  @if (loading()) { <div class="text-sm opacity-70">Cargando...</div> }
+  @if (error()) { <div class="text-sm text-error">{{ error() }}</div> }
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-  @for (item of items; track item.id) {
+  @for (item of items(); track item.id) {
   <div class="card bg-base-100 shadow p-3">
       <div class="text-sm font-semibold">{{ item.filename }}</div>
       <div class="text-xs opacity-70 flex items-center gap-2 flex-wrap">

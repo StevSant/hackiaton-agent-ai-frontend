@@ -1,23 +1,23 @@
 <div class="p-4 space-y-6">
   <section class="space-y-2">
     <h2 class="text-xl font-semibold">Análisis de Riesgo Financiero (Texto)</h2>
-    <textarea class="textarea textarea-bordered w-full min-h-32" [(ngModel)]="inputText" placeholder="Pega el texto a analizar..."></textarea>
+    <textarea class="textarea textarea-bordered w-full min-h-32" [value]="inputText()" (input)="inputText.set($any($event.target).value)" placeholder="Pega el texto a analizar..."></textarea>
     <div class="flex gap-2">
-      <button class="btn btn-primary" (click)="analyzeText()" [disabled]="loading || !inputText.trim()">Analizar</button>
+      <button class="btn btn-primary" (click)="analyzeText()" [disabled]="loading() || !inputText().trim()">Analizar</button>
     </div>
-  @if (resultText) {
-  <pre class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultText | json }}</pre>
+  @if (resultText()) {
+  <pre class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultText() | json }}</pre>
   }
   </section>
 
   <section class="space-y-2">
     <h2 class="text-xl font-semibold">Análisis de PDF</h2>
   <input type="file" accept="application/pdf" class="file-input file-input-bordered" (change)="analyzePdf($event)" />
-  @if (resultPdf) {
-  <pre class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultPdf | json }}</pre>
+  @if (resultPdf()) {
+  <pre class="bg-base-200 p-3 rounded text-xs overflow-auto">{{ resultPdf() | json }}</pre>
   }
   </section>
 
-  @if (loading) { <div class="text-sm opacity-70">Procesando...</div> }
-  @if (error) { <div class="text-sm text-error">{{ error }}</div> }
+  @if (loading()) { <div class="text-sm opacity-70">Procesando...</div> }
+  @if (error()) { <div class="text-sm text-error">{{ error() }}</div> }
 </div>

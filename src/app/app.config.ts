@@ -39,7 +39,8 @@ export const appConfig: ApplicationConfig = {
     provideMarkdown(),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes, withViewTransitions()),
+  // Skip the very first view transition to avoid bootstrap-time InvalidStateError
+  provideRouter(routes, withViewTransitions({ skipInitialTransition: true })),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([ authInterceptorFn ])),
     importProvidersFrom(
