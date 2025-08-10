@@ -10,6 +10,8 @@ export interface UploadedFileMeta {
   original_extension?: string | null;
   source_extension?: string | null;
   extracted_available?: boolean;
+  owner_id?: string | null;
+  session_id?: string | null;
 }
 
 export interface ListFilesResponse {

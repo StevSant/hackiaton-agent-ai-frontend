@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, inject, computed, ViewChild, ElementRef, effect, PLATFORM_ID, OnDestroy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject, computed, ViewChild, ElementRef, effect, PLATFORM_ID, OnDestroy, signal, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
@@ -13,7 +13,7 @@ import { AdminStatsFacade } from '../../..//application/admin/admin-stats.facade
   styleUrls: ['./dashboard.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminDashboardPage implements OnInit, OnDestroy {
+export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
   private readonly stats = inject(AdminStatsFacade);
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -32,6 +32,7 @@ export class AdminDashboardPage implements OnInit, OnDestroy {
   private filesChart?: any;
   private ChartCtor?: any;
   private chartLibLoading = false;
+  private readonly viewReady = signal(false);
 
   // Line chart: activity over time (users, sessions, messages, files)
   activityChartData = computed<any>(() => {
@@ -103,7 +104,7 @@ export class AdminDashboardPage implements OnInit, OnDestroy {
 
   // Render/update charts reactively when data changes (browser only)
   renderActivityEffect = effect(() => {
-    if (!this.isBrowser()) return;
+    if (!this.isBrowser() || !this.viewReady()) return;
     const data = this.activityChartData();
     const canvas = this.activityCanvas?.nativeElement;
     if (!canvas) return;
@@ -120,7 +121,7 @@ export class AdminDashboardPage implements OnInit, OnDestroy {
   });
 
   renderFilesEffect = effect(() => {
-    if (!this.isBrowser()) return;
+    if (!this.isBrowser() || !this.viewReady()) return;
     const data = this.filesByTypeData();
     const canvas = this.filesCanvas?.nativeElement;
     if (!canvas) return;
@@ -177,6 +178,10 @@ export class AdminDashboardPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   this.stats.load(this.days());
+  }
+
+  ngAfterViewInit(): void {
+    this.viewReady.set(true);
   }
 
   fileTypes(): string[] {

@@ -15,6 +15,8 @@ export interface UploadedFileMeta {
   original_extension?: string | null;
   source_extension?: string | null; // backend may return this field name
   extracted_available?: boolean; // present when metadata extraction exists
+  owner_id?: string | null;
+  session_id?: string | null;
 }
 
 // Legacy shape kept for compatibility in mapping helper

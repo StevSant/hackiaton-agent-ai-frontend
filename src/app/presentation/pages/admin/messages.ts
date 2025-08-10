@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AdminMessagesFacade } from '@app/application/admin/admin-messages.facade';
@@ -16,6 +16,13 @@ export class AdminMessagesPage {
 
   sessions = this.facade.sessions;
   selected = this.facade.selected;
+  selectedOwnerId = computed(() => {
+    const id = this.selected();
+    if (!id) return null;
+    const list = this.sessions() || [];
+    const found = list.find(s => s.session_id === id);
+    return found?.user_id || null;
+  });
   messages = this.facade.messages;
   loading = this.facade.loading;
   error = this.facade.error;
