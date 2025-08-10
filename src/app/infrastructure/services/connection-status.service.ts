@@ -53,7 +53,7 @@ export class ConnectionStatusService {
       streaming: "bg-info animate-pulse",
       error: "bg-error animate-bounce",
     }
-    return statusClasses[this.currentStatus] || "bg-base-300"
+    return statusClasses[this.currentStatus] || "bg-secondary"
   }
 
   /**

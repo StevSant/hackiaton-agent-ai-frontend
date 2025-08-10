@@ -18,8 +18,8 @@
       <div class="text-sm font-semibold">{{ item.filename }}</div>
       <div class="text-xs opacity-70 flex items-center gap-2 flex-wrap">
         <span>{{ item.type_file }} • {{ item.content_type }}</span>
-    @if (item.converted) { <span class="badge badge-ghost badge-xs">{{ 'FILES_PAGE.CONVERTED' | translate }}</span> }
-    @if (item.extracted_available) { <span class="badge badge-success badge-xs">{{ 'FILES_PAGE.EXTRACTED' | translate }}</span> }
+  @if (item.converted) { <span class="badge badge-ghost badge-xs">{{ 'FILES_PAGE.CONVERTED' | translate }}</span> }
+  @if (item.extracted_available) { <span class="badge badge-success badge-xs">{{ 'FILES_PAGE.EXTRACTED' | translate }}</span> }
       </div>
       <div class="text-xs break-all flex items-center gap-2">
         <span class="truncate">ID: {{ item.id }}</span>

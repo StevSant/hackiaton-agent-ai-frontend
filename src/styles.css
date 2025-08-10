@@ -7,6 +7,13 @@
   --brand-primary-glow: 217.2 91.2% 66%;
   --brand-secondary: 215 28% 17%;
   --brand-accent: 160 84% 39%;
+  /* Status tokens */
+  --success: 142 72% 35%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 24 10% 10%;
+  --info: 201 96% 32%;
+  --info-foreground: 0 0% 100%;
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
@@ -174,3 +181,67 @@ html::-webkit-scrollbar-thumb {
   border: 2px solid hsl(var(--secondary));
 }
 html::-webkit-scrollbar-thumb:hover { filter: brightness(1.1); }
+
+/* Badges (token-based, DaisyUI-compatible API) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 0.125rem 0.5rem; /* h-5 pill */
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+.badge.badge-xs {
+  padding: 0.0625rem 0.375rem;
+  font-size: 0.6875rem;
+  line-height: 0.875rem;
+}
+.badge.badge-outline {
+  background-color: transparent;
+  border-color: hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+}
+.badge.badge-ghost {
+  background-color: hsl(var(--primary) / 0.06);
+  border-color: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+}
+.badge.badge-primary {
+  background-color: hsl(var(--primary));
+  border-color: hsl(var(--primary) / 0.2);
+  color: hsl(var(--primary-foreground));
+}
+.badge.badge-success {
+  background-color: hsl(var(--success));
+  border-color: hsl(var(--success) / 0.2);
+  color: hsl(var(--success-foreground));
+}
+.badge.badge-warning {
+  background-color: hsl(var(--warning));
+  border-color: hsl(var(--warning) / 0.2);
+  color: hsl(var(--warning-foreground));
+}
+.badge.badge-info {
+  background-color: hsl(var(--info));
+  border-color: hsl(var(--info) / 0.2);
+  color: hsl(var(--info-foreground));
+}
+.badge.badge-error,
+.badge.badge-danger {
+  background-color: hsl(var(--destructive));
+  border-color: hsl(var(--destructive) / 0.2);
+  color: hsl(var(--destructive-foreground));
+}
+
+/* Minimal background utility shims used in templates */
+.bg-secondary { background-color: hsl(var(--secondary)) !important; }
+.bg-success { background-color: hsl(var(--success)) !important; }
+.bg-warning { background-color: hsl(var(--warning)) !important; }
+.bg-info { background-color: hsl(var(--info)) !important; }
+.bg-error { background-color: hsl(var(--destructive)) !important; }
+.bg-base-300 { background-color: hsl(var(--secondary)) !important; }
