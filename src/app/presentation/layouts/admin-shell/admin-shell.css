@@ -1,2 +1,3 @@
 .btn.btn-ghost { justify-content: flex-start; }
+aside { border-color: hsl(var(--border)); }
 aside nav a { gap: .5rem; }
