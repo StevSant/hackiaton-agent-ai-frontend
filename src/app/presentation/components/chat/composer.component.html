@@ -42,13 +42,18 @@
         </div>
       </div>
 
-  @if (uploadedFiles.length) {
+      @if (uploadedFiles.length) {
         <div class="mt-2 flex flex-wrap gap-2 text-xs">
           @for (f of uploadedFiles; track f.id) {
-            <a class="badge badge-outline hover:badge-primary cursor-pointer" [href]="f.url" target="_blank" rel="noopener noreferrer" title="{{ f.filename }}">
-              <mat-icon fontIcon="insert_drive_file" class="mr-1"></mat-icon>
-              <span class="truncate max-w-48">{{ f.filename }}</span>
-            </a>
+            <span class="badge badge-outline items-center gap-1">
+              <a class="inline-flex items-center hover:underline" [href]="f.url" target="_blank" rel="noopener noreferrer" title="{{ f.filename }}">
+                <mat-icon fontIcon="insert_drive_file" class="mr-1"></mat-icon>
+                <span class="truncate max-w-48">{{ f.filename }}</span>
+              </a>
+              <button type="button" class="btn btn-ghost btn-xs p-0 min-h-0 h-5 w-5" (click)="onRemove(f, $event)" title="Quitar">
+                <mat-icon fontIcon="close"></mat-icon>
+              </button>
+            </span>
           }
         </div>
       }

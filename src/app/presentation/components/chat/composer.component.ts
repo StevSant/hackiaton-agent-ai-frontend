@@ -21,9 +21,15 @@ export class ChatComposerComponent {
   @Output() send = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
   @Output() filesSelected = new EventEmitter<Event>();
+  @Output() removeUploadedFile = new EventEmitter<UploadedFileMeta>();
   @Output() keydown = new EventEmitter<KeyboardEvent>();
   @Output() composerInput = new EventEmitter<Event>();
 
   onSubmit() { this.send.emit(); }
   onCancel() { this.cancel.emit(); }
+  onRemove(file: UploadedFileMeta, e?: Event) {
+    e?.preventDefault();
+    e?.stopPropagation();
+    this.removeUploadedFile.emit(file);
+  }
 }

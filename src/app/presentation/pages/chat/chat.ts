@@ -480,6 +480,16 @@ export class Chat implements OnDestroy, OnInit {
     }
   }
 
+  removeUploadedFile(file: UploadedFileMeta) {
+    // remove from uploadedFiles
+    this.uploadedFiles = this.uploadedFiles.filter((u) => u.id !== file.id);
+    // also remove from filesToUpload by matching name/size if present
+    this.filesToUpload = this.filesToUpload.filter(
+      (f) => !(f.name === file.filename || `${f.size}` === (file as any).size)
+    );
+    this.cdr.markForCheck();
+  }
+
   ngOnDestroy() {
     this.cleanup();
     this.connectionStatus.destroy();
