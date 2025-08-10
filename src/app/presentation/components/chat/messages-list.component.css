@@ -1,5 +1,5 @@
-.msg-user .chat-bubble{white-space:pre-wrap}
-.msg-bot .chat-bubble{white-space:pre-wrap}
+.msg-user .chat-bubble{white-space:pre-wrap;background:linear-gradient(180deg,hsl(var(--primary)/0.12),hsl(var(--primary)/0.08));color:hsl(var(--foreground));border:1px solid hsl(var(--brand-primary)/0.25)}
+.msg-bot .chat-bubble{white-space:pre-wrap;background:linear-gradient(180deg,hsl(var(--card)/0.75),hsl(var(--card)/0.65));color:hsl(var(--card-foreground));border:1px solid hsl(var(--border)/0.6);backdrop-filter: blur(6px)}
 .scroll-to-bottom-btn{position:absolute;bottom:8px;right:8px}
 
 /* Smooth, modern scrollbar for the messages panel */

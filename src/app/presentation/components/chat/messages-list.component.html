@@ -30,7 +30,7 @@
             <time class="text-xs opacity-60 ml-2">{{ chatUtils.formatTimestamp(message.timestamp) }}</time>
             @if (message.isStreaming) { <span class="loading loading-dots loading-xs ml-2"></span> }
           </div>
-          <div class="chat-bubble bg-base-200 text-base-content max-w-xs md:max-w-md lg:max-w-2xl">
+          <div class="chat-bubble max-w-xs md:max-w-md lg:max-w-2xl">
             <div class="prose prose-sm max-w-none">
               <markdown [data]="message.displayedContent"></markdown>
             </div>

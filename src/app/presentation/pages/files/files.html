@@ -14,7 +14,7 @@
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
   @for (item of items(); track item.id) {
-  <div class="card bg-base-100 shadow p-3">
+  <div class="card glass-surface p-3">
       <div class="text-sm font-semibold">{{ item.filename }}</div>
       <div class="text-xs opacity-70 flex items-center gap-2 flex-wrap">
         <span>{{ item.type_file }} • {{ item.content_type }}</span>
