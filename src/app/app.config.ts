@@ -3,6 +3,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
   importProvidersFrom,
+  ENVIRONMENT_INITIALIZER,
 } from '@angular/core';
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
@@ -26,6 +27,7 @@ import { AdminUsersService } from '@infrastructure/services/admin-users.service'
 import { CompaniesService } from '@infrastructure/services/companies.service';
 import { RiskWeightsService } from '@infrastructure/services/risk-weights.service';
 import { AdminMessagesService } from '@infrastructure/services/admin-messages.service';
+import { LanguageService } from '@infrastructure/services/language.service';
 
 class AppTranslateLoader implements TranslateLoader {
   constructor(private readonly http: HttpClient) {}
@@ -57,6 +59,12 @@ export const appConfig: ApplicationConfig = {
         fallbackLang: 'es',
       })
     ),
+    {
+      provide: ENVIRONMENT_INITIALIZER,
+      multi: true,
+      useFactory: (langService: LanguageService) => () => langService.init(),
+      deps: [LanguageService],
+    },
     { provide: CHAT_STREAM_PORT, useExisting: SseService },
     { provide: SESSIONS_PORT, useExisting: SessionsService },
     { provide: AUTH_PORT, useExisting: AuthService },

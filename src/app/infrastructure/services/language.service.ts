@@ -11,6 +11,8 @@ export class LanguageService {
 
   init() {
   this.translate.addLangs(this.supported as unknown as string[]);
+  // Set a default language early to avoid flashing of raw keys
+  this.translate.setDefaultLang('es');
   const saved = this.safeLocalStorageGet(STORAGE_KEY)?.toLowerCase() || '';
   const browser = this.safeNavigatorLang();
   let lang: 'es' | 'en' = 'es';
