@@ -2,7 +2,7 @@ import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetec
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import type { SessionEntry, ChatEntry } from '@core/models';
+import type { SessionEntry } from '@core/models';
 import { ChatFacade } from '@app/application/chat/chat.facade';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 import { GetProfileUseCase } from '@core/use-cases';
@@ -47,7 +47,7 @@ export class SidebarComponent {
   sessions: SessionEntry[] = [];
   isLoading = false;
   expanded: Record<string, boolean> = {};
-  previews: Record<string, Array<{ who: string; text: string }>> = {};
+  previews: Record<string, { title: string; summary?: string } | undefined> = {};
   // delete confirmation state
   confirmOpen = signal(false);
   toDelete = signal<SessionEntry | null>(null);
@@ -86,19 +86,8 @@ export class SidebarComponent {
     const id = session.session_id;
     this.expanded[id] = !this.expanded[id];
     if (this.expanded[id] && !this.previews[id]) {
-  this.chatFacade.getSession(id).subscribe((res) => {
-        const chats: ChatEntry[] = (res as any)?.chats || [];
-        const items = chats.slice(-6).flatMap((c) => {
-          const arr: Array<{ who: string; text: string }> = [
-            { who: c.message.role, text: c.message.content }
-          ];
-          if (c.response && typeof c.response.content === 'string' && c.response.content.length > 0) {
-            arr.push({ who: 'assistant', text: c.response.content });
-          }
-          return arr;
-        });
-        this.previews[id] = items;
-      });
+      // Use data already available from session listing: title and summary
+      this.previews[id] = { title: session.title, summary: session.summary };
     }
   }
 

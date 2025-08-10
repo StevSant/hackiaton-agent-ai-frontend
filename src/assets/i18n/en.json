@@ -16,7 +16,8 @@
     "HOME": "Home",
     "LANGUAGE": "Language",
     "SPANISH": "Spanish",
-    "ENGLISH": "English"
+  "ENGLISH": "English",
+  "NO_SUMMARY": "No summary available"
   },
   "CHAT": {
     "TITLE": "Chat with Agent",

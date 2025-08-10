@@ -13,13 +13,15 @@ export class SessionsService {
   getSessions(_agentId: string): Observable<SessionEntry[]> {
     const url = `${this.base}/agent/sessions`;
     return new Observable<SessionEntry[]>((subscriber) => {
-      const sub = this.http.get<any[]>(url).subscribe({
+  const sub = this.http.get<any[]>(url).subscribe({
         next: (items) => {
           try {
             const sessions: SessionEntry[] = (items || []).map((s: any) => ({
               session_id: s.session_id,
-              title: s.title || '',
-              created_at: Math.floor(new Date(s.created_at).getTime() / 1000),
+      title: s.title || '',
+      summary: s.summary || s.resume || undefined,
+      created_at: Math.floor(new Date(s.created_at).getTime() / 1000),
+      updated_at: s.updated_at ? Math.floor(new Date(s.updated_at).getTime() / 1000) : undefined,
             }));
             subscriber.next(sessions);
             subscriber.complete();

@@ -55,10 +55,13 @@
                             </div>
                         </div>
                         <div *ngIf="expanded[s.session_id]" class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
-                            <div *ngIf="!previews[s.session_id]" class="text-xs opacity-60">{{ 'COMMON.LOADING' |
-                                translate }}</div>
-                            <div *ngFor="let m of previews[s.session_id]; trackBy: trackByIndex" class="text-xs opacity-80 truncate">• {{ m.who
-                                }}: {{ m.text }}</div>
+                            <div *ngIf="!previews[s.session_id]" class="text-xs opacity-60">{{ 'COMMON.LOADING' | translate }}</div>
+                            <ng-container *ngIf="previews[s.session_id] as prev">
+                                <div class="text-xs font-semibold truncate">{{ prev.title || ('Sesión ' + s.session_id.slice(0,6)) }}</div>
+                                <div class="text-xs opacity-80 whitespace-pre-line">
+                                    {{ prev.summary || ('COMMON.NO_SUMMARY' | translate) }}
+                                </div>
+                            </ng-container>
                         </div>
                     </li>
                 </ul>

@@ -95,7 +95,9 @@ export interface RunResponse {
 export interface SessionEntry {
   session_id: string
   title: string
+  summary?: string
   created_at: number
+  updated_at?: number
 }
 
 export interface ChatEntry {

@@ -16,7 +16,8 @@
     "HOME": "Inicio",
     "LANGUAGE": "Idioma",
     "SPANISH": "Español",
-    "ENGLISH": "Inglés"
+  "ENGLISH": "Inglés",
+  "NO_SUMMARY": "Sin resumen disponible"
   },
   "CHAT": {
     "TITLE": "Chat con Agente",
