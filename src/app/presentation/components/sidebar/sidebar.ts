@@ -51,9 +51,12 @@ export class SidebarComponent {
   limit = 20;
   total = 0;
   hasMore = true;
-  // delete confirmation state
+  // delete confirmation state (lifted to shell via outputs)
   confirmOpen = signal(false);
   toDelete = signal<SessionEntry | null>(null);
+  @Output() deleteRequested = new EventEmitter<SessionEntry>();
+  @Output() deleteCancelled = new EventEmitter<void>();
+  @Output() deleteConfirmed = new EventEmitter<SessionEntry>();
 
   // trackBy helpers
   trackBySessionId = (_: number, s: SessionEntry) => s.session_id;
@@ -143,8 +146,9 @@ export class SidebarComponent {
 
   openDeleteModal(session: SessionEntry, event?: Event) {
     event?.stopPropagation();
-    this.toDelete.set(session);
-    this.confirmOpen.set(true);
+  this.toDelete.set(session);
+  this.confirmOpen.set(true);
+  this.deleteRequested.emit(session);
   }
 
   confirmDelete() {
@@ -160,6 +164,7 @@ export class SidebarComponent {
       },
       complete: () => {
         this.confirmOpen.set(false);
+        this.deleteConfirmed.emit(session);
         this.toDelete.set(null);
       },
       error: () => {
@@ -170,8 +175,9 @@ export class SidebarComponent {
   }
 
   cancelDelete() {
-    this.confirmOpen.set(false);
-    this.toDelete.set(null);
+  this.confirmOpen.set(false);
+  this.deleteCancelled.emit();
+  this.toDelete.set(null);
   }
 
   isAuthenticated() { return this.token.isAuthenticated(); }
