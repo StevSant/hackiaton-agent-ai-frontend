@@ -4,39 +4,45 @@
   <div class="flex items-end justify-between gap-3">
     <div class="flex items-center gap-2">
       <label for="userSearch" class="text-xs">{{ 'ADMIN.USERS.SEARCH_LABEL' | translate }}</label>
-      <input #userSearch id="userSearch" class="input input-bordered input-sm" (keyup.enter)="applySearch(userSearch.value)" [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate" />
-      <button class="btn btn-sm" (click)="applySearch(userSearch.value)" type="button">{{ 'ADMIN.USERS.SEARCH_BUTTON' | translate }}</button>
+      <input #userSearch id="userSearch" class="input input-bordered input-sm"
+        (keyup.enter)="applySearch(userSearch.value)" [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate" />
+      <button class="btn btn-sm" (click)="applySearch(userSearch.value)" type="button">{{ 'ADMIN.USERS.SEARCH_BUTTON' |
+        translate }}</button>
     </div>
     <div class="text-sm opacity-70">{{ start() }}–{{ end() }} de {{ total() }}</div>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="create()" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
     <div>
-  <label class="text-xs" for="username">{{ 'ADMIN.USERS.USERNAME' | translate }}</label>
-  <input id="username" class="input input-bordered w-full" formControlName="username" [placeholder]="'ADMIN.USERS.USERNAME_PLACEHOLDER' | translate" />
+      <label class="text-xs" for="username">{{ 'ADMIN.USERS.USERNAME' | translate }}</label>
+      <input id="username" class="input input-bordered w-full" formControlName="username"
+        [placeholder]="'ADMIN.USERS.USERNAME_PLACEHOLDER' | translate" />
     </div>
     <div>
-  <label class="text-xs" for="email">{{ 'ADMIN.USERS.EMAIL' | translate }}</label>
-  <input id="email" class="input input-bordered w-full" formControlName="email" [placeholder]="'ADMIN.USERS.EMAIL_PLACEHOLDER' | translate" type="email" />
+      <label class="text-xs" for="email">{{ 'ADMIN.USERS.EMAIL' | translate }}</label>
+      <input id="email" class="input input-bordered w-full" formControlName="email"
+        [placeholder]="'ADMIN.USERS.EMAIL_PLACEHOLDER' | translate" type="email" />
     </div>
-  <div class="md:col-span-2">
-  <label class="text-xs" for="password">{{ 'ADMIN.USERS.PASSWORD' | translate }}</label>
-  <input id="password" class="input input-bordered w-full" formControlName="password" [placeholder]="'ADMIN.USERS.PASSWORD_PLACEHOLDER' | translate" type="password" />
+    <div class="md:col-span-2">
+      <label class="text-xs" for="password">{{ 'ADMIN.USERS.PASSWORD' | translate }}</label>
+      <input id="password" class="input input-bordered w-full" formControlName="password"
+        [placeholder]="'ADMIN.USERS.PASSWORD_PLACEHOLDER' | translate" type="password" />
     </div>
     <div>
-  <label class="text-xs" for="role">{{ 'ADMIN.USERS.ROLE' | translate }}</label>
+      <label class="text-xs" for="role">{{ 'ADMIN.USERS.ROLE' | translate }}</label>
       <select id="role" class="select select-bordered w-full" formControlName="role">
-        <option value="user">user</option>
-        <option value="admin">admin</option>
+        <option [ngValue]="'user'">{{ 'COMMON.USER' | translate }}</option>
+        <option [ngValue]="'admin'">{{ 'COMMON.ADMIN' | translate }}</option>
       </select>
     </div>
     <div>
-  <button class="btn btn-primary" [disabled]="form.invalid || creating()" type="submit">{{ 'ADMIN.USERS.CREATE' | translate }}</button>
+      <button class="btn btn-primary" [disabled]="form.invalid || creating()" type="submit">{{ 'ADMIN.USERS.CREATE' |
+        translate }}</button>
     </div>
   </form>
 
   @if (error()) {
-    <div class="alert alert-error">{{ error() }}</div>
+  <div class="alert alert-error">{{ error() }}</div>
   }
 
   <div class="overflow-x-auto">
@@ -64,34 +70,36 @@
       </thead>
       <tbody>
         @for (u of users(); track u.user_id) {
-          @if (editingId() !== u.user_id) {
-            <tr>
-              <td>{{ u.username }}</td>
-              <td>{{ u.email }}</td>
-              <td>{{ u.role }}</td>
-              <td>{{ u.created_at || '-' }}</td>
-              <td class="text-right">
-                <button class="btn btn-ghost btn-xs" (click)="startEdit(u)">{{ 'ADMIN.USERS.EDIT' | translate }}</button>
-                <button class="btn btn-ghost btn-xs text-error" (click)="confirmDelete(u)">{{ 'ADMIN.USERS.DELETE' | translate }}</button>
-              </td>
-            </tr>
-          } @else {
-            <tr>
-              <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.username" /></td>
-              <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.email" /></td>
-              <td>
+        @if (editingId() !== u.user_id) {
+        <tr>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.role }}</td>
+          <td>{{ u.created_at || '-' }}</td>
+          <td class="text-right">
+            <button class="btn btn-ghost btn-xs" (click)="startEdit(u)">{{ 'ADMIN.USERS.EDIT' | translate }}</button>
+            <button class="btn btn-ghost btn-xs text-error" (click)="confirmDelete(u)">{{ 'ADMIN.USERS.DELETE' |
+              translate }}</button>
+          </td>
+        </tr>
+        } @else {
+        <tr>
+          <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.username" /></td>
+          <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.email" /></td>
+          <td>
                 <select class="select select-bordered select-xs" [formControl]="editForm.controls.role">
-                  <option value="user">user</option>
-                  <option value="admin">admin</option>
+                  <option [ngValue]="'user'">{{ 'COMMON.USER' | translate }}</option>
+                  <option [ngValue]="'admin'">{{ 'COMMON.ADMIN' | translate }}</option>
                 </select>
-              </td>
-              <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.password" [placeholder]="'ADMIN.USERS.NEW_PASSWORD_OPTIONAL' | translate" /></td>
-              <td class="text-right">
-                <button class="btn btn-primary btn-xs" (click)="saveEdit()">{{ 'ADMIN.USERS.SAVE' | translate }}</button>
-                <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">{{ 'ADMIN.USERS.CANCEL' | translate }}</button>
-              </td>
-            </tr>
-          }
+          </td>
+          <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.password"
+              [placeholder]="'ADMIN.USERS.NEW_PASSWORD_OPTIONAL' | translate" /></td>
+          <td class="text-right">
+            <button class="btn btn-primary btn-xs" (click)="saveEdit()">{{ 'ADMIN.USERS.SAVE' | translate }}</button>
+            <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">{{ 'ADMIN.USERS.CANCEL' | translate }}</button>
+          </td>
+        </tr>
+        }
         }
       </tbody>
     </table>
@@ -99,6 +107,7 @@
 
   <div class="flex items-center justify-end gap-2 pt-2">
     <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">{{ 'COMMON.PREVIOUS' | translate }}</button>
-    <button class="btn btn-sm" (click)="nextPage()" [disabled]="page()*limit()>=total()">{{ 'COMMON.NEXT' | translate }}</button>
+    <button class="btn btn-sm" (click)="nextPage()" [disabled]="page()*limit()>=total()">{{ 'COMMON.NEXT' | translate
+      }}</button>
   </div>
 </div>

@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 
 const STORAGE_KEY = 'app_lang';
 
@@ -11,8 +12,7 @@ export class LanguageService {
 
   init() {
   this.translate.addLangs(this.supported as unknown as string[]);
-  // Set a default language early to avoid flashing of raw keys
-  this.translate.setDefaultLang('es');
+  // Default handled by use(); setDefaultLang avoided (deprecated)
   const saved = this.safeLocalStorageGet(STORAGE_KEY)?.toLowerCase() || '';
   const browser = this.safeNavigatorLang();
   let lang: 'es' | 'en' = 'es';
@@ -20,6 +20,19 @@ export class LanguageService {
   else if (this.isSupported(browser)) lang = browser;
   this.lastLang = lang;
   this.translate.use(lang);
+  }
+
+  // Promise-based init for APP_INITIALIZER; waits for translation file load
+  async initApp(): Promise<void> {
+    this.translate.addLangs(this.supported as unknown as string[]);
+  // Default handled by use(); setDefaultLang avoided (deprecated)
+    const saved = this.safeLocalStorageGet(STORAGE_KEY)?.toLowerCase() || '';
+    const browser = this.safeNavigatorLang();
+    let lang: 'es' | 'en' = 'es';
+    if (this.isSupported(saved)) lang = saved;
+    else if (this.isSupported(browser)) lang = browser;
+    this.lastLang = lang;
+    await firstValueFrom(this.translate.use(lang));
   }
 
   current(): string {

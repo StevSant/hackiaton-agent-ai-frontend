@@ -3,7 +3,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
   importProvidersFrom,
-  ENVIRONMENT_INITIALIZER,
+  APP_INITIALIZER,
 } from '@angular/core';
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
@@ -23,6 +23,9 @@ import { AppInfoService } from '@infrastructure/services/app-info.service';
 import { FilesService } from '@infrastructure/services/files.service';
 import { SttService } from '@infrastructure/services/stt.service';
 import { TranslateLoader, TranslateModule, type TranslationObject } from '@ngx-translate/core';
+import es from '../assets/i18n/es.json';
+import en from '../assets/i18n/en.json';
+import { of } from 'rxjs';
 import { AdminUsersService } from '@infrastructure/services/admin-users.service';
 import { CompaniesService } from '@infrastructure/services/companies.service';
 import { RiskWeightsService } from '@infrastructure/services/risk-weights.service';
@@ -30,14 +33,16 @@ import { AdminMessagesService } from '@infrastructure/services/admin-messages.se
 import { LanguageService } from '@infrastructure/services/language.service';
 
 class AppTranslateLoader implements TranslateLoader {
-  constructor(private readonly http: HttpClient) {}
+  // Inline translations to avoid runtime fetch
   getTranslation(lang: string) {
-    return this.http.get<TranslationObject>(`/assets/i18n/${lang}.json`);
+    const map: Record<string, TranslationObject> = { es: es as TranslationObject, en: en as TranslationObject };
+    return of(map[lang] || map['es']);
   }
 }
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new AppTranslateLoader(http);
+export function HttpLoaderFactory(_http: HttpClient) {
+  // Keep signature for DI, but ignore HttpClient
+  return new AppTranslateLoader();
 }
 
 export const appConfig: ApplicationConfig = {
@@ -60,9 +65,9 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     {
-      provide: ENVIRONMENT_INITIALIZER,
+      provide: APP_INITIALIZER,
       multi: true,
-      useFactory: (langService: LanguageService) => () => langService.init(),
+      useFactory: (langService: LanguageService) => () => langService.initApp(),
       deps: [LanguageService],
     },
     { provide: CHAT_STREAM_PORT, useExisting: SseService },

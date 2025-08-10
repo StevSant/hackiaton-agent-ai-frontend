@@ -157,6 +157,12 @@
       "SAVE": "Save",
       "SAVED": "Saved",
       "UPLOAD": "Upload"
+    },
+    "RISK_WEIGHTS": {
+      "TITLE": "Risk Weights",
+      "VERSION": "Version",
+      "ADD_FACTOR": "Add factor",
+      "SAVE": "Save"
     }
   },
   "LOGIN": {

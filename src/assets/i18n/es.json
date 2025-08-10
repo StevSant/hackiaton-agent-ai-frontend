@@ -157,6 +157,12 @@
       "SAVE": "Guardar",
       "SAVED": "Guardado",
       "UPLOAD": "Subir"
+    },
+    "RISK_WEIGHTS": {
+      "TITLE": "Ponderaciones de Riesgo",
+      "VERSION": "Versión",
+      "ADD_FACTOR": "Agregar factor",
+      "SAVE": "Guardar"
     }
   },
   "LOGIN": {
