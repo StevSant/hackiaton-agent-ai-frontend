@@ -16,7 +16,7 @@ export class TtsService {
     try {
       if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
 
-      // Stop any current playback
+      // Stop any current playback only if another message or paused state
       if (this.isSpeaking() || this.isPaused()) {
         window.speechSynthesis.cancel();
       }
@@ -26,6 +26,13 @@ export class TtsService {
       utter.rate = this.rate();
       utter.pitch = this.pitch();
       utter.volume = this.volume();
+
+      // Try to select a voice that matches current lang
+      try {
+        const voices = window.speechSynthesis.getVoices?.() || [];
+        const preferred = voices.find(v => v.lang?.toLowerCase().startsWith(this.lang().toLowerCase()));
+        if (preferred) utter.voice = preferred;
+      } catch {}
 
       this.currentUtterance = utter;
       this.currentMessageId.set(messageId ?? null);
@@ -43,7 +50,8 @@ export class TtsService {
       utter.onpause = () => this.isPaused.set(true);
       utter.onresume = () => this.isPaused.set(false);
 
-      window.speechSynthesis.speak(utter);
+  // Defer speak to ensure voices are loaded
+  queueMicrotask(() => window.speechSynthesis.speak(utter));
     } catch {}
   }
 
@@ -61,8 +69,8 @@ export class TtsService {
     try {
       if (typeof window === 'undefined') return;
       if (this.isPaused()) {
-        window.speechSynthesis.resume();
-        this.isPaused.set(false);
+  window.speechSynthesis.resume();
+  this.isPaused.set(false);
       }
     } catch {}
   }

@@ -1,7 +1,7 @@
-<div class="flex min-h-screen h-full relative bg-base-200">
+<div class="flex min-h-screen relative bg-base-200">
   <!-- Sidebar placeholder - puedes agregar tu sidebar aquí -->
 
-  <div class="chat-container h-screen w-full p-4 md:p-8 flex flex-col gap-4 max-h-screen">
+  <div class="chat-container h-screen w-full p-4 md:p-8 flex flex-col gap-4 max-h-screen overflow-hidden">
     <app-chat-messages-list [messages]="messages()" [isSending]="isSending()"
       [toolRunning]="toolRunning()"></app-chat-messages-list>
     <app-chat-composer [form]="msgForm" [isSending]="isSending()" [isUploadingFiles]="isUploadingFiles" [filesCount]="filesToUpload.length" [uploadedFiles]="uploadedFiles"
