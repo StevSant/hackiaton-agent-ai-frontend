@@ -2,11 +2,12 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminAppInfoFacade } from '@app/application/admin/admin-app-info.facade';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-app-info',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './app-info.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

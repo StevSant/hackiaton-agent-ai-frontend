@@ -184,12 +184,45 @@
   "COMPOSER": {
     "CANCEL": "Cancel",
     "UPLOADING": "Uploading...",
-    "UPLOADING_FILES": "Uploading files..."
+    "UPLOADING_FILES": "Uploading files...",
+    "ATTACH_FILES": "Attach files",
+    "REMOVE_FILE": "Remove"
   },
   "SIDEBAR": {
     "DELETE_TITLE": "Delete chat",
     "DELETE_TEXT": "Are you sure you want to delete this session? This action cannot be undone.",
     "CANCEL": "Cancel",
     "CONFIRM": "Delete"
+  },
+  "FILES_PAGE": {
+    "FILTER_ALL": "All",
+    "FILTER_IMAGES": "Images",
+    "FILTER_PDFS": "PDFs",
+    "FILTER_DOCUMENTS": "Documents",
+    "CONVERTED": "converted",
+    "EXTRACTED": "extracted",
+    "COPY_ID": "Copy ID",
+    "COPY": "Copy",
+    "VIEW_PDF": "View PDF",
+    "DOWNLOAD": "Download",
+    "COPY_ID_HINT": "Copy the ID to use in chat."
+  },
+  "RISK": {
+    "TITLE_TEXT": "Financial Risk Analysis (Text)",
+    "TEXT_PLACEHOLDER": "Paste the text to analyze...",
+    "ANALYZE": "Analyze",
+    "TITLE_PDF": "PDF Analysis",
+    "PROCESSING": "Processing..."
+  },
+  "NOT_FOUND": {
+    "TITLE": "404 - Page not found",
+    "DESC": "We couldn't find what you were looking for.",
+    "BACK_HOME": "Back to home"
+  },
+  "SHELL": {
+    "CLOSE_MENU": "Close menu",
+    "MENU": "Menu",
+    "TOGGLE_PANEL": "Show/Hide panel",
+    "APP_TITLE": "AI Agent"
   }
 }

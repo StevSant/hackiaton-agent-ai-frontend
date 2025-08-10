@@ -184,12 +184,45 @@
   "COMPOSER": {
     "CANCEL": "Cancelar",
     "UPLOADING": "Subiendo...",
-    "UPLOADING_FILES": "Subiendo archivos..."
+    "UPLOADING_FILES": "Subiendo archivos...",
+    "ATTACH_FILES": "Adjuntar archivos",
+    "REMOVE_FILE": "Quitar"
   },
   "SIDEBAR": {
     "DELETE_TITLE": "Eliminar chat",
     "DELETE_TEXT": "¿Seguro que deseas eliminar esta sesión? Esta acción no se puede deshacer.",
     "CANCEL": "Cancelar",
     "CONFIRM": "Eliminar"
+  },
+  "FILES_PAGE": {
+    "FILTER_ALL": "Todos",
+    "FILTER_IMAGES": "Imágenes",
+    "FILTER_PDFS": "PDFs",
+    "FILTER_DOCUMENTS": "Documentos",
+    "CONVERTED": "convertido",
+    "EXTRACTED": "extraído",
+    "COPY_ID": "Copiar ID",
+    "COPY": "Copiar",
+    "VIEW_PDF": "Ver PDF",
+    "DOWNLOAD": "Descargar",
+    "COPY_ID_HINT": "Copiar ID para usar en el chat."
+  },
+  "RISK": {
+    "TITLE_TEXT": "Análisis de Riesgo Financiero (Texto)",
+    "TEXT_PLACEHOLDER": "Pega el texto a analizar...",
+    "ANALYZE": "Analizar",
+    "TITLE_PDF": "Análisis de PDF",
+    "PROCESSING": "Procesando..."
+  },
+  "NOT_FOUND": {
+    "TITLE": "404 - Página no encontrada",
+    "DESC": "No pudimos encontrar lo que buscabas.",
+    "BACK_HOME": "Volver a la página de inicio"
+  },
+  "SHELL": {
+    "CLOSE_MENU": "Cerrar menú",
+    "MENU": "Menú",
+    "TOGGLE_PANEL": "Mostrar/Ocultar panel",
+    "APP_TITLE": "Agente IA"
   }
 }

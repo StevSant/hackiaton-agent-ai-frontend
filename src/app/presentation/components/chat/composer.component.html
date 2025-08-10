@@ -2,7 +2,7 @@
   <form [formGroup]="form" (submit)="onSubmit()" class="w-full">
     <div class="flex flex-col gap-3">
       <div class="flex items-end gap-2 md:gap-3">
-        <button type="button" class="btn btn-ghost btn-square btn-sm md:btn-md" title="Adjuntar archivos" aria-label="Adjuntar archivos" (click)="fileInput.click()">
+  <button type="button" class="btn btn-ghost btn-square btn-sm md:btn-md" [title]="'COMPOSER.ATTACH_FILES' | translate" [attr.aria-label]="'COMPOSER.ATTACH_FILES' | translate" (click)="fileInput.click()">
           <mat-icon fontIcon="attach_file"></mat-icon>
         </button>
         <input #fileInput id="chat-file-input" type="file" multiple class="hidden" (change)="filesSelected.emit($event)" />
@@ -18,7 +18,7 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <button type="submit" class="btn btn-primary btn-square btn-sm md:btn-md" [disabled]="isSending || isUploadingFiles || !form.valid" [class.loading]="isSending" title="Enviar">
+          <button type="submit" class="btn btn-primary btn-square btn-sm md:btn-md" [disabled]="isSending || isUploadingFiles || !form.valid" [class.loading]="isSending" [title]="'CHAT.SEND' | translate">
             <mat-icon fontIcon="send"></mat-icon>
           </button>
           @if (isSending) {
@@ -57,7 +57,7 @@
                 <mat-icon fontIcon="insert_drive_file" class="mr-1"></mat-icon>
                 <span class="truncate max-w-48">{{ f.filename }}</span>
               </a>
-              <button type="button" class="btn btn-ghost btn-xs p-0 min-h-0 h-5 w-5" (click)="onRemove(f, $event)" title="Quitar">
+              <button type="button" class="btn btn-ghost btn-xs p-0 min-h-0 h-5 w-5" (click)="onRemove(f, $event)" [title]="'COMPOSER.REMOVE_FILE' | translate">
                 <mat-icon fontIcon="close"></mat-icon>
               </button>
             </span>

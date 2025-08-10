@@ -8,7 +8,7 @@
 
   <!-- Mobile overlay sidebar -->
   <div class="mobile-overlay" [class.hidden]="!isSidebarOpen">
-    <button class="fixed inset-0 overlay-backdrop z-40" (click)="closeSidebar()" aria-label="Cerrar menú"></button>
+    <button class="fixed inset-0 overlay-backdrop z-40" (click)="closeSidebar()" [attr.aria-label]="'SHELL.CLOSE_MENU' | translate"></button>
     <div class="fixed inset-y-0 left-0 w-72 z-50 sidebar-surface">
       <app-sidebar></app-sidebar>
     </div>
@@ -18,12 +18,12 @@
     <!-- Mobile Topbar -->
     <div class="sticky top-0 z-30 topbar-surface">
       <div class="flex items-center justify-between px-3 py-2">
-        <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" title="Menú">
+        <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" [title]="'SHELL.MENU' | translate">
           <mat-icon fontIcon="menu"></mat-icon>
         </button>
-        <div class="text-sm opacity-70">Agente IA</div>
+        <div class="text-sm opacity-70">{{ 'SHELL.APP_TITLE' | translate }}</div>
         <div class="w-8 hidden md:block">
-          <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" title="Mostrar/Ocultar panel">
+          <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" [title]="'SHELL.TOGGLE_PANEL' | translate">
             <mat-icon fontIcon="chevron_left" *ngIf="isSidebarOpen"></mat-icon>
             <mat-icon fontIcon="chevron_right" *ngIf="!isSidebarOpen"></mat-icon>
           </button>

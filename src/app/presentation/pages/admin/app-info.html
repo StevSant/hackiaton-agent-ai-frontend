@@ -1,20 +1,20 @@
 <div class="p-6 space-y-4">
-  <h2 class="text-xl font-semibold">App Info</h2>
+  <h2 class="text-xl font-semibold">{{ 'ADMIN.SIDENAV.APP_INFO' | translate }}</h2>
   @if (error()) {
     <div class="alert alert-error">{{ error() }}</div>
   }
   <form [formGroup]="form" (ngSubmit)="save()" class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <div>
-      <label class="text-xs" for="site_name">Site name</label>
+  <label class="text-xs" for="site_name">Site name</label>
       <input id="site_name" class="input input-bordered w-full" formControlName="site_name" />
     </div>
     <div>
-      <label class="text-xs" for="site_icon">Site icon</label>
+  <label class="text-xs" for="site_icon">Site icon</label>
       <div class="flex items-center gap-2">
         <input id="site_icon" class="input input-bordered w-full" formControlName="site_icon" />
         <label class="btn btn-sm">
           <input type="file" accept="image/*" class="hidden" (change)="onPickIcon($event)" />
-          {{ uploadingIcon() ? 'Subiendo…' : 'Subir' }}
+          {{ uploadingIcon() ? ('COMPOSER.UPLOADING' | translate) : ('COMMON.OPEN' | translate) }}
         </label>
       </div>
       @if (form.value.site_icon) {
@@ -24,12 +24,12 @@
       }
     </div>
     <div>
-      <label class="text-xs" for="site_logo">Site logo</label>
+  <label class="text-xs" for="site_logo">Site logo</label>
       <div class="flex items-center gap-2">
         <input id="site_logo" class="input input-bordered w-full" formControlName="site_logo" />
         <label class="btn btn-sm">
           <input type="file" accept="image/*" class="hidden" (change)="onPickLogo($event)" />
-          {{ uploadingLogo() ? 'Subiendo…' : 'Subir' }}
+          {{ uploadingLogo() ? ('COMPOSER.UPLOADING' | translate) : ('COMMON.OPEN' | translate) }}
         </label>
       </div>
       @if (form.value.site_logo) {
@@ -39,13 +39,13 @@
       }
     </div>
     <div class="md:col-span-2 flex items-center gap-2">
-      <button class="btn btn-primary" type="submit" [disabled]="form.invalid || saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid || saving()">{{ saving() ? ('LOGIN.PROCESSING' | translate) : ('ADMIN.USERS.SAVE' | translate) }}</button>
       @if (saved()) {
-        <span class="text-success text-sm">Guardado</span>
+        <span class="text-success text-sm">{{ 'ADMIN.USERS.SAVE' | translate }}</span>
       }
     </div>
   </form>
   @if (!loaded()) {
-    <div class="text-sm opacity-70">Cargando…</div>
+    <div class="text-sm opacity-70">{{ 'COMMON.LOADING' | translate }}</div>
   }
 </div>
