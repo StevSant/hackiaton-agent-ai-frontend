@@ -1,4 +1,4 @@
-<div class="flex min-h-screen">
+<div class="flex h-screen">
   <!-- Desktop sidebar (does not overlap) -->
   <div class="desktop-sidebar" [class.hidden]="!isSidebarOpen">
     <div class="sidebar-surface">
@@ -14,7 +14,7 @@
     </div>
   </div>
 
-  <main class="flex-1 overflow-hidden">
+  <main class="flex-1 min-h-0 overflow-hidden flex flex-col">
     <!-- Mobile Topbar -->
     <div class="sticky top-0 z-30 topbar-surface">
       <div class="flex items-center justify-between px-3 py-2">
@@ -31,6 +31,9 @@
       </div>
     </div>
 
-    <router-outlet />
+  <!-- Page content area: hidden here; pages manage their own scroll (chat uses internal messages scroll) -->
+  <div class="flex-1 min-h-0 overflow-hidden flex flex-col">
+      <router-outlet />
+    </div>
   </main>
 </div>

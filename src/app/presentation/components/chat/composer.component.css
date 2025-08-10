@@ -1,3 +1,3 @@
-.composer-surface{position:sticky;bottom:0;z-index:10}
+.composer-surface{position:relative;bottom:auto;z-index:10;background-color: rgb(var(--b1) / .85);backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);border-top: 1px solid rgb(var(--bc) / .06)}
 .composer-surface textarea{min-height:2.5rem}
 .composer-surface .btn{min-width:2.5rem}

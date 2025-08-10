@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, inject, OnChanges, SimpleChanges, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,7 +15,7 @@ import { TtsService } from '@infrastructure/services/tts.service';
   templateUrl: './messages-list.component.html',
   styleUrls: ['./messages-list.component.css']
 })
-export class ChatMessagesListComponent {
+export class ChatMessagesListComponent implements OnChanges, AfterViewInit, AfterViewChecked {
   @Input() messages: ChatMessage[] = [];
   @Input() isSending = false;
   @Input() toolRunning = false;
@@ -24,14 +24,59 @@ export class ChatMessagesListComponent {
   private readonly messagesContainer!: ElementRef;
 
   showScrollToBottom = false;
+  private pendingAutoScrollCheck = false;
+  private viewReady = false;
+  private lastCount = 0;
 
   // Services
   private readonly scrollManager = inject(ScrollManagerService);
   protected readonly chatUtils = inject(ChatUtilsService);
   readonly tts = inject(TtsService);
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['messages']) {
+      const cur = this.messages?.length ?? 0;
+      if (cur !== this.lastCount) {
+        this.lastCount = cur;
+        this.pendingAutoScrollCheck = true;
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    this.viewReady = true;
+    // On first render, ensure we land at the bottom
+  this.pendingAutoScrollCheck = true;
+  // Try a rAF-based scroll to cover async markdown rendering
+  queueMicrotask(() => this.scrollManager.scrollToBottomRaf(this.messagesContainer, 5));
+  }
+
   ngAfterViewChecked() {
+    // Honor externally scheduled scrolls (kept for compatibility)
     this.scrollManager.executeScheduledScroll(this.messagesContainer);
+
+    if (!this.viewReady || !this.messagesContainer) return;
+
+    // If last message is streaming and user is near bottom, keep following
+    const last = this.messages?.[this.messages.length - 1];
+    const container = this.messagesContainer.nativeElement as HTMLElement;
+    const distance = container.scrollHeight - (container.scrollTop + container.clientHeight);
+    const nearBottom = distance <= 160;
+    const isStreaming = !!last?.isStreaming;
+
+    if (isStreaming && nearBottom) {
+      this.scrollManager.scrollToBottom(this.messagesContainer);
+      this.showScrollToBottom = false;
+    }
+
+    // After message list changes, auto-scroll if near bottom or on first pass
+    if (this.pendingAutoScrollCheck) {
+      if (nearBottom || container.scrollTop === 0) {
+        this.scrollManager.scrollToBottomRaf(this.messagesContainer, 3);
+        this.showScrollToBottom = false;
+      }
+      this.pendingAutoScrollCheck = false;
+    }
   }
 
   onMessagesScroll() {

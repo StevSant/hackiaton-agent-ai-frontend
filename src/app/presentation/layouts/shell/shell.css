@@ -30,7 +30,7 @@
 .border-base-200{--b2:var(--b2)}
 
 /* Sidebar responsive visibility to avoid class purge issues */
-.desktop-sidebar{display:none}
+.desktop-sidebar{display:none;position:sticky;top:0;align-self:flex-start}
 .mobile-overlay{display:block}
 @media (min-width: 768px){
 	.desktop-sidebar{display:block}
