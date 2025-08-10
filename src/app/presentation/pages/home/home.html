@@ -7,6 +7,10 @@
             <span class="font-semibold tracking-wide opacity-80">{{ 'SHELL.APP_TITLE' | translate }}</span>
         </div>
         <div class="flex items-center gap-2">
+            <a *ngIf="isAdmin()" routerLink="/admin" class="btn btn-primary btn-sm">
+                <mat-icon fontIcon="admin_panel_settings"></mat-icon>
+                <span class="ml-1">{{ 'COMMON.ADMIN' | translate }}</span>
+            </a>
             <a routerLink="/chat" class="btn btn-ghost btn-sm">
                 <mat-icon fontIcon="chat"></mat-icon>
                 <span class="ml-1">{{ 'COMMON.OPEN' | translate }}</span>

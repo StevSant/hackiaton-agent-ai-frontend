@@ -31,6 +31,8 @@ import { CompaniesService } from '@infrastructure/services/companies.service';
 import { RiskWeightsService } from '@infrastructure/services/risk-weights.service';
 import { AdminMessagesService } from '@infrastructure/services/admin-messages.service';
 import { LanguageService } from '@infrastructure/services/language.service';
+import { TokenStorageService } from '@infrastructure/services/token-storage.service';
+import { GetProfileUseCase } from '@core/use-cases';
 
 class AppTranslateLoader implements TranslateLoader {
   // Inline translations to avoid runtime fetch
@@ -69,6 +71,22 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       useFactory: (langService: LanguageService) => () => langService.initApp(),
       deps: [LanguageService],
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: (token: TokenStorageService, getProfile: GetProfileUseCase) => async () => {
+        // On app startup, refresh role if we have a token (client only). Safe on SSR: getToken() returns null.
+        const t = token.getToken();
+        if (!t) return;
+        try {
+          const profile = await getProfile.execute(t);
+          if (profile?.role) token.setRole(profile.role);
+        } catch {
+          // ignore network/auth errors on bootstrap
+        }
+      },
+      deps: [TokenStorageService, GetProfileUseCase],
     },
     { provide: CHAT_STREAM_PORT, useExisting: SseService },
     { provide: SESSIONS_PORT, useExisting: SessionsService },
