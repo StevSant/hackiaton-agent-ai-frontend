@@ -71,7 +71,7 @@ export class SidebarComponent {
     // Defer loading flag to avoid NG0100 when toggling quickly in same tick
     setTimeout(() => { this.isLoading = true; this.cdr.markForCheck(); });
     // agentId is ignored by backend; pass a placeholder
-    this.chatFacade.listSessions().subscribe({
+    this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
       next: (list) => {
         this.sessions = list || [];
         this.cdr.markForCheck();
@@ -91,7 +91,7 @@ export class SidebarComponent {
     this.page += 1;
     // For now, append by calling again (SessionsService isn’t paginated yet); dedupe by id
     this.isLoading = true; this.cdr.markForCheck();
-    this.chatFacade.listSessions().subscribe({
+    this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
       next: (list) => {
         const map = new Map<string, SessionEntry>();
         for (const s of this.sessions) map.set(s.session_id, s);

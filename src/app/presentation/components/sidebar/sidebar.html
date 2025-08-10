@@ -37,9 +37,13 @@
                 <ul class="space-y-2">
                     <li *ngFor="let s of sessions; trackBy: trackBySessionId" class="group border border-white/10 rounded-md hover:bg-white/5">
                         <div class="flex items-center justify-between px-2 py-2 gap-2">
-                            <button class="text-left flex-1 truncate" (click)="openSession(s)">
-                                <div class="text-sm font-medium truncate">{{ s.title || ('Sesión ' +
-                                    s.session_id.slice(0,6)) }}</div>
+                            <button class="text-left flex-1" (click)="openSession(s)">
+                                <div class="text-sm font-medium">
+                                    <div class="marquee w-full">
+                                        <span class="marquee__content">{{ s.title || ('Sesión ' + s.session_id.slice(0,6)) }}</span>
+                                        <span class="marquee__content" aria-hidden="true">{{ s.title || ('Sesión ' + s.session_id.slice(0,6)) }}</span>
+                                    </div>
+                                </div>
                                 <div class="text-xs opacity-60 truncate">{{ s.session_id }}</div>
                             </button>
                             <div class="flex items-center gap-1">

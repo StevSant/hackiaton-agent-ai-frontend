@@ -25,7 +25,13 @@ export class ChatComposerComponent {
   @Output() keydown = new EventEmitter<KeyboardEvent>();
   @Output() composerInput = new EventEmitter<Event>();
 
-  onSubmit() { this.send.emit(); }
+  onSubmit() {
+    // Hard guard: do not emit send if uploading files, already sending, or form invalid
+    if (this.isUploadingFiles || this.isSending || !this.form?.valid) {
+      return;
+    }
+    this.send.emit();
+  }
   onCancel() { this.cancel.emit(); }
   onRemove(file: UploadedFileMeta, e?: Event) {
     e?.preventDefault();

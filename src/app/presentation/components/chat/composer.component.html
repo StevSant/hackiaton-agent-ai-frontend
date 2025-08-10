@@ -2,10 +2,10 @@
   <form [formGroup]="form" (submit)="onSubmit()" class="w-full">
     <div class="flex flex-col gap-3">
       <div class="flex items-end gap-2 md:gap-3">
-        <label class="btn btn-ghost btn-square btn-sm md:btn-md" title="Adjuntar archivos">
-          <input type="file" multiple class="hidden" (change)="filesSelected.emit($event)" />
+        <button type="button" class="btn btn-ghost btn-square btn-sm md:btn-md" title="Adjuntar archivos" aria-label="Adjuntar archivos" (click)="fileInput.click()">
           <mat-icon fontIcon="attach_file"></mat-icon>
-        </label>
+        </button>
+        <input #fileInput id="chat-file-input" type="file" multiple class="hidden" (change)="filesSelected.emit($event)" />
 
         <div class="flex-1">
           <div class="rounded-xl border border-base-300 bg-base-100 focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3">

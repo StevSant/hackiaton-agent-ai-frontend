@@ -125,8 +125,8 @@ export class ChatFacade {
     return 'default';
   }
 
-  listSessions(): Observable<SessionEntry[]> {
-    return this.listSessionsUC.execute(this.agentId());
+  listSessions(params?: { page?: number; limit?: number }): Observable<SessionEntry[]> {
+    return this.listSessionsUC.execute(this.agentId(), params);
   }
 
   getSession(sessionId: string): Observable<unknown> {

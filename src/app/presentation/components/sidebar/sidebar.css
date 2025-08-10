@@ -23,3 +23,38 @@
   background-color: rgb(var(--bc) / .04);
   border-radius: 10px;
 }
+
+/* --- Marquee title on hover --- */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee::before,
+.marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 16px;
+  height: 100%;
+  pointer-events: none;
+}
+.marquee::before { left: 0; background: linear-gradient(to right, rgb(var(--b1)), rgba(0,0,0,0)); }
+.marquee::after { right: 0; background: linear-gradient(to left, rgb(var(--b1)), rgba(0,0,0,0)); }
+
+.marquee__content {
+  display: inline-block;
+  padding-right: 2rem; /* gap between loops */
+  transform: translateX(0);
+  will-change: transform;
+}
+
+/* Only animate on hover of the list item for UX */
+li.group:hover .marquee__content {
+  animation: marquee-scroll 8s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}

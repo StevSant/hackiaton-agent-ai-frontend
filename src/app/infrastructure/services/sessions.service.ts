@@ -10,10 +10,10 @@ export class SessionsService {
   constructor(private readonly http: HttpClient) {}
 
   // agentId is ignored in backend; kept for API compatibility with UI
-  getSessions(_agentId: string): Observable<SessionEntry[]> {
+  getSessions(_agentId: string, params?: { page?: number; limit?: number }): Observable<SessionEntry[]> {
     const url = `${this.base}/agent/sessions`;
     return new Observable<SessionEntry[]>((subscriber) => {
-  const sub = this.http.get<any[]>(url).subscribe({
+      const sub = this.http.get<any[]>(url, { params: (params as any) || {} }).subscribe({
         next: (items) => {
           try {
             const sessions: SessionEntry[] = (items || []).map((s: any) => ({

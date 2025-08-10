@@ -1,8 +1,7 @@
-import { Injectable, inject } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Injectable, inject } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '@environments/environment';
 import { TokenStorageService } from './token-storage.service';
-
 
 // Legacy-ish shape used by UI. We'll map backend SSE events into this.
 export interface SSEMessage {
@@ -25,35 +24,42 @@ export interface SSEMessage {
 }
 
 export interface StreamResponse {
-  fullContent: string
-  currentChunk: string
-  event: string
-  isComplete: boolean
-  isError: boolean
-  rawMessage: SSEMessage
+  fullContent: string;
+  currentChunk: string;
+  event: string;
+  isComplete: boolean;
+  isError: boolean;
+  rawMessage: SSEMessage;
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class SseService {
   private readonly baseUrl = environment.baseUrl;
-  private abortController: AbortController | null = null
-  private readonly cancel$ = new Subject<void>()
+  private abortController: AbortController | null = null;
+  private readonly cancel$ = new Subject<void>();
   private readonly tokenStorage = inject(TokenStorageService);
   private lastSessionId: string | null = null;
 
   cancel() {
     if (this.abortController) {
-      this.abortController.abort()
-      this.abortController = null
+      this.abortController.abort();
+      this.abortController = null;
     }
-    this.cancel$.next()
+    this.cancel$.next();
   }
 
   streamFromAgent(
     _agentId: string,
-    payload: { message?: string; session_id?: string; user_id?: string; audioFile?: File; files?: File[]; file_ids?: string[] }
+    payload: {
+      message?: string;
+      session_id?: string;
+      user_id?: string;
+      audioFile?: File;
+      files?: File[];
+      file_ids?: string[];
+    }
   ): Observable<StreamResponse> {
     // New backend endpoint: JSON body -> POST /agent/message/stream
     const url = `${this.baseUrl}/agent/message/stream`;
@@ -61,24 +67,24 @@ export class SseService {
     return new Observable<StreamResponse>((observer) => {
       const controller = new AbortController();
       this.abortController = controller;
-      let fullContent = "";
+      let fullContent = '';
 
-  const headers: Record<string, string> = {
-        Accept: "text/event-stream",
-        "Cache-Control": "no-cache",
-        "Content-Type": "application/json",
+      const headers: Record<string, string> = {
+        Accept: 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Content-Type': 'application/json',
       };
       const token = this.tokenStorage.getToken();
-      if (token) headers["Authorization"] = `Bearer ${token}`;
+      if (token) headers['Authorization'] = `Bearer ${token}`;
 
       const body = JSON.stringify({
-        content: payload?.message ?? "",
+        content: payload?.message ?? '',
         session_id: payload?.session_id ?? undefined,
         file_ids: payload?.file_ids ?? [],
       });
 
       fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers,
         body,
         signal: controller.signal,
@@ -86,14 +92,16 @@ export class SseService {
         .then(async (response) => {
           if (!response.ok || !response.body) {
             const errorText = await response.text();
-            throw new Error(`Error SSE: ${response.status} ${response.statusText} - ${errorText}`);
+            throw new Error(
+              `Error SSE: ${response.status} ${response.statusText} - ${errorText}`
+            );
           }
 
           const reader = response.body.getReader();
-          const decoder = new TextDecoder("utf-8");
-          let buffer = "";
+          const decoder = new TextDecoder('utf-8');
+          let buffer = '';
           let currentEvent: string | null = null;
-          let dataBuffer = "";
+          let dataBuffer = '';
 
           const emit = (event: string, data: any) => {
             // Map backend events to UI model events
@@ -166,7 +174,8 @@ export class SseService {
             }
 
             if (event === 'end') {
-              const content: string = data?.agent_message?.content ?? fullContent;
+              const content: string =
+                data?.agent_message?.content ?? fullContent;
               if (!fullContent) fullContent = content;
               const msg: SSEMessage = {
                 content,
@@ -234,7 +243,7 @@ export class SseService {
                   }
                 }
                 currentEvent = null;
-                dataBuffer = "";
+                dataBuffer = '';
                 continue;
               }
 
@@ -251,7 +260,10 @@ export class SseService {
         })
         .catch((err) => {
           // Swallow aborts as user-initiated cancels
-          if (err && (err.name === 'AbortError' || String(err).includes('aborted'))) {
+          if (
+            err &&
+            (err.name === 'AbortError' || String(err).includes('aborted'))
+          ) {
             return;
           }
           console.error('SSE Error:', err);
@@ -259,7 +271,9 @@ export class SseService {
         });
 
       return () => {
-        try { controller.abort(); } catch {}
+        try {
+          controller.abort();
+        } catch {}
         this.lastSessionId = null;
       };
     });
