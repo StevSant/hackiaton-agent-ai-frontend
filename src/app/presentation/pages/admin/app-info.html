@@ -5,16 +5,16 @@
   }
   <form [formGroup]="form" (ngSubmit)="save()" class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <div>
-  <label class="text-xs" for="site_name">Site name</label>
+      <label class="text-xs" for="site_name">{{ 'ADMIN.APP_INFO.FIELDS.SITE_NAME' | translate }}</label>
       <input id="site_name" class="input input-bordered w-full" formControlName="site_name" />
     </div>
     <div>
-  <label class="text-xs" for="site_icon">Site icon</label>
+      <label class="text-xs" for="site_icon">{{ 'ADMIN.APP_INFO.FIELDS.SITE_ICON' | translate }}</label>
       <div class="flex items-center gap-2">
         <input id="site_icon" class="input input-bordered w-full" formControlName="site_icon" />
         <label class="btn btn-sm">
           <input type="file" accept="image/*" class="hidden" (change)="onPickIcon($event)" />
-          {{ uploadingIcon() ? ('COMPOSER.UPLOADING' | translate) : ('COMMON.OPEN' | translate) }}
+          {{ uploadingIcon() ? ('COMPOSER.UPLOADING' | translate) : ('ADMIN.APP_INFO.UPLOAD' | translate) }}
         </label>
       </div>
       @if (form.value.site_icon) {
@@ -24,12 +24,12 @@
       }
     </div>
     <div>
-  <label class="text-xs" for="site_logo">Site logo</label>
+      <label class="text-xs" for="site_logo">{{ 'ADMIN.APP_INFO.FIELDS.SITE_LOGO' | translate }}</label>
       <div class="flex items-center gap-2">
         <input id="site_logo" class="input input-bordered w-full" formControlName="site_logo" />
         <label class="btn btn-sm">
           <input type="file" accept="image/*" class="hidden" (change)="onPickLogo($event)" />
-          {{ uploadingLogo() ? ('COMPOSER.UPLOADING' | translate) : ('COMMON.OPEN' | translate) }}
+          {{ uploadingLogo() ? ('COMPOSER.UPLOADING' | translate) : ('ADMIN.APP_INFO.UPLOAD' | translate) }}
         </label>
       </div>
       @if (form.value.site_logo) {
@@ -39,9 +39,9 @@
       }
     </div>
     <div class="md:col-span-2 flex items-center gap-2">
-      <button class="btn btn-primary" type="submit" [disabled]="form.invalid || saving()">{{ saving() ? ('LOGIN.PROCESSING' | translate) : ('ADMIN.USERS.SAVE' | translate) }}</button>
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid || saving()">{{ saving() ? ('LOGIN.PROCESSING' | translate) : ('ADMIN.APP_INFO.SAVE' | translate) }}</button>
       @if (saved()) {
-        <span class="text-success text-sm">{{ 'ADMIN.USERS.SAVE' | translate }}</span>
+        <span class="text-success text-sm">{{ 'ADMIN.APP_INFO.SAVED' | translate }}</span>
       }
     </div>
   </form>

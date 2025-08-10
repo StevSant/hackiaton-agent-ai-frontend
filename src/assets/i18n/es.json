@@ -147,6 +147,16 @@
       "FILTER": "Filtrar",
       "SELECT_SESSION": "Selecciona una sesión para ver mensajes",
       "LOADING_MORE": "Cargando más..."
+    },
+    "APP_INFO": {
+      "FIELDS": {
+        "SITE_NAME": "Nombre del sitio",
+        "SITE_ICON": "Icono del sitio",
+        "SITE_LOGO": "Logo del sitio"
+      },
+      "SAVE": "Guardar",
+      "SAVED": "Guardado",
+      "UPLOAD": "Subir"
     }
   },
   "LOGIN": {
