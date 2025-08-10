@@ -22,7 +22,7 @@
 
   <ng-template #adminBackBlock>
     <div class="space-y-2">
-      <a *ngIf="showBackHome" routerLink="/home" class="btn btn-gradient-blue w-full"><mat-icon fontIcon="arrow_back"></mat-icon><span class="ml-2">{{ 'NOT_FOUND.BACK_HOME' | translate }}</span></a>
+  <a *ngIf="showBackHome" routerLink="/home" class="btn btn-primary w-full"><mat-icon fontIcon="home"></mat-icon><span class="ml-2">{{ 'NOT_FOUND.BACK_HOME' | translate }}</span></a>
       <a routerLink="/chat" class="btn btn-primary w-full"><mat-icon fontIcon="chat"></mat-icon><span class="ml-2">{{ 'COMMON.BACK_TO_CHAT' | translate }}</span></a>
   <div class="text-xs">
   <button class="flex items-center gap-2 w-full text-left px-2 py-1 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)]" (click)="toggleProfileMenu($event)" [title]="'COMMON.ACCOUNT' | translate">

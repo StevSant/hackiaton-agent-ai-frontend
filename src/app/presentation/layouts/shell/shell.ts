@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { MatIconModule } from '@angular/material/icon';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
@@ -12,7 +12,7 @@ import { BackgroundService } from '@infrastructure/services/background.service';
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SidebarComponent, MatIconModule, TranslateModule],
+  imports: [CommonModule, RouterLink, RouterOutlet, SidebarComponent, MatIconModule, TranslateModule],
   templateUrl: './shell.html',
   styleUrls: ['./shell.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
