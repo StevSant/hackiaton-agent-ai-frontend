@@ -1,9 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import type { AppInfo } from '@core/models/app-info';
-import type { FilesPort, UploadedFileMeta } from '@core/ports/files.port';
+import type { AppInfo } from '@core/models';
+import type { FilesPort, UploadedFileMeta, AppInfoPort } from '@core/ports';
 import { APP_INFO_PORT, FILES_PORT } from '@core/tokens';
-import type { AppInfoPort } from '@core/ports/app-info.port';
 
 @Injectable({ providedIn: 'root' })
 export class AdminAppInfoFacade {

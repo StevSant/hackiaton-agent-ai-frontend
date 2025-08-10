@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import type { CompanyItem } from '@core/ports/companies.port';
-import { ListCompaniesUseCase } from '@core/use-cases/companies/list-companies.usecase';
+import type { CompanyItem } from '@core/ports';
+import { ListCompaniesUseCase } from '@core/use-cases';
 
 @Injectable({ providedIn: 'root' })
 export class AdminCompaniesFacade {

@@ -1,5 +1,5 @@
 import type { Observable } from 'rxjs';
-import type { SessionsPort } from '@core/ports/sessions.port';
+import type { SessionsPort } from '@core/ports';
 
 export class DeleteSessionUseCase {
   constructor(private readonly sessions: SessionsPort) {}

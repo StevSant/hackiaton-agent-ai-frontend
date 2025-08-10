@@ -1,6 +1,6 @@
 import type { Observable } from 'rxjs';
-import type { SessionEntry } from '@core/models/playground-models';
-import type { SessionsPort } from '@core/ports/sessions.port';
+import type { SessionEntry } from '@core/models';
+import type { SessionsPort } from '@core/ports';
 
 export class ListSessionsUseCase {
   constructor(private readonly sessions: SessionsPort) {}

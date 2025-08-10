@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import type { AdminUsersPort } from '@core/ports/admin-users.port';
+import type { AdminUsersPort } from '@core/ports';
 import { ADMIN_USERS_PORT } from '@core/tokens';
 
 @Injectable({ providedIn: 'root' })

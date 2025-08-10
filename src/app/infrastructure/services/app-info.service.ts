@@ -4,7 +4,7 @@ import { firstValueFrom, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import type { AppInfo } from '@core/models/app-info';
-import type { AppInfoPort } from '@core/ports/app-info.port';
+import type { AppInfoPort } from '@core/ports';
 
 @Injectable({ providedIn: 'root' })
 export class AppInfoService implements AppInfoPort {

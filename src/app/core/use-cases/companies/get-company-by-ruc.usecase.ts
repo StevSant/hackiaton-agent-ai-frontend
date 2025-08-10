@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import type { CompaniesPort, CompanyItem } from '@core/ports/companies.port';
+import type { CompaniesPort, CompanyItem } from '@core/ports';
 import { COMPANIES_PORT } from '@core/tokens';
 
 @Injectable({ providedIn: 'root' })

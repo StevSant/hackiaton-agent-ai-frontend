@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import type { AdminUserItem } from '@core/ports/admin-users.port';
+import type { AdminUserItem } from '@core/ports';
 import { AdminUsersFacade } from '@app/application/admin/admin-users.facade';
 
 @Component({

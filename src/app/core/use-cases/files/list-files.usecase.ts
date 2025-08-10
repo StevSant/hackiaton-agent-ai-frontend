@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { FILES_PORT } from '@core/tokens';
-import type { FilesPort, ListFilesResponse } from '@core/ports/files.port';
+import type { FilesPort, ListFilesResponse } from '@core/ports';
 
 export class ListFilesUseCase {
   private readonly files = inject<FilesPort>(FILES_PORT);

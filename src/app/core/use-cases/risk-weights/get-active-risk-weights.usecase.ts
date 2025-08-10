@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import type { RiskWeightsPort, RiskWeightsConfig } from '@core/ports/risk-weights.port';
+import type { RiskWeightsPort, RiskWeightsConfig } from '@core/ports';
 import { RISK_WEIGHTS_PORT } from '@core/tokens';
 
 @Injectable({ providedIn: 'root' })

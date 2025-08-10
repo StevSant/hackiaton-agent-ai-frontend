@@ -1,9 +1,6 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
-import type { AdminUserItem } from '@core/ports/admin-users.port';
-import { ListUsersUseCase } from '@core/use-cases/admin/list-users.usecase';
-import { CreateUserUseCase } from '@core/use-cases/admin/create-user.usecase';
-import { UpdateUserUseCase } from '@core/use-cases/admin/update-user.usecase';
-import { DeleteUserUseCase } from '@core/use-cases/admin/delete-user.usecase';
+import type { AdminUserItem } from '@core/ports';
+import { ListUsersUseCase, CreateUserUseCase, UpdateUserUseCase, DeleteUserUseCase } from '@core/use-cases';
 
 @Injectable({ providedIn: 'root' })
 export class AdminUsersFacade {

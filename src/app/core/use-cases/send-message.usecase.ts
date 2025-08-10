@@ -1,6 +1,6 @@
 import type { Observable } from 'rxjs';
-import type { StreamResponseModel } from '@core/models/stream';
-import type { ChatStreamPort } from '@core/ports/chat-stream.port';
+import type { StreamResponseModel } from '@core/models';
+import type { ChatStreamPort } from '@core/ports';
 
 export class SendMessageUseCase {
   constructor(private readonly chatStream: ChatStreamPort) {}

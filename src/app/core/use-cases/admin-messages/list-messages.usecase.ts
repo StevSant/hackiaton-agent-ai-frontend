@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import type { AdminMessagesPort, AdminMessageItem } from '@core/ports/admin-messages.port';
+import type { AdminMessagesPort, AdminMessageItem } from '@core/ports';
 import { ADMIN_MESSAGES_PORT } from '@core/tokens';
 
 @Injectable({ providedIn: 'root' })

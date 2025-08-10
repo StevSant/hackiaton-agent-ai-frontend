@@ -1,7 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { AdminListSessionsUseCase } from '@core/use-cases/admin-messages/list-sessions.usecase';
-import { AdminListMessagesUseCase } from '@core/use-cases/admin-messages/list-messages.usecase';
-import type { AdminSessionItem, AdminMessageItem } from '@core/ports/admin-messages.port';
+import { AdminListSessionsUseCase, AdminListMessagesUseCase } from '@core/use-cases';
+import type { AdminSessionItem, AdminMessageItem } from '@core/ports';
 
 @Injectable({ providedIn: 'root' })
 export class AdminMessagesFacade {

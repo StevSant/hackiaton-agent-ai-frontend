@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { STT_PORT } from '@core/tokens';
-import type { SttPort } from '@core/ports/stt.port';
+import type { SttPort } from '@core/ports';
 
 export class TranscribeBlobUseCase {
   private readonly stt = inject<SttPort>(STT_PORT);

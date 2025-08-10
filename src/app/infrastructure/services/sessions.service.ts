@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import type { SessionEntry, ChatEntry } from '@core/models/playground-models';
+import type { SessionEntry, ChatEntry } from '@core/models';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 

@@ -1,5 +1,5 @@
 import type { Observable } from 'rxjs';
-import type { StreamResponseModel } from '@core/models/stream';
+import type { StreamResponseModel } from '@core/models';
 
 export interface ChatStreamPort {
   streamFromAgent(

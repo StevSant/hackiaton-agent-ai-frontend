@@ -12,9 +12,10 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import type { Subscription } from 'rxjs';
-import type { ChatMessage, EventType } from '@core/models/chat-model';
+import type { ChatMessage } from '@core/models/chat-model';
+import type { EventType } from '@core/models';
 import { type StreamResponse as InfraStreamResponse } from '@infrastructure/services/sse-service';
-import type { StreamResponseModel } from '@core/models/stream';
+import type { StreamResponseModel } from '@core/models';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Servicios de utilidades
@@ -26,10 +27,10 @@ import { MessageManagerService } from '@infrastructure/services/message-manager.
 // Sidebar is now provided globally in Shell layout
 import { ChatFacade } from '@app/application/chat/chat.facade';
 import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
-import type { SessionEntry } from '@core/models/playground-models';
+import type { SessionEntry } from '@core/models';
 import { MarkdownModule } from 'ngx-markdown';
 import { TranslateModule } from '@ngx-translate/core';
-import type { UploadedFileMeta } from '@core/ports/files.port';
+import type { UploadedFileMeta } from '@core/ports';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
 import { MatIconModule } from '@angular/material/icon';
 

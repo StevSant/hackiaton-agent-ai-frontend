@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import type { LoginRequest, RegisterRequest, UserProfile, LoginSuccessResponse, RegisterSuccessResponse } from '@core/models/auth';
-import type { AuthPort } from '@core/ports/auth.port';
+import type { AuthPort } from '@core/ports';
 import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })

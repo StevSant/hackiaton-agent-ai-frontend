@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '@environments/environment';
-import type { AdminMessagesPort, AdminMessageItem, AdminSessionItem } from '@core/ports/admin-messages.port';
+import type { AdminMessagesPort, AdminMessageItem, AdminSessionItem } from '@core/ports';
 
 @Injectable({ providedIn: 'root' })
 export class AdminMessagesService implements AdminMessagesPort {

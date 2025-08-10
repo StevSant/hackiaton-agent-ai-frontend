@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import type { AppInfo } from '@core/models/app-info';
-import type { AppInfoPort } from '@core/ports/app-info.port';
+import type { AppInfoPort } from '@core/ports';
 import { APP_INFO_PORT } from '@core/tokens';
 
 @Injectable({ providedIn: 'root' })

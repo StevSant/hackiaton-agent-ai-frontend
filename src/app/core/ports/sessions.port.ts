@@ -1,5 +1,5 @@
 import type { Observable } from 'rxjs';
-import type { SessionEntry, ChatEntry } from '@core/models/playground-models';
+import type { SessionEntry, ChatEntry } from '@core/models';
 
 export interface SessionsPort {
   getSessions(agentId: string): Observable<SessionEntry[]>;

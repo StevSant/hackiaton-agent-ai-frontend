@@ -1,7 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
-import type { UploadedFileMeta } from '@core/ports/files.port';
-import { ListFilesUseCase } from '@core/use-cases/files/list-files.usecase';
-import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
+import type { UploadedFileMeta } from '@core/ports';
+import { ListFilesUseCase, UploadFileUseCase } from '@core/use-cases';
 
 export type FileType = 'image' | 'pdf' | 'document' | '';
 
