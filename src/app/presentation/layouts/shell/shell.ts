@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
@@ -24,6 +24,9 @@ export class ShellLayout implements OnInit {
 
   // Global delete modal state
   pendingDelete?: SessionEntry;
+  @ViewChild('deleteDialog') deleteDialog?: ElementRef<HTMLDialogElement>;
+  @ViewChild('cancelBtn') cancelBtn?: ElementRef<HTMLButtonElement>;
+  @ViewChild('confirmBtn') confirmBtn?: ElementRef<HTMLButtonElement>;
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
@@ -54,5 +57,27 @@ export class ShellLayout implements OnInit {
       complete: () => { this.pendingDelete = undefined; },
       error: () => { this.pendingDelete = undefined; }
     });
+  }
+
+  openDeleteModal(session: SessionEntry) {
+    this.pendingDelete = session;
+    // queue focus to cancel button for accessibility
+    queueMicrotask(() => this.cancelBtn?.nativeElement?.focus());
+  }
+
+  onDialogKeydown(e: KeyboardEvent) {
+    if (e.key !== 'Tab') return;
+    const cancel = this.cancelBtn?.nativeElement;
+    const confirm = this.confirmBtn?.nativeElement;
+    if (!cancel || !confirm) return;
+    const active = document.activeElement as HTMLElement | null;
+    const shift = e.shiftKey;
+    if (!shift && active === confirm) {
+      e.preventDefault();
+      cancel.focus();
+    } else if (shift && active === cancel) {
+      e.preventDefault();
+      confirm.focus();
+    }
   }
 }

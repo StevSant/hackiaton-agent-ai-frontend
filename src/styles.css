@@ -284,13 +284,15 @@ body:not(.dark) .glass-surface {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: hsl(0 0% 0% / 0.45);
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
   z-index: 1000;
   animation: backdrop-in 180ms ease-out both;
+  padding: 12px; /* keep spacing from edges on small screens */
 }
 dialog.modal {
   width: min(480px, 92vw);

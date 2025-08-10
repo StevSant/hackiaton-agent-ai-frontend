@@ -42,16 +42,16 @@
     <dialog #deleteDialog open class="modal" (click)="$event.stopPropagation()" (keydown)="onDialogKeydown($event)">
       <header class="modal-header">
         <h3>{{ 'SIDEBAR.DELETE_TITLE' | translate }}</h3>
-        <button #cancelBtn type="button" class="btn btn-ghost btn-sm" (click)="pendingDelete = undefined" [attr.aria-label]="'SIDEBAR.CANCEL' | translate" autofocus>
-          <mat-icon fontIcon="close"></mat-icon>
+        <button #cancelBtn type="button" class="btn btn-ghost md:btn md:btn-ghost" (click)="pendingDelete = undefined" [attr.aria-label]="'SIDEBAR.CANCEL' | translate" autofocus>
+          <mat-icon fontIcon="close" class="text-xl"></mat-icon>
         </button>
       </header>
       <section class="modal-body">
         <p>{{ 'SIDEBAR.DELETE_TEXT' | translate }}</p>
       </section>
       <footer class="modal-actions">
-        <button class="btn" type="button" (click)="pendingDelete = undefined">{{ 'SIDEBAR.CANCEL' | translate }}</button>
-        <button #confirmBtn class="btn btn-error" type="button" (click)="confirmDeleteFromShell()">{{ 'SIDEBAR.CONFIRM' | translate }}</button>
+  <button class="btn btn-primary" type="button" (click)="pendingDelete = undefined">{{ 'SIDEBAR.CANCEL' | translate }}</button>
+  <button #confirmBtn class="btn btn-error btn-outline" type="button" (click)="confirmDeleteFromShell()">{{ 'SIDEBAR.CONFIRM' | translate }}</button>
       </footer>
   </dialog>
   </div>
