@@ -69,6 +69,7 @@ export class Chat implements OnDestroy, OnInit {
   selectedSessionId: string | null = null;
   filesToUpload: File[] = [];
   uploadedFiles: UploadedFileMeta[] = [];
+  isUploadingFiles = false;
   readonly toolRunning = this.chatFacade.toolRunning;
   private streamingSessionId: string | null = null;
   // UI handled inside messages-list component
@@ -251,7 +252,7 @@ export class Chat implements OnDestroy, OnInit {
   sendMessage() {
     const messageContent = this.msgForm.get('message')?.value?.trim();
     const hasFiles = this.filesToUpload.length > 0;
-  if ((!messageContent && !hasFiles) || this.isSending()) {
+  if ((!messageContent && !hasFiles) || this.isSending() || this.isUploadingFiles) {
       return;
     }
     this.startNewConversation(messageContent || '');
@@ -276,20 +277,8 @@ export class Chat implements OnDestroy, OnInit {
     this.scrollManager.scheduleScrollToBottom();
     this.cdr.detectChanges();
 
-    // Iniciar stream
-    // If there are files selected, upload them first to get file_ids
-    let fileIds: string[] = [];
-    if (this.filesToUpload.length > 0) {
-      try {
-        const uploaded: UploadedFileMeta[] = await this.chatFacade.uploadFiles(
-          this.filesToUpload
-        );
-        this.uploadedFiles = uploaded;
-        fileIds = uploaded.map((u) => u.id);
-      } catch (e) {
-        console.error('Error subiendo archivos:', e);
-      }
-    }
+  // Iniciar stream: usar archivos ya subidos (si los hay)
+  const fileIds: string[] = (this.uploadedFiles || []).map(u => u.id);
 
     const payload: {
       message?: string;
@@ -302,7 +291,7 @@ export class Chat implements OnDestroy, OnInit {
       message: content,
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
-      files: this.filesToUpload.length ? this.filesToUpload : undefined,
+  // no enviamos archivos binarios; usamos file_ids
       file_ids: fileIds,
     };
     this.subscription = this.chatFacade.sendMessage(payload).subscribe({
@@ -339,6 +328,7 @@ export class Chat implements OnDestroy, OnInit {
   this.events.handleComplete(this.ctx());
   // limpiar selección local de archivos tras completar envío
   this.filesToUpload = [];
+  this.uploadedFiles = [];
   this.cdr.markForCheck();
   }
 
@@ -419,8 +409,27 @@ export class Chat implements OnDestroy, OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.filesToUpload = Array.from(input.files);
+      // iniciar carga inmediata
+      this.isUploadingFiles = true;
+      this.uploadedFiles = [];
+      this.cdr.markForCheck();
+      this.chatFacade
+        .uploadFiles(this.filesToUpload)
+        .then((uploaded) => {
+          this.uploadedFiles = uploaded;
+        })
+        .catch((e) => {
+          console.error('Error subiendo archivos:', e);
+          this.chatFacade.addSystemMessage('⚠️ No se pudieron subir algunos archivos', 'ToolCallResult' as EventType);
+          this.filesToUpload = [];
+        })
+        .finally(() => {
+          this.isUploadingFiles = false;
+          this.cdr.markForCheck();
+        });
     } else {
       this.filesToUpload = [];
+      this.uploadedFiles = [];
     }
   }
 

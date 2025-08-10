@@ -95,29 +95,18 @@
                   <button class="btn btn-xs btn-ghost" (click)="tts.play(message.content, message.id)" title="Reproducir">
                     <mat-icon fontIcon="play_arrow"></mat-icon>
                   </button>
-                }
-                @if (isPlayingFor(message.id) && !isPausedFor(message.id)) {
-                  <button class="btn btn-xs btn-ghost" (click)="ttsPause()" title="Pausar">
-                    <mat-icon fontIcon="pause"></mat-icon>
-                  </button>
-                }
-                @if (isPausedFor(message.id)) {
-                  <button class="btn btn-xs btn-ghost" (click)="ttsResume()" title="Reanudar">
-                    <mat-icon fontIcon="play_arrow"></mat-icon>
-                  </button>
-                }
-                @if (isPlayingFor(message.id) || isPausedFor(message.id)) {
-                  <button class="btn btn-xs btn-ghost" (click)="ttsStop()" title="Detener">
-                    <mat-icon fontIcon="stop"></mat-icon>
+                } @else {
+                  <button class="btn btn-xs btn-ghost" (click)="isPausedFor(message.id) ? tts.resume() : tts.pause()" title="Pausar/Reanudar">
+                    <mat-icon [fontIcon]="isPausedFor(message.id) ? 'play_arrow' : 'pause'"></mat-icon>
                   </button>
                 }
 
                 <div class="flex items-center gap-2 ml-2">
                   <mat-icon fontIcon="volume_up" class="opacity-70"></mat-icon>
-        <input type="range" min="0" max="1" step="0.05"
-          [value]="tts.volume()"
-          (input)="onVolumeInput($event)"
-          class="range range-xs w-32" />
+                  <input type="range" min="0" max="1" step="0.05"
+                         [value]="tts.volume()"
+                         (input)="onVolumeInput($event)"
+                         class="range range-xs w-32" />
                   <span class="text-xs opacity-70 w-8 text-right">{{ (tts.volume() * 100) | number:'1.0-0' }}%</span>
                 </div>
               </div>

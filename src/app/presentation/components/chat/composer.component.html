@@ -18,7 +18,7 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <button type="submit" class="btn btn-primary btn-square btn-sm md:btn-md" [disabled]="isSending || !form.valid" [class.loading]="isSending" title="Enviar">
+          <button type="submit" class="btn btn-primary btn-square btn-sm md:btn-md" [disabled]="isSending || isUploadingFiles || !form.valid" [class.loading]="isSending" title="Enviar">
             <mat-icon fontIcon="send"></mat-icon>
           </button>
           @if (isSending) {
@@ -32,6 +32,9 @@
       <div class="flex flex-wrap items-center justify-between gap-2 text-xs opacity-70">
         <div class="hidden sm:block">{{ 'CHAT.HINT' | translate }}</div>
         <div class="flex items-center gap-2">
+          @if (isUploadingFiles) {
+            <div class="loading loading-dots loading-xs text-info" title="Subiendo archivos..."></div>
+          }
           @if (filesCount) {
             <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesCount } }}</div>
           }

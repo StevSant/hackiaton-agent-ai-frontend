@@ -16,6 +16,7 @@ export class ChatComposerComponent {
   @Input() form!: FormGroup;
   @Input() isSending = false;
   @Input() filesCount = 0;
+  @Input() isUploadingFiles = false;
   @Input() uploadedFiles: UploadedFileMeta[] = [];
   @Output() send = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();

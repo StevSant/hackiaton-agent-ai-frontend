@@ -4,7 +4,7 @@
   <div class="chat-container h-screen w-full p-4 md:p-8 flex flex-col gap-4 max-h-screen">
     <app-chat-messages-list [messages]="messages()" [isSending]="isSending()"
       [toolRunning]="toolRunning()"></app-chat-messages-list>
-  <app-chat-composer [form]="msgForm" [isSending]="isSending()" [filesCount]="filesToUpload.length" [uploadedFiles]="uploadedFiles"
+  <app-chat-composer [form]="msgForm" [isSending]="isSending()" [isUploadingFiles]="isUploadingFiles" [filesCount]="filesToUpload.length" [uploadedFiles]="uploadedFiles"
       (send)="sendMessage()" (cancel)="cancelSending()" (filesSelected)="onFilesSelected($event)"
       (keydown)="handleKeyDown($event)" (composerInput)="handleComposerInput($event)"></app-chat-composer>
   </div>

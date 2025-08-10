@@ -139,10 +139,7 @@ export class ChatEventsService {
       if (raw?.images) msg.images = raw.images;
       if (raw?.videos) msg.videos = raw.videos;
 
-      this.typewriter.completeMessage(msg);
-      if (msg.content.trim()) {
-        setTimeout(() => this.tts.play(msg.content, (msg as any).id), 500);
-      }
+  this.typewriter.completeMessage(msg);
     }
 
     this.chatFacade.setToolRunning(false);
