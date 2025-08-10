@@ -50,8 +50,6 @@ export class SidebarComponent {
   limit = 20;
   total = 0;
   hasMore = true;
-  expanded: Record<string, boolean> = {};
-  previews: Record<string, { title: string; summary?: string } | undefined> = {};
   // delete confirmation state
   confirmOpen = signal(false);
   toDelete = signal<SessionEntry | null>(null);
@@ -129,15 +127,6 @@ export class SidebarComponent {
 
   ngOnDestroy() { if (this.io) this.io.disconnect(); }
 
-  togglePreview(session: SessionEntry) {
-    const id = session.session_id;
-    this.expanded[id] = !this.expanded[id];
-    if (this.expanded[id] && !this.previews[id]) {
-      // Use data already available from session listing: title and summary
-      this.previews[id] = { title: session.title, summary: session.summary };
-    }
-  }
-
   openSession(session: SessionEntry) {
     this.router.navigate(['/chat', 'session', session.session_id]).then(() => {
       // tras navegar, refrescar lista para reflejar títulos/orden si el backend los cambia
@@ -164,8 +153,6 @@ export class SidebarComponent {
       next: () => {
         // remove locally
         this.sessions = this.sessions.filter(s => s.session_id !== session.session_id);
-        delete this.expanded[session.session_id];
-        delete this.previews[session.session_id];
         this.cdr.markForCheck();
         // redirect to new chat page
         this.router.navigate(['/chat']).then(() => setTimeout(() => this.tryLoad()));

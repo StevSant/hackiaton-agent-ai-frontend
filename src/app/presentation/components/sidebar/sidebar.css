@@ -29,6 +29,7 @@
   position: relative;
   overflow: hidden;
   white-space: nowrap;
+  max-width: 9rem; /* ensure title doesn’t push actions */
 }
 .marquee::before,
 .marquee::after {
@@ -53,6 +54,9 @@
 li.group:hover .marquee__content {
   animation: marquee-scroll 8s linear infinite;
 }
+
+/* When not animating, keep text single-line truncated */
+.marquee .marquee__content { text-overflow: ellipsis; overflow: hidden; }
 
 @keyframes marquee-scroll {
   0% { transform: translateX(0); }

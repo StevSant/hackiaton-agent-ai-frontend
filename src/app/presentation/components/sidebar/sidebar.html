@@ -36,36 +36,19 @@
                     'COMMON.NO_SESSIONS' | translate }}</div>
                 <ul class="space-y-2">
                     <li *ngFor="let s of sessions; trackBy: trackBySessionId" class="group border border-white/10 rounded-md hover:bg-white/5">
-                        <div class="flex items-center justify-between px-2 py-2 gap-2">
-                            <button class="text-left flex-1" (click)="openSession(s)">
-                                <div class="text-sm font-medium">
-                                    <div class="marquee w-full">
+                        <div class="grid grid-cols-[1fr_auto] items-center px-2 py-2 gap-2">
+                            <button class="text-left flex-1 min-w-0" (click)="openSession(s)">
+                                <div class="text-sm font-medium min-w-0">
+                                    <div class="marquee max-w-36">
                                         <span class="marquee__content">{{ s.title || ('Sesión ' + s.session_id.slice(0,6)) }}</span>
                                         <span class="marquee__content" aria-hidden="true">{{ s.title || ('Sesión ' + s.session_id.slice(0,6)) }}</span>
                                     </div>
                                 </div>
-                                <div class="text-xs opacity-60 truncate">{{ s.session_id }}</div>
                             </button>
-                            <div class="flex items-center gap-1">
-                                <button class="btn btn-ghost btn-xs" (click)="togglePreview(s)"
-                                    [title]="('COMMON.VIEW_MESSAGES' | translate)">
-                                    <mat-icon fontIcon="expand_more" [ngClass]="{'rotate-180': expanded[s.session_id]}"
-                                        class="transition-transform"></mat-icon>
-                                </button>
-                                <button class="btn btn-ghost btn-xs text-error" (click)="openDeleteModal(s, $event)"
-                                    [title]="('COMMON.DELETE' | translate)">
-                                    <mat-icon fontIcon="delete"></mat-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <div *ngIf="expanded[s.session_id]" class="px-2 pb-2 space-y-1 max-h-48 overflow-y-auto">
-                            <div *ngIf="!previews[s.session_id]" class="text-xs opacity-60">{{ 'COMMON.LOADING' | translate }}</div>
-                            <ng-container *ngIf="previews[s.session_id] as prev">
-                                <div class="text-xs font-semibold truncate">{{ prev.title || ('Sesión ' + s.session_id.slice(0,6)) }}</div>
-                                <div class="text-xs opacity-80 whitespace-pre-line">
-                                    {{ prev.summary || ('COMMON.NO_SUMMARY' | translate) }}
-                                </div>
-                            </ng-container>
+                            <button class="btn btn-ghost btn-xs text-error" (click)="openDeleteModal(s, $event)"
+                                [title]="('COMMON.DELETE' | translate)">
+                                <mat-icon fontIcon="delete"></mat-icon>
+                            </button>
                         </div>
                     </li>
                 </ul>
