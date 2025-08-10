@@ -1,9 +1,9 @@
-<div class="p-6 space-y-4">
+<div class="p-6 space-y-4 vt-page">
   <h2 class="text-xl font-semibold">{{ 'ADMIN.SIDENAV.APP_INFO' | translate }}</h2>
   @if (error()) {
     <div class="alert alert-error">{{ error() }}</div>
   }
-  <div class="surface-blur rounded-xl p-4">
+  <div class="glass-card">
   <form [formGroup]="form" (ngSubmit)="save()" class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <div>
       <label class="text-xs" for="site_name">{{ 'ADMIN.APP_INFO.FIELDS.SITE_NAME' | translate }}</label>
@@ -20,7 +20,7 @@
       </div>
       @if (form.value.site_icon) {
         <div class="mt-2">
-          <img [src]="form.value.site_icon!" alt="icon preview" class="h-10 w-10 object-contain border rounded" />
+          <img [src]="form.value.site_icon!" alt="icon preview" class="h-10 w-10 object-contain rounded border border-white/10" />
         </div>
       }
     </div>
@@ -35,7 +35,7 @@
       </div>
       @if (form.value.site_logo) {
         <div class="mt-2">
-          <img [src]="form.value.site_logo!" alt="logo preview" class="h-16 object-contain border rounded" />
+          <img [src]="form.value.site_logo!" alt="logo preview" class="h-16 object-contain rounded border border-white/10" />
         </div>
       }
     </div>

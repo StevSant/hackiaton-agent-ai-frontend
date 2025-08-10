@@ -11,6 +11,7 @@ import { AdminUsersFacade } from '@app/application/admin/admin-users.facade';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatIconModule, TranslateModule],
   templateUrl: './users.html',
+  styleUrl: './users.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersPage {

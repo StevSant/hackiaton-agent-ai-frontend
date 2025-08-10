@@ -1,26 +1,26 @@
-<div class="p-6 space-y-4">
+<div class="p-6 space-y-4 vt-page">
   <div class="flex items-center justify-between gap-3">
     <h2 class="text-xl font-semibold">{{ 'ADMIN.FILES.TITLE' | translate }} ({{ total() }})</h2>
-    <div class="flex items-center gap-2">
-      <select #t class="select select-bordered select-sm" (change)="onTypeChange(t.value)">
+    <div class="flex items-center gap-2 glass-card p-2 rounded-lg">
+      <select #t class="w-40" (change)="onTypeChange(t.value)">
         <option value="">{{ 'ADMIN.FILES.TYPE_ALL' | translate }}</option>
         <option value="image">image</option>
         <option value="pdf">pdf</option>
         <option value="document">document</option>
       </select>
-      <input #sf class="input input-bordered input-sm" [value]="subfolder()" (change)="subfolder.set(sf.value); applyFilters()" [placeholder]="'ADMIN.FILES.SUBFOLDER' | translate" />
+      <input #sf class="w-48" [value]="subfolder()" (change)="subfolder.set(sf.value); applyFilters()" [placeholder]="'ADMIN.FILES.SUBFOLDER' | translate" />
     </div>
     <div class="flex gap-2">
       <button class="btn btn-sm" (click)="prev()" [disabled]="offset()<=0">{{ 'COMMON.PREVIOUS' | translate }}</button>
       <button class="btn btn-sm" (click)="next()" [disabled]="offset()+limit()>=total()">{{ 'COMMON.NEXT' | translate }}</button>
     </div>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 page-stagger">
     @for (f of items(); track f.url) {
-  <div class="p-3 border rounded surface-blur">
+  <div class="p-3 glass-card">
         <div class="font-medium truncate" [title]="f.filename">{{ f.filename }}</div>
         <div class="text-xs opacity-70">{{ f.content_type }} • {{ f.type_file }}</div>
-  <a [href]="f.url" target="_blank" class="text-primary text-sm">{{ 'COMMON.OPEN' | translate }}</a>
+  <a [href]="f.url" target="_blank" class="btn btn-ghost btn-xs mt-1">{{ 'COMMON.OPEN' | translate }}</a>
       </div>
     }
   </div>

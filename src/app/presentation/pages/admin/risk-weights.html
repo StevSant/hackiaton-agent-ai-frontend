@@ -1,11 +1,11 @@
-<div class="p-6 space-y-4">
+<div class="p-6 space-y-4 vt-page">
   <h2 class="text-xl font-semibold">{{ 'ADMIN.RISK_WEIGHTS.TITLE' | translate }}</h2>
-  <div class="flex items-center gap-2 surface-blur rounded-xl p-3">
+  <div class="flex items-center gap-2 glass-card p-3 page-stagger">
     <label class="text-xs" for="version">{{ 'ADMIN.RISK_WEIGHTS.VERSION' | translate }}</label>
     <input id="version" class="input input-bordered w-24" type="number" [value]="version()" (input)="onVersionChange($event)" />
     <button class="btn btn-sm" (click)="addKey()">+ {{ 'ADMIN.RISK_WEIGHTS.ADD_FACTOR' | translate }}</button>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 surface-blur rounded-xl p-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 glass-card p-3">
     @for (key of (weights.controls | keyvalue); track key.key) {
       <div>
         <label class="text-xs" [for]="'w_'+key.key">{{ key.key }}</label>
@@ -13,7 +13,7 @@
       </div>
     }
   </div>
-  <div class="surface-blur rounded-xl p-3">
+  <div class="glass-card p-3">
     <button class="btn btn-primary" (click)="save()">{{ 'ADMIN.RISK_WEIGHTS.SAVE' | translate }}</button>
   </div>
 </div>

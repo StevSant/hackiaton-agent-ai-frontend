@@ -1,8 +1,8 @@
-<div class="p-6 space-y-4">
+<div class="p-6 space-y-4 vt-page">
   <h2 class="text-xl font-semibold">{{ 'ADMIN.MESSAGES.TITLE' | translate }}</h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div class="md:col-span-1 border rounded p-2 max-h-[70vh] flex flex-col">
-      <div class="p-2 flex items-center gap-2 border-b">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 page-stagger">
+    <div class="md:col-span-1 glass-card p-2 max-h-[70vh] flex flex-col">
+      <div class="p-2 flex items-center gap-2 border-b/40">
         <input class="input input-sm input-bordered flex-1" [placeholder]="'ADMIN.MESSAGES.SEARCH_PLACEHOLDER' | translate" #q (keyup.enter)="applySessionsSearch(q.value)" />
         <button class="btn btn-sm" (click)="applySessionsSearch(q.value)">{{ 'ADMIN.MESSAGES.FILTER' | translate }}</button>
       </div>
@@ -17,11 +17,11 @@
           @if (loading()) { {{ 'COMMON.LOADING' | translate }} }
         </div>
       </div>
-      <div class="p-2 flex items-center justify-between gap-2 border-t text-xs opacity-70">
+      <div class="p-2 flex items-center justify-between gap-2 border-t/40 text-xs opacity-70">
         <div>{{ sessions().length }} / {{ total() || '∞' }}</div>
       </div>
     </div>
-  <div class="md:col-span-2 border rounded p-3 max-h-[70vh] overflow-y-auto">
+  <div class="md:col-span-2 glass-card p-3 max-h-[70vh] overflow-y-auto">
       @if (!selected()) {
         <div class="opacity-70">{{ 'ADMIN.MESSAGES.SELECT_SESSION' | translate }}</div>
       } @else {

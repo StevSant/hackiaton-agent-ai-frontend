@@ -1,4 +1,4 @@
-<div class="p-6 space-y-6">
+<div class="p-6 space-y-6 vt-page">
   <h2 class="text-xl font-semibold">{{ 'ADMIN.USERS.TITLE' | translate }}</h2>
 
   <div class="flex items-end justify-between gap-3">
@@ -12,32 +12,32 @@
     <div class="text-sm opacity-70">{{ start() }}–{{ end() }} de {{ total() }}</div>
   </div>
 
-  <div class="surface-blur rounded-xl p-4">
+  <div class="glass-card users-card p-4">
   <form [formGroup]="form" (ngSubmit)="create()" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
     <div>
       <label class="text-xs" for="username">{{ 'ADMIN.USERS.USERNAME' | translate }}</label>
-      <input id="username" class="input input-bordered w-full" formControlName="username"
+  <input id="username" class="w-full" formControlName="username"
         [placeholder]="'ADMIN.USERS.USERNAME_PLACEHOLDER' | translate" />
     </div>
     <div>
       <label class="text-xs" for="email">{{ 'ADMIN.USERS.EMAIL' | translate }}</label>
-      <input id="email" class="input input-bordered w-full" formControlName="email"
+  <input id="email" class="w-full" formControlName="email"
         [placeholder]="'ADMIN.USERS.EMAIL_PLACEHOLDER' | translate" type="email" />
     </div>
     <div class="md:col-span-2">
       <label class="text-xs" for="password">{{ 'ADMIN.USERS.PASSWORD' | translate }}</label>
-      <input id="password" class="input input-bordered w-full" formControlName="password"
+  <input id="password" class="w-full" formControlName="password"
         [placeholder]="'ADMIN.USERS.PASSWORD_PLACEHOLDER' | translate" type="password" />
     </div>
     <div>
       <label class="text-xs" for="role">{{ 'ADMIN.USERS.ROLE' | translate }}</label>
-      <select id="role" class="select select-bordered w-full" formControlName="role">
+  <select id="role" class="w-full" formControlName="role">
         <option [ngValue]="'user'">{{ 'COMMON.USER' | translate }}</option>
         <option [ngValue]="'admin'">{{ 'COMMON.ADMIN' | translate }}</option>
       </select>
     </div>
     <div>
-      <button class="btn btn-primary" [disabled]="form.invalid || creating()" type="submit">{{ 'ADMIN.USERS.CREATE' |
+  <button class="btn btn-gradient-blue" [disabled]="form.invalid || creating()" type="submit">{{ 'ADMIN.USERS.CREATE' |
         translate }}</button>
     </div>
   </form>
@@ -47,8 +47,8 @@
   <div class="alert alert-error">{{ error() }}</div>
   }
 
-  <div class="overflow-x-auto surface-blur rounded-xl p-2">
-    <table class="table table-sm">
+  <div class="overflow-x-auto glass-card p-2">
+    <table class="users-table text-sm">
       <thead>
         <tr>
           <th>
@@ -76,9 +76,14 @@
         <tr>
           <td>{{ u.username }}</td>
           <td>{{ u.email }}</td>
-          <td>{{ u.role }}</td>
+          <td>
+            <span class="role-badge role-{{u.role}}">
+              <span class="dot"></span>
+              {{ u.role }}
+            </span>
+          </td>
           <td>{{ u.created_at || '-' }}</td>
-          <td class="text-right">
+          <td class="actions">
             <button class="btn btn-ghost btn-xs" (click)="startEdit(u)">{{ 'ADMIN.USERS.EDIT' | translate }}</button>
             <button class="btn btn-ghost btn-xs text-error" (click)="confirmDelete(u)">{{ 'ADMIN.USERS.DELETE' |
               translate }}</button>
@@ -86,18 +91,18 @@
         </tr>
         } @else {
         <tr>
-          <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.username" /></td>
-          <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.email" /></td>
+          <td><input class="w-full" [formControl]="editForm.controls.username" /></td>
+          <td><input class="w-full" [formControl]="editForm.controls.email" /></td>
           <td>
-                <select class="select select-bordered select-xs" [formControl]="editForm.controls.role">
+                <select class="w-full" [formControl]="editForm.controls.role">
                   <option [ngValue]="'user'">{{ 'COMMON.USER' | translate }}</option>
                   <option [ngValue]="'admin'">{{ 'COMMON.ADMIN' | translate }}</option>
                 </select>
           </td>
-          <td><input class="input input-bordered input-xs w-full" [formControl]="editForm.controls.password"
+          <td><input class="w-full" [formControl]="editForm.controls.password"
               [placeholder]="'ADMIN.USERS.NEW_PASSWORD_OPTIONAL' | translate" /></td>
-          <td class="text-right">
-            <button class="btn btn-primary btn-xs" (click)="saveEdit()">{{ 'ADMIN.USERS.SAVE' | translate }}</button>
+          <td class="actions">
+            <button class="btn btn-gradient-blue btn-xs" (click)="saveEdit()">{{ 'ADMIN.USERS.SAVE' | translate }}</button>
             <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">{{ 'ADMIN.USERS.CANCEL' | translate }}</button>
           </td>
         </tr>
@@ -107,7 +112,7 @@
     </table>
   </div>
 
-  <div class="flex items-center justify-end gap-2 pt-2 surface-blur rounded-xl p-2">
+  <div class="flex items-center justify-end gap-2 pt-2 glass-card p-2">
     <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">{{ 'COMMON.PREVIOUS' | translate }}</button>
     <button class="btn btn-sm" (click)="nextPage()" [disabled]="page()*limit()>=total()">{{ 'COMMON.NEXT' | translate
       }}</button>
