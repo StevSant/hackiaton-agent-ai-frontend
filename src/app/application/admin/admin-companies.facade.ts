@@ -27,8 +27,8 @@ export class AdminCompaniesFacade {
         sort_by: (this.sortBy() || undefined) as any,
         sort_order: this.sortOrder(),
       });
-      this.items.set(res || []);
-      this.total.set(res?.length ?? 0);
+  this.items.set(res.items || []);
+  this.total.set(res.total || 0);
     } catch (e: any) {
       this.error.set(e?.message || 'Error cargando compañías');
     } finally {

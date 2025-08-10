@@ -1,13 +1,24 @@
 <div class="p-6 space-y-4">
   <h2 class="text-xl font-semibold">Mensajes</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div class="md:col-span-1 border rounded p-2 max-h-[70vh] overflow-y-auto">
-      @for (s of sessions(); track s.session_id) {
-        <button class="w-full text-left p-2 border-b hover:bg-base-200/40" (click)="open(s.session_id)">
-          <div class="font-medium truncate">{{ s.title || s.session_id }}</div>
-          <div class="text-xs opacity-70">{{ s.updated_at }}</div>
-        </button>
-      }
+    <div class="md:col-span-1 border rounded p-2 max-h-[70vh] flex flex-col">
+      <div class="p-2 flex items-center gap-2 border-b">
+        <input class="input input-sm input-bordered flex-1" placeholder="Buscar" #q (keyup.enter)="applySessionsSearch(q.value)" />
+        <button class="btn btn-sm" (click)="applySessionsSearch(q.value)">Filtrar</button>
+      </div>
+      <div class="flex-1 overflow-y-auto">
+        @for (s of sessions(); track s.session_id) {
+          <button class="w-full text-left p-2 border-b hover:bg-base-200/40" (click)="open(s.session_id)">
+            <div class="font-medium truncate">{{ s.title || s.session_id }}</div>
+            <div class="text-xs opacity-70">{{ s.updated_at }}</div>
+          </button>
+        }
+      </div>
+      <div class="p-2 flex items-center justify-between gap-2 border-t">
+        <button class="btn btn-xs" (click)="prevSessionsPage()" [disabled]="page()<=1">Anterior</button>
+        <div class="text-xs">Página {{ page() }}</div>
+        <button class="btn btn-xs" (click)="nextSessionsPage()" [disabled]="sessions().length + (page()-1)*limit() >= total()">Siguiente</button>
+      </div>
     </div>
     <div class="md:col-span-2 border rounded p-3 max-h-[70vh] overflow-y-auto">
       @if (!selected()) {
@@ -19,6 +30,9 @@
             <div>{{ m.content }}</div>
           </div>
         }
+        <div class="flex items-center justify-center p-2">
+          <button class="btn btn-sm" (click)="nextMsgPage()" [disabled]="(messages()?.length || 0) >= msgTotal()">Cargar más</button>
+        </div>
       }
     </div>
   </div>
