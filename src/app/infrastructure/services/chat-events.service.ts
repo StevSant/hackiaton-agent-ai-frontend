@@ -1,7 +1,15 @@
 import { Injectable, type ChangeDetectorRef } from '@angular/core';
 import type { StreamResponseModel, ChatMessage } from '@core/models';
 import { ChatFacade } from '@app/application';
-import { ConnectionStatusService, TypewriterService, ScrollManagerService, SessionsEventsService, TtsService, ChatUtilsService, MessageManagerService } from './index';
+import {
+  ConnectionStatusService,
+  TypewriterService,
+  ScrollManagerService,
+  SessionsEventsService,
+  TtsService,
+  ChatUtilsService,
+  MessageManagerService,
+} from './index';
 import { Location } from '@angular/common';
 
 export type ChatPageCtx = {
@@ -22,7 +30,7 @@ export class ChatEventsService {
     private readonly location: Location,
     private readonly tts: TtsService,
     private readonly chatUtils: ChatUtilsService,
-    private readonly messageManager: MessageManagerService,
+    private readonly messageManager: MessageManagerService
   ) {}
 
   handleStreamData(ctx: ChatPageCtx, data: StreamResponseModel) {
@@ -46,7 +54,10 @@ export class ChatEventsService {
         this.handleRunResponse(ctx, data);
         break;
       case 'RunStarted':
-        this.chatFacade.addSystemMessage('🤖 El agente está procesando tu solicitud...', 'RunStarted');
+        this.chatFacade.addSystemMessage(
+          '🤖 El agente está procesando tu solicitud...',
+          'RunStarted'
+        );
         break;
       case 'RunCompleted':
         this.handleRunCompleted(ctx, data);
@@ -132,14 +143,15 @@ export class ChatEventsService {
       const raw: any = data.rawMessage;
       if (raw?.extra_data) {
         msg.extra_data = {
-          reasoning_steps: raw.extra_data.reasoning_steps ?? msg.extra_data?.reasoning_steps,
+          reasoning_steps:
+            raw.extra_data.reasoning_steps ?? msg.extra_data?.reasoning_steps,
           references: raw.extra_data.references ?? msg.extra_data?.references,
         };
       }
       if (raw?.images) msg.images = raw.images;
       if (raw?.videos) msg.videos = raw.videos;
 
-  this.typewriter.completeMessage(msg);
+      this.typewriter.completeMessage(msg);
     }
 
     this.chatFacade.setToolRunning(false);
