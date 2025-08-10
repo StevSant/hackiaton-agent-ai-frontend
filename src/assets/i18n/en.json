@@ -94,6 +94,13 @@
     },
     "DASHBOARD": {
       "TITLE": "Admin panel",
+  "CARD_USERS": "Users",
+  "CARD_SESSIONS": "Sessions",
+  "CARD_MESSAGES": "Messages",
+  "CARD_FILES": "Files",
+  "FILES_BREAKDOWN": "Files breakdown",
+  "ACTIVITY_30D": "Activity (last 30 days)",
+  "FILES_BY_TYPE": "Files by type",
       "USERS_TITLE": "Users",
       "USERS_DESC": "Create and manage users",
       "FILES_TITLE": "Files",

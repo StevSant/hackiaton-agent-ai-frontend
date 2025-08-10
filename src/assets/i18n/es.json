@@ -94,6 +94,13 @@
     },
     "DASHBOARD": {
       "TITLE": "Panel administrativo",
+  "CARD_USERS": "Usuarios",
+  "CARD_SESSIONS": "Sesiones",
+  "CARD_MESSAGES": "Mensajes",
+  "CARD_FILES": "Archivos",
+  "FILES_BREAKDOWN": "Desglose de archivos",
+  "ACTIVITY_30D": "Actividad (últimos 30 días)",
+  "FILES_BY_TYPE": "Archivos por tipo",
       "USERS_TITLE": "Usuarios",
       "USERS_DESC": "Crear y gestionar usuarios",
       "FILES_TITLE": "Archivos",
