@@ -3,6 +3,7 @@
   @if (error()) {
     <div class="alert alert-error">{{ error() }}</div>
   }
+  <div class="glass-surface rounded-xl p-4">
   <form [formGroup]="form" (ngSubmit)="save()" class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <div>
       <label class="text-xs" for="site_name">{{ 'ADMIN.APP_INFO.FIELDS.SITE_NAME' | translate }}</label>
@@ -45,6 +46,7 @@
       }
     </div>
   </form>
+  </div>
   @if (!loaded()) {
     <div class="text-sm opacity-70">{{ 'COMMON.LOADING' | translate }}</div>
   }

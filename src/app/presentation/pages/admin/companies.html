@@ -12,7 +12,7 @@
       </select>
     </div>
   </form>
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto glass-surface rounded-xl p-2">
     <table class="table table-sm">
   <thead>
         <tr>
@@ -44,7 +44,7 @@
       </tbody>
     </table>
   </div>
-  <div class="flex items-center justify-end gap-2">
+  <div class="flex items-center justify-end gap-2 glass-surface rounded-xl p-2">
   <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">{{ 'COMMON.PREVIOUS' | translate }}</button>
   <span class="text-sm opacity-70">{{ 'COMMON.PAGE' | translate }} {{ page() }}</span>
   <button class="btn btn-sm" (click)="nextPage()">{{ 'COMMON.NEXT' | translate }}</button>

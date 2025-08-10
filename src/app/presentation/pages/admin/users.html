@@ -12,6 +12,7 @@
     <div class="text-sm opacity-70">{{ start() }}–{{ end() }} de {{ total() }}</div>
   </div>
 
+  <div class="glass-surface rounded-xl p-4">
   <form [formGroup]="form" (ngSubmit)="create()" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
     <div>
       <label class="text-xs" for="username">{{ 'ADMIN.USERS.USERNAME' | translate }}</label>
@@ -40,12 +41,13 @@
         translate }}</button>
     </div>
   </form>
+  </div>
 
   @if (error()) {
   <div class="alert alert-error">{{ error() }}</div>
   }
 
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto glass-surface rounded-xl p-2">
     <table class="table table-sm">
       <thead>
         <tr>
@@ -105,7 +107,7 @@
     </table>
   </div>
 
-  <div class="flex items-center justify-end gap-2 pt-2">
+  <div class="flex items-center justify-end gap-2 pt-2 glass-surface rounded-xl p-2">
     <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">{{ 'COMMON.PREVIOUS' | translate }}</button>
     <button class="btn btn-sm" (click)="nextPage()" [disabled]="page()*limit()>=total()">{{ 'COMMON.NEXT' | translate
       }}</button>
