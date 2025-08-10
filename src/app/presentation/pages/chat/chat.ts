@@ -1,4 +1,10 @@
-import { Component, inject, ChangeDetectorRef, type OnDestroy, type OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectorRef,
+  type OnDestroy,
+  type OnInit,
+} from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
@@ -17,7 +23,15 @@ import type {
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Servicios de utilidades (barrels)
-import { ChatUtilsService, ConnectionStatusService, TypewriterService, ScrollManagerService, TtsService, SessionsEventsService, ChatEventsService } from '@infrastructure/services';
+import {
+  ChatUtilsService,
+  ConnectionStatusService,
+  TypewriterService,
+  ScrollManagerService,
+  TtsService,
+  SessionsEventsService,
+  ChatEventsService,
+} from '@infrastructure/services';
 // Sidebar is now provided globally in Shell layout (barrel)
 import { ChatFacade } from '@app/application';
 import { adaptChatEntriesToMessages } from '@core/adapters';
@@ -47,7 +61,6 @@ import { ChatComposerComponent } from '../../components/chat/composer.component'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Chat implements OnDestroy, OnInit {
-
   // Configuración
   // No agent selection required anymore
   private readonly typewriterSpeed = 25;
@@ -153,7 +166,7 @@ export class Chat implements OnDestroy, OnInit {
           return;
         }
         // No hay session en la ruta (/chat): dejar SIEMPRE la pantalla limpia
-  this.selectedSessionId = null;
+        this.selectedSessionId = null;
         // Limpiar estado de streaming/UI y mensajes
         this.cleanup();
         this.chatFacade.clearMessages();
@@ -161,8 +174,8 @@ export class Chat implements OnDestroy, OnInit {
         this.chatFacade.setToolRunning(false);
         this.connectionStatus.setStatus('idle');
         this.currentMessage = null;
-  this.uploadedFiles = [];
-  this.filesToUpload = [];
+        this.uploadedFiles = [];
+        this.filesToUpload = [];
         this.cdr.detectChanges();
         this.defer(() => this.sessionsEvents.triggerRefresh());
       });
@@ -204,7 +217,7 @@ export class Chat implements OnDestroy, OnInit {
           d?.chats ?? d?.session?.chats ?? (Array.isArray(d) ? d : []);
         this.chatFacade.setMessages(adaptChatEntriesToMessages(chats));
 
-  console.log(`📝 Mensajes cargados: ${this.messages().length}`);
+        console.log(`📝 Mensajes cargados: ${this.messages().length}`);
 
         // Forzar múltiples ciclos de detección para asegurar renderizado
         this.cdr.markForCheck();
@@ -252,7 +265,11 @@ export class Chat implements OnDestroy, OnInit {
   sendMessage() {
     const messageContent = this.msgForm.get('message')?.value?.trim();
     const hasFiles = this.filesToUpload.length > 0;
-  if ((!messageContent && !hasFiles) || this.isSending() || this.isUploadingFiles) {
+    if (
+      (!messageContent && !hasFiles) ||
+      this.isSending() ||
+      this.isUploadingFiles
+    ) {
       return;
     }
     this.startNewConversation(messageContent || '');
@@ -277,8 +294,8 @@ export class Chat implements OnDestroy, OnInit {
     this.scrollManager.scheduleScrollToBottom();
     this.cdr.detectChanges();
 
-  // Iniciar stream: usar archivos ya subidos (si los hay)
-  const fileIds: string[] = (this.uploadedFiles || []).map(u => u.id);
+    // Iniciar stream: usar archivos ya subidos (si los hay)
+    const fileIds: string[] = (this.uploadedFiles || []).map((u) => u.id);
 
     const payload: {
       message?: string;
@@ -291,7 +308,7 @@ export class Chat implements OnDestroy, OnInit {
       message: content,
       session_id: this.selectedSessionId ?? undefined,
       user_id: undefined,
-  // no enviamos archivos binarios; usamos file_ids
+      // no enviamos archivos binarios; usamos file_ids
       file_ids: fileIds,
     };
     this.subscription = this.chatFacade.sendMessage(payload).subscribe({
@@ -303,33 +320,33 @@ export class Chat implements OnDestroy, OnInit {
 
   private handleStreamData(data: StreamResponseModel) {
     console.log('📨 Procesando datos del stream:', data);
-  this.events.handleStreamData(this.ctx(), data);
+    this.events.handleStreamData(this.ctx(), data);
   }
 
   private handleRunResponse(data: StreamResponseModel) {
     console.log('🤖 Respuesta del run:', data);
 
-  this.events.handleRunResponse(this.ctx(), data);
+    this.events.handleRunResponse(this.ctx(), data);
   }
 
   private enrichCurrentMessage(data: StreamResponseModel) {
-  this.events.enrichCurrentMessage(this.ctx(), data);
+    this.events.enrichCurrentMessage(this.ctx(), data);
   }
 
   private handleRunCompleted(data: StreamResponseModel) {
-  this.events.handleRunCompleted(this.ctx(), data);
+    this.events.handleRunCompleted(this.ctx(), data);
   }
 
   private handleError(error: any) {
-  this.events.handleError(this.ctx(), error);
+    this.events.handleError(this.ctx(), error);
   }
 
   private handleComplete() {
-  this.events.handleComplete(this.ctx());
-  // limpiar selección local de archivos tras completar envío
-  this.filesToUpload = [];
-  this.uploadedFiles = [];
-  this.cdr.markForCheck();
+    this.events.handleComplete(this.ctx());
+    // limpiar selección local de archivos tras completar envío
+    this.filesToUpload = [];
+    this.uploadedFiles = [];
+    this.cdr.markForCheck();
   }
 
   // TTS controls handled in messages-list component
@@ -346,12 +363,24 @@ export class Chat implements OnDestroy, OnInit {
     const self = this;
     // Return a live reference context object used by ChatEventsService
     const ctx = {
-      get currentMessage() { return self.currentMessage; },
-      set currentMessage(v: ChatMessage | null) { self.currentMessage = v; },
-      get selectedSessionId() { return self.selectedSessionId; },
-      set selectedSessionId(v: string | null) { self.selectedSessionId = v; },
-      get streamingSessionId() { return self.streamingSessionId; },
-      set streamingSessionId(v: string | null) { self.streamingSessionId = v; },
+      get currentMessage() {
+        return self.currentMessage;
+      },
+      set currentMessage(v: ChatMessage | null) {
+        self.currentMessage = v;
+      },
+      get selectedSessionId() {
+        return self.selectedSessionId;
+      },
+      set selectedSessionId(v: string | null) {
+        self.selectedSessionId = v;
+      },
+      get streamingSessionId() {
+        return self.streamingSessionId;
+      },
+      set streamingSessionId(v: string | null) {
+        self.streamingSessionId = v;
+      },
       cdr: this.cdr,
     } as {
       currentMessage: ChatMessage | null;
@@ -408,25 +437,43 @@ export class Chat implements OnDestroy, OnInit {
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.filesToUpload = Array.from(input.files);
-      // iniciar carga inmediata
+      const newlySelected = Array.from(input.files);
+      // Append to existing selection, de-duplicating by name+size+lastModified
+      const combine = [...this.filesToUpload, ...newlySelected];
+      const seen = new Set<string>();
+      this.filesToUpload = combine.filter((f) => {
+        const key = `${f.name}|${f.size}|${(f as any).lastModified ?? ''}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      // iniciar carga inmediata solo de los nuevos seleccionados
       this.isUploadingFiles = true;
-      this.uploadedFiles = [];
       this.cdr.markForCheck();
       this.chatFacade
-        .uploadFiles(this.filesToUpload)
+        .uploadFiles(newlySelected)
         .then((uploaded) => {
-          this.uploadedFiles = uploaded;
+          // merge results por id
+          const byId = new Map<string, UploadedFileMeta>();
+          for (const u of this.uploadedFiles) byId.set(u.id, u);
+          for (const u of uploaded) byId.set(u.id, u);
+          this.uploadedFiles = Array.from(byId.values());
         })
         .catch((e) => {
           console.error('Error subiendo archivos:', e);
-          this.chatFacade.addSystemMessage('⚠️ No se pudieron subir algunos archivos', 'ToolCallResult' as EventType);
-          this.filesToUpload = [];
+          this.chatFacade.addSystemMessage(
+            '⚠️ No se pudieron subir algunos archivos',
+            'ToolCallResult' as EventType
+          );
         })
         .finally(() => {
           this.isUploadingFiles = false;
           this.cdr.markForCheck();
         });
+
+      // Permitir volver a seleccionar los mismos archivos reseteando el input
+      try { input.value = ''; } catch {}
     } else {
       this.filesToUpload = [];
       this.uploadedFiles = [];
