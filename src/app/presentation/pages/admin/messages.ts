@@ -1,11 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
-import { environment } from '@environments/environment';
-
-interface MessageItem { id: string; role: 'user'|'agent'; content: string; created_at: string; file_ids: string[]; }
-interface SessionItem { session_id: string; title: string; updated_at: string; }
+import { AdminMessagesFacade } from '@app/application/admin/admin-messages.facade';
+// Types are implied via facade signals; no direct import needed here
 
 @Component({
   selector: 'app-admin-messages',
@@ -15,25 +11,15 @@ interface SessionItem { session_id: string; title: string; updated_at: string; }
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminMessagesPage {
-  private readonly http = inject(HttpClient);
-  private readonly base = environment.baseUrl;
+  private readonly facade = inject(AdminMessagesFacade);
 
-  sessions = signal<SessionItem[]>([]);
-  selected = signal<string | null>(null);
-  messages = signal<MessageItem[] | null>(null);
+  sessions = this.facade.sessions;
+  selected = this.facade.selected;
+  messages = this.facade.messages;
+  loading = this.facade.loading;
+  error = this.facade.error;
 
-  async ngOnInit() { await this.loadSessions(); }
+  async ngOnInit() { await this.facade.loadSessions(); }
 
-  async loadSessions() {
-    const url = `${this.base}/agent/sessions`;
-    const res = await firstValueFrom(this.http.get<SessionItem[]>(url));
-    this.sessions.set(res || []);
-  }
-
-  async open(sessionId: string) {
-    this.selected.set(sessionId);
-    const url = `${this.base}/agent/sessions/${sessionId}/messages`;
-    const res = await firstValueFrom(this.http.get<MessageItem[]>(url));
-    this.messages.set(res || []);
-  }
+  async open(sessionId: string) { await this.facade.open(sessionId); }
 }

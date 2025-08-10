@@ -13,7 +13,7 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 import { provideMarkdown } from 'ngx-markdown';
-import { CHAT_STREAM_PORT, SESSIONS_PORT, AUTH_PORT, APP_INFO_PORT, FILES_PORT, STT_PORT, ADMIN_USERS_PORT } from '@core/tokens';
+import { CHAT_STREAM_PORT, SESSIONS_PORT, AUTH_PORT, APP_INFO_PORT, FILES_PORT, STT_PORT, ADMIN_USERS_PORT, COMPANIES_PORT, RISK_WEIGHTS_PORT, ADMIN_MESSAGES_PORT } from '@core/tokens';
 import { SseService } from '@infrastructure/services/sse-service';
 import { SessionsService } from '@infrastructure/services/sessions.service';
 import { AuthService } from '@infrastructure/services/auth.service';
@@ -23,6 +23,9 @@ import { FilesService } from '@infrastructure/services/files.service';
 import { SttService } from '@infrastructure/services/stt.service';
 import { TranslateLoader, TranslateModule, type TranslationObject } from '@ngx-translate/core';
 import { AdminUsersService } from '@infrastructure/services/admin-users.service';
+import { CompaniesService } from '@infrastructure/services/companies.service';
+import { RiskWeightsService } from '@infrastructure/services/risk-weights.service';
+import { AdminMessagesService } from '@infrastructure/services/admin-messages.service';
 
 class AppTranslateLoader implements TranslateLoader {
   constructor(private readonly http: HttpClient) {}
@@ -61,5 +64,8 @@ export const appConfig: ApplicationConfig = {
   { provide: FILES_PORT, useExisting: FilesService },
   { provide: STT_PORT, useExisting: SttService },
   { provide: ADMIN_USERS_PORT, useExisting: AdminUsersService },
+  { provide: COMPANIES_PORT, useExisting: CompaniesService },
+  { provide: RISK_WEIGHTS_PORT, useExisting: RiskWeightsService },
+  { provide: ADMIN_MESSAGES_PORT, useExisting: AdminMessagesService },
   ],
 };

@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms';
-import { RiskWeightsService } from '@infrastructure/services/risk-weights.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AdminRiskWeightsFacade } from '@app/application/admin/admin-risk-weights.facade';
 
 @Component({
   selector: 'app-admin-risk-weights',
@@ -11,41 +11,27 @@ import { RiskWeightsService } from '@infrastructure/services/risk-weights.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminRiskWeightsPage {
-  private readonly api = inject(RiskWeightsService);
-  private readonly fb = inject(FormBuilder);
+  private readonly facade = inject(AdminRiskWeightsFacade);
 
-  version = signal<number>(1);
-  weights = this.fb.record<number>({});
-  loaded = signal(false);
-  error = signal<string | null>(null);
+  version = this.facade.version;
+  weights = this.facade.weights;
+  loaded = this.facade.loaded;
+  error = this.facade.error;
+  saving = this.facade.saving;
 
   async ngOnInit() {
-  const res: any = await this.api.getActive();
-  if (res?.weights) {
-      this.version.set(res.version || 1);
-      this.weights.patchValue(res.weights || {});
-    }
-    this.loaded.set(true);
+  await this.facade.load();
   }
 
   addKey() {
-    const key = prompt('Nombre del factor:');
-    if (!key) return;
-    (this.weights as any).addControl(key, new FormControl(0, { nonNullable: true }));
+  this.facade.addKey();
   }
 
   onVersionChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.version.set(input.valueAsNumber || 1);
+  this.facade.onVersionChange(event);
   }
 
   async save() {
-    try {
-      const weights = this.weights.getRawValue() as Record<string, number>;
-      await this.api.upsert(this.version(), weights);
-      alert('Guardado');
-    } catch (e: any) {
-      alert(e?.message || 'Error guardando');
-    }
+  await this.facade.save();
   }
 }
