@@ -38,6 +38,17 @@
           <span>{{ form.get('message')?.value?.length || 0 }}/1000</span>
         </div>
       </div>
+
+  @if (uploadedFiles.length) {
+        <div class="mt-2 flex flex-wrap gap-2 text-xs">
+          @for (f of uploadedFiles; track f.id) {
+            <a class="badge badge-outline hover:badge-primary cursor-pointer" [href]="f.url" target="_blank" rel="noopener noreferrer" title="{{ f.filename }}">
+              <mat-icon fontIcon="insert_drive_file" class="mr-1"></mat-icon>
+              <span class="truncate max-w-48">{{ f.filename }}</span>
+            </a>
+          }
+        </div>
+      }
     </div>
   </form>
 </div>

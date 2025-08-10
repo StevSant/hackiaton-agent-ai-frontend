@@ -152,7 +152,7 @@ export class Chat implements OnDestroy, OnInit {
           return;
         }
         // No hay session en la ruta (/chat): dejar SIEMPRE la pantalla limpia
-        this.selectedSessionId = null;
+  this.selectedSessionId = null;
         // Limpiar estado de streaming/UI y mensajes
         this.cleanup();
         this.chatFacade.clearMessages();
@@ -160,6 +160,8 @@ export class Chat implements OnDestroy, OnInit {
         this.chatFacade.setToolRunning(false);
         this.connectionStatus.setStatus('idle');
         this.currentMessage = null;
+  this.uploadedFiles = [];
+  this.filesToUpload = [];
         this.cdr.detectChanges();
         this.defer(() => this.sessionsEvents.triggerRefresh());
       });
@@ -335,6 +337,9 @@ export class Chat implements OnDestroy, OnInit {
 
   private handleComplete() {
   this.events.handleComplete(this.ctx());
+  // limpiar selección local de archivos tras completar envío
+  this.filesToUpload = [];
+  this.cdr.markForCheck();
   }
 
   // TTS controls handled in messages-list component
