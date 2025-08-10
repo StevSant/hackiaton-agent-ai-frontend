@@ -10,12 +10,13 @@ import { SessionsEventsService } from '@infrastructure/services/sessions-events.
 import { LanguageService } from '@infrastructure/services/language.service';
 import { ThemeService } from '@infrastructure/services/theme.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProfileMenuComponent } from '../profile-menu/profile-menu';
 // Simple route config for home navigation
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule, TranslateModule],
+  imports: [CommonModule, RouterLink, MatIconModule, TranslateModule, ProfileMenuComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.css']
@@ -38,7 +39,7 @@ export class SidebarComponent {
   private readonly lang = inject(LanguageService);
   protected readonly theme = inject(ThemeService);
 
-  // auth/profile state
+  // auth/profile state (kept to check admin visibility)
   profileEmail = signal<string | null>(null);
   profileRole = signal<string | null>(null);
   profileLoading = signal(false);
@@ -64,7 +65,7 @@ export class SidebarComponent {
 
   ngOnInit() {
     this.tryLoad();
-    this.loadProfileIfAuthenticated();
+  this.loadProfileIfAuthenticated();
     // refresh when someone triggers a sessions update
     this.sessionsEvents.onRefresh().subscribe(() => this.tryLoad());
   }
@@ -193,35 +194,21 @@ export class SidebarComponent {
     }
   }
 
-  toggleProfileMenu(event?: Event) {
-    event?.stopPropagation();
-    if (!this.token.isAuthenticated()) {
-      this.router.navigateByUrl('/login');
-      return;
-    }
-    if (!this.profileEmail() && !this.profileLoading()) {
-      // intentar cargar si aún no está
-      this.loadProfileIfAuthenticated();
-    }
-    this.profileMenuOpen.update(v => !v);
-  }
+  // toggleProfileMenu now handled inside ProfileMenuComponent when used in the template
+  toggleProfileMenu(event?: Event) { /* deprecated in this view */ }
 
   logout(event?: Event) {
     event?.stopPropagation();
     this.token.clear();
     this.profileEmail.set(null);
-  this.profileRole.set(null);
+    this.profileRole.set(null);
     this.profileMenuOpen.set(false);
     this.router.navigateByUrl('/login');
   }
 
-  switchLang(lang: 'es' | 'en') {
-    this.lang.switch(lang);
-  }
+  switchLang(lang: 'es' | 'en') { this.lang.switch(lang); }
 
-  setTheme(value: 'light' | 'dark' | 'system') {
-    this.theme.setTheme(value);
-  }
+  setTheme(value: 'light' | 'dark' | 'system') { this.theme.setTheme(value); }
 
   @HostListener('document:click')
   closeOnOutsideClick() {

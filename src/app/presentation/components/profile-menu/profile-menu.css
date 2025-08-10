@@ -1,0 +1,3 @@
+.profile-menu-surface { background: var(--fallback-b1,oklch(var(--b1))); border: 1px solid oklch(var(--bc)/0.1); }
+.profile-menu-header { font-weight: 600; font-size: 0.9rem; }
+.profile-menu-divider { border-top: 1px dashed oklch(var(--bc)/0.15); }

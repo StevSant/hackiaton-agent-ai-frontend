@@ -1,30 +1,34 @@
-import { Component, ChangeDetectionStrategy, HostListener, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 import { GetProfileUseCase } from '@core/use-cases';
 import { LanguageService } from '@infrastructure/services/language.service';
 import { ThemeService } from '@infrastructure/services/theme.service';
-import { ProfileMenuComponent } from '../../components/profile-menu/profile-menu';
 
 @Component({
-  selector: 'app-admin-shell',
+  selector: 'app-profile-menu',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, MatIconModule, TranslateModule, ProfileMenuComponent],
+  imports: [CommonModule, RouterLink, MatIconModule, TranslateModule],
+  templateUrl: './profile-menu.html',
+  styleUrl: './profile-menu.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './admin-shell.html',
-  styleUrl: './admin-shell.css',
 })
-export class AdminShellLayout {
+export class ProfileMenuComponent {
+  // Optional: show back-to-chat link (used in admin shell)
+  @Input() showBackToChat = false;
+  @Input() compact = false; // if true, adjust paddings/sizes
+
+  @Output() closed = new EventEmitter<void>();
+
   private readonly router = inject(Router);
   private readonly token = inject(TokenStorageService);
   private readonly getProfileUC = inject(GetProfileUseCase);
   private readonly lang = inject(LanguageService);
   protected readonly theme = inject(ThemeService);
 
-  // Profile state (mirrors SidebarComponent)
   profileEmail = signal<string | null>(null);
   profileRole = signal<string | null>(null);
   profileLoading = signal(false);
@@ -46,7 +50,7 @@ export class AdminShellLayout {
       this.profileEmail.set(profile.email || profile.username || null);
       this.profileRole.set(profile.role || null);
     } catch {
-      // optional: keep token, ignore errors
+      // ignore
     } finally {
       this.profileLoading.set(false);
     }
@@ -82,6 +86,7 @@ export class AdminShellLayout {
   closeOnOutsideClick() {
     if (this.profileMenuOpen()) {
       this.profileMenuOpen.set(false);
+      this.closed.emit();
     }
   }
 }

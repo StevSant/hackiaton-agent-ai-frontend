@@ -20,66 +20,10 @@
                         </nav>
                 </div>
 
-                <!-- Footer: Back to Chat and profile block -->
-                <div class="pt-3 border-t border-base-200 space-y-2">
-                        <a routerLink="/chat" class="btn btn-primary w-full"><mat-icon fontIcon="home"></mat-icon><span
-                                        class="ml-2">{{ 'COMMON.BACK_TO_CHAT' | translate }}</span></a>
-
-                        <div class="text-xs">
-                                <button class="flex items-center gap-2 w-full text-left px-2 py-1 rounded-lg hover:bg-base-200"
-                                                (click)="toggleProfileMenu($event)" title="Cuenta">
-                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
-                                                {{ (profileEmail() || '?')!.charAt(0).toUpperCase() }}
-                                        </div>
-                                        <div class="leading-tight">
-                                                <div class="font-medium text-base-content/90 truncate max-w-[9rem]">{{ profileEmail() || ('COMMON.GUEST' | translate) }}</div>
-                                                @if (isAuthenticated()) {
-                                                <div class="opacity-70">
-                                                        <span class="badge badge-outline" [ngClass]="{'badge-primary': profileRole() === 'admin'}">
-                                                                {{ profileRole() === 'admin' ? ('COMMON.ADMIN' | translate) : ('COMMON.USER' | translate) }}
-                                                        </span>
-                                                </div>
-                                                }
-                                        </div>
-                                </button>
-
-                                @if (profileMenuOpen()) {
-                                <div class="mt-2 w-full rounded-xl profile-menu-surface p-3 shadow-lg text-base-content z-50">
-                                        <div class="profile-menu-header mb-2">{{ 'COMMON.ACCOUNT' | translate }}</div>
-                                        @if (profileLoading()) {
-                                        <div class="text-sm flex items-center gap-2">
-                                                <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
-                                        </div>
-                                        }
-                                        @if (!isAuthenticated()) {
-                                            <button (click)="toggleProfileMenu(); navigateToLogin()"
-                                                class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200">{{ 'COMMON.LOGIN' | translate }}</button>
-                                        }
-                                        @if (isAuthenticated()) {
-                                        <button (click)="logout($event)"
-                                                class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200 flex items-center gap-2 text-error">
-                                                <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
-                                        </button>
-                                        }
-                                        <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
-                                                <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.LANGUAGE' | translate }}</div>
-                                                <div class="flex gap-2 flex-wrap">
-                                                        <button class="btn btn-xs" (click)="switchLang('es')">{{ 'COMMON.SPANISH' | translate }}</button>
-                                                        <button class="btn btn-xs" (click)="switchLang('en')">{{ 'COMMON.ENGLISH' | translate }}</button>
-                                                </div>
-                                        </div>
-                                        <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
-                                                <div class="text-xs uppercase tracking-wide opacity-60 mb-1">{{ 'COMMON.THEME' | translate }}</div>
-                                                <div class="flex gap-2 flex-wrap">
-                                                        <button class="btn btn-xs" (click)="setTheme('light')">{{ 'COMMON.THEME_LIGHT' | translate }}</button>
-                                                        <button class="btn btn-xs" (click)="setTheme('dark')">{{ 'COMMON.THEME_DARK' | translate }}</button>
-                                                        <button class="btn btn-xs" (click)="setTheme('system')">{{ 'COMMON.THEME_SYSTEM' | translate }}</button>
-                                                </div>
-                                        </div>
+                                <!-- Footer: reusable profile menu with back to chat -->
+                                <div class="pt-3 border-t border-base-200 space-y-2">
+                                        <app-profile-menu [showBackToChat]="true"></app-profile-menu>
                                 </div>
-                                }
-                        </div>
-                </div>
         </aside>
     <main class="flex-1 overflow-y-auto">
         <router-outlet />
