@@ -44,17 +44,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('@presentation/pages/chat/chat').then((m) => m.Chat),
       },
-      // Files and Risk pages
-      {
-        path: 'files',
-        loadComponent: () =>
-          import('@presentation/pages/files/files').then((m) => m.FilesPage),
-      },
-      {
-        path: 'risk',
-        loadComponent: () =>
-          import('@presentation/pages/risk/risk').then((m) => m.RiskPage),
-      },
+  // Files and Risk pages (moved under admin layout)
       // Admin area is no longer under the normal shell
     ],
   },

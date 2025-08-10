@@ -38,11 +38,11 @@
   </main>
 
   <!-- Global delete confirmation modal (centered) -->
-  <div class="modal-backdrop" *ngIf="pendingDelete" (click)="pendingDelete = undefined" (keydown.escape)="pendingDelete = undefined">
+  <div class="modal-backdrop" *ngIf="pendingDelete" (click)="closeDeleteModal()" (keydown.escape)="closeDeleteModal()">
     <dialog #deleteDialog open class="modal" (click)="$event.stopPropagation()" (keydown)="onDialogKeydown($event)">
       <header class="modal-header">
-        <h3>{{ 'SIDEBAR.DELETE_TITLE' | translate }}</h3>
-        <button #cancelBtn type="button" class="btn btn-ghost md:btn md:btn-ghost" (click)="pendingDelete = undefined" [attr.aria-label]="'SIDEBAR.CANCEL' | translate" autofocus>
+    <h3>{{ 'SIDEBAR.DELETE_TITLE' | translate }}</h3>
+  <button #cancelBtn type="button" class="btn btn-gradient-blue" (click)="closeDeleteModal()" [attr.aria-label]="'SIDEBAR.CANCEL' | translate">
           <mat-icon fontIcon="close" class="text-xl"></mat-icon>
         </button>
       </header>
@@ -50,7 +50,7 @@
         <p>{{ 'SIDEBAR.DELETE_TEXT' | translate }}</p>
       </section>
       <footer class="modal-actions">
-  <button class="btn btn-primary" type="button" (click)="pendingDelete = undefined">{{ 'SIDEBAR.CANCEL' | translate }}</button>
+  <button class="btn btn-gradient-blue" type="button" (click)="closeDeleteModal()">{{ 'SIDEBAR.CANCEL' | translate }}</button>
   <button #confirmBtn class="btn btn-error btn-outline" type="button" (click)="confirmDeleteFromShell()">{{ 'SIDEBAR.CONFIRM' | translate }}</button>
       </footer>
   </dialog>

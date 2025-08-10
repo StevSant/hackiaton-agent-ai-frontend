@@ -10,8 +10,7 @@ export const serverRoutes: ServerRoute[] = [
   // Authenticated app pages: render on client to avoid running guards on server
   { path: 'chat', renderMode: RenderMode.Client },
   { path: 'chat/session/:sessionId', renderMode: RenderMode.Client },
-  { path: 'files', renderMode: RenderMode.Client },
-  { path: 'risk', renderMode: RenderMode.Client },
+  // Admin-only routes are handled under 'admin/*'
 
   // Admin area and all children on client (RBAC/guards)
   { path: 'admin', renderMode: RenderMode.Client },

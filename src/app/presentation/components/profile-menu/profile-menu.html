@@ -49,9 +49,9 @@
       <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
     </div>
   <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); navigateToLogin()"
-            class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)]">{{ 'COMMON.LOGIN' | translate }}</button>
+            class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)] bg-[hsl(var(--card)_/_0.2)]">{{ 'COMMON.LOGIN' | translate }}</button>
   <button *ngIf="isAuthenticated()" (click)="logout($event)"
-      class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)] flex items-center gap-2 text-error">
+      class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)] bg-[hsl(var(--card)_/_0.2)] flex items-center gap-2 text-error">
       <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
     </button>
     <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">

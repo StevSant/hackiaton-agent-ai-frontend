@@ -21,6 +21,7 @@ export class ShellLayout implements OnInit {
   isSidebarOpen = false;
   private readonly sessionsEvents = inject(SessionsEventsService);
   private readonly chatFacade = inject(ChatFacade);
+  private lastFocused: HTMLElement | null = null;
 
   // Global delete modal state
   pendingDelete?: SessionEntry;
@@ -54,15 +55,26 @@ export class ShellLayout implements OnInit {
         // refresh sessions list globally
         this.sessionsEvents.triggerRefresh();
       },
-      complete: () => { this.pendingDelete = undefined; },
-      error: () => { this.pendingDelete = undefined; }
+      complete: () => { this.closeDeleteModal(); },
+      error: () => { this.closeDeleteModal(); }
     });
   }
 
   openDeleteModal(session: SessionEntry) {
     this.pendingDelete = session;
+    // remember the element that opened the modal to restore focus on close
+    try { this.lastFocused = (document.activeElement as HTMLElement) ?? null; } catch { this.lastFocused = null; }
     // queue focus to cancel button for accessibility
     queueMicrotask(() => this.cancelBtn?.nativeElement?.focus());
+  }
+
+  closeDeleteModal() {
+    this.pendingDelete = undefined;
+    // restore focus to the trigger element
+    queueMicrotask(() => {
+      try { this.lastFocused?.focus?.(); } catch {}
+      this.lastFocused = null;
+    });
   }
 
   onDialogKeydown(e: KeyboardEvent) {
