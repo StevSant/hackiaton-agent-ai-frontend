@@ -7,6 +7,7 @@ import { SessionsEventsService } from '@infrastructure/services/sessions-events.
 import { TranslateModule } from '@ngx-translate/core';
 import type { SessionEntry } from '@core/models';
 import { ChatFacade } from '@app/application/chat/chat.facade';
+import { BackgroundService } from '@infrastructure/services/background.service';
 
 @Component({
   selector: 'app-shell',
@@ -21,6 +22,7 @@ export class ShellLayout implements OnInit {
   isSidebarOpen = false;
   private readonly sessionsEvents = inject(SessionsEventsService);
   private readonly chatFacade = inject(ChatFacade);
+  private readonly bg = inject(BackgroundService);
   private lastFocused: HTMLElement | null = null;
 
   // Global delete modal state
@@ -43,6 +45,8 @@ export class ShellLayout implements OnInit {
       const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches;
       this.isSidebarOpen = !!isDesktop;
     } catch {}
+  // Initialize background defaults early
+  queueMicrotask(() => this.bg.init());
   // Ensure sessions list tries to load at app start (helps after F5 on deep links)
   queueMicrotask(() => this.sessionsEvents.triggerRefresh());
   }

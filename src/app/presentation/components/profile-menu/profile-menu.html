@@ -69,6 +69,24 @@
         <button class="btn btn-xs" (click)="setTheme('system')">{{ 'COMMON.THEME_SYSTEM' | translate }}</button>
       </div>
     </div>
+    <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
+      <div class="text-xs uppercase tracking-wide opacity-60 mb-1">Background</div>
+      <div class="flex gap-2 flex-wrap mb-2">
+        <button class="btn btn-xs" (click)="setBg('minimal')">Minimal</button>
+        <button class="btn btn-xs" (click)="setBg('aurora')">Aurora</button>
+        <button class="btn btn-xs" (click)="setBg('bokeh')">Bokeh</button>
+      </div>
+      <div class="text-xs uppercase tracking-wide opacity-60 mb-1">Palette</div>
+      <div class="flex gap-2 flex-wrap mb-2">
+        <button class="btn btn-xs" (click)="setPalette('default')">Default</button>
+        <button class="btn btn-xs" (click)="setPalette('vaporwave')">Vaporwave</button>
+        <button class="btn btn-xs" (click)="setPalette('cyber')">Cyber</button>
+      </div>
+      <div class="flex items-center justify-between gap-2 text-sm">
+        <button class="btn btn-xs" (click)="toggleNeonEdges()">Neon edges</button>
+        <button class="btn btn-xs" (click)="toggleParallax()">Parallax</button>
+      </div>
+    </div>
   </div>
 
   <!-- Slot for optional extra actions (e.g., admin button) -->

@@ -7,6 +7,7 @@ import { TokenStorageService } from '@infrastructure/services/token-storage.serv
 import { GetProfileUseCase } from '@core/use-cases';
 import { LanguageService } from '@infrastructure/services/language.service';
 import { ThemeService } from '@infrastructure/services/theme.service';
+import { BackgroundService } from '@infrastructure/services/background.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -28,6 +29,7 @@ export class ProfileMenuComponent {
   private readonly getProfileUC = inject(GetProfileUseCase);
   private readonly lang = inject(LanguageService);
   protected readonly theme = inject(ThemeService);
+  protected readonly bg = inject(BackgroundService);
 
   profileEmail = signal<string | null>(null);
   profileRole = signal<string | null>(null);
@@ -35,6 +37,9 @@ export class ProfileMenuComponent {
   profileMenuOpen = signal(false);
 
   ngOnInit() {
+  // initialize theme and background services once menu is loaded
+  this.theme.init?.();
+  this.bg.init();
     this.loadProfileIfAuthenticated();
   }
 
@@ -81,6 +86,10 @@ export class ProfileMenuComponent {
 
   switchLang(lang: 'es' | 'en') { this.lang.switch(lang); }
   setTheme(value: 'light' | 'dark' | 'system') { this.theme.setTheme(value); }
+  setBg(style: 'minimal' | 'aurora' | 'bokeh') { this.bg.setBackground(style); }
+  setPalette(p: 'default' | 'vaporwave' | 'cyber') { this.bg.setPalette(p); }
+  toggleNeonEdges() { this.bg.setNeonEdges(!this.bg.neon()); }
+  toggleParallax() { this.bg.setParallax(!this.bg.parallax()); }
 
   @HostListener('document:click')
   closeOnOutsideClick() {
