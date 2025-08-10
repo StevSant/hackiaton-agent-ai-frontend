@@ -58,7 +58,10 @@
     "SENDING_BTN": "Sending...",
     "CANCEL": "Cancel",
     "HINT": "Press Shift + Enter for a new line",
-    "FILES_COUNT": "{{count}} file(s)"
+  "FILES_COUNT": "{{count}} file(s)",
+  "ATTACHMENTS_VIEW": "View attachments",
+  "ATTACHMENTS_TITLE": "Session attachments",
+  "ATTACHMENTS_EMPTY": "No attachments in this session"
   }
   ,
   "AUDIO": {

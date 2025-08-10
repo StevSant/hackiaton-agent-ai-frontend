@@ -13,7 +13,7 @@ export class AppInfoService implements AppInfoPort {
   constructor(private readonly http: HttpClient) {}
 
   async getAppInfo(): Promise<AppInfo> {
-    const url = `${this.base}/app-info`;
+  const url = `${this.base}/app-info/`;
     return firstValueFrom(
       this.http.get<AppInfo>(url).pipe(
         catchError(() =>
@@ -28,7 +28,7 @@ export class AppInfoService implements AppInfoPort {
   }
 
   async updateAppInfo(payload: Partial<AppInfo>): Promise<AppInfo> {
-    const url = `${this.base}/app-info`;
+  const url = `${this.base}/app-info/`;
     return firstValueFrom(this.http.put<AppInfo>(url, payload));
   }
 }

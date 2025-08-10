@@ -41,6 +41,7 @@ import type { UploadedFileMeta } from '@core/ports';
 import { MatIconModule } from '@angular/material/icon';
 import { ChatMessagesListComponent } from '../../components/chat/messages-list.component';
 import { ChatComposerComponent } from '../../components/chat/composer.component';
+import { SessionFilesModalComponent } from '../../components/files/session-files-modal.component';
 
 @Component({
   selector: 'app-chat',
@@ -54,6 +55,7 @@ import { ChatComposerComponent } from '../../components/chat/composer.component'
     MatIconModule,
     ChatMessagesListComponent,
     ChatComposerComponent,
+  SessionFilesModalComponent,
   ],
   providers: [],
   templateUrl: './chat.html',
@@ -83,6 +85,7 @@ export class Chat implements OnDestroy, OnInit {
   filesToUpload: File[] = [];
   uploadedFiles: UploadedFileMeta[] = [];
   isUploadingFiles = false;
+  showFilesModal = false;
   readonly toolRunning = this.chatFacade.toolRunning;
   private streamingSessionId: string | null = null;
   // UI handled inside messages-list component
@@ -434,9 +437,28 @@ export class Chat implements OnDestroy, OnInit {
     );
   }
 
+  openSessionFiles() {
+    if (!this.selectedSessionId) return;
+    this.showFilesModal = true;
+    this.cdr.markForCheck();
+  }
+
+  closeSessionFiles() {
+    this.showFilesModal = false;
+    this.cdr.markForCheck();
+  }
+
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      if (!this.selectedSessionId) {
+        this.chatFacade.addSystemMessage(
+          'Primero envía un mensaje para crear la sesión y luego adjunta archivos.',
+          'Info' as EventType
+        );
+        try { input.value = ''; } catch {}
+        return;
+      }
       const newlySelected = Array.from(input.files);
       // Append to existing selection, de-duplicating by name+size+lastModified
       const combine = [...this.filesToUpload, ...newlySelected];
@@ -451,8 +473,9 @@ export class Chat implements OnDestroy, OnInit {
       // iniciar carga inmediata solo de los nuevos seleccionados
       this.isUploadingFiles = true;
       this.cdr.markForCheck();
+      // Require a session to associate files. If there's no session yet, send after first message creates it.
       this.chatFacade
-        .uploadFiles(newlySelected)
+        .uploadFiles(newlySelected, { sessionId: this.selectedSessionId ?? undefined, subfolder: 'chat' })
         .then((uploaded) => {
           // merge results por id
           const byId = new Map<string, UploadedFileMeta>();
@@ -460,7 +483,7 @@ export class Chat implements OnDestroy, OnInit {
           for (const u of uploaded) byId.set(u.id, u);
           this.uploadedFiles = Array.from(byId.values());
         })
-        .catch((e) => {
+  .catch((e) => {
           console.error('Error subiendo archivos:', e);
           this.chatFacade.addSystemMessage(
             '⚠️ No se pudieron subir algunos archivos',

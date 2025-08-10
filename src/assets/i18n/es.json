@@ -58,7 +58,10 @@
     "SENDING_BTN": "Enviando...",
     "CANCEL": "Cancelar",
     "HINT": "Presiona Shift + Enter para nueva línea",
-    "FILES_COUNT": "{{count}} archivo(s)"
+  "FILES_COUNT": "{{count}} archivo(s)",
+  "ATTACHMENTS_VIEW": "Ver adjuntos",
+  "ATTACHMENTS_TITLE": "Archivos adjuntos de la sesión",
+  "ATTACHMENTS_EMPTY": "No hay archivos adjuntos en esta sesión"
   }
   ,
   "AUDIO": {

@@ -152,10 +152,12 @@ export class ChatFacade {
     this.sendMessageUC.cancel();
   }
 
-  async uploadFiles(files: File[]): Promise<UploadedFileMeta[]> {
+  async uploadFiles(files: File[], opts?: { sessionId?: string; subfolder?: string }): Promise<UploadedFileMeta[]> {
     const result: UploadedFileMeta[] = [];
+    const sessionId = opts?.sessionId;
+    const subfolder = opts?.subfolder ?? 'chat';
     for (const f of files) {
-      const meta = await this.uploadFileUC.execute(f);
+      const meta = await this.uploadFileUC.execute(f, subfolder, sessionId);
       result.push(meta);
     }
     return result;

@@ -50,7 +50,7 @@ export class AdminAppInfoFacade {
   async uploadIcon(file: File) {
     this.uploadingIcon.set(true); this.error.set(null);
     try {
-      const meta: UploadedFileMeta = await this.files.upload(file, 'app-info');
+  const meta: UploadedFileMeta = await this.files.upload(file, 'app-info', 'admin-app-info');
       this.form.patchValue({ site_icon: meta.url });
     } catch (e: any) {
       this.error.set(e?.message || 'No se pudo subir el icono');
@@ -62,7 +62,7 @@ export class AdminAppInfoFacade {
   async uploadLogo(file: File) {
     this.uploadingLogo.set(true); this.error.set(null);
     try {
-      const meta: UploadedFileMeta = await this.files.upload(file, 'app-info');
+  const meta: UploadedFileMeta = await this.files.upload(file, 'app-info', 'admin-app-info');
       this.form.patchValue({ site_logo: meta.url });
     } catch (e: any) {
       this.error.set(e?.message || 'No se pudo subir el logo');

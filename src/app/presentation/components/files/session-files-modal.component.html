@@ -1,0 +1,34 @@
+<div class="modal-backdrop" (click)="onBackdropClick()" (keydown)="$event.stopPropagation()">
+  <div class="modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+    <header class="modal-header">
+  <h3>{{ 'CHAT.ATTACHMENTS_TITLE' | translate }}</h3>
+  <!-- Close button is handled by parent container -->
+    </header>
+
+    <section class="modal-body" *ngIf="!loading(); else loadingTpl">
+      <div *ngIf="files().length === 0" class="empty">
+        {{ 'CHAT.ATTACHMENTS_EMPTY' | translate }}
+      </div>
+      <ul class="files-grid">
+        <li *ngFor="let f of files()" class="file-item">
+          <div class="thumb" [class.is-image]="isImage(f)" [class.is-pdf]="isPdf(f)">
+            <img *ngIf="isImage(f)" [src]="f.url" [alt]="f.filename" />
+            <mat-icon *ngIf="!isImage(f)">{{ isPdf(f) ? 'picture_as_pdf' : 'description' }}</mat-icon>
+          </div>
+          <div class="meta">
+            <div class="name" [title]="f.filename">{{ f.filename }}</div>
+            <div class="type">{{ f.content_type }}</div>
+          </div>
+          <div class="actions">
+            <a class="btn" [href]="f.url" target="_blank" rel="noopener">{{ 'COMMON.OPEN' | translate }}</a>
+            <a class="btn" [href]="f.url + '?download=true'">{{ 'FILES_PAGE.DOWNLOAD' | translate }}</a>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <ng-template #loadingTpl>
+      <div class="loading">{{ 'COMMON.LOADING' | translate }}…</div>
+    </ng-template>
+  </div>
+</div>

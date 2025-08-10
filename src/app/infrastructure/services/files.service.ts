@@ -25,16 +25,23 @@ export class FilesService {
   private readonly http = inject(HttpClient);
   private readonly base = environment.baseUrl;
 
-  async upload(file: File, subfolder = ''): Promise<UploadedFileMeta> {
+  async upload(file: File, subfolder = '', sessionId?: string): Promise<UploadedFileMeta> {
     const form = new FormData();
     form.append('upload', file);
     form.append('subfolder', subfolder);
     const url = `${this.base}/files/`;
-    return firstValueFrom(this.http.post<UploadedFileMeta>(url, form));
+    const params: any = {};
+    if (sessionId) {
+      params.session_id = sessionId;
+      // Also include in form for backends expecting it in body
+      form.append('session_id', sessionId);
+    }
+    return firstValueFrom(this.http.post<UploadedFileMeta>(url, form, { params }));
   }
 
   async getFile(fileId: string): Promise<UploadedFileMeta> {
-    const url = `${this.base}/files/${fileId}`;
+    // Fetch metadata instead of binary stream
+    const url = `${this.base}/files/${fileId}/meta`;
     return firstValueFrom(this.http.get<UploadedFileMeta>(url));
   }
 
@@ -44,5 +51,10 @@ export class FilesService {
     // Normalize to Paginated using helper
     const pageParams = { page: params?.page ?? (params?.offset && params?.limit ? Math.floor(params.offset / params.limit) + 1 : 1), limit: params?.limit };
     return mapToPaginated<UploadedFileMeta>(data, pageParams);
+  }
+
+  async listBySession(sessionId: string): Promise<UploadedFileMeta[]> {
+    const url = `${this.base}/files/session/${encodeURIComponent(sessionId)}`;
+    return firstValueFrom(this.http.get<UploadedFileMeta[]>(url));
   }
 }
