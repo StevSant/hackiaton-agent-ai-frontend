@@ -1,6 +1,6 @@
 <div class="p-4 space-y-4">
   <div class="flex items-center gap-3">
-    <select class="select select-bordered select-sm" [(ngModel)]="type" (change)="load()">
+  <select class="select select-bordered select-sm" [value]="type()" (change)="onTypeChange(($any($event.target)).value)">
       <option value="">Todos</option>
       <option value="image">Imágenes</option>
       <option value="pdf">PDFs</option>

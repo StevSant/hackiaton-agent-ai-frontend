@@ -1,9 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import type { UploadedFileMeta } from '@core/ports/files.port';
-import { ListFilesUseCase } from '@core/use-cases/files/list-files.usecase';
-import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
+import { FilesFacade } from '@app/application/files/files.facade';
 
 @Component({
   standalone: true,
@@ -14,53 +12,29 @@ import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilesPage implements OnInit {
-  private readonly listFilesUC = inject(ListFilesUseCase);
-  private readonly uploadFileUC = inject(UploadFileUseCase);
+  private readonly facade = inject(FilesFacade);
   
-  readonly items = signal<UploadedFileMeta[]>([]);
-  readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
-  readonly type = signal<'image' | 'pdf' | 'document' | ''>('');
+  readonly items = this.facade.items;
+  readonly loading = this.facade.loading;
+  readonly error = this.facade.error;
+  readonly type = this.facade.type;
 
   ngOnInit() {
     this.load();
   }
 
   async load() {
-    this.loading.set(true);
-    this.error.set(null);
-    try {
-      const res = await this.listFilesUC.execute({ 
-        type_file: this.type() || undefined, 
-        limit: 20, 
-        offset: 0 
-      });
-      this.items.set(res.items || []);
-    } catch (e: any) {
-      this.error.set(e?.message || 'Error cargando archivos');
-    } finally {
-      this.loading.set(false);
-    }
+    await this.facade.load();
   }
 
   async onUpload(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      return;
-    }
-    
-    this.loading.set(true);
-    try {
-      for (const file of Array.from(input.files)) {
-        await this.uploadFileUC.execute(file);
-      }
-      await this.load();
-      input.value = '';
-    } catch (e: any) {
-      this.error.set(e?.message || 'Error subiendo archivo');
-    } finally {
-      this.loading.set(false);
-    }
+    await this.facade.upload(input);
+  }
+
+  onTypeChange(value: string) {
+    this.type.set(value as any);
+    this.load();
   }
 
   async copyId(id: string) {

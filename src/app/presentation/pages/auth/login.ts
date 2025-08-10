@@ -2,8 +2,7 @@ import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { LoginUseCase } from '@core/use-cases/auth/login.usecase';
-import { TokenStorageService } from '@infrastructure/services/token-storage.service';
+import { LoginFacade } from '@app/application/auth/login.facade';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -15,8 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class LoginPage {
   private readonly fb = inject(FormBuilder);
-  private readonly loginUC = inject(LoginUseCase);
-  private readonly token = inject(TokenStorageService);
+  private readonly facade = inject(LoginFacade);
   private readonly router = inject(Router);
 
   readonly form = this.fb.group({
@@ -24,34 +22,24 @@ export class LoginPage {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
   
-  readonly submitting = signal(false);
-  readonly error = signal<string | null>(null);
+  readonly submitting = this.facade.loading;
+  readonly error = this.facade.error;
   readonly showPassword = signal(false);
 
   toggleShowPassword() {
-    this.showPassword.update(v => !v);
+  this.showPassword.set(!this.showPassword());
   }
 
   async submit() {
     if (this.form.invalid || this.submitting()) return;
-
-    this.submitting.set(true);
-    this.error.set(null);
-    
     try {
-      const res = await this.loginUC.execute({
+      await this.facade.login({
         email: this.form.value.email!,
         password: this.form.value.password!,
       });
-      this.token.setToken(res.token.access_token);
-      if (res.user?.role) {
-        this.token.setRole(res.user.role);
-      }
       this.router.navigateByUrl('/');
-    } catch (e: any) {
-      this.error.set(e?.error?.message || e?.message || 'Login failed');
-    } finally {
-      this.submitting.set(false);
+    } catch {
+      // error state already handled in facade
     }
   }
 }

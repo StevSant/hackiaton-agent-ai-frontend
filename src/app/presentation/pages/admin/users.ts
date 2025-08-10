@@ -1,8 +1,9 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { AdminUsersService, AdminUserItem } from '@infrastructure/services/admin-users.service';
+import type { AdminUserItem } from '@core/ports/admin-users.port';
+import { AdminUsersFacade } from '@app/application/admin/admin-users.facade';
 
 @Component({
   selector: 'app-admin-users',
@@ -12,20 +13,20 @@ import { AdminUsersService, AdminUserItem } from '@infrastructure/services/admin
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersPage {
-  private readonly api = inject(AdminUsersService);
+  private readonly facade = inject(AdminUsersFacade);
   private readonly fb = inject(FormBuilder);
 
-  readonly creating = signal(false);
-  readonly error = signal<string | null>(null);
-  users = signal<AdminUserItem[]>([]);
-  page = signal(1);
-  limit = signal(10);
-  total = signal(0);
-  search = signal<string>('');
-  readonly start = computed(() => (this.page() - 1) * this.limit() + 1);
-  readonly end = computed(() => Math.min(this.page() * this.limit(), this.total()));
-  sortBy = signal<'email' | 'username' | 'created_at' | ''>('');
-  sortOrder = signal<'asc' | 'desc'>('asc');
+  readonly creating = this.facade.creating;
+  readonly error = this.facade.error;
+  users = this.facade.users;
+  page = this.facade.page;
+  limit = this.facade.limit;
+  total = this.facade.total;
+  search = this.facade.search;
+  readonly start = this.facade.start;
+  readonly end = this.facade.end;
+  sortBy = this.facade.sortBy;
+  sortOrder = this.facade.sortOrder;
 
   editingId = signal<string | null>(null);
   editForm = this.fb.group({ username: [''], email: [''], role: ['user' as 'admin' | 'user'], password: [''] });
@@ -39,54 +40,21 @@ export class AdminUsersPage {
 
   async ngOnInit() { await this.refresh(); }
 
-  async refresh() {
-  const res = await this.api.list({ page: this.page(), limit: this.limit(), email: this.search() || undefined, sort_by: (this.sortBy() || undefined) as any, sort_order: this.sortOrder() });
-    this.users.set(res.items || []);
-    this.total.set(res.total || 0);
-  }
+  async refresh() { await this.facade.refresh(); }
 
-  async nextPage() {
-    if (this.page() * this.limit() >= this.total()) return;
-    this.page.update(p => p + 1);
-    await this.refresh();
-  }
+  async nextPage() { await this.facade.nextPage(); }
 
-  async prevPage() {
-    if (this.page() <= 1) return;
-    this.page.update(p => p - 1);
-    await this.refresh();
-  }
+  async prevPage() { await this.facade.prevPage(); }
 
-  async applySearch(value: string) {
-    this.search.set(value.trim());
-    this.page.set(1);
-    await this.refresh();
-  }
+  async applySearch(value: string) { await this.facade.applySearch(value); }
 
-  setSort(field: 'email'|'username'|'created_at') {
-    if (this.sortBy() === field) {
-      this.sortOrder.update(o => (o === 'asc' ? 'desc' : 'asc'));
-    } else {
-      this.sortBy.set(field);
-      this.sortOrder.set('asc');
-    }
-    this.page.set(1);
-    this.refresh();
-  }
+  setSort(field: 'email'|'username'|'created_at') { this.facade.setSort(field); }
 
   async create() {
     if (this.form.invalid || this.creating()) return;
-    this.creating.set(true); this.error.set(null);
-    try {
-      const { username, email, password, role } = this.form.value;
-      await this.api.create({ username: username!, email: email!, password: password!, role: role! });
-      this.form.reset({ role: 'user' });
-      await this.refresh();
-    } catch (e: any) {
-      this.error.set(e?.error?.detail || e?.message || 'Error creando usuario');
-    } finally {
-      this.creating.set(false);
-    }
+    const { username, email, password, role } = this.form.value;
+    await this.facade.create({ username: username!, email: email!, password: password!, role: role! });
+    this.form.reset({ role: 'user' });
   }
 
   startEdit(u: AdminUserItem) {
@@ -103,15 +71,13 @@ export class AdminUsersPage {
     const id = this.editingId();
     if (!id) return;
     const payload = this.editForm.value as any;
-    await this.api.update(id, payload);
+    await this.facade.update(id, payload);
     this.cancelEdit();
-    await this.refresh();
   }
 
   async confirmDelete(u: AdminUserItem) {
     if (confirm(`Eliminar usuario ${u.email}?`)) {
-      await this.api.delete(u.user_id);
-      await this.refresh();
+      await this.facade.delete(u.user_id);
     }
   }
 }

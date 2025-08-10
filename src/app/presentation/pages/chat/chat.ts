@@ -24,18 +24,12 @@ import { TypewriterService } from '@infrastructure/services/typewriter.service';
 import { ScrollManagerService } from '@infrastructure/services/scroll-manager.service';
 import { MessageManagerService } from '@infrastructure/services/message-manager.service';
 // Sidebar is now provided globally in Shell layout
-import { CHAT_STREAM_PORT, SESSIONS_PORT } from '@core/tokens';
-import type { ChatStreamPort } from '@core/ports/chat-stream.port';
-import type { SessionsPort } from '@core/ports/sessions.port';
-import { SendMessageUseCase } from '@core/use-cases/send-message.usecase';
-import { ListSessionsUseCase } from '@core/use-cases/list-sessions.usecase';
-import { GetSessionUseCase } from '@core/use-cases/get-session.usecase';
+import { ChatFacade } from '@app/application/chat/chat.facade';
 import { adaptChatEntriesToMessages } from '@core/adapters/chat-adapter';
 import type { SessionEntry } from '@core/models/playground-models';
 import { MarkdownModule } from 'ngx-markdown';
 import { TranslateModule } from '@ngx-translate/core';
 import type { UploadedFileMeta } from '@core/ports/files.port';
-import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -90,7 +84,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   };
 
   // Servicios
-  private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
+  private readonly chatFacade = inject(ChatFacade);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
@@ -103,12 +97,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   private readonly typewriter = inject(TypewriterService);
   private readonly scrollManager = inject(ScrollManagerService);
   private readonly messageManager = inject(MessageManagerService);
-  private readonly uploadFileUC = new UploadFileUseCase();
   private readonly sessionsEvents = inject(SessionsEventsService);
-  private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
-  private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
-  private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
-  private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
 
   // Subscripciones
   private subscription: Subscription | null = null;
@@ -211,15 +200,13 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
   }
 
   loadSessions() {
-    const id = this.agentIdValue();
-    this.listSessionsUC.execute(id).subscribe((data: SessionEntry[]) => {
+  this.chatFacade.listSessions().subscribe((data: SessionEntry[]) => {
       this.sessions = data || [];
       this.cdr.markForCheck();
     });
   }
 
   loadSession(sessionId: string | null, attempt: number = 0) {
-    const id = this.agentIdValue();
     this.selectedSessionId = sessionId;
     if (!sessionId) return;
     
@@ -232,7 +219,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.connectionStatus.setStatus('idle');
     this.currentMessage = null;
 
-    this.getSessionUC.execute(id, sessionId).subscribe({
+  this.chatFacade.getSession(sessionId).subscribe({
       next: (data) => {
         console.log(`✅ Sesión cargada exitosamente: ${sessionId}`, data);
         const d: any = data as any;
@@ -307,15 +294,11 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
     this.cdr.detectChanges();
 
     // Iniciar stream
-    // If there are files selected, upload them first to get file_ids
+  // If there are files selected, upload them first to get file_ids
     let fileIds: string[] = [];
     if (this.filesToUpload.length > 0) {
       try {
-        const uploaded: UploadedFileMeta[] = [];
-        for (const f of this.filesToUpload) {
-          const meta = await this.uploadFileUC.execute(f);
-          uploaded.push(meta);
-        }
+        const uploaded: UploadedFileMeta[] = await this.chatFacade.uploadFiles(this.filesToUpload);
         this.uploadedFiles = uploaded;
         fileIds = uploaded.map(u => u.id);
       } catch (e) {
@@ -337,8 +320,8 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
       files: this.filesToUpload.length ? this.filesToUpload : undefined,
       file_ids: fileIds,
     };
-    this.subscription = this.sendMessageUC
-      .execute(this.agentIdValue(), payload)
+    this.subscription = this.chatFacade
+      .sendMessage(payload)
       .subscribe({
         next: (data: StreamResponseModel | InfraStreamResponse) =>
           this.handleStreamData(data as any),
@@ -711,7 +694,7 @@ export class Chat implements OnDestroy, AfterViewChecked, OnInit {
 
   cancelSending() {
     this.cleanup();
-    this.sendMessageUC.cancel();
+  this.chatFacade.cancel();
     this.isSending = false;
     this.toolRunning = false;
     this.connectionStatus.setStatus('idle');
