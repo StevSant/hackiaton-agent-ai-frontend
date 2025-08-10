@@ -41,6 +41,11 @@
   --input: 214.3 31.8% 91.4%;
   --ring: var(--brand-primary);
   --radius: 0.75rem;
+  /* View Transition tuning */
+  --vt-in-translate: 8px;
+  --vt-out-translate: -6px;
+  --vt-in-blur: 0.5px;
+  --vt-out-blur: 0.35px;
 }
 
 .dark {
@@ -70,6 +75,11 @@
   --bokeh-4: 48 95% 58%;
   --bokeh-5: 160 90% 50%;
   --bokeh-opacity: 0.26;
+  /* Slightly gentler motion in dark for perceived smoothness */
+  --vt-in-translate: 6px;
+  --vt-out-translate: -5px;
+  --vt-in-blur: 0.4px;
+  --vt-out-blur: 0.3px;
 }
 
 /* Base */
@@ -134,6 +144,10 @@ body::after {
 /* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
   body::before { animation: none; }
+}
+/* Reduce motion on small screens a bit for comfort */
+@media (max-width: 640px) {
+  :root { --vt-in-translate: 4px; --vt-out-translate: -4px; }
 }
 
 /* Utilities (custom) */
@@ -428,13 +442,13 @@ body.neon-edges .chat-bubble:focus-within {
 
 /* Default timings and easing tuned for fluid feel */
 @keyframes vt-fade-scale-in {
-  0% { opacity: 0; transform: translateY(8px) scale(.985); filter: saturate(.95) blur(.5px); }
+  0% { opacity: 0; transform: translateY(var(--vt-in-translate)) scale(.985); filter: saturate(.95) blur(var(--vt-in-blur)); }
   60% { opacity: 1; transform: translateY(0) scale(1.0); filter: saturate(1) blur(0); }
   100% { opacity: 1; transform: translateY(0) scale(1.0); }
 }
 @keyframes vt-fade-scale-out {
   0% { opacity: 1; transform: translateY(0) scale(1.0); }
-  100% { opacity: 0; transform: translateY(-6px) scale(.992); filter: saturate(.95) blur(.35px); }
+  100% { opacity: 0; transform: translateY(var(--vt-out-translate)) scale(.992); filter: saturate(.95) blur(var(--vt-out-blur)); }
 }
 @keyframes vt-slide-in-left {
   0% { opacity: 0; transform: translateX(-8px); }
@@ -461,3 +475,25 @@ body.neon-edges .chat-bubble:focus-within {
   ::view-transition-new(sidebar) { animation: none !important; }
 }
 /* stylelint-enable selector-type-no-unknown, selector-pseudo-element-no-unknown */
+
+/* Micro-transitions: staggered rise-in for headers/cards */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.vt-stagger > * {
+  opacity: 0;
+  animation: rise-in 380ms cubic-bezier(.2,.7,.2,1) both;
+}
+.vt-stagger > *:nth-child(1) { animation-delay: 30ms; }
+.vt-stagger > *:nth-child(2) { animation-delay: 70ms; }
+.vt-stagger > *:nth-child(3) { animation-delay: 110ms; }
+.vt-stagger > *:nth-child(4) { animation-delay: 150ms; }
+.vt-stagger > *:nth-child(5) { animation-delay: 190ms; }
+.vt-stagger > *:nth-child(6) { animation-delay: 230ms; }
+.vt-stagger > *:nth-child(7) { animation-delay: 270ms; }
+.vt-stagger > *:nth-child(8) { animation-delay: 310ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vt-stagger > * { animation: none !important; opacity: 1; }
+}
