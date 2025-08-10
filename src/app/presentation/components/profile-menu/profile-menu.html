@@ -24,7 +24,7 @@
     <div class="space-y-2">
       <a routerLink="/chat" class="btn btn-primary w-full"><mat-icon fontIcon="home"></mat-icon><span class="ml-2">{{ 'COMMON.BACK_TO_CHAT' | translate }}</span></a>
       <div class="text-xs">
-        <button class="flex items-center gap-2 w-full text-left px-2 py-1 rounded-lg hover:bg-base-200" (click)="toggleProfileMenu($event)" [title]="'COMMON.ACCOUNT' | translate">
+  <button class="flex items-center gap-2 w-full text-left px-2 py-1 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)]" (click)="toggleProfileMenu($event)" [title]="'COMMON.ACCOUNT' | translate">
           <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
             {{ (profileEmail() || '?')!.charAt(0).toUpperCase() }}
           </div>
@@ -49,9 +49,9 @@
       <span class="loading loading-dots loading-xs"></span> {{ 'COMMON.LOADING' | translate }}
     </div>
   <button *ngIf="!isAuthenticated()" (click)="toggleProfileMenu(); navigateToLogin()"
-            class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200">{{ 'COMMON.LOGIN' | translate }}</button>
-    <button *ngIf="isAuthenticated()" (click)="logout($event)"
-            class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-base-200 flex items-center gap-2 text-error">
+            class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)]">{{ 'COMMON.LOGIN' | translate }}</button>
+  <button *ngIf="isAuthenticated()" (click)="logout($event)"
+      class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)] flex items-center gap-2 text-error">
       <mat-icon fontIcon="logout" class="!text-base"></mat-icon> {{ 'COMMON.LOGOUT' | translate }}
     </button>
     <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">

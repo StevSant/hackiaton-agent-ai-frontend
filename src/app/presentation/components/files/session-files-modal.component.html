@@ -1,8 +1,10 @@
 <div class="modal-backdrop" (click)="onBackdropClick()" (keydown)="$event.stopPropagation()">
-  <div class="modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+  <div #modalRoot class="modal" (click)="$event.stopPropagation()" (keydown)="onKeydown($event)" role="dialog" aria-modal="true">
     <header class="modal-header">
-  <h3>{{ 'CHAT.ATTACHMENTS_TITLE' | translate }}</h3>
-  <!-- Close button is handled by parent container -->
+      <h3>{{ 'CHAT.ATTACHMENTS_TITLE' | translate }}</h3>
+      <button type="button" class="btn btn-ghost btn-sm" (click)="closed.emit()" [attr.aria-label]="'COMPOSER.CANCEL' | translate">
+        <mat-icon fontIcon="close"></mat-icon>
+      </button>
     </header>
 
     <section class="modal-body" *ngIf="!loading(); else loadingTpl">
