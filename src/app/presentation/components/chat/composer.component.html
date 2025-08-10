@@ -1,0 +1,43 @@
+<div class="composer-surface bg-base-100 rounded-xl shadow-sm p-3 md:p-4">
+  <form [formGroup]="form" (submit)="onSubmit()" class="w-full">
+    <div class="flex flex-col gap-3">
+      <div class="flex items-end gap-2 md:gap-3">
+        <label class="btn btn-ghost btn-square btn-sm md:btn-md" title="Adjuntar archivos">
+          <input type="file" multiple class="hidden" (change)="filesSelected.emit($event)" />
+          <mat-icon fontIcon="attach_file"></mat-icon>
+        </label>
+
+        <div class="flex-1">
+          <div class="rounded-xl border border-base-300 bg-base-100 focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3">
+            <textarea class="w-full bg-transparent outline-none resize-none leading-6 md:leading-7"
+                      [placeholder]="('CHAT.PLACEHOLDER' | translate)" rows="1" spellcheck="true"
+                      formControlName="message"
+                      (input)="composerInput.emit($event)"
+                      (keydown)="keydown.emit($event)"></textarea>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button type="submit" class="btn btn-primary btn-square btn-sm md:btn-md" [disabled]="isSending || !form.valid" [class.loading]="isSending" title="Enviar">
+            <mat-icon fontIcon="send"></mat-icon>
+          </button>
+          @if (isSending) {
+            <button type="button" class="btn btn-outline btn-square btn-sm md:btn-md" (click)="onCancel()" title="Cancelar">
+              <mat-icon fontIcon="close"></mat-icon>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs opacity-70">
+        <div class="hidden sm:block">{{ 'CHAT.HINT' | translate }}</div>
+        <div class="flex items-center gap-2">
+          @if (filesCount) {
+            <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesCount } }}</div>
+          }
+          <span>{{ form.get('message')?.value?.length || 0 }}/1000</span>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

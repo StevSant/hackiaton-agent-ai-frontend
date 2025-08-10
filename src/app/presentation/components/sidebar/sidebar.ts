@@ -1,11 +1,9 @@
-import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import type { SessionEntry, ChatEntry } from '@core/models';
-import { SESSIONS_PORT } from '@core/tokens';
-import type { SessionsPort } from '@core/ports';
-import { ListSessionsUseCase, GetSessionUseCase, DeleteSessionUseCase } from '@core/use-cases';
+import { ChatFacade } from '@app/application/chat/chat.facade';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 import { GetProfileUseCase } from '@core/use-cases';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
@@ -24,14 +22,14 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 
 export class SidebarComponent {
+  @Input() isOpen = true;
+  @Output() closed = new EventEmitter<void>();
+  @Output() opened = new EventEmitter<void>();
   readonly siteRoutesConfig = { base: { url: '/' } } as const;
 
   // No agentId required anymore
 
-  private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
-  private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
-  private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
-  private readonly deleteSessionUC = new DeleteSessionUseCase(this.sessionsPort);
+  private readonly chatFacade = inject(ChatFacade);
   readonly router = inject(Router);
   readonly token = inject(TokenStorageService);
   private readonly getProfileUC = inject(GetProfileUseCase);
@@ -70,7 +68,7 @@ export class SidebarComponent {
     // Defer loading flag to avoid NG0100 when toggling quickly in same tick
     setTimeout(() => { this.isLoading = true; this.cdr.markForCheck(); });
     // agentId is ignored by backend; pass a placeholder
-    this.listSessionsUC.execute('default').subscribe({
+  this.chatFacade.listSessions().subscribe({
       next: (list) => {
         this.sessions = list || [];
         this.cdr.markForCheck();
@@ -88,7 +86,7 @@ export class SidebarComponent {
     const id = session.session_id;
     this.expanded[id] = !this.expanded[id];
     if (this.expanded[id] && !this.previews[id]) {
-      this.getSessionUC.execute('default', id).subscribe((res) => {
+  this.chatFacade.getSession(id).subscribe((res) => {
         const chats: ChatEntry[] = (res as any)?.chats || [];
         const items = chats.slice(-6).flatMap((c) => {
           const arr: Array<{ who: string; text: string }> = [
@@ -126,7 +124,7 @@ export class SidebarComponent {
   confirmDelete() {
     const session = this.toDelete();
     if (!session) { this.confirmOpen.set(false); return; }
-    this.deleteSessionUC.execute('default', session.session_id).subscribe({
+  this.chatFacade.deleteSession(session.session_id).subscribe({
       next: () => {
         // remove locally
         this.sessions = this.sessions.filter(s => s.session_id !== session.session_id);
@@ -206,6 +204,9 @@ export class SidebarComponent {
   closeOnOutsideClick() {
     if (this.profileMenuOpen()) {
       this.profileMenuOpen.set(false);
+    }
+    if (this.isOpen) {
+      this.closed.emit();
     }
   }
 }

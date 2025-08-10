@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FilesService, UploadedFileMeta } from '@infrastructure/services/files.service';
+import type { UploadedFileMeta } from '@core/ports';
+import { FilesFacade } from '@app/application/files/files.facade';
 
 @Component({
   selector: 'app-admin-files',
@@ -11,7 +12,7 @@ import { FilesService, UploadedFileMeta } from '@infrastructure/services/files.s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminFilesPage {
-  private readonly files = inject(FilesService);
+  private readonly files = inject(FilesFacade);
   items = signal<UploadedFileMeta[]>([]);
   total = signal(0);
   limit = signal(20);
@@ -20,15 +21,24 @@ export class AdminFilesPage {
   subfolder = signal<string>('');
 
   async ngOnInit() {
-    const res = await this.files.list({ limit: this.limit(), offset: this.offset(), type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
+    const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
+  }
+
+  private list() {
+    return this.files.list({
+      limit: this.limit(),
+      offset: this.offset(),
+      type_file: (this.type_file() || undefined) as any,
+      subfolder: this.subfolder() || undefined,
+    });
   }
 
   async next() {
     if (this.offset() + this.limit() >= this.total()) return;
     this.offset.update(o => o + this.limit());
-    const res = await this.files.list({ limit: this.limit(), offset: this.offset(), type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
+    const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
   }
@@ -36,14 +46,14 @@ export class AdminFilesPage {
   async prev() {
     if (this.offset() <= 0) return;
     this.offset.update(o => Math.max(0, o - this.limit()));
-    const res = await this.files.list({ limit: this.limit(), offset: this.offset(), type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
+    const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
   }
 
   async applyFilters() {
     this.offset.set(0);
-    const res = await this.files.list({ limit: this.limit(), offset: 0, type_file: (this.type_file() || undefined) as any, subfolder: this.subfolder() || undefined });
+    const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
   }

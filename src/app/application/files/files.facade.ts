@@ -31,6 +31,10 @@ export class FilesFacade {
     }
   }
 
+  list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; limit?: number; offset?: number }) {
+    return this.listFilesUC.execute(params);
+  }
+
   async upload(input: HTMLInputElement) {
     if (!input.files?.length) return;
     this.loading.set(true);
