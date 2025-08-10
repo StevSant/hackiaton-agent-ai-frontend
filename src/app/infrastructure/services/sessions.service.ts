@@ -13,15 +13,23 @@ export class SessionsService {
   getSessions(_agentId: string, params?: { page?: number; limit?: number }): Observable<SessionEntry[]> {
     const url = `${this.base}/agent/sessions`;
     return new Observable<SessionEntry[]>((subscriber) => {
-      const sub = this.http.get<any[]>(url, { params: (params as any) || {} }).subscribe({
-        next: (items) => {
+      const sub = this.http.get<any>(url, { params: (params as any) || {} }).subscribe({
+        next: (data) => {
           try {
-            const sessions: SessionEntry[] = (items || []).map((s: any) => ({
+            let array: any[] = [];
+            if (Array.isArray(data)) {
+              array = data;
+            } else if (Array.isArray(data?.results)) {
+              array = data.results;
+            } else if (Array.isArray(data?.sessions)) {
+              array = data.sessions;
+            }
+            const sessions: SessionEntry[] = (array || []).map((s: any) => ({
               session_id: s.session_id,
-      title: s.title || '',
-      summary: s.summary || s.resume || undefined,
-      created_at: Math.floor(new Date(s.created_at).getTime() / 1000),
-      updated_at: s.updated_at ? Math.floor(new Date(s.updated_at).getTime() / 1000) : undefined,
+              title: s.title || '',
+              summary: s.summary || s.resume || undefined,
+              created_at: toEpochSeconds(s.created_at),
+              updated_at: s.updated_at ? toEpochSeconds(s.updated_at) : undefined,
             }));
             subscriber.next(sessions);
             subscriber.complete();
@@ -38,11 +46,21 @@ export class SessionsService {
   getSession(_agentId: string, sessionId: string): Observable<{ chats: ChatEntry[] }> {
     // Backend returns flat list of messages; adapt at the component adapter
     const url = `${this.base}/agent/sessions/${sessionId}/messages`;
-    const source$ = this.http.get<any[]>(url);
+    const source$ = this.http.get<any>(url);
     return new Observable<{ chats: ChatEntry[] }>((subscriber) => {
       const sub = source$.subscribe({
-        next: (items: any[]) => {
+        next: (data: any) => {
           try {
+            let items: any[] = [];
+            if (Array.isArray(data)) {
+              items = data;
+            } else if (Array.isArray(data?.results)) {
+              items = data.results;
+            } else if (Array.isArray(data?.messages)) {
+              items = data.messages;
+            } else if (Array.isArray(data?.chats)) {
+              items = data.chats;
+            }
             const chats = this.mapMessagesToChats(items);
             subscriber.next({ chats });
             subscriber.complete();
@@ -58,17 +76,15 @@ export class SessionsService {
 
   private mapMessagesToChats(items: any[]): ChatEntry[] {
     const chats: ChatEntry[] = [];
-    const sorted = [...(items || [])].sort(
-      (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-    );
+    const sorted = [...(items || [])].sort((a, b) => toMs(a?.created_at) - toMs(b?.created_at));
     let idx = 0;
     while (idx < sorted.length) {
       const msg = sorted[idx];
       if (msg.role === 'user') {
         const next = sorted[idx + 1];
-        const createdUser = Math.floor(new Date(msg.created_at).getTime() / 1000);
+        const createdUser = toEpochSeconds(msg.created_at);
         if (next && next.role === 'agent') {
-          const createdAgent = Math.floor(new Date(next.created_at).getTime() / 1000);
+          const createdAgent = toEpochSeconds(next.created_at);
           chats.push({
             message: { role: 'user', content: msg.content, created_at: createdUser },
             response: { content: next.content, created_at: createdAgent, tools: [], extra_data: {}, images: [], videos: [], audio: [], response_audio: {} },
@@ -90,4 +106,19 @@ export class SessionsService {
     const url = `${this.base}/agent/sessions/${sessionId}`;
     return this.http.delete<void>(url);
   }
+}
+
+// Helpers
+function toMs(value: any): number {
+  if (typeof value === 'number') {
+    // treat values < 10^12 as seconds
+    return value > 1e12 ? value : value * 1000;
+  }
+  const t = Date.parse(value);
+  return Number.isFinite(t) ? t : 0;
+}
+
+function toEpochSeconds(value: any): number {
+  const ms = toMs(value);
+  return Math.floor(ms / 1000);
 }

@@ -21,7 +21,7 @@
             <mat-icon>edit_square</mat-icon> {{ 'COMMON.NEW_CHAT' | translate }}
         </button>
 
-        <div class="flex-1 overflow-y-auto">
+    <div class="flex-1 overflow-y-auto" #scrollContainer>
             <div class="text-sm opacity-70 px-2 mb-2">{{ 'COMMON.HISTORY' | translate }}</div>
             <ng-container>
                 <div *ngIf="isLoading" class="px-2 py-2">
@@ -69,8 +69,9 @@
                         </div>
                     </li>
                 </ul>
-                <div class="py-2 flex justify-center">
-                    <button class="btn btn-xs" (click)="loadMore()" [disabled]="isLoading">{{ 'COMMON.LOAD_MORE' | translate }}</button>
+                <div class="py-2 flex justify-center text-xs opacity-60" #sentinel>
+                    <ng-container *ngIf="isLoading">{{ 'COMMON.LOADING' | translate }}</ng-container>
+                    <ng-container *ngIf="!isLoading">&nbsp;</ng-container>
                 </div>
             </ng-container>
 

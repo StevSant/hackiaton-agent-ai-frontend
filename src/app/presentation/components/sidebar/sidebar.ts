@@ -1,4 +1,4 @@
-import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, Input } from '@angular/core';
+import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,6 +49,7 @@ export class SidebarComponent {
   page = 1;
   limit = 20;
   total = 0;
+  hasMore = true;
   expanded: Record<string, boolean> = {};
   previews: Record<string, { title: string; summary?: string } | undefined> = {};
   // delete confirmation state
@@ -58,6 +59,10 @@ export class SidebarComponent {
   // trackBy helpers
   trackBySessionId = (_: number, s: SessionEntry) => s.session_id;
   trackByIndex = (i: number) => i;
+
+  @ViewChild('sentinel', { static: false }) sentinel?: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollContainer', { static: false }) scrollContainer?: ElementRef<HTMLDivElement>;
+  private io?: IntersectionObserver;
 
   ngOnInit() {
     this.tryLoad();
@@ -71,10 +76,14 @@ export class SidebarComponent {
     // Defer loading flag to avoid NG0100 when toggling quickly in same tick
     setTimeout(() => { this.isLoading = true; this.cdr.markForCheck(); });
     // agentId is ignored by backend; pass a placeholder
-    this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
+  this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
       next: (list) => {
-        this.sessions = list || [];
+    this.sessions = list || [];
+    // total could come in a separate response in the future; fallback keeps hasMore true until we reach an empty page
+    this.hasMore = (list?.length || 0) === this.limit;
         this.cdr.markForCheck();
+    // setup IO after first paint
+    queueMicrotask(() => this.setupIO());
       },
       error: () => {
         // ensure loading state is cleared so future refresh triggers work
@@ -87,7 +96,7 @@ export class SidebarComponent {
 
   loadMore() {
     if (this.isLoading) return;
-    if (this.sessions.length >= this.total && this.total > 0) return;
+    if (!this.hasMore) return;
     this.page += 1;
     // For now, append by calling again (SessionsService isn’t paginated yet); dedupe by id
     this.isLoading = true; this.cdr.markForCheck();
@@ -97,12 +106,28 @@ export class SidebarComponent {
         for (const s of this.sessions) map.set(s.session_id, s);
         for (const s of (list || [])) map.set(s.session_id, s);
         this.sessions = Array.from(map.values());
+        this.hasMore = (list?.length || 0) === this.limit;
         this.cdr.markForCheck();
       },
       complete: () => { this.isLoading = false; this.cdr.markForCheck(); },
       error: () => { this.isLoading = false; this.cdr.markForCheck(); }
     });
   }
+
+  private setupIO() {
+    if (!this.sentinel || !this.scrollContainer) return;
+    if (this.io) return; // create once
+    this.io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          this.loadMore();
+        }
+      }
+    }, { root: this.scrollContainer.nativeElement, rootMargin: '0px 0px 200px 0px', threshold: 0.1 });
+    this.io.observe(this.sentinel.nativeElement);
+  }
+
+  ngOnDestroy() { if (this.io) this.io.disconnect(); }
 
   togglePreview(session: SessionEntry) {
     const id = session.session_id;

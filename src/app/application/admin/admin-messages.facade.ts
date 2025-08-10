@@ -61,6 +61,32 @@ export class AdminMessagesFacade {
     this.page.update(p => p + 1);
     await this.loadSessions();
   }
+  async nextSessionsInfinite() {
+    // append next page of sessions if available
+    if ((this.sessions().length || 0) >= this.total()) return;
+    this.page.update(p => p + 1);
+    this.loading.set(true);
+    try {
+      const res = await this.listSessionsUC.execute({
+        page: this.page(),
+        limit: this.limit(),
+        search: this.search() || undefined,
+        sort_by: (this.sortBy() || undefined) as any,
+        sort_order: this.sortOrder(),
+      });
+      const next = res.items || [];
+      // dedupe by session_id
+      const map = new Map<string, AdminSessionItem>();
+      for (const s of this.sessions()) map.set(s.session_id, s);
+      for (const s of next) map.set(s.session_id, s);
+      this.sessions.set(Array.from(map.values()));
+      this.total.set(res.total || this.total());
+    } catch (e: any) {
+      this.error.set(e?.message || 'Error cargando sesiones');
+    } finally {
+      this.loading.set(false);
+    }
+  }
   async prevSessionsPage() {
     if (this.page() <= 1) {
       return;
