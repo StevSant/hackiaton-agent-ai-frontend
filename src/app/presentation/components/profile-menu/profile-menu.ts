@@ -14,12 +14,13 @@ import { BackgroundService } from '@infrastructure/services/background.service';
   standalone: true,
   imports: [CommonModule, RouterLink, MatIconModule, TranslateModule],
   templateUrl: './profile-menu.html',
-  styleUrl: './profile-menu.css',
+  styleUrls: ['./profile-menu.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileMenuComponent {
-  // Optional: show back-to-chat link (used in admin shell)
+  // Optional: quick navigation links for shells
   @Input() showBackToChat = false;
+  @Input() showBackHome = false;
   @Input() compact = false; // if true, adjust paddings/sizes
 
   @Output() closed = new EventEmitter<void>();

@@ -1,31 +1,43 @@
 <div class="flex min-h-screen">
-                <aside class="w-72 p-4 flex flex-col border-r relative surface-clear" (click)="$event.stopPropagation()" (keydown.escape)="profileMenuOpen.set(false)">
+        <aside class="w-72 p-4 flex flex-col border-r relative surface-clear" (click)="$event.stopPropagation()"
+                (keydown.escape)="profileMenuOpen.set(false)">
                 <div class="flex-1 overflow-y-auto">
                         <div class="text-sm opacity-70 px-1 mb-2">{{ 'ADMIN.SIDENAV.HEADER' | translate }}</div>
                         <nav class="flex flex-col gap-2">
                                 <a [routerLink]="['/admin']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="dashboard"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.DASHBOARD' | translate }}</span></a>
+                                                fontIcon="dashboard"></mat-icon><span class="ml-2">{{
+                                                'ADMIN.SIDENAV.DASHBOARD' | translate }}</span></a>
                                 <a [routerLink]="['/admin/users']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="group"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.USERS' | translate }}</span></a>
+                                                fontIcon="group"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.USERS'
+                                                | translate }}</span></a>
                                 <a [routerLink]="['/admin/files']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="folder"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.FILES' | translate }}</span></a>
-                                <a [routerLink]="['/admin/messages']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="sms"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.MESSAGES' | translate }}</span></a>
-                                <a [routerLink]="['/admin/app-info']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="info"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.APP_INFO' | translate }}</span></a>
-                                <a [routerLink]="['/admin/risk-weights']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="science"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.RISK_WEIGHTS' | translate }}</span></a>
-                                <a [routerLink]="['/admin/companies']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="business"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.COMPANIES' | translate }}</span></a>
+                                                fontIcon="folder"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.FILES'
+                                                | translate }}</span></a>
+                                <a [routerLink]="['/admin/messages']"
+                                        class="btn btn-ghost btn-sm justify-start"><mat-icon
+                                                fontIcon="sms"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.MESSAGES'
+                                                | translate }}</span></a>
+                                <a [routerLink]="['/admin/app-info']"
+                                        class="btn btn-ghost btn-sm justify-start"><mat-icon
+                                                fontIcon="info"></mat-icon><span class="ml-2">{{
+                                                'ADMIN.SIDENAV.APP_INFO' | translate }}</span></a>
+                                <a [routerLink]="['/admin/risk-weights']"
+                                        class="btn btn-ghost btn-sm justify-start"><mat-icon
+                                                fontIcon="science"></mat-icon><span class="ml-2">{{
+                                                'ADMIN.SIDENAV.RISK_WEIGHTS' | translate }}</span></a>
+                                <a [routerLink]="['/admin/companies']"
+                                        class="btn btn-ghost btn-sm justify-start"><mat-icon
+                                                fontIcon="business"></mat-icon><span class="ml-2">{{
+                                                'ADMIN.SIDENAV.COMPANIES' | translate }}</span></a>
                         </nav>
                 </div>
 
-                                <!-- Footer: reusable profile menu with back to chat -->
-                                <div class="pt-3 border-t space-y-2" style="border-color:hsl(var(--border))">
-                                        <app-profile-menu [showBackToChat]="true"></app-profile-menu>
-                                </div>
+                <!-- Footer: reusable profile menu with quick nav (Home + Back to Chat) -->
+                <div class="pt-3 border-t space-y-2" style="border-color:hsl(var(--border))">
+                        <app-profile-menu [showBackToChat]="true" [showBackHome]="true"></app-profile-menu>
+                </div>
         </aside>
         <main class="flex-1 overflow-y-auto">
-        <router-outlet />
-    </main>
+                <router-outlet />
+        </main>
 </div>

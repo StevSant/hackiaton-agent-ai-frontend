@@ -25,7 +25,10 @@
           <mat-icon fontIcon="menu"></mat-icon>
         </button>
         <div class="flex items-center gap-2">
-          <div class="text-sm opacity-70">{{ 'SHELL.APP_TITLE' | translate }}</div>
+          <a routerLink="/home" class="btn btn-ghost btn-xs" [title]="'NOT_FOUND.BACK_HOME' | translate">
+            <mat-icon fontIcon="home"></mat-icon>
+            <span class="ml-1 text-xs">{{ 'COMMON.HOME' | translate }}</span>
+          </a>
           <button
             class="btn btn-ghost btn-xs"
             (click)="openSessionFilesFromShell()"

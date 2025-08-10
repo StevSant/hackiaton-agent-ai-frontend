@@ -65,12 +65,12 @@
 
         <!-- Footer: reusable profile menu + admin entry button -->
         <div class="mt-3 pt-3 border-t" style="border-color:hsl(var(--border))">
-            <app-profile-menu (closed)="closed.emit()">
-                <button *ngIf="profileRole() === 'admin'" [routerLink]="['/admin']"
-                    class="ml-auto flex items-center gap-2 rounded-lg bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all cursor-pointer py-1.5 px-3 text-white font-semibold">
-                    <mat-icon fontIcon="admin_panel_settings" class="!text-base"></mat-icon>
-                    {{ 'COMMON.ADMIN' | translate }}
-                </button>
+            <button *ngIf="profileRole() === 'admin'" [routerLink]="['/admin']"
+                class="w-full mx-2 py-2 px-3 ml-auto flex items-center gap-2 rounded-lg bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all cursor-pointer   text-white font-semibold">
+                <mat-icon fontIcon="admin_panel_settings" class="!text-base"></mat-icon>
+                {{ 'COMMON.ADMIN' | translate }}
+            </button>
+            <app-profile-menu [showBackToChat]="false" [showBackHome]="true" (closed)="closed.emit()">
             </app-profile-menu>
         </div>
 
