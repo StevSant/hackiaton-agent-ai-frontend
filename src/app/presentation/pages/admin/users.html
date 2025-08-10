@@ -16,22 +16,22 @@
   <form [formGroup]="form" (ngSubmit)="create()" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
     <div>
       <label class="text-xs" for="username">{{ 'ADMIN.USERS.USERNAME' | translate }}</label>
-  <input id="username" class="w-full" formControlName="username"
+      <input id="username" class="input input-bordered w-full" formControlName="username"
         [placeholder]="'ADMIN.USERS.USERNAME_PLACEHOLDER' | translate" />
     </div>
     <div>
       <label class="text-xs" for="email">{{ 'ADMIN.USERS.EMAIL' | translate }}</label>
-  <input id="email" class="w-full" formControlName="email"
+      <input id="email" class="input input-bordered w-full" formControlName="email"
         [placeholder]="'ADMIN.USERS.EMAIL_PLACEHOLDER' | translate" type="email" />
     </div>
     <div class="md:col-span-2">
       <label class="text-xs" for="password">{{ 'ADMIN.USERS.PASSWORD' | translate }}</label>
-  <input id="password" class="w-full" formControlName="password"
+      <input id="password" class="input input-bordered w-full" formControlName="password"
         [placeholder]="'ADMIN.USERS.PASSWORD_PLACEHOLDER' | translate" type="password" />
     </div>
     <div>
       <label class="text-xs" for="role">{{ 'ADMIN.USERS.ROLE' | translate }}</label>
-  <select id="role" class="w-full" formControlName="role">
+      <select id="role" class="select select-bordered w-full" formControlName="role">
         <option [ngValue]="'user'">{{ 'COMMON.USER' | translate }}</option>
         <option [ngValue]="'admin'">{{ 'COMMON.ADMIN' | translate }}</option>
       </select>
@@ -90,18 +90,18 @@
           </td>
         </tr>
         } @else {
-        <tr>
-          <td><input class="w-full" [formControl]="editForm.controls.username" /></td>
-          <td><input class="w-full" [formControl]="editForm.controls.email" /></td>
-          <td>
-                <select class="w-full" [formControl]="editForm.controls.role">
+    <tr>
+      <td><input class="input input-bordered w-full" [formControl]="editForm.controls.username" /></td>
+      <td><input class="input input-bordered w-full" [formControl]="editForm.controls.email" /></td>
+      <td>
+        <select class="select select-bordered w-full" [formControl]="editForm.controls.role">
                   <option [ngValue]="'user'">{{ 'COMMON.USER' | translate }}</option>
                   <option [ngValue]="'admin'">{{ 'COMMON.ADMIN' | translate }}</option>
                 </select>
           </td>
-          <td><input class="w-full" [formControl]="editForm.controls.password"
+      <td><input class="input input-bordered w-full" [formControl]="editForm.controls.password"
               [placeholder]="'ADMIN.USERS.NEW_PASSWORD_OPTIONAL' | translate" /></td>
-          <td class="actions">
+      <td class="actions">
             <button class="btn btn-gradient-blue btn-xs" (click)="saveEdit()">{{ 'ADMIN.USERS.SAVE' | translate }}</button>
             <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">{{ 'ADMIN.USERS.CANCEL' | translate }}</button>
           </td>

@@ -1,8 +1,8 @@
-<div class="p-6 space-y-4">
+<div class="p-6 space-y-4 vt-page">
   <h1 class="text-2xl font-semibold">{{ 'ADMIN.DASHBOARD.TITLE' | translate }}</h1>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 page-stagger">
     @for (s of sections; track s.route) {
-  <a [routerLink]="[s.route]" class="block p-4 rounded-lg border hover:bg-[hsl(var(--card)_/_0.5)] transition">
+  <a [routerLink]="[s.route]" class="block p-4 rounded-lg glass-card transition">
         <div class="flex items-center gap-3">
           <mat-icon>{{ s.icon }}</mat-icon>
           <div>
