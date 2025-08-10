@@ -5,6 +5,7 @@ export const serverRoutes: ServerRoute[] = [
   // Public/guest pages can be prerendered
   { path: 'login', renderMode: RenderMode.Prerender },
   { path: 'register', renderMode: RenderMode.Prerender },
+  { path: 'home', renderMode: RenderMode.Prerender },
   { path: 'forbidden', renderMode: RenderMode.Prerender },
 
   // Authenticated app pages: render on client to avoid running guards on server
