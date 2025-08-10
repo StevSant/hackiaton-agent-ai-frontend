@@ -420,3 +420,44 @@ body.neon-edges .chat-bubble:focus-within {
 .btn-gradient-blue:hover { filter: brightness(1.05); }
 .btn-gradient-blue:active { transform: translateY(1px); }
 .btn-gradient-blue .mat-icon { color: #fff !important; }
+
+/* --- View Transitions: smoother, elegant page/side transitions --- */
+/* Mark elements that should participate */
+.vt-page { view-transition-name: page; }
+.vt-sidebar { view-transition-name: sidebar; }
+
+/* Default timings and easing tuned for fluid feel */
+@keyframes vt-fade-scale-in {
+  0% { opacity: 0; transform: translateY(8px) scale(.985); filter: saturate(.95) blur(.5px); }
+  60% { opacity: 1; transform: translateY(0) scale(1.0); filter: saturate(1) blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1.0); }
+}
+@keyframes vt-fade-scale-out {
+  0% { opacity: 1; transform: translateY(0) scale(1.0); }
+  100% { opacity: 0; transform: translateY(-6px) scale(.992); filter: saturate(.95) blur(.35px); }
+}
+@keyframes vt-slide-in-left {
+  0% { opacity: 0; transform: translateX(-8px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes vt-slide-out-left {
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(-6px); }
+}
+
+/* Apply to named transition elements */
+/* stylelint-disable selector-type-no-unknown, selector-pseudo-element-no-unknown */
+::view-transition-old(page) { animation: vt-fade-scale-out 220ms cubic-bezier(.2,.7,.2,1) both; }
+::view-transition-new(page) { animation: vt-fade-scale-in 320ms cubic-bezier(.2,.7,.2,1) both; }
+
+::view-transition-old(sidebar) { animation: vt-slide-out-left 180ms cubic-bezier(.2,.7,.2,1) both; }
+::view-transition-new(sidebar) { animation: vt-slide-in-left 260ms cubic-bezier(.2,.7,.2,1) both; }
+
+/* Reduce motion respect */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(page),
+  ::view-transition-new(page),
+  ::view-transition-old(sidebar),
+  ::view-transition-new(sidebar) { animation: none !important; }
+}
+/* stylelint-enable selector-type-no-unknown, selector-pseudo-element-no-unknown */
