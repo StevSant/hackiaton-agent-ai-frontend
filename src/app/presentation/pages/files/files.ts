@@ -18,6 +18,9 @@ export class FilesPage implements OnInit {
   readonly loading = this.facade.loading;
   readonly error = this.facade.error;
   readonly type = this.facade.type;
+  readonly page = this.facade.page;
+  readonly limit = this.facade.limit;
+  readonly total = this.facade.total;
 
   ngOnInit() {
     this.load();
@@ -44,4 +47,7 @@ export class FilesPage implements OnInit {
       // fallback: nothing
     }
   }
+
+  async prevPage() { await this.facade.prevPage(); }
+  async nextPage() { await this.facade.nextPage(); }
 }

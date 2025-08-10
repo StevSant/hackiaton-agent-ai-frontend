@@ -65,6 +65,9 @@
                         </div>
                     </li>
                 </ul>
+                <div class="py-2 flex justify-center">
+                    <button class="btn btn-xs" (click)="loadMore()" [disabled]="isLoading">{{ 'COMMON.LOAD_MORE' | translate }}</button>
+                </div>
             </ng-container>
 
         </div>

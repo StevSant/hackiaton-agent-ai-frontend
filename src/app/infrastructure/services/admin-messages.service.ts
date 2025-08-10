@@ -17,23 +17,29 @@ export class AdminMessagesService implements AdminMessagesPort {
 
   async listSessions(params?: { page?: number; limit?: number; search?: string; sort_by?: 'updated_at'|'title'; sort_order?: 'asc'|'desc' }): Promise<Paginated<AdminSessionItem>> {
     const url = `${this.base}/agent/sessions`;
-    const data = await firstValueFrom(this.http.get<PaginatedApi<AdminSessionItem>>(url, { params: (params as any) || {} }));
+    const data = await firstValueFrom(this.http.get<any>(url, { params: (params as any) || {} }));
+    if (Array.isArray(data)) {
+      return { items: data, page: params?.page ?? 1, limit: params?.limit ?? (data?.length ?? 0), total: data?.length ?? 0 };
+    }
     return {
-      items: data?.results ?? [],
-      page: data?.info?.page_number ?? params?.page ?? 1,
+      items: (data as PaginatedApi<AdminSessionItem>)?.results ?? [],
+      page: (data as PaginatedApi<AdminSessionItem>)?.info?.page_number ?? params?.page ?? 1,
       limit: params?.limit ?? 10,
-      total: data?.info?.count ?? (data?.results?.length ?? 0),
+      total: (data as PaginatedApi<AdminSessionItem>)?.info?.count ?? ((data as PaginatedApi<AdminSessionItem>)?.results?.length ?? 0),
     };
   }
 
   async listMessages(sessionId: string, params?: { page?: number; limit?: number }): Promise<Paginated<AdminMessageItem>> {
     const url = `${this.base}/agent/sessions/${sessionId}/messages`;
-    const data = await firstValueFrom(this.http.get<PaginatedApi<AdminMessageItem>>(url, { params: (params as any) || {} }));
+    const data = await firstValueFrom(this.http.get<any>(url, { params: (params as any) || {} }));
+    if (Array.isArray(data)) {
+      return { items: data, page: params?.page ?? 1, limit: params?.limit ?? (data?.length ?? 0), total: data?.length ?? 0 };
+    }
     return {
-      items: data?.results ?? [],
-      page: data?.info?.page_number ?? params?.page ?? 1,
+      items: (data as PaginatedApi<AdminMessageItem>)?.results ?? [],
+      page: (data as PaginatedApi<AdminMessageItem>)?.info?.page_number ?? params?.page ?? 1,
       limit: params?.limit ?? 10,
-      total: data?.info?.count ?? (data?.results?.length ?? 0),
+      total: (data as PaginatedApi<AdminMessageItem>)?.info?.count ?? ((data as PaginatedApi<AdminMessageItem>)?.results?.length ?? 0),
     };
   }
 }

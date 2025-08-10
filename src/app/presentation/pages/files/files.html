@@ -38,4 +38,9 @@
     </div>
   }
   </div>
+  <div class="flex items-center justify-end gap-2">
+    <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">Anterior</button>
+    <span class="text-sm opacity-70">Página {{ page() }}</span>
+    <button class="btn btn-sm" (click)="nextPage()" [disabled]="page()*limit()>=total()">Siguiente</button>
+  </div>
 </div>

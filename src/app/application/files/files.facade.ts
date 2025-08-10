@@ -13,6 +13,9 @@ export class FilesFacade {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly type = signal<FileType>('');
+  readonly page = signal(1);
+  readonly limit = signal(20);
+  readonly total = signal(0);
 
   async load() {
     this.loading.set(true);
@@ -20,10 +23,11 @@ export class FilesFacade {
     try {
       const res = await this.listFilesUC.execute({
         type_file: (this.type() || undefined) as any,
-        limit: 20,
-        offset: 0,
+        page: this.page(),
+        limit: this.limit(),
       });
       this.items.set(res.items || []);
+      this.total.set(res.total || 0);
     } catch (e: any) {
       this.error.set(e?.message || 'Error cargando archivos');
     } finally {
@@ -31,7 +35,7 @@ export class FilesFacade {
     }
   }
 
-  list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; limit?: number; offset?: number }) {
+  list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; page?: number; limit?: number; offset?: number }) {
     return this.listFilesUC.execute(params);
   }
 
@@ -42,12 +46,27 @@ export class FilesFacade {
       for (const file of Array.from(input.files)) {
         await this.uploadFileUC.execute(file);
       }
-      await this.load();
+    await this.load();
       input.value = '';
     } catch (e: any) {
       this.error.set(e?.message || 'Error subiendo archivo');
     } finally {
       this.loading.set(false);
     }
+  }
+
+  async nextPage() {
+    if (this.page() * this.limit() >= this.total()) {
+      return;
+    }
+    this.page.update(p => p + 1);
+    await this.load();
+  }
+  async prevPage() {
+    if (this.page() <= 1) {
+      return;
+    }
+    this.page.update(p => p - 1);
+    await this.load();
   }
 }

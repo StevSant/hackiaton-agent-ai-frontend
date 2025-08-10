@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
+import type { Paginated } from '@core/models/paginated';
+import { mapToPaginated } from '@core/models/pagination-api';
 
 export interface UploadedFileMeta {
   id: string;
@@ -15,10 +17,8 @@ export interface UploadedFileMeta {
   extracted_available?: boolean; // present when metadata extraction exists
 }
 
-export interface ListFilesResponse {
-  total: number;
-  items: UploadedFileMeta[];
-}
+// Legacy shape kept for compatibility in mapping helper
+export interface ListFilesResponse { total: number; items: UploadedFileMeta[]; offset?: number; }
 
 @Injectable({ providedIn: 'root' })
 export class FilesService {
@@ -38,8 +38,11 @@ export class FilesService {
     return firstValueFrom(this.http.get<UploadedFileMeta>(url));
   }
 
-  async list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; limit?: number; offset?: number }): Promise<ListFilesResponse> {
+  async list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; page?: number; limit?: number; offset?: number }): Promise<Paginated<UploadedFileMeta>> {
     const url = `${this.base}/files/`;
-    return firstValueFrom(this.http.get<ListFilesResponse>(url, { params: (params as any) || {} }));
+    const data = await firstValueFrom(this.http.get<any>(url, { params: (params as any) || {} }));
+    // Normalize to Paginated using helper
+    const pageParams = { page: params?.page ?? (params?.offset && params?.limit ? Math.floor(params.offset / params.limit) + 1 : 1), limit: params?.limit };
+    return mapToPaginated<UploadedFileMeta>(data, pageParams);
   }
 }

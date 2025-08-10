@@ -46,6 +46,9 @@ export class SidebarComponent {
 
   sessions: SessionEntry[] = [];
   isLoading = false;
+  page = 1;
+  limit = 20;
+  total = 0;
   expanded: Record<string, boolean> = {};
   previews: Record<string, { title: string; summary?: string } | undefined> = {};
   // delete confirmation state
@@ -68,7 +71,7 @@ export class SidebarComponent {
     // Defer loading flag to avoid NG0100 when toggling quickly in same tick
     setTimeout(() => { this.isLoading = true; this.cdr.markForCheck(); });
     // agentId is ignored by backend; pass a placeholder
-  this.chatFacade.listSessions().subscribe({
+    this.chatFacade.listSessions().subscribe({
       next: (list) => {
         this.sessions = list || [];
         this.cdr.markForCheck();
@@ -79,6 +82,25 @@ export class SidebarComponent {
         this.cdr.markForCheck();
       },
       complete: () => setTimeout(() => { this.isLoading = false; this.cdr.markForCheck(); }),
+    });
+  }
+
+  loadMore() {
+    if (this.isLoading) return;
+    if (this.sessions.length >= this.total && this.total > 0) return;
+    this.page += 1;
+    // For now, append by calling again (SessionsService isn’t paginated yet); dedupe by id
+    this.isLoading = true; this.cdr.markForCheck();
+    this.chatFacade.listSessions().subscribe({
+      next: (list) => {
+        const map = new Map<string, SessionEntry>();
+        for (const s of this.sessions) map.set(s.session_id, s);
+        for (const s of (list || [])) map.set(s.session_id, s);
+        this.sessions = Array.from(map.values());
+        this.cdr.markForCheck();
+      },
+      complete: () => { this.isLoading = false; this.cdr.markForCheck(); },
+      error: () => { this.isLoading = false; this.cdr.markForCheck(); }
     });
   }
 

@@ -1,4 +1,4 @@
-import type { Observable } from 'rxjs';
+import type { Paginated } from '@core/models/paginated';
 
 export interface UploadedFileMeta {
   id: string;
@@ -20,5 +20,5 @@ export interface ListFilesResponse {
 export interface FilesPort {
   upload(file: File, subfolder?: string): Promise<UploadedFileMeta>;
   getFile(fileId: string): Promise<UploadedFileMeta>;
-  list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; limit?: number; offset?: number }): Promise<ListFilesResponse>;
+  list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; page?: number; limit?: number; offset?: number }): Promise<Paginated<UploadedFileMeta>>;
 }
