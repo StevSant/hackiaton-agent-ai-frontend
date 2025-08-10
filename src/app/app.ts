@@ -1,8 +1,8 @@
 import { Component, inject, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { GetAppInfoUseCase } from '@core/use-cases/get-app-info.usecase';
-import type { AppInfo } from '@core/models/app-info';
+import { GetAppInfoUseCase } from '@core/use-cases';
+import type { AppInfo } from '@core/models';
 import { LanguageService } from '@infrastructure/services/language.service';
 import { ThemeService } from '@infrastructure/services/theme.service';
 import { Title } from '@angular/platform-browser';
