@@ -22,7 +22,7 @@
             <mat-icon fontIcon="send"></mat-icon>
           </button>
           @if (isSending) {
-            <button type="button" class="btn btn-outline btn-square btn-sm md:btn-md" (click)="onCancel()" title="Cancelar">
+            <button type="button" class="btn btn-outline btn-square btn-sm md:btn-md" (click)="onCancel()" [title]="'COMPOSER.CANCEL' | translate">
               <mat-icon fontIcon="close"></mat-icon>
             </button>
           }
@@ -33,7 +33,7 @@
         <div class="hidden sm:block">{{ 'CHAT.HINT' | translate }}</div>
         <div class="flex items-center gap-2">
           @if (isUploadingFiles) {
-            <div class="loading loading-dots loading-xs text-info" title="Subiendo archivos..."></div>
+            <div class="loading loading-dots loading-xs text-info" [title]="'COMPOSER.UPLOADING_FILES' | translate"></div>
           }
           @if (filesCount) {
             <div class="badge badge-info">{{ 'CHAT.FILES_COUNT' | translate:{ count: filesCount } }}</div>
@@ -45,7 +45,7 @@
       @if (isUploadingFiles) {
         <div class="mt-2 flex items-center gap-2 text-xs text-info">
           <span class="loading loading-spinner loading-xs"></span>
-          <span>Subiendo archivos...</span>
+          <span>{{ 'COMPOSER.UPLOADING_FILES' | translate }}</span>
         </div>
       }
 

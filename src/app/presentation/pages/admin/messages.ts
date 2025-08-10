@@ -1,12 +1,13 @@
 import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { AdminMessagesFacade } from '@app/application/admin/admin-messages.facade';
 // Types are implied via facade signals; no direct import needed here
 
 @Component({
   selector: 'app-admin-messages',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './messages.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

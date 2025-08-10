@@ -1,13 +1,14 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 // Using facade types; no direct item type import needed here
 import { AdminCompaniesFacade } from '@app/application/admin/admin-companies.facade';
 
 @Component({
   selector: 'app-admin-companies',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './companies.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { RegisterFacade } from '@app/application/auth/register.facade';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 // Validator para complejidad de contraseña
 export function passwordComplexityValidator(control: AbstractControl): ValidationErrors | null {
@@ -22,7 +23,7 @@ export function passwordComplexityValidator(control: AbstractControl): Validatio
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, MatIconModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, MatIconModule, TranslateModule],
   templateUrl: './register.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

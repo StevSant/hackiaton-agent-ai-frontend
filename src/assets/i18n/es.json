@@ -185,5 +185,11 @@
     "CANCEL": "Cancelar",
     "UPLOADING": "Subiendo...",
     "UPLOADING_FILES": "Subiendo archivos..."
+  },
+  "SIDEBAR": {
+    "DELETE_TITLE": "Eliminar chat",
+    "DELETE_TEXT": "¿Seguro que deseas eliminar esta sesión? Esta acción no se puede deshacer.",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Eliminar"
   }
 }

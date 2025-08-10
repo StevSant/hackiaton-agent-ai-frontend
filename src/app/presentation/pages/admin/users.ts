@@ -2,19 +2,21 @@ import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import type { AdminUserItem } from '@core/ports';
 import { AdminUsersFacade } from '@app/application/admin/admin-users.facade';
 
 @Component({
   selector: 'app-admin-users',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, TranslateModule],
   templateUrl: './users.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersPage {
   private readonly facade = inject(AdminUsersFacade);
   private readonly fb = inject(FormBuilder);
+  private readonly i18n = inject(TranslateService);
 
   readonly creating = this.facade.creating;
   readonly error = this.facade.error;
@@ -76,7 +78,8 @@ export class AdminUsersPage {
   }
 
   async confirmDelete(u: AdminUserItem) {
-    if (confirm(`Eliminar usuario ${u.email}?`)) {
+  const msg = this.i18n.instant('ADMIN.USERS.CONFIRM_DELETE', { email: u.email });
+  if (confirm(msg)) {
       await this.facade.delete(u.user_id);
     }
   }

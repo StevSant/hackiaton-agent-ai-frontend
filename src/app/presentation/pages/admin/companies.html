@@ -1,10 +1,10 @@
 <div class="p-6 space-y-4">
-  <h2 class="text-xl font-semibold">Compañías</h2>
+  <h2 class="text-xl font-semibold">{{ 'ADMIN.COMPANIES.TITLE' | translate }}</h2>
   <form [formGroup]="form" (ngSubmit)="applySearch()" class="flex gap-2 items-end">
-    <input class="input input-bordered" formControlName="search" placeholder="Buscar..." />
-    <button class="btn btn-primary" type="submit">Buscar</button>
+    <input class="input input-bordered" formControlName="search" [placeholder]="'ADMIN.COMPANIES.SEARCH_PLACEHOLDER' | translate" />
+    <button class="btn btn-primary" type="submit">{{ 'ADMIN.COMPANIES.SEARCH_BUTTON' | translate }}</button>
     <div class="ml-auto flex items-center gap-2">
-      <label class="text-xs" for="companies-limit">Límite</label>
+      <label class="text-xs" for="companies-limit">{{ 'ADMIN.COMPANIES.LIMIT' | translate }}</label>
       <select id="companies-limit" class="select select-bordered select-sm" [value]="limit()" (change)="limit.set(+$any($event.target).value); applySearch()">
         <option [value]="10">10</option>
         <option [value]="20">20</option>
@@ -17,17 +17,17 @@
   <thead>
         <tr>
           <th>
-            <button class="btn btn-ghost btn-xs" (click)="setSort('tax_id')">RUC
+            <button class="btn btn-ghost btn-xs" (click)="setSort('tax_id')">{{ 'ADMIN.COMPANIES.COLUMNS.TAX_ID' | translate }}
               <span *ngIf="sortBy()==='tax_id'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
             </button>
           </th>
           <th>
-            <button class="btn btn-ghost btn-xs" (click)="setSort('name')">Nombre
+            <button class="btn btn-ghost btn-xs" (click)="setSort('name')">{{ 'ADMIN.COMPANIES.COLUMNS.NAME' | translate }}
               <span *ngIf="sortBy()==='name'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
             </button>
           </th>
           <th>
-            <button class="btn btn-ghost btn-xs" (click)="setSort('sector')">Sector
+            <button class="btn btn-ghost btn-xs" (click)="setSort('sector')">{{ 'ADMIN.COMPANIES.COLUMNS.SECTOR' | translate }}
               <span *ngIf="sortBy()==='sector'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
             </button>
           </th>
@@ -45,8 +45,8 @@
     </table>
   </div>
   <div class="flex items-center justify-end gap-2">
-    <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">Anterior</button>
-    <span class="text-sm opacity-70">Página {{ page() }}</span>
-    <button class="btn btn-sm" (click)="nextPage()">Siguiente</button>
+  <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">{{ 'COMMON.PREVIOUS' | translate }}</button>
+  <span class="text-sm opacity-70">{{ 'COMMON.PAGE' | translate }} {{ page() }}</span>
+  <button class="btn btn-sm" (click)="nextPage()">{{ 'COMMON.NEXT' | translate }}</button>
   </div>
 </div>

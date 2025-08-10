@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LoginFacade } from '@app/application/auth/login.facade';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, MatIconModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, MatIconModule, TranslateModule],
   templateUrl: './login.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

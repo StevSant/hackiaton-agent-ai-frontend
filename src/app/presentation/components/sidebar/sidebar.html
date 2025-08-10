@@ -133,11 +133,11 @@
     <!-- Delete confirmation modal -->
     <div class="modal modal-open" *ngIf="confirmOpen()" (click)="cancelDelete()" (keydown.escape)="cancelDelete()" (keydown.enter)="cancelDelete()">
         <div class="modal-box" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-            <h3 class="font-bold text-lg">Eliminar chat</h3>
-            <p class="py-2">¿Seguro que deseas eliminar esta sesión? Esta acción no se puede deshacer.</p>
+            <h3 class="font-bold text-lg">{{ 'SIDEBAR.DELETE_TITLE' | translate }}</h3>
+            <p class="py-2">{{ 'SIDEBAR.DELETE_TEXT' | translate }}</p>
             <div class="modal-action">
-                <button class="btn" (click)="cancelDelete()">Cancelar</button>
-                <button class="btn btn-error" (click)="confirmDelete()">Eliminar</button>
+                <button class="btn" (click)="cancelDelete()">{{ 'SIDEBAR.CANCEL' | translate }}</button>
+                <button class="btn btn-error" (click)="confirmDelete()">{{ 'SIDEBAR.CONFIRM' | translate }}</button>
             </div>
         </div>
     </div>

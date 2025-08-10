@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import type { UploadedFileMeta } from '@core/ports';
 import { FilesFacade } from '@app/application/files/files.facade';
@@ -7,7 +8,7 @@ import { FilesFacade } from '@app/application/files/files.facade';
 @Component({
   selector: 'app-admin-files',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './files.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
