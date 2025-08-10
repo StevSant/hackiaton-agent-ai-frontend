@@ -26,8 +26,14 @@
         </button>
         <div class="flex items-center gap-2">
           <div class="text-sm opacity-70">{{ 'SHELL.APP_TITLE' | translate }}</div>
-          <button class="btn btn-ghost btn-xs" (click)="openSessionFilesFromShell()" [title]="'CHAT.ATTACHMENTS_VIEW' | translate">
+          <button
+            class="btn btn-ghost btn-xs"
+            (click)="openSessionFilesFromShell()"
+            [title]="'CHAT.ATTACHMENTS_INFO' | translate"
+            [attr.aria-label]="'CHAT.ATTACHMENTS_VIEW' | translate"
+            [attr.aria-description]="'CHAT.ATTACHMENTS_INFO' | translate">
             <mat-icon fontIcon="attach_file" style="transform: rotate(45deg);"></mat-icon>
+            <span class="ml-1 text-xs">{{ 'CHAT.ATTACHMENTS_VIEW' | translate }}</span>
           </button>
         </div>
         <div class="w-8 hidden md:block">

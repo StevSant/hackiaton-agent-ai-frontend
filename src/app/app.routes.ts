@@ -17,6 +17,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@presentation/pages/auth/register').then((m) => m.RegisterPage),
   },
+  // Public home page (no shell), accessible to everyone
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('@presentation/pages/home').then((m) => m.HomePage),
+  },
   {
     path: 'forbidden',
     loadComponent: () =>
@@ -32,7 +38,7 @@ export const routes: Routes = [
       import('@presentation/layouts/shell/shell').then((m) => m.ShellLayout),
     canActivate: [AuthGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'chat' },
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
       // Chat without agent routing
       {
         path: 'chat',

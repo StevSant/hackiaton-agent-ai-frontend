@@ -38,7 +38,7 @@ export class LoginPage {
         email: this.form.value.email!,
         password: this.form.value.password!,
       });
-      this.router.navigateByUrl('/');
+  this.router.navigateByUrl('/home');
     } catch {
       // error state already handled in facade
     }

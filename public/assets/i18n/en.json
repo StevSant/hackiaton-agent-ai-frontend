@@ -37,6 +37,28 @@
     "SENDING_BTN": "Sending...",
     "CANCEL": "Cancel",
     "HINT": "Press Shift + Enter for a new line",
-    "FILES_COUNT": "{{count}} file(s)"
+  "FILES_COUNT": "{{count}} file(s)",
+  "ATTACHMENTS_VIEW": "View attachments",
+  "ATTACHMENTS_TITLE": "Session attachments",
+  "ATTACHMENTS_EMPTY": "No attachments in this session",
+  "ATTACHMENTS_INFO": "Files you've uploaded in this session for the agent to use in its answers."
+  }
+  ,
+  "HOME": {
+    "TITLE": "Intelligent financial risk evaluation for SMEs",
+    "SUBTITLE": "A quick overview with indicators and simulations to speed up credit analysis using alternative data.",
+    "KPI_SPEED": "Process acceleration",
+    "KPI_SPEED_HINT": "Fewer manual steps, more automation",
+    "KPI_APPROVAL": "Smarter approvals",
+    "KPI_APPROVAL_HINT": "Better accuracy for thin-file businesses",
+    "KPI_OBJECTIVITY": "Reduced bias",
+    "KPI_OBJECTIVITY_HINT": "More objective and consistent evaluation",
+    "KPI_TIME": "Average time",
+    "KPI_TIME_HINT": "Per application evaluation",
+    "CARD_SCORING": "Alternative scoring",
+    "CARD_SCORING_DESC": "Consolidate financial data and digital signals to compute risk score",
+    "CARD_SIMULATIONS": "What-if simulations",
+    "CARD_SIMULATIONS_DESC": "Explore scenarios changing sales, reputation, and on-time payments",
+    "CTA_START": "Go to chat"
   }
 }

@@ -1,0 +1,99 @@
+<!-- Public Home page (no shell). Futuristic hero with KPIs and a compact profile menu for theme/background controls. -->
+<div class="min-h-screen overflow-x-hidden relative bg-home">
+  <!-- Top bar with brand and quick actions -->
+  <header class="flex items-center justify-between px-6 py-4">
+    <div class="flex items-center gap-2">
+      <img src="/assets/favicon.ico" alt="Logo" class="w-6 h-6 opacity-80"/>
+      <span class="font-semibold tracking-wide opacity-80">{{ 'SHELL.APP_TITLE' | translate }}</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <a routerLink="/chat" class="btn btn-ghost btn-sm">
+        <mat-icon fontIcon="chat"></mat-icon>
+        <span class="ml-1">{{ 'COMMON.OPEN' | translate }}</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero section -->
+  <section class="px-6 pt-6 pb-2">
+    <h1 class="text-3xl md:text-5xl font-semibold tracking-tight k-gradient-title">
+      {{ 'HOME.TITLE' | translate }}
+    </h1>
+    <p class="mt-3 md:mt-4 max-w-2xl text-sm md:text-base opacity-80">
+      {{ 'HOME.SUBTITLE' | translate }}
+    </p>
+  </section>
+
+  <!-- KPIs / Cards -->
+  <section class="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-4 md:mt-6">
+    <div class="glass-card p-4">
+      <div class="flex items-center justify-between">
+        <span class="text-xs opacity-70">{{ 'HOME.KPI_SPEED' | translate }}</span>
+        <mat-icon fontIcon="bolt" class="opacity-80"></mat-icon>
+      </div>
+      <div class="mt-2 text-2xl font-semibold">~2.4x</div>
+      <div class="text-xs opacity-60">{{ 'HOME.KPI_SPEED_HINT' | translate }}</div>
+    </div>
+    <div class="glass-card p-4">
+      <div class="flex items-center justify-between">
+        <span class="text-xs opacity-70">{{ 'HOME.KPI_APPROVAL' | translate }}</span>
+        <mat-icon fontIcon="thumb_up" class="opacity-80"></mat-icon>
+      </div>
+      <div class="mt-2 text-2xl font-semibold">+18%</div>
+      <div class="text-xs opacity-60">{{ 'HOME.KPI_APPROVAL_HINT' | translate }}</div>
+    </div>
+    <div class="glass-card p-4">
+      <div class="flex items-center justify-between">
+        <span class="text-xs opacity-70">{{ 'HOME.KPI_OBJECTIVITY' | translate }}</span>
+        <mat-icon fontIcon="insights" class="opacity-80"></mat-icon>
+      </div>
+      <div class="mt-2 text-2xl font-semibold">-35%</div>
+      <div class="text-xs opacity-60">{{ 'HOME.KPI_OBJECTIVITY_HINT' | translate }}</div>
+    </div>
+    <div class="glass-card p-4">
+      <div class="flex items-center justify-between">
+        <span class="text-xs opacity-70">{{ 'HOME.KPI_TIME' | translate }}</span>
+        <mat-icon fontIcon="timer" class="opacity-80"></mat-icon>
+      </div>
+      <div class="mt-2 text-2xl font-semibold">~6m</div>
+      <div class="text-xs opacity-60">{{ 'HOME.KPI_TIME_HINT' | translate }}</div>
+    </div>
+  </section>
+
+  <!-- Dashboard preview grid -->
+  <section class="px-6 mt-6 md:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+    <div class="glass-card p-4 lg:col-span-2 min-h-[220px]">
+      <div class="flex items-center justify-between">
+        <h3 class="font-medium">{{ 'HOME.CARD_SCORING' | translate }}</h3>
+        <mat-icon fontIcon="bar_chart"></mat-icon>
+      </div>
+      <div class="mt-3 text-xs opacity-70">
+        {{ 'HOME.CARD_SCORING_DESC' | translate }}
+      </div>
+      <div class="mt-3 h-28 bg-stripes rounded"></div>
+    </div>
+    <div class="glass-card p-4 min-h-[220px]">
+      <div class="flex items-center justify-between">
+        <h3 class="font-medium">{{ 'HOME.CARD_SIMULATIONS' | translate }}</h3>
+        <mat-icon fontIcon="timeline"></mat-icon>
+      </div>
+      <div class="mt-3 text-xs opacity-70">
+        {{ 'HOME.CARD_SIMULATIONS_DESC' | translate }}
+      </div>
+      <div class="mt-3 h-28 bg-grid rounded"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="px-6 mt-8 md:mt-12 pb-10">
+    <a routerLink="/chat" class="btn btn-gradient-blue">
+      <mat-icon fontIcon="chat"></mat-icon>
+      <span class="ml-1">{{ 'HOME.CTA_START' | translate }}</span>
+    </a>
+  </section>
+
+  <!-- Floating compact profile menu for theme/background toggles (no auth info needed) -->
+  <div class="fixed bottom-4 right-4 z-50">
+    <app-profile-menu [compact]="true"></app-profile-menu>
+  </div>
+</div>

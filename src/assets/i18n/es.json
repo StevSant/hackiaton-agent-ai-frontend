@@ -61,7 +61,8 @@
   "FILES_COUNT": "{{count}} archivo(s)",
   "ATTACHMENTS_VIEW": "Ver adjuntos",
   "ATTACHMENTS_TITLE": "Archivos adjuntos de la sesión",
-  "ATTACHMENTS_EMPTY": "No hay archivos adjuntos en esta sesión"
+  "ATTACHMENTS_EMPTY": "No hay archivos adjuntos en esta sesión",
+  "ATTACHMENTS_INFO": "Archivos que has subido en esta sesión para que el agente los use en sus respuestas."
   }
   ,
   "AUDIO": {
@@ -243,5 +244,23 @@
     "MENU": "Menú",
     "TOGGLE_PANEL": "Mostrar/Ocultar panel",
     "APP_TITLE": "Agente IA"
+  }
+  ,
+  "HOME": {
+    "TITLE": "Evaluación inteligente de riesgo financiero para PYMEs",
+    "SUBTITLE": "Una vista general con indicadores y simulaciones para agilizar análisis crediticios con datos alternativos.",
+    "KPI_SPEED": "Agilización del proceso",
+    "KPI_SPEED_HINT": "Menos pasos manuales y más automatización",
+    "KPI_APPROVAL": "Aprobaciones inteligentes",
+    "KPI_APPROVAL_HINT": "Mayor precisión en perfiles sin historial",
+    "KPI_OBJECTIVITY": "Sesgo reducido",
+    "KPI_OBJECTIVITY_HINT": "Evaluación más objetiva y consistente",
+    "KPI_TIME": "Tiempo promedio",
+    "KPI_TIME_HINT": "De evaluación por solicitud",
+    "CARD_SCORING": "Scoring alternativo",
+    "CARD_SCORING_DESC": "Consolidación de datos financieros y señales digitales para puntaje de riesgo",
+    "CARD_SIMULATIONS": "Simulaciones 'qué pasaría si'",
+    "CARD_SIMULATIONS_DESC": "Explora escenarios variando ventas, reputación y pagos a tiempo",
+    "CTA_START": "Ir al chat"
   }
 }

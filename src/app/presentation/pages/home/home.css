@@ -1,0 +1,39 @@
+/* Home page styles: reuse glass and background motifs, but standalone (no Shell). */
+:root {
+  --glass-bg: color-mix(in oklab, var(--surface, rgba(255,255,255,0.5)) 60%, transparent);
+}
+
+.bg-home {
+  position: relative;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px) saturate(120%);
+  border: 1px solid color-mix(in oklab, white 8%, transparent);
+  border-radius: 14px;
+}
+
+.k-gradient-title {
+  background: linear-gradient(90deg, #a78bfa, #22d3ee, #60a5fa);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+.bg-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklab, #7dd3fc 12%, transparent),
+    color-mix(in oklab, #7dd3fc 12%, transparent) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(color-mix(in oklab, #22d3ee 20%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, #a78bfa 20%, transparent) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
