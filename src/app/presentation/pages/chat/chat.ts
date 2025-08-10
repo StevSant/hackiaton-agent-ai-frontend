@@ -139,6 +139,19 @@ export class Chat implements OnDestroy, OnInit {
     // Emitir refresh para que el sidebar cargue sesiones tras F5
     this.defer(() => this.sessionsEvents.triggerRefresh());
 
+    // Listen for header-driven files modal open/close events
+    this.sessionsEvents.onFilesModal().subscribe(({ open, sessionId }) => {
+      if (open) {
+        // Prefer provided id or current selected
+        const sid = sessionId ?? this.selectedSessionId;
+        if (!sid) return;
+        this.selectedSessionId = sid;
+        this.openSessionFiles();
+      } else {
+        this.closeSessionFiles();
+      }
+    });
+
     // React to either /chat/session/:sessionId or legacy query param
     this.route.paramMap.subscribe((p) => {
       const paramSession = p.get('sessionId');

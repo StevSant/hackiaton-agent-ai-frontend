@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class SessionsEventsService {
   private readonly refresh$ = new Subject<void>();
+  private readonly filesModal$ = new Subject<{ open: boolean; sessionId?: string | null }>();
 
   onRefresh() {
     return this.refresh$.asObservable();
@@ -14,5 +15,17 @@ export class SessionsEventsService {
 
   triggerRefresh() {
     this.refresh$.next();
+  }
+
+  onFilesModal() {
+    return this.filesModal$.asObservable();
+  }
+
+  openFilesModal(sessionId?: string | null) {
+    this.filesModal$.next({ open: true, sessionId });
+  }
+
+  closeFilesModal() {
+    this.filesModal$.next({ open: false });
   }
 }

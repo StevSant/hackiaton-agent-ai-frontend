@@ -24,6 +24,8 @@ export class ShellLayout implements OnInit {
   private readonly chatFacade = inject(ChatFacade);
   private readonly bg = inject(BackgroundService);
   private lastFocused: HTMLElement | null = null;
+  // Current session id propagated by chat page via route; optional
+  selectedSessionId: string | null = null;
 
   // Global delete modal state
   pendingDelete?: SessionEntry;
@@ -95,5 +97,10 @@ export class ShellLayout implements OnInit {
       e.preventDefault();
       confirm.focus();
     }
+  }
+
+  // Header button: open files modal via event bus
+  openSessionFilesFromShell() {
+    this.sessionsEvents.openFilesModal(this.selectedSessionId);
   }
 }
