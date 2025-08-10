@@ -17,7 +17,31 @@
     "LANGUAGE": "Idioma",
     "SPANISH": "Español",
   "ENGLISH": "Inglés",
-  "NO_SUMMARY": "Sin resumen disponible"
+  "NO_SUMMARY": "Sin resumen disponible",
+  "PREVIOUS": "Anterior",
+  "NEXT": "Siguiente",
+  "OPEN": "Abrir",
+  "BACK_TO_CHAT": "Volver al Chat",
+  "DASHBOARD": "Panel",
+  "ADMIN": "Admin",
+  "USER": "Usuario",
+  "GUEST": "Invitado",
+  "SEARCH": "Buscar",
+  "FILTER": "Filtrar",
+  "ALL": "Todos",
+  "LIMIT": "Límite",
+  "PAGE": "Página",
+  "OF": "de",
+  "THEME": "Tema",
+  "THEME_LIGHT": "Claro",
+  "THEME_DARK": "Oscuro",
+  "THEME_SYSTEM": "Sistema",
+  "FILES": "Archivos",
+  "MESSAGES": "Mensajes",
+  "USERS": "Usuarios",
+  "COMPANIES": "Compañías",
+  "APP_INFO": "App Info",
+  "RISK_WEIGHTS": "Ponderaciones"
   },
   "CHAT": {
     "TITLE": "Chat con Agente",
@@ -51,5 +75,115 @@
   "ERR_STT_BAD_REQUEST": "Solicitud de transcripción inválida",
   "LANG_LABEL": "Idioma STT",
   "LANG_AUTO": "Automático (navegador)"
+  }
+  ,
+  "ADMIN": {
+    "SIDENAV": {
+      "HEADER": "Administración",
+      "DASHBOARD": "Dashboard",
+      "USERS": "Usuarios",
+      "FILES": "Archivos",
+      "MESSAGES": "Mensajes",
+      "APP_INFO": "App Info",
+      "RISK_WEIGHTS": "Ponderaciones",
+      "COMPANIES": "Empresas"
+    },
+    "DASHBOARD": {
+      "TITLE": "Panel administrativo",
+      "USERS_TITLE": "Usuarios",
+      "USERS_DESC": "Crear y gestionar usuarios",
+      "FILES_TITLE": "Archivos",
+      "FILES_DESC": "Explorar archivos subidos",
+      "MESSAGES_TITLE": "Mensajes",
+      "MESSAGES_DESC": "Ver mensajes por sesión",
+      "APP_INFO_TITLE": "App Info",
+      "APP_INFO_DESC": "Ver y editar información",
+      "RISK_WEIGHTS_TITLE": "Ponderaciones",
+      "RISK_WEIGHTS_DESC": "Configurar pesos",
+      "COMPANIES_TITLE": "Compañías",
+      "COMPANIES_DESC": "Explorar compañías"
+    },
+    "FILES": {
+      "TITLE": "Archivos",
+      "TYPE_ALL": "Todos",
+      "SUBFOLDER": "subcarpeta",
+      "OPEN": "Abrir"
+    },
+    "COMPANIES": {
+      "TITLE": "Compañías",
+      "SEARCH_PLACEHOLDER": "Buscar...",
+      "SEARCH_BUTTON": "Buscar",
+      "LIMIT": "Límite",
+      "COLUMNS": {
+        "TAX_ID": "RUC",
+        "NAME": "Nombre",
+        "SECTOR": "Sector"
+      }
+    },
+    "USERS": {
+      "TITLE": "Usuarios",
+      "SEARCH_LABEL": "Buscar email",
+      "SEARCH_PLACEHOLDER": "email contiene...",
+      "SEARCH_BUTTON": "Buscar",
+      "CREATE": "Crear",
+      "EDIT": "Editar",
+      "SAVE": "Guardar",
+      "CANCEL": "Cancelar",
+      "DELETE": "Eliminar",
+      "ROLE": "Rol",
+      "USERNAME": "Usuario",
+      "EMAIL": "Email",
+      "PASSWORD": "Contraseña",
+      "CREATED": "Creado",
+      "CONFIRM_DELETE": "¿Eliminar usuario {{email}}?",
+      "NEW_PASSWORD_OPTIONAL": "nueva contraseña (opcional)",
+      "USERNAME_PLACEHOLDER": "username",
+      "EMAIL_PLACEHOLDER": "email",
+      "PASSWORD_PLACEHOLDER": "password"
+    },
+    "MESSAGES": {
+      "TITLE": "Mensajes",
+      "SEARCH_PLACEHOLDER": "Buscar",
+      "FILTER": "Filtrar",
+      "SELECT_SESSION": "Selecciona una sesión para ver mensajes",
+      "LOADING_MORE": "Cargando más..."
+    }
+  },
+  "LOGIN": {
+    "TITLE": "Bienvenido",
+    "SUBTITLE": "Ingresa tus credenciales para continuar",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "tucorreo@empresa.com",
+    "EMAIL_INVALID": "Email inválido",
+    "PASSWORD": "Contraseña",
+    "FORGOT": "Olvidé",
+    "SUBMIT": "Entrar",
+    "PROCESSING": "Procesando…",
+    "NO_ACCOUNT": "¿Aún sin cuenta?",
+    "CREATE_ACCOUNT": "Crear cuenta",
+    "HIDE_PASSWORD": "Ocultar contraseña",
+    "SHOW_PASSWORD": "Mostrar contraseña",
+    "MIN_6_CHARS": "Mínimo 6 caracteres"
+  },
+  "REGISTER": {
+    "TITLE": "Crear cuenta",
+    "SUBTITLE": "Completa los campos para comenzar",
+    "USERNAME": "Usuario",
+    "USERNAME_PLACEHOLDER": "Tu nombre de usuario",
+    "USERNAME_ERROR": "Requerido (mínimo 3 caracteres)",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "correo@empresa.com",
+    "EMAIL_INVALID": "Email inválido",
+    "PASSWORD": "Contraseña",
+    "PASSWORD_COMPLEXITY_ERROR": "Mínimo 8 caracteres, 1 mayúscula, 1 minúscula y 1 dígito",
+    "SUBMIT": "Crear cuenta",
+    "PROCESSING": "Procesando…",
+    "HAVE_ACCOUNT": "¿Ya tienes cuenta?",
+    "SIGN_IN": "Iniciar sesión"
+  },
+  "COMPOSER": {
+    "CANCEL": "Cancelar",
+    "UPLOADING": "Subiendo...",
+    "UPLOADING_FILES": "Subiendo archivos..."
   }
 }

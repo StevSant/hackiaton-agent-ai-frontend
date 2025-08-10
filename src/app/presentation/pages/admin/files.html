@@ -1,18 +1,18 @@
 <div class="p-6 space-y-4">
   <div class="flex items-center justify-between gap-3">
-    <h2 class="text-xl font-semibold">Archivos ({{ total() }})</h2>
+    <h2 class="text-xl font-semibold">{{ 'ADMIN.FILES.TITLE' | translate }} ({{ total() }})</h2>
     <div class="flex items-center gap-2">
       <select #t class="select select-bordered select-sm" (change)="onTypeChange(t.value)">
-        <option value="">Todos</option>
+        <option value="">{{ 'ADMIN.FILES.TYPE_ALL' | translate }}</option>
         <option value="image">image</option>
         <option value="pdf">pdf</option>
         <option value="document">document</option>
       </select>
-      <input #sf class="input input-bordered input-sm" [value]="subfolder()" (change)="subfolder.set(sf.value); applyFilters()" placeholder="subfolder" />
+      <input #sf class="input input-bordered input-sm" [value]="subfolder()" (change)="subfolder.set(sf.value); applyFilters()" [placeholder]="'ADMIN.FILES.SUBFOLDER' | translate" />
     </div>
     <div class="flex gap-2">
-      <button class="btn btn-sm" (click)="prev()" [disabled]="offset()<=0">Anterior</button>
-      <button class="btn btn-sm" (click)="next()" [disabled]="offset()+limit()>=total()">Siguiente</button>
+      <button class="btn btn-sm" (click)="prev()" [disabled]="offset()<=0">{{ 'COMMON.PREVIOUS' | translate }}</button>
+      <button class="btn btn-sm" (click)="next()" [disabled]="offset()+limit()>=total()">{{ 'COMMON.NEXT' | translate }}</button>
     </div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -20,7 +20,7 @@
       <div class="p-3 border rounded">
         <div class="font-medium truncate" [title]="f.filename">{{ f.filename }}</div>
         <div class="text-xs opacity-70">{{ f.content_type }} • {{ f.type_file }}</div>
-        <a [href]="f.url" target="_blank" class="text-primary text-sm">Abrir</a>
+  <a [href]="f.url" target="_blank" class="text-primary text-sm">{{ 'COMMON.OPEN' | translate }}</a>
       </div>
     }
   </div>

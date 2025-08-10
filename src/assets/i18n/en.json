@@ -17,7 +17,31 @@
     "LANGUAGE": "Language",
     "SPANISH": "Spanish",
   "ENGLISH": "English",
-  "NO_SUMMARY": "No summary available"
+  "NO_SUMMARY": "No summary available",
+  "PREVIOUS": "Previous",
+  "NEXT": "Next",
+  "OPEN": "Open",
+  "BACK_TO_CHAT": "Back to Chat",
+  "DASHBOARD": "Dashboard",
+  "ADMIN": "Admin",
+  "USER": "User",
+  "GUEST": "Guest",
+  "SEARCH": "Search",
+  "FILTER": "Filter",
+  "ALL": "All",
+  "LIMIT": "Limit",
+  "PAGE": "Page",
+  "OF": "of",
+  "THEME": "Theme",
+  "THEME_LIGHT": "Light",
+  "THEME_DARK": "Dark",
+  "THEME_SYSTEM": "System",
+  "FILES": "Files",
+  "MESSAGES": "Messages",
+  "USERS": "Users",
+  "COMPANIES": "Companies",
+  "APP_INFO": "App Info",
+  "RISK_WEIGHTS": "Risk Weights"
   },
   "CHAT": {
     "TITLE": "Chat with Agent",
@@ -51,5 +75,115 @@
   "ERR_STT_BAD_REQUEST": "Invalid transcription request",
   "LANG_LABEL": "STT language",
   "LANG_AUTO": "Automatic (browser)"
+  }
+  ,
+  "ADMIN": {
+    "SIDENAV": {
+      "HEADER": "Administration",
+      "DASHBOARD": "Dashboard",
+      "USERS": "Users",
+      "FILES": "Files",
+      "MESSAGES": "Messages",
+      "APP_INFO": "App Info",
+      "RISK_WEIGHTS": "Risk Weights",
+      "COMPANIES": "Companies"
+    },
+    "DASHBOARD": {
+      "TITLE": "Admin panel",
+      "USERS_TITLE": "Users",
+      "USERS_DESC": "Create and manage users",
+      "FILES_TITLE": "Files",
+      "FILES_DESC": "Browse uploaded files",
+      "MESSAGES_TITLE": "Messages",
+      "MESSAGES_DESC": "View messages by session",
+      "APP_INFO_TITLE": "App Info",
+      "APP_INFO_DESC": "View and edit information",
+      "RISK_WEIGHTS_TITLE": "Risk Weights",
+      "RISK_WEIGHTS_DESC": "Configure weights",
+      "COMPANIES_TITLE": "Companies",
+      "COMPANIES_DESC": "Explore companies"
+    },
+    "FILES": {
+      "TITLE": "Files",
+      "TYPE_ALL": "All",
+      "SUBFOLDER": "subfolder",
+      "OPEN": "Open"
+    },
+    "COMPANIES": {
+      "TITLE": "Companies",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "SEARCH_BUTTON": "Search",
+      "LIMIT": "Limit",
+      "COLUMNS": {
+        "TAX_ID": "Tax ID",
+        "NAME": "Name",
+        "SECTOR": "Sector"
+      }
+    },
+    "USERS": {
+      "TITLE": "Users",
+      "SEARCH_LABEL": "Search email",
+      "SEARCH_PLACEHOLDER": "email contains...",
+      "SEARCH_BUTTON": "Search",
+      "CREATE": "Create",
+      "EDIT": "Edit",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "DELETE": "Delete",
+      "ROLE": "Role",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "CREATED": "Created",
+      "CONFIRM_DELETE": "Delete user {{email}}?",
+      "NEW_PASSWORD_OPTIONAL": "new password (optional)",
+      "USERNAME_PLACEHOLDER": "username",
+      "EMAIL_PLACEHOLDER": "email",
+      "PASSWORD_PLACEHOLDER": "password"
+    },
+    "MESSAGES": {
+      "TITLE": "Messages",
+      "SEARCH_PLACEHOLDER": "Search",
+      "FILTER": "Filter",
+      "SELECT_SESSION": "Select a session to view messages",
+      "LOADING_MORE": "Loading more..."
+    }
+  },
+  "LOGIN": {
+    "TITLE": "Welcome",
+    "SUBTITLE": "Enter your credentials to continue",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "you@email.com",
+    "EMAIL_INVALID": "Invalid email",
+    "PASSWORD": "Password",
+    "FORGOT": "Forgot",
+    "SUBMIT": "Sign in",
+    "PROCESSING": "Processing…",
+    "NO_ACCOUNT": "No account yet?",
+    "CREATE_ACCOUNT": "Create account",
+    "HIDE_PASSWORD": "Hide password",
+    "SHOW_PASSWORD": "Show password",
+    "MIN_6_CHARS": "Minimum 6 characters"
+  },
+  "REGISTER": {
+    "TITLE": "Create account",
+    "SUBTITLE": "Complete the fields to start",
+    "USERNAME": "Username",
+    "USERNAME_PLACEHOLDER": "Your username",
+    "USERNAME_ERROR": "Required (minimum 3 characters)",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "email@company.com",
+    "EMAIL_INVALID": "Invalid email",
+    "PASSWORD": "Password",
+    "PASSWORD_COMPLEXITY_ERROR": "At least 8 chars, 1 uppercase, 1 lowercase, 1 digit",
+    "SUBMIT": "Create account",
+    "PROCESSING": "Processing…",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "SIGN_IN": "Sign in"
+  },
+  "COMPOSER": {
+    "CANCEL": "Cancel",
+    "UPLOADING": "Uploading...",
+    "UPLOADING_FILES": "Uploading files..."
   }
 }

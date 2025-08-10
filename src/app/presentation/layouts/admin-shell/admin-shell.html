@@ -1,29 +1,29 @@
 <div class="flex min-h-screen">
                 <aside class="w-72 p-4 flex flex-col border-r border-base-300 bg-base-100 relative" (click)="$event.stopPropagation()" (keydown.escape)="profileMenuOpen.set(false)">
                 <div class="flex-1 overflow-y-auto">
-                        <div class="text-sm opacity-70 px-1 mb-2">Administración</div>
+                        <div class="text-sm opacity-70 px-1 mb-2">{{ 'ADMIN.SIDENAV.HEADER' | translate }}</div>
                         <nav class="flex flex-col gap-2">
                                 <a [routerLink]="['/admin']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="dashboard"></mat-icon><span class="ml-2">Dashboard</span></a>
+                                                fontIcon="dashboard"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.DASHBOARD' | translate }}</span></a>
                                 <a [routerLink]="['/admin/users']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="group"></mat-icon><span class="ml-2">Usuarios</span></a>
+                                                fontIcon="group"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.USERS' | translate }}</span></a>
                                 <a [routerLink]="['/admin/files']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="folder"></mat-icon><span class="ml-2">Archivos</span></a>
+                                                fontIcon="folder"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.FILES' | translate }}</span></a>
                                 <a [routerLink]="['/admin/messages']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="sms"></mat-icon><span class="ml-2">Mensajes</span></a>
+                                                fontIcon="sms"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.MESSAGES' | translate }}</span></a>
                                 <a [routerLink]="['/admin/app-info']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="info"></mat-icon><span class="ml-2">App Info</span></a>
+                                                fontIcon="info"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.APP_INFO' | translate }}</span></a>
                                 <a [routerLink]="['/admin/risk-weights']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="science"></mat-icon><span class="ml-2">Ponderaciones</span></a>
+                                                fontIcon="science"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.RISK_WEIGHTS' | translate }}</span></a>
                                 <a [routerLink]="['/admin/companies']" class="btn btn-ghost btn-sm justify-start"><mat-icon
-                                                fontIcon="business"></mat-icon><span class="ml-2">Empresas</span></a>
+                                                fontIcon="business"></mat-icon><span class="ml-2">{{ 'ADMIN.SIDENAV.COMPANIES' | translate }}</span></a>
                         </nav>
                 </div>
 
                 <!-- Footer: Back to Chat and profile block -->
                 <div class="pt-3 border-t border-base-200 space-y-2">
                         <a routerLink="/chat" class="btn btn-primary w-full"><mat-icon fontIcon="home"></mat-icon><span
-                                        class="ml-2">Volver al Chat</span></a>
+                                        class="ml-2">{{ 'COMMON.BACK_TO_CHAT' | translate }}</span></a>
 
                         <div class="text-xs">
                                 <button class="flex items-center gap-2 w-full text-left px-2 py-1 rounded-lg hover:bg-base-200"
@@ -32,11 +32,11 @@
                                                 {{ (profileEmail() || '?')!.charAt(0).toUpperCase() }}
                                         </div>
                                         <div class="leading-tight">
-                                                <div class="font-medium text-base-content/90 truncate max-w-[9rem]">{{ profileEmail() || 'Invitado' }}</div>
+                                                <div class="font-medium text-base-content/90 truncate max-w-[9rem]">{{ profileEmail() || ('COMMON.GUEST' | translate) }}</div>
                                                 @if (isAuthenticated()) {
                                                 <div class="opacity-70">
                                                         <span class="badge badge-outline" [ngClass]="{'badge-primary': profileRole() === 'admin'}">
-                                                                {{ profileRole() === 'admin' ? 'Admin' : 'Usuario' }}
+                                                                {{ profileRole() === 'admin' ? ('COMMON.ADMIN' | translate) : ('COMMON.USER' | translate) }}
                                                         </span>
                                                 </div>
                                                 }
