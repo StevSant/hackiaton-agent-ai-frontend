@@ -143,13 +143,13 @@ body::after {
 
 /* Elevated glassmorphism for app surfaces */
 .glass-surface {
-  background-color: hsl(var(--card) / 0.65);
+  background-color: hsl(var(--card) / 0.72);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid hsl(var(--border) / 0.5);
   box-shadow:
     0 10px 30px hsl(var(--brand-primary) / 0.10),
-    inset 0 1px 0 hsl(0 0% 100% / 0.06);
+    inset 0 1px 0 hsl(0 0% 100% / 0.08);
 }
 
 /* Subtle neon glow accents on interactive elements */
@@ -239,9 +239,43 @@ html::-webkit-scrollbar-thumb:hover { filter: brightness(1.1); }
 }
 
 /* Minimal background utility shims used in templates */
-.bg-secondary { background-color: hsl(var(--secondary)) !important; }
+.bg-secondary { background-color: hsl(var(--secondary)) !important; color: hsl(var(--secondary-foreground)); }
 .bg-success { background-color: hsl(var(--success)) !important; }
 .bg-warning { background-color: hsl(var(--warning)) !important; }
 .bg-info { background-color: hsl(var(--info)) !important; }
 .bg-error { background-color: hsl(var(--destructive)) !important; }
 .bg-base-300 { background-color: hsl(var(--secondary)) !important; }
+/* Secondary background shim */
+
+/* Lighter surface variant: keep blur and subtle border, no strong fill */
+.surface-blur {
+  background-color: hsl(var(--card) / 0.35);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid hsl(var(--border) / 0.45);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.05);
+}
+
+/* Clear blur: no fill, only blur and subtle border */
+.surface-clear {
+  background-color: transparent;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid hsl(var(--border) / 0.45);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07);
+}
+
+/* Light theme: make glass more visible with a faint fill and stronger blur */
+body:not(.dark) .surface-clear {
+  background-color: hsl(var(--background) / 0.28);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-color: hsl(var(--border) / 0.55);
+}
+body:not(.dark) .glass-surface {
+  background-color: hsl(var(--card) / 0.78);
+  border-color: hsl(var(--border) / 0.55);
+  box-shadow:
+    0 14px 34px hsl(var(--brand-primary) / 0.12),
+    inset 0 1px 0 hsl(0 0% 100% / 0.10);
+}

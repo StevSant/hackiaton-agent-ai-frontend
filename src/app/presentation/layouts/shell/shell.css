@@ -40,19 +40,20 @@
 /* Frosted surfaces */
 .sidebar-surface{
 	height:100vh;
-	/* Theme-aware translucent background using app tokens */
-	background-color: hsl(var(--card) / 0.80);
+	/* Blur-only: transparent to let global background show through */
+	background-color: transparent;
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	border-right: 1px solid hsl(var(--border) / 0.5);
 }
 .overlay-backdrop{
-	background-color: hsl(var(--card) / 0.45);
-	backdrop-filter: blur(3px);
-	-webkit-backdrop-filter: blur(3px);
+	background-color: hsl(var(--background) / 0.35);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
 }
 .topbar-surface{
-	background-color: hsl(var(--card) / 0.75);
+	/* Blur-only: transparent to let global background show through */
+	background-color: transparent;
 	backdrop-filter: blur(8px);
 	-webkit-backdrop-filter: blur(8px);
 	border-bottom: 1px solid hsl(var(--border) / 0.5);

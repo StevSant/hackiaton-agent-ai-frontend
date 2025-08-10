@@ -1,4 +1,4 @@
-<aside class="h-screen w-72 p-4 flex flex-col border-r sticky top-0 glass-surface">
+<aside class="h-screen w-72 p-4 flex flex-col border-r sticky top-0">
     <div class="flex flex-col h-full gap-3">
         <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2">
@@ -21,27 +21,30 @@
             <mat-icon>edit_square</mat-icon> {{ 'COMMON.NEW_CHAT' | translate }}
         </button>
 
-    <div class="flex-1 overflow-y-auto" #scrollContainer>
+        <div class="flex-1 overflow-y-auto" #scrollContainer>
             <div class="text-sm opacity-70 px-2 mb-2">{{ 'COMMON.HISTORY' | translate }}</div>
             <ng-container>
-        <div *ngIf="isLoading" class="px-2 py-2">
+                <div *ngIf="isLoading" class="px-2 py-2">
                     <div class="space-y-2">
-            <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
-            <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
-            <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
-            <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
+                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
+                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
+                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
+                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
                     </div>
                 </div>
                 <div *ngIf="!isLoading && sessions.length === 0" class="px-2 py-2 text-xs opacity-60">{{
                     'COMMON.NO_SESSIONS' | translate }}</div>
                 <ul class="space-y-2">
-                    <li *ngFor="let s of sessions; trackBy: trackBySessionId" class="group border border-white/10 rounded-md hover:bg-white/5">
+                    <li *ngFor="let s of sessions; trackBy: trackBySessionId"
+                        class="group border border-white/10 rounded-md hover:bg-white/5">
                         <div class="grid grid-cols-[1fr_auto] items-center px-2 py-2 gap-2">
                             <button class="text-left flex-1 min-w-0" (click)="openSession(s)">
                                 <div class="text-sm font-medium min-w-0">
                                     <div class="marquee max-w-36">
-                                        <span class="marquee__content">{{ s.title || ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6)) }}</span>
-                                        <span class="marquee__content" aria-hidden="true">{{ s.title || ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6)) }}</span>
+                                        <span class="marquee__content">{{ s.title || ((('CHAT.SESSION' | translate) + '
+                                            ') + s.session_id.slice(0,6)) }}</span>
+                                        <span class="marquee__content" aria-hidden="true">{{ s.title ||
+                                            ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6)) }}</span>
                                     </div>
                                 </div>
                             </button>
@@ -61,7 +64,7 @@
         </div>
 
         <!-- Footer: reusable profile menu + admin entry button -->
-    <div class="mt-3 pt-3 border-t" style="border-color:hsl(var(--border))">
+        <div class="mt-3 pt-3 border-t" style="border-color:hsl(var(--border))">
             <app-profile-menu (closed)="closed.emit()">
                 <button *ngIf="profileRole() === 'admin'" [routerLink]="['/admin']"
                     class="ml-auto flex items-center gap-2 rounded-lg bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all cursor-pointer py-1.5 px-3 text-white font-semibold">
@@ -74,7 +77,8 @@
     </div>
 
     <!-- Delete confirmation modal -->
-    <div class="modal modal-open" *ngIf="confirmOpen()" (click)="cancelDelete()" (keydown.escape)="cancelDelete()" (keydown.enter)="cancelDelete()">
+    <div class="modal modal-open" *ngIf="confirmOpen()" (click)="cancelDelete()" (keydown.escape)="cancelDelete()"
+        (keydown.enter)="cancelDelete()">
         <div class="modal-box" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
             <h3 class="font-bold text-lg">{{ 'SIDEBAR.DELETE_TITLE' | translate }}</h3>
             <p class="py-2">{{ 'SIDEBAR.DELETE_TEXT' | translate }}</p>

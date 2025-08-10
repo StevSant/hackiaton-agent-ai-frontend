@@ -6,7 +6,7 @@
       <button class="btn btn-primary" (click)="analyzeText()" [disabled]="loading() || !inputText().trim()">{{ 'RISK.ANALYZE' | translate }}</button>
     </div>
   @if (resultText()) {
-  <pre class="glass-surface p-3 rounded text-xs overflow-auto">{{ resultText() | json }}</pre>
+  <pre class="surface-blur p-3 rounded text-xs overflow-auto">{{ resultText() | json }}</pre>
   }
   </section>
 
@@ -14,7 +14,7 @@
     <h2 class="text-xl font-semibold">{{ 'RISK.TITLE_PDF' | translate }}</h2>
   <input type="file" accept="application/pdf" class="file-input file-input-bordered" (change)="analyzePdf($event)" />
   @if (resultPdf()) {
-  <pre class="glass-surface p-3 rounded text-xs overflow-auto">{{ resultPdf() | json }}</pre>
+  <pre class="surface-blur p-3 rounded text-xs overflow-auto">{{ resultPdf() | json }}</pre>
   }
   </section>
 
