@@ -2,14 +2,12 @@ import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetec
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import type { SessionEntry, ChatEntry } from '@core/models/playground-models';
+import type { SessionEntry, ChatEntry } from '@core/models';
 import { SESSIONS_PORT } from '@core/tokens';
-import type { SessionsPort } from '@core/ports/sessions.port';
-import { ListSessionsUseCase } from '@core/use-cases/list-sessions.usecase';
-import { GetSessionUseCase } from '@core/use-cases/get-session.usecase';
-import { DeleteSessionUseCase } from '@core/use-cases/delete-session.usecase';
+import type { SessionsPort } from '@core/ports';
+import { ListSessionsUseCase, GetSessionUseCase, DeleteSessionUseCase } from '@core/use-cases';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
-import { GetProfileUseCase } from '@core/use-cases/auth/get-profile.usecase';
+import { GetProfileUseCase } from '@core/use-cases';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
 import { LanguageService } from '@infrastructure/services/language.service';
 import { ThemeService } from '@infrastructure/services/theme.service';
@@ -107,15 +105,15 @@ export class SidebarComponent {
   }
 
   openSession(session: SessionEntry) {
-  this.router.navigate(['/chat', 'session', session.session_id]).then(() => {
+    this.router.navigate(['/chat', 'session', session.session_id]).then(() => {
       // tras navegar, refrescar lista para reflejar títulos/orden si el backend los cambia
-  setTimeout(() => this.tryLoad());
+      setTimeout(() => this.tryLoad());
     });
   }
 
   newChat() {
-  this.router.navigate(['/chat']).then(() => {
-  setTimeout(() => this.tryLoad());
+    this.router.navigate(['/chat']).then(() => {
+      setTimeout(() => this.tryLoad());
     });
   }
 

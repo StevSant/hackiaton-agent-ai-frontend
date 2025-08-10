@@ -4,7 +4,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
-import { GetProfileUseCase } from '@core/use-cases/auth/get-profile.usecase';
+import { GetProfileUseCase } from '@core/use-cases';
 import { LanguageService } from '@infrastructure/services/language.service';
 import { ThemeService } from '@infrastructure/services/theme.service';
 

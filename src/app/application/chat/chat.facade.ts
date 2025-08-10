@@ -1,15 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
-import type { StreamResponseModel } from '@core/models/stream';
-import type { SessionEntry } from '@core/models/playground-models';
-import type { UploadedFileMeta } from '@core/ports/files.port';
+import type { StreamResponseModel, SessionEntry } from '@core/models';
+import type { UploadedFileMeta, ChatStreamPort, SessionsPort } from '@core/ports';
 import { CHAT_STREAM_PORT, SESSIONS_PORT } from '@core/tokens';
-import type { ChatStreamPort } from '@core/ports/chat-stream.port';
-import type { SessionsPort } from '@core/ports/sessions.port';
-import { SendMessageUseCase } from '@core/use-cases/send-message.usecase';
-import { ListSessionsUseCase } from '@core/use-cases/list-sessions.usecase';
-import { GetSessionUseCase } from '@core/use-cases/get-session.usecase';
-import { UploadFileUseCase } from '@core/use-cases/files/upload-file.usecase';
+import { SendMessageUseCase, ListSessionsUseCase, GetSessionUseCase, UploadFileUseCase } from '@core/use-cases';
 
 @Injectable({ providedIn: 'root' })
 export class ChatFacade {
