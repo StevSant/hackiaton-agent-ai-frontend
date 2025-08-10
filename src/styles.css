@@ -110,6 +110,12 @@ body::before {
   animation: bg-pan 24s ease-in-out infinite alternate;
 }
 
+/* In light mode, slightly soften the background so glass surfaces pop more */
+body:not(.dark)::before {
+  /* reduce vibrancy/contrast a touch for better separation with glass cards */
+  filter: saturate(0.98) contrast(0.98) brightness(0.98);
+}
+
 /* Subtle film grain for depth; very low alpha for crisp UI */
 body::after {
   content: "";
@@ -317,10 +323,10 @@ html::-webkit-scrollbar-thumb:hover { filter: brightness(1.1); }
 
 /* Light theme: make glass more visible with a faint fill and stronger blur */
 body:not(.dark) .surface-clear {
-  background-color: hsl(var(--background) / 0.32);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  border-color: hsl(var(--border) / 0.6);
+  background-color: hsl(var(--background) / 0.42);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-color: hsl(var(--border) / 0.7);
 }
 body:not(.dark) .glass-surface {
   background-color: hsl(var(--card) / 0.78);
@@ -328,6 +334,19 @@ body:not(.dark) .glass-surface {
   box-shadow:
     0 14px 34px hsl(var(--brand-primary) / 0.12),
     inset 0 1px 0 hsl(0 0% 100% / 0.10);
+}
+
+/* Light theme: stronger glass card for readability on bright backgrounds */
+body:not(.dark) .glass-card {
+  background: hsl(var(--card) / 0.88);
+  -webkit-backdrop-filter: blur(18px) saturate(110%);
+  backdrop-filter: blur(18px) saturate(110%);
+  border-color: hsl(var(--border) / 0.72);
+  /* a bit more depth than default to detach from the vibrant background */
+  box-shadow:
+    0 12px 30px hsl(var(--brand-primary) / 0.14),
+    0 2px 8px hsl(0 0% 0% / 0.06),
+    inset 0 1px 0 hsl(0 0% 100% / 0.22);
 }
 
 /* Global modal styles (glass, centered, smooth transitions) */
@@ -401,10 +420,10 @@ body.palette-cyber {
 
 /* Shared glass card shell used across admin pages */
 .glass-card {
-  background: hsl(var(--card) / 0.72);
+  background: hsl(var(--card) / 0.76);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  border: 1px solid hsl(var(--border) / 0.55);
+  border: 1px solid hsl(var(--border) / 0.6);
   border-radius: 14px;
   box-shadow: 0 10px 28px hsl(var(--brand-primary) / 0.12), inset 0 1px 0 hsl(0 0% 100% / 0.06);
 }

@@ -1,6 +1,6 @@
 /* Home page styles: reuse glass and background motifs, but standalone (no Shell). */
 :root {
-  --glass-bg: color-mix(in oklab, var(--surface, rgba(255,255,255,0.5)) 60%, transparent);
+  --glass-bg: color-mix(in oklab, var(--surface, rgba(255,255,255,0.6)) 70%, transparent);
 }
 
 .bg-home {
@@ -9,7 +9,7 @@
 
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(14px) saturate(120%);
   border: 1px solid color-mix(in oklab, white 8%, transparent);
   border-radius: 14px;
 }
