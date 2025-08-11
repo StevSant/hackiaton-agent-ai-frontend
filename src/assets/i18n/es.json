@@ -138,7 +138,12 @@
         "TAX_ID": "RUC",
         "NAME": "Nombre",
         "SECTOR": "Sector"
-      }
+  },
+  "OPEN_DASHBOARD": "Abrir dashboard",
+  "DASHBOARD_TITLE": "Dashboard de la compañía",
+  "METRICS": "Métricas",
+  "SIGNALS": "Señales",
+  "LLM_INSIGHTS": "Insights del LLM"
     },
     "USERS": {
       "TITLE": "Usuarios",

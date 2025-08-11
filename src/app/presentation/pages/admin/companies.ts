@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 // Using facade types; no direct item type import needed here
 import { AdminCompaniesFacade } from '@app/application/admin/admin-companies.facade';
+import { AdminStatsFacade } from '@app/application/admin/admin-stats.facade';
 
 @Component({
   selector: 'app-admin-companies',
@@ -15,6 +16,7 @@ import { AdminCompaniesFacade } from '@app/application/admin/admin-companies.fac
 export class AdminCompaniesPage {
   private readonly facade = inject(AdminCompaniesFacade);
   private readonly fb = inject(FormBuilder);
+  private readonly stats = inject(AdminStatsFacade);
 
   items = this.facade.items;
   // UI-only filters derived from current items
@@ -38,6 +40,17 @@ export class AdminCompaniesPage {
   error = this.facade.error;
   loading = this.facade.loading;
   form = this.fb.group({ search: [''] });
+
+  // Dashboard state
+  readonly selectedTaxId = signal<string | null>(null);
+  readonly company = this.stats.company;
+  readonly companyLoading = this.stats.companyLoading;
+  readonly companyError = this.stats.companyError;
+  readonly isDashboardOpen = computed(() => !!this.selectedTaxId());
+  readonly metricKeys = computed(() => {
+    const m = this.company()?.metrics || null;
+    return m ? Object.keys(m) : [];
+  });
 
   async ngOnInit() { await this.refresh(); }
 
@@ -63,5 +76,18 @@ export class AdminCompaniesPage {
         await navigator.clipboard.writeText(taxId);
       }
     } catch { /* noop */ }
+  }
+
+  async openDashboard(taxId: string) {
+    if (!taxId) return;
+    this.selectedTaxId.set(taxId);
+    await this.stats.loadCompany(taxId);
+  }
+
+  closeDashboard() {
+    this.selectedTaxId.set(null);
+    // Clear current company data to avoid stale display next time
+    this.stats.company.set(null);
+    this.stats.companyError.set(null);
   }
 }

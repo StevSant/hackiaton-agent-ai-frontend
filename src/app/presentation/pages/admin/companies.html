@@ -41,6 +41,7 @@
               <span *ngIf="sortBy()==='sector'">{{ sortOrder()==='asc' ? '▲' : '▼' }}</span>
             </button>
           </th>
+          <th class="text-right">{{ 'COMMON.DASHBOARD' | translate }}</th>
         </tr>
       </thead>
       <tbody class="page-stagger">
@@ -54,6 +55,9 @@
             <td>
               @if (c.sector) { <span class="badge badge-ghost badge-xs">{{ c.sector }}</span> } @else { - }
             </td>
+            <td class="text-right">
+              <button class="btn btn-outline btn-xs" (click)="openDashboard(c.tax_id)">{{ 'ADMIN.COMPANIES.OPEN_DASHBOARD' | translate }}</button>
+            </td>
           </tr>
         }
       </tbody>
@@ -65,4 +69,74 @@
   <span class="text-sm opacity-60">• {{ items().length || 0 }} / {{ total() || '∞' }}</span>
   <button class="btn btn-sm" (click)="nextPage()" [disabled]="(page()*limit()) >= total()">{{ 'COMMON.NEXT' | translate }}</button>
   </div>
+
+  <!-- Inline modal for company dashboard -->
+  @if (isDashboardOpen()) {
+    <dialog class="modal modal-open" (cancel)="closeDashboard()" (click)="closeDashboard()" (keydown.escape)="closeDashboard()">
+      <div class="modal-box glass-card w-full max-w-3xl max-h-[80vh] overflow-auto relative" (click)="$event.stopPropagation()" (keydown.escape)="closeDashboard()">
+        <div class="flex items-center justify-between gap-2 sticky top-0 bg-base-100/80 backdrop-blur p-3 border-b">
+          <h3 class="text-lg font-semibold">{{ 'ADMIN.COMPANIES.DASHBOARD_TITLE' | translate }} — {{ selectedTaxId() }}</h3>
+          <button class="btn btn-ghost btn-sm" (click)="closeDashboard()">✕</button>
+        </div>
+        <div class="p-4 space-y-3">
+          @if (companyLoading()) {
+            <div class="skeleton h-6 w-32"></div>
+            <div class="skeleton h-4 w-full"></div>
+            <div class="skeleton h-4 w-2/3"></div>
+          } @else if (companyError()) {
+            <div class="alert alert-error">{{ companyError() }}</div>
+          } @else if (company()) {
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.TAX_ID' | translate }}</div>
+                <div class="font-mono">{{ company()!.tax_id }}</div>
+              </div>
+              <div>
+                <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.NAME' | translate }}</div>
+                <div>{{ company()!.name || '-' }}</div>
+              </div>
+              <div>
+                <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.SECTOR' | translate }}</div>
+                <div>{{ company()!.sector || '-' }}</div>
+              </div>
+            </div>
+            @if (company()!.overview) {
+              <div class="prose max-w-none"><p>{{ company()!.overview }}</p></div>
+            }
+            @if (company()!.metrics) {
+              <div>
+                <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.METRICS' | translate }}</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  @for (k of metricKeys(); track k) {
+                    <div class="stat p-2 rounded border">
+                      <div class="stat-title text-xs">{{ k }}</div>
+                      <div class="stat-value text-sm">{{ company()!.metrics![k] }}</div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+            @if (company()!.signals?.length) {
+              <div>
+                <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.SIGNALS' | translate }}</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                  @for (s of company()!.signals!; track s.key) {
+                    <li><span class="font-mono">{{ s.key }}:</span> {{ s.value }}</li>
+                  }
+                </ul>
+              </div>
+            }
+            @if (company()!.llm_insights) {
+              <div>
+                <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.LLM_INSIGHTS' | translate }}</h4>
+                <pre class="whitespace-pre-wrap text-xs bg-base-200 p-2 rounded">{{ company()!.llm_insights | json }}</pre>
+              </div>
+            }
+          } @else {
+            <div class="opacity-70">{{ 'COMMON.NO_SUMMARY' | translate }}</div>
+          }
+        </div>
+      </div>
+    </dialog>
+  }
 </div>

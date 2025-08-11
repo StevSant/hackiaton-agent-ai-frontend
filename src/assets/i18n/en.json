@@ -136,7 +136,12 @@
         "TAX_ID": "Tax ID",
         "NAME": "Name",
         "SECTOR": "Sector"
-      }
+  },
+  "OPEN_DASHBOARD": "Open dashboard",
+  "DASHBOARD_TITLE": "Company dashboard",
+  "METRICS": "Metrics",
+  "SIGNALS": "Signals",
+  "LLM_INSIGHTS": "LLM insights"
     },
     "USERS": {
       "TITLE": "Users",

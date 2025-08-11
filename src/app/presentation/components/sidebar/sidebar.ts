@@ -69,10 +69,14 @@ export class SidebarComponent {
   // Helpers to sanitize and sort sessions
   sanitizeTitle(title?: string | null): string {
     const t = title || '';
-    // Remove <think> blocks even if the closing tag is missing (truncate to end)
+    // Strip <think> tags but keep inner text (even if closing tag is missing)
+    // Examples:
+    //   "<think>My title</think>" -> "My title"
+    //   "<think>\nShort title i" (no closing) -> "Short title i"
+    //   "Hello <think>note</think> world" -> "Hello note world"
     return t
-      .replace(/<think[^>]*>[\s\S]*?(?:<\/think>|$)/gi, '')
       .replace(/<\/?think[^>]*>/gi, '')
+      .replace(/[\s\u00A0]+/g, ' ') // collapse whitespace
       .trim();
   }
   private tsOf(s: SessionEntry): number {
