@@ -1,50 +1,51 @@
 <div class="p-6 space-y-6 vt-page">
   <h1
-    class="text-2xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
+    class="text-2xl font-bold sticky top-0 z-20"
   >
     {{ "ADMIN.DASHBOARD.TITLE" | translate }}
   </h1>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start justify-between">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1 min-w-64">
-      <div class="rounded-xl shadow-md metric-card p-6 flex flex-col items-center transition hover:scale-[1.03] hover:shadow-lg border border-transparent hover:border-primary duration-200">
-        <span class="text-xs font-medium text-muted-foreground mb-1">{{ "ADMIN.DASHBOARD.CARD_USERS" | translate }}</span>
-        <span class="text-3xl font-bold">{{ totals()["users"] || 0 }}</span>
+  <div class="flex flex-col lg:flex-row gap-6 items-start justify-between">
+    <div class="metrics-grid flex-1 min-w-0">
+      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+        <div class="metric-icon">👥</div>
+        <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_USERS" | translate }}</span>
+        <span class="metric-value">{{ totals()["users"] || 0 }}</span>
       </div>
-      <div class="rounded-xl shadow-md metric-card p-6 flex flex-col items-center transition hover:scale-[1.03] hover:shadow-lg border border-transparent hover:border-primary duration-200">
-        <span class="text-xs font-medium text-muted-foreground mb-1">{{ "ADMIN.DASHBOARD.CARD_SESSIONS" | translate }}</span>
-        <span class="text-3xl font-bold">{{ totals()["sessions"] || 0 }}</span>
+      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+        <div class="metric-icon">💬</div>
+        <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_SESSIONS" | translate }}</span>
+        <span class="metric-value">{{ totals()["sessions"] || 0 }}</span>
       </div>
-      <div class="rounded-xl shadow-md metric-card p-6 flex flex-col items-center transition hover:scale-[1.03] hover:shadow-lg border border-transparent hover:border-primary duration-200">
-        <span class="text-xs font-medium text-muted-foreground mb-1">{{ "ADMIN.DASHBOARD.CARD_MESSAGES" | translate }}</span>
-        <span class="text-3xl font-bold">{{ totals()["messages"] || 0 }}</span>
+      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+        <div class="metric-icon">📨</div>
+        <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_MESSAGES" | translate }}</span>
+        <span class="metric-value">{{ totals()["messages"] || 0 }}</span>
       </div>
-      <div class="rounded-xl shadow-md metric-card p-6 flex flex-col items-center transition hover:scale-[1.03] hover:shadow-lg border border-transparent hover:border-primary duration-200">
-        <span class="text-xs font-medium text-muted-foreground mb-1">{{ "ADMIN.DASHBOARD.CARD_FILES" | translate }}</span>
-        <span class="text-3xl font-bold">{{ totals()["files"] || 0 }}</span>
+      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+        <div class="metric-icon">📁</div>
+        <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_FILES" | translate }}</span>
+        <span class="metric-value">{{ totals()["files"] || 0 }}</span>
       </div>
     </div>
-    <div class="flex flex-row gap-2 bg-card/80 dark:bg-card/60 rounded-xl shadow-md p-2 mt-4 md:mt-0">
+    <div class="time-filter-container">
       <button
-        class="btn px-4 py-1 rounded-lg font-semibold transition hover:bg-primary/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-        [class.bg-primary]="days() === 7"
-        [class.text-white]="days() === 7"
+        class="time-filter-btn"
+        [class.active]="days() === 7"
         (click)="setDays(7)"
       >
         7d
       </button>
       <button
-        class="btn px-4 py-1 rounded-lg font-semibold transition hover:bg-primary/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-        [class.bg-primary]="days() === 30"
-        [class.text-white]="days() === 30"
+        class="time-filter-btn"
+        [class.active]="days() === 30"
         (click)="setDays(30)"
       >
         30d
       </button>
       <button
-        class="btn px-4 py-1 rounded-lg font-semibold transition hover:bg-primary/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-        [class.bg-primary]="days() === 90"
-        [class.text-white]="days() === 90"
+        class="time-filter-btn"
+        [class.active]="days() === 90"
         (click)="setDays(90)"
       >
         90d
@@ -52,43 +53,45 @@
     </div>
   </div>
 
-  <div class="modern-card p-4">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div class="lg:col-span-2 h-64">
-        <div class="font-medium mb-2">
+  <div class="modern-card p-6">
+    <div class="charts-grid">
+      <div class="chart-container">
+        <div class="chart-title">
           {{ "ADMIN.DASHBOARD.ACTIVITY_30D" | translate }}
         </div>
         @if (isBrowser()) {
           <canvas #activityCanvas class="block h-full w-full"></canvas>
         } @else {
-          <div class="text-sm opacity-70">SSR</div>
+          <div class="chart-loading">
+            <div class="loading-spinner"></div>
+          </div>
         }
       </div>
-      <div class="h-64">
-        <div class="font-medium mb-2">
+      <div class="chart-container">
+        <div class="chart-title">
           {{ "ADMIN.DASHBOARD.FILES_BY_TYPE" | translate }}
         </div>
         @if (isBrowser()) {
           <canvas #filesCanvas class="block h-full w-full"></canvas>
         } @else {
-          <div class="text-sm opacity-70">SSR</div>
+          <div class="chart-loading">
+            <div class="loading-spinner"></div>
+          </div>
         }
       </div>
     </div>
   </div>
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 page-stagger"
-  >
+  <div class="nav-grid page-stagger">
     @for (s of sections; track s.route) {
       <a
         [routerLink]="[s.route]"
-  class="block p-4 rounded-lg nav-card transition"
+        class="nav-card p-6"
       >
-        <div class="flex items-center gap-3">
+        <div class="nav-card-content">
           <mat-icon>{{ s.icon }}</mat-icon>
           <div>
-            <div class="font-medium">{{ s.title | translate }}</div>
-            <div class="text-sm opacity-70">{{ s.desc | translate }}</div>
+            <div class="nav-card-title">{{ s.title | translate }}</div>
+            <div class="nav-card-desc">{{ s.desc | translate }}</div>
           </div>
         </div>
       </a>
