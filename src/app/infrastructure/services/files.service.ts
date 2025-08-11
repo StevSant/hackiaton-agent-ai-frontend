@@ -49,9 +49,16 @@ export class FilesService {
 
   async list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; page?: number; limit?: number; offset?: number }): Promise<Paginated<UploadedFileMeta>> {
     const url = `${this.base}/files/`;
-    const data = await firstValueFrom(this.http.get<any>(url, { params: (params as any) || {} }));
+  // Build clean query params (avoid sending undefined) and map offset->page for backend
+  const qp: any = {};
+  if (params?.type_file) qp.type_file = params.type_file;
+  if (params?.subfolder) qp.subfolder = params.subfolder;
+  if (typeof params?.limit === 'number') qp.limit = params.limit;
+  const page = params?.page ?? (params?.offset != null && params?.limit ? Math.floor(params.offset / params.limit) + 1 : 1);
+  qp.page = page;
+  const data = await firstValueFrom(this.http.get<any>(url, { params: qp }));
     // Normalize to Paginated using helper
-    const pageParams = { page: params?.page ?? (params?.offset && params?.limit ? Math.floor(params.offset / params.limit) + 1 : 1), limit: params?.limit };
+  const pageParams = { page, limit: params?.limit };
     return mapToPaginated<UploadedFileMeta>(data, pageParams);
   }
 

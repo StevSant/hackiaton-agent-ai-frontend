@@ -16,6 +16,7 @@ export class AdminMessagesPage {
 
   sessions = this.facade.sessions;
   selected = this.facade.selected;
+  getCachedUserLabel = this.facade.getCachedUserLabel.bind(this.facade);
   selectedOwnerId = computed(() => {
     const id = this.selected();
     if (!id) return null;
@@ -35,6 +36,15 @@ export class AdminMessagesPage {
   async ngOnInit() { await this.facade.loadSessions(); }
 
   async open(sessionId: string) { await this.facade.open(sessionId); }
+
+  // Resolve user details for display (email/name) with caching
+  async userLabel(userId: string | null | undefined): Promise<string> {
+    if (!userId) return '';
+    const u = await this.facade.resolveUser(userId);
+    if (!u) return userId;
+    if (u.username && u.email) return `${u.username} <${u.email}>`;
+    return u.email || u.username || userId;
+  }
 
   // sessions controls
   async nextSessionsPage() { await this.facade.nextSessionsPage(); }

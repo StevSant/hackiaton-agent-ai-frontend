@@ -1,11 +1,13 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { AdminListSessionsUseCase, AdminListMessagesUseCase } from '@core/use-cases';
-import type { AdminSessionItem, AdminMessageItem } from '@core/ports';
+import type { AdminSessionItem, AdminMessageItem, AdminUsersPort, AdminUserItem } from '@core/ports';
+import { ADMIN_USERS_PORT } from '@core/tokens';
 
 @Injectable({ providedIn: 'root' })
 export class AdminMessagesFacade {
   private readonly listSessionsUC = inject(AdminListSessionsUseCase);
   private readonly listMessagesUC = inject(AdminListMessagesUseCase);
+  private readonly usersPort = inject<AdminUsersPort>(ADMIN_USERS_PORT);
 
   readonly sessions = signal<AdminSessionItem[]>([]);
   readonly selected = signal<string | null>(null);
@@ -20,8 +22,32 @@ export class AdminMessagesFacade {
   readonly sortBy = signal<'updated_at'|'title'|''>('');
   readonly sortOrder = signal<'asc'|'desc'>('desc');
   readonly msgPage = signal(1);
-  readonly msgLimit = signal(50);
+  readonly msgLimit = signal(10);
   readonly msgTotal = signal(0);
+
+  // cache user details to avoid repeated calls
+  private readonly userCache = new Map<string, AdminUserItem>();
+
+  async resolveUser(userId: string | null | undefined): Promise<AdminUserItem | null> {
+    if (!userId) return null;
+    const cached = this.userCache.get(userId);
+    if (cached) return cached;
+    try {
+      const u = await this.usersPort.get(userId);
+      if (u) this.userCache.set(userId, u);
+      return u ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  getCachedUserLabel(userId: string | null | undefined): string | null {
+    if (!userId) return null;
+    const u = this.userCache.get(userId);
+    if (!u) return null;
+    if (u.username && u.email) return `${u.username} <${u.email}>`;
+    return u.email || u.username || userId;
+  }
 
   async loadSessions() {
     this.loading.set(true); this.error.set(null);
@@ -35,6 +61,9 @@ export class AdminMessagesFacade {
       });
       this.sessions.set(res.items || []);
       this.total.set(res.total || 0);
+  // Warm up user cache for visible sessions
+  const uniqUserIds = Array.from(new Set((res.items || []).map(s => s.user_id).filter(Boolean)));
+  await Promise.all(uniqUserIds.map(id => this.resolveUser(id)));
     } catch (e: any) {
       this.error.set(e?.message || 'Error cargando sesiones');
     } finally {

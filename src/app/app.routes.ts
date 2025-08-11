@@ -38,7 +38,12 @@ export const routes: Routes = [
       import('@presentation/layouts/shell/shell').then((m) => m.ShellLayout),
     canActivate: [AuthGuard],
     children: [
-  { path: '', pathMatch: 'full', redirectTo: '/home' },
+      {
+        path: '',
+        pathMatch: 'full',
+        loadChildren: () =>
+          import('@presentation/pages/home/home').then((m) => m.HomePage),
+      },
       // Chat without agent routing
       {
         path: 'chat',
@@ -50,7 +55,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('@presentation/pages/chat/chat').then((m) => m.Chat),
       },
-  // Files and Risk pages (moved under admin layout)
+      // Files and Risk pages (moved under admin layout)
       // Admin area is no longer under the normal shell
     ],
   },

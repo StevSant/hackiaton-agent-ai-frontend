@@ -13,7 +13,7 @@
             <div class="text-xs opacity-70 flex flex-wrap gap-2">
               <span>{{ s.updated_at }}</span>
               <span class="opacity-60">•</span>
-              <span>User: <span class="font-mono">{{ s.user_id }}</span></span>
+              <span>User: <span class="font-mono" [attr.title]="userLabel(s.user_id)">{{ getCachedUserLabel(s.user_id) || s.user_id }}</span></span>
             </div>
           </button>
         }
@@ -29,7 +29,7 @@
       @if (!selected()) {
         <div class="opacity-70">{{ 'ADMIN.MESSAGES.SELECT_SESSION' | translate }}</div>
       } @else {
-        <div class="mb-2 text-xs opacity-70">User: <span class="font-mono">{{ selectedOwnerId() }}</span></div>
+  <div class="mb-2 text-xs opacity-70">User: <span class="font-mono" [attr.title]="userLabel(selectedOwnerId())">{{ getCachedUserLabel(selectedOwnerId()) || selectedOwnerId() }}</span></div>
         @for (m of messages(); track m.id) {
           <div class="mb-2">
             <div class="text-xs opacity-60 flex items-center gap-2">
