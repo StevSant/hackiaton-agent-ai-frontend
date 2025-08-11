@@ -1,1 +1,14 @@
-/* Header styles (optional, can be customized) */
+/* Header styles with theme support */
+header {
+  background: hsl(var(--card) / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid hsl(var(--border) / 0.6);
+}
+
+/* Neon edges support for header when enabled */
+body.neon-edges header {
+  box-shadow:
+    0 0 0 1px hsl(var(--brand-primary) / 0.18),
+    0 0 12px hsl(var(--brand-primary-glow) / 0.16);
+}
