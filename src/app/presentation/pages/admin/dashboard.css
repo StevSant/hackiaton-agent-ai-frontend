@@ -81,8 +81,8 @@ button.btn-primary:hover {
 /* Efecto glass y transparencia igual que las tarjetas principales */
 /* Fondo glass igual que las tarjetas del dashboard, con soporte para tema claro/oscuro */
 
-.modern-card {
-  background: hsl(var(--card) / 0.28);
+.modern-card, .metric-card, .nav-card, .glass-card {
+  background: hsl(var(--card) / 0.28) !important;
   color: hsl(var(--card-foreground));
   border-radius: 1rem;
   box-shadow:
@@ -130,8 +130,19 @@ button.btn-primary:hover {
 /* Fondo de página admin: solo variable global */
 .vt-page {
   min-height: 100vh;
-  background: hsl(var(--background));
+  background:
+    linear-gradient(120deg,
+      hsl(var(--background)) 60%,
+      hsl(var(--primary) / 0.08) 100%),
+    hsl(var(--background));
   color: hsl(var(--foreground));
+}
+.dark .vt-page {
+  background:
+    linear-gradient(120deg,
+      hsl(var(--background)) 60%,
+      hsl(var(--primary) / 0.13) 100%),
+    hsl(var(--background));
 }
 
 /* Se elimina media query para light mode en .vt-page, solo se usa la lógica de clase .dark */
