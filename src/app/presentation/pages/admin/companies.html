@@ -63,6 +63,6 @@
   <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">{{ 'COMMON.PREVIOUS' | translate }}</button>
   <span class="text-sm opacity-70">{{ 'COMMON.PAGE' | translate }} {{ page() }}</span>
   <span class="text-sm opacity-60">• {{ items().length || 0 }} / {{ total() || '∞' }}</span>
-  <button class="btn btn-sm" (click)="nextPage()">{{ 'COMMON.NEXT' | translate }}</button>
+  <button class="btn btn-sm" (click)="nextPage()" [disabled]="(page()*limit()) >= total()">{{ 'COMMON.NEXT' | translate }}</button>
   </div>
 </div>

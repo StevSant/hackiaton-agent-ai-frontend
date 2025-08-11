@@ -125,6 +125,7 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "SEARCH_BUTTON": "Search",
       "LIMIT": "Limit",
+  "SECTOR": "Sector",
       "COLUMNS": {
         "TAX_ID": "Tax ID",
         "NAME": "Name",

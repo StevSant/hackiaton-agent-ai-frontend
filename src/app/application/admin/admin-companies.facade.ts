@@ -15,6 +15,8 @@ export class AdminCompaniesFacade {
   readonly search = signal('');
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+  // optional sector filter (UI-driven)
+  readonly sector = signal<string>('');
 
   async refresh() {
     this.loading.set(true);
@@ -24,6 +26,7 @@ export class AdminCompaniesFacade {
         page: this.page(),
         limit: this.limit(),
         search: this.search() || undefined,
+  sector: this.sector() || undefined,
         sort_by: (this.sortBy() || undefined) as any,
         sort_order: this.sortOrder(),
       });
@@ -40,6 +43,12 @@ export class AdminCompaniesFacade {
     this.search.set(value.trim());
     this.page.set(1);
     await this.refresh();
+  }
+
+  setSector(value: string) {
+    this.sector.set((value || '').trim());
+    this.page.set(1);
+    return this.refresh();
   }
 
   async nextPage() {

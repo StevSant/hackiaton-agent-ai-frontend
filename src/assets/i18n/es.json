@@ -127,6 +127,7 @@
       "SEARCH_PLACEHOLDER": "Buscar...",
       "SEARCH_BUTTON": "Buscar",
       "LIMIT": "Límite",
+  "SECTOR": "Sector",
       "COLUMNS": {
         "TAX_ID": "RUC",
         "NAME": "Nombre",

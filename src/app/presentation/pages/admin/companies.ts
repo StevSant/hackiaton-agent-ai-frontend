@@ -52,7 +52,9 @@ export class AdminCompaniesPage {
   setSort(field: 'tax_id'|'name'|'sector') { this.facade.setSort(field); }
 
   selectSector(sector: string) {
-    this.selectedSector.update(curr => (curr === sector ? '' : sector));
+  const next = this.selectedSector() === sector ? '' : sector;
+  this.selectedSector.set(next);
+  this.facade.setSector(next);
   }
 
   async copyTaxId(taxId: string) {
