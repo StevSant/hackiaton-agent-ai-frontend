@@ -19,3 +19,4 @@ export * from './admin/update-user.usecase';
 export * from './admin/delete-user.usecase';
 export * from './admin-messages/list-sessions.usecase';
 export * from './admin-messages/list-messages.usecase';
+export * from './get-kpis.usecase';

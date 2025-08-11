@@ -8,6 +8,7 @@ import type { AdminUsersPort } from './ports/admin-users.port';
 import type { CompaniesPort } from './ports/companies.port';
 import type { RiskWeightsPort } from './ports/risk-weights.port';
 import type { AdminMessagesPort } from './ports/admin-messages.port';
+import type { KpisPort } from './ports/kpis.port';
 
 export const CHAT_STREAM_PORT = new InjectionToken<ChatStreamPort>(
   'CHAT_STREAM_PORT',
@@ -28,3 +29,4 @@ export const RISK_WEIGHTS_PORT = new InjectionToken<RiskWeightsPort>(
 export const ADMIN_MESSAGES_PORT = new InjectionToken<AdminMessagesPort>(
   'ADMIN_MESSAGES_PORT',
 );
+export const KPIS_PORT = new InjectionToken<KpisPort>('KPIS_PORT');

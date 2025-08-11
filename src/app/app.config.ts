@@ -34,6 +34,7 @@ import {
   COMPANIES_PORT,
   RISK_WEIGHTS_PORT,
   ADMIN_MESSAGES_PORT,
+  KPIS_PORT,
 } from '@core/tokens';
 import { SseService } from '@infrastructure/services/sse-service';
 import { SessionsService } from '@infrastructure/services/sessions.service';
@@ -58,6 +59,8 @@ import { TokenStorageService } from '@infrastructure/services/token-storage.serv
 import { GetProfileUseCase } from '@core/use-cases';
 import { PerformanceService } from '@infrastructure/services/performance.service';
 import { CustomPreloadStrategy } from '@infrastructure/strategies/custom-preload.strategy';
+import { KpisApiService, KpisMockService } from '@infrastructure/services';
+import { environment } from '@environments/environment';
 
 class AppTranslateLoader implements TranslateLoader {
   getTranslation(lang: string) {
@@ -80,10 +83,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
 
     // Skip the very first view transition to avoid bootstrap-time InvalidStateError
-    provideRouter(
-      routes,
-      withViewTransitions({ skipInitialTransition: true }),
-    ),
+    provideRouter(routes, withViewTransitions({ skipInitialTransition: true })),
     { provide: PreloadingStrategy, useClass: CustomPreloadStrategy },
 
     provideClientHydration(withEventReplay()),
@@ -139,5 +139,11 @@ export const appConfig: ApplicationConfig = {
     { provide: COMPANIES_PORT, useExisting: CompaniesService },
     { provide: RISK_WEIGHTS_PORT, useExisting: RiskWeightsService },
     { provide: ADMIN_MESSAGES_PORT, useExisting: AdminMessagesService },
+
+    // KPIS_PORT: feature flag para mock/api
+    {
+      provide: KPIS_PORT,
+      useClass: environment.mockKpis ? KpisMockService : KpisApiService,
+    },
   ],
 };
