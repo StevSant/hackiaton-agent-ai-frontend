@@ -13,19 +13,20 @@ import type {
 } from '@core/ports';
 import { CHAT_STREAM_PORT, SESSIONS_PORT } from '@core/tokens';
 import {
-  SendMessageUseCase,
   ListSessionsUseCase,
   GetSessionUseCase,
   UploadFileUseCase,
   DeleteSessionUseCase,
 } from '@core/use-cases';
+import { SendMessageRestUseCase } from '@core/use-cases/send-message-rest.usecase';
 
 @Injectable({ providedIn: 'root' })
 export class ChatFacade {
-  private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
+  // private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT); // SSE deshabilitado temporalmente
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
 
-  private readonly sendMessageUC = new SendMessageUseCase(this.chatStream);
+  // private readonly sendMessageUC = new SendMessageUseCase(this.chatStream); // SSE deshabilitado temporalmente
+  private readonly sendMessageRestUC = new SendMessageRestUseCase(this.sessionsPort); // Usar REST temporalmente
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
   private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
   private readonly deleteSessionUC = new DeleteSessionUseCase(
@@ -145,11 +146,15 @@ export class ChatFacade {
     files?: File[];
     file_ids?: string[];
   }): Observable<StreamResponseModel> {
-    return this.sendMessageUC.execute(this.agentId(), payload);
+    // SSE (chatStream) deshabilitado temporalmente:
+    // return this.sendMessageUC.execute(this.agentId(), payload);
+    // Usar REST (sessionsPort) temporalmente:
+    return this.sendMessageRestUC.execute(this.agentId(), payload);
   }
 
   cancel(): void {
-    this.sendMessageUC.cancel();
+    // if (this.sendMessageUC) this.sendMessageUC.cancel(); // SSE (chatStream) deshabilitado temporalmente
+    // No hay cancelación para REST
   }
 
   async uploadFiles(files: File[], opts?: { sessionId?: string; subfolder?: string }): Promise<UploadedFileMeta[]> {
