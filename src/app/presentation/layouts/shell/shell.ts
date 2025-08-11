@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import type { SessionEntry } from '@core/models';
 import { ChatFacade } from '@app/application/chat/chat.facade';
 import { BackgroundService } from '@infrastructure/services/background.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-shell',
@@ -20,6 +21,7 @@ import { BackgroundService } from '@infrastructure/services/background.service';
 export class ShellLayout implements OnInit {
   // Mobile sidebar state
   isSidebarOpen = false;
+  private readonly router = inject(Router);
   private readonly sessionsEvents = inject(SessionsEventsService);
   private readonly chatFacade = inject(ChatFacade);
   private readonly bg = inject(BackgroundService);
@@ -35,22 +37,38 @@ export class ShellLayout implements OnInit {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  // Persist preference (desktop)
+  this.persistSidebarState();
   }
 
   closeSidebar() {
     this.isSidebarOpen = false;
+  // Do not persist on mobile close via overlay; but safe to persist anyway
+  this.persistSidebarState();
   }
 
   ngOnInit() {
     // Open by default on desktop, closed on mobile
     try {
       const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches;
-      this.isSidebarOpen = !!isDesktop;
+      if (isDesktop) {
+        const saved = this.getSavedSidebarState();
+        this.isSidebarOpen = saved ?? true;
+      } else {
+        this.isSidebarOpen = false;
+      }
     } catch {}
   // Initialize background defaults early
   queueMicrotask(() => this.bg.init());
   // Ensure sessions list tries to load at app start (helps after F5 on deep links)
   queueMicrotask(() => this.sessionsEvents.triggerRefresh());
+
+  // Close overlay on navigation when on mobile
+  this.router.events.subscribe(ev => {
+    if (ev instanceof NavigationEnd) {
+      if (!this.isDesktop()) this.isSidebarOpen = false;
+    }
+  });
   }
 
   // Handle confirm at layout level to ensure modal is centered globally
@@ -102,5 +120,33 @@ export class ShellLayout implements OnInit {
   // Header button: open files modal via event bus
   openSessionFilesFromShell() {
     this.sessionsEvents.openFilesModal(this.selectedSessionId);
+  }
+
+  private isDesktop(): boolean {
+    try { return typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches; } catch { return true; }
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    if (this.isDesktop()) {
+      const saved = this.getSavedSidebarState();
+      this.isSidebarOpen = saved ?? true;
+    } else {
+      this.isSidebarOpen = false;
+    }
+  }
+
+  private getSavedSidebarState(): boolean | null {
+    try {
+      const v = (typeof window !== 'undefined') ? window.localStorage.getItem('chatSidebarOpen') : null;
+      if (v == null) return null;
+      return v === '1';
+    } catch { return null; }
+  }
+
+  private persistSidebarState() {
+    try {
+      (typeof window !== 'undefined') && window.localStorage.setItem('chatSidebarOpen', this.isSidebarOpen ? '1' : '0');
+    } catch { /* ignore */ }
   }
 }

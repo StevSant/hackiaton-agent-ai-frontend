@@ -1,6 +1,6 @@
 <div class="p-6 space-y-4 vt-page">
-  <h2 class="text-xl font-semibold">{{ 'ADMIN.RISK_WEIGHTS.TITLE' | translate }}</h2>
-  <div class="flex items-center gap-2 glass-card p-3 page-stagger">
+  <h2 class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2">{{ 'ADMIN.RISK_WEIGHTS.TITLE' | translate }}</h2>
+  <div class="flex flex-wrap items-center gap-2 glass-card p-3 page-stagger">
     <label class="text-xs" for="version">{{ 'ADMIN.RISK_WEIGHTS.VERSION' | translate }}</label>
     <input id="version" class="input input-bordered w-24" type="number" [value]="version()" (input)="onVersionChange($event)" />
     <button class="btn btn-sm" (click)="addKey()">+ {{ 'ADMIN.RISK_WEIGHTS.ADD_FACTOR' | translate }}</button>

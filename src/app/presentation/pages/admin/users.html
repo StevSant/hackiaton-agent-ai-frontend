@@ -1,19 +1,19 @@
 <div class="p-6 space-y-6 vt-page">
-  <h2 class="text-xl font-semibold">{{ 'ADMIN.USERS.TITLE' | translate }}</h2>
+  <h2 class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2">{{ 'ADMIN.USERS.TITLE' | translate }}</h2>
 
-  <div class="flex items-end justify-between gap-3">
-    <div class="flex items-center gap-2">
+  <div class="flex items-end justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-2 flex-wrap">
       <label for="userSearch" class="text-xs">{{ 'ADMIN.USERS.SEARCH_LABEL' | translate }}</label>
-      <input #userSearch id="userSearch" class="input input-bordered input-sm"
+      <input #userSearch id="userSearch" class="input input-bordered input-sm w-full sm:w-64"
         (keyup.enter)="applySearch(userSearch.value)" [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate" />
       <button class="btn btn-sm" (click)="applySearch(userSearch.value)" type="button">{{ 'ADMIN.USERS.SEARCH_BUTTON' |
         translate }}</button>
     </div>
-    <div class="text-sm opacity-70">{{ start() }}–{{ end() }} de {{ total() }}</div>
+    <div class="text-sm opacity-70 ml-auto">{{ start() }}–{{ end() }} de {{ total() }}</div>
   </div>
 
   <div class="glass-card users-card p-4">
-  <form [formGroup]="form" (ngSubmit)="create()" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
+  <form [formGroup]="form" (ngSubmit)="create()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
     <div>
       <label class="text-xs" for="username">{{ 'ADMIN.USERS.USERNAME' | translate }}</label>
       <input id="username" class="input input-bordered w-full" formControlName="username"

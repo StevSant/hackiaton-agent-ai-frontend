@@ -11,7 +11,7 @@
   <div class="mobile-overlay" [class.hidden]="!isSidebarOpen">
     <button class="fixed inset-0 overlay-backdrop z-40" (click)="closeSidebar()"
       [attr.aria-label]="'SHELL.CLOSE_MENU' | translate"></button>
-    <div class="fixed inset-y-0 left-0 w-72 z-50 sidebar-surface surface-clear">
+    <div class="fixed inset-y-0 left-0 w-72 z-50 sidebar-surface surface-clear transition-transform duration-200 ease-in-out" [class.-translate-x-full]="!isSidebarOpen">
       <app-sidebar (deleteRequested)="openDeleteModal($event)" (deleteCancelled)="pendingDelete = undefined"
         (deleteConfirmed)="pendingDelete = undefined"></app-sidebar>
     </div>

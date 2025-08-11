@@ -1,11 +1,11 @@
 <div class="p-6 space-y-4 vt-page">
-  <h2 class="text-xl font-semibold">{{ 'ADMIN.COMPANIES.TITLE' | translate }}</h2>
+  <h2 class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2">{{ 'ADMIN.COMPANIES.TITLE' | translate }}</h2>
   <form [formGroup]="form" (ngSubmit)="applySearch()" class="glass-card p-3 flex flex-wrap gap-2 items-end">
     <input class="input input-bordered flex-1 min-w-[220px]" formControlName="search" [placeholder]="'ADMIN.COMPANIES.SEARCH_PLACEHOLDER' | translate" />
     <button class="btn btn-primary" type="submit">{{ 'ADMIN.COMPANIES.SEARCH_BUTTON' | translate }}</button>
-    <div class="md:ml-auto flex items-center gap-2">
+    <div class="md:ml-auto flex items-center gap-2 w-full sm:w-auto">
       <label class="text-xs" for="companies-limit">{{ 'ADMIN.COMPANIES.LIMIT' | translate }}</label>
-  <select id="companies-limit" class="select select-bordered select-sm" [value]="limit()" (change)="limit.set(+$any($event.target).value); applySearch()">
+  <select id="companies-limit" class="select select-bordered select-sm w-full sm:w-auto" [value]="limit()" (change)="limit.set(+$any($event.target).value); applySearch()">
         <option [value]="10">10</option>
         <option [value]="20">20</option>
         <option [value]="50">50</option>
@@ -59,7 +59,7 @@
       </tbody>
     </table>
   </div>
-  <div class="flex items-center justify-end gap-2 glass-card p-2">
+  <div class="flex flex-wrap items-center justify-end gap-2 glass-card p-2">
   <button class="btn btn-sm" (click)="prevPage()" [disabled]="page()<=1">{{ 'COMMON.PREVIOUS' | translate }}</button>
   <span class="text-sm opacity-70">{{ 'COMMON.PAGE' | translate }} {{ page() }}</span>
   <span class="text-sm opacity-60">• {{ items().length || 0 }} / {{ total() || '∞' }}</span>
