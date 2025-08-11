@@ -10,7 +10,6 @@ import {
   provideRouter,
   withViewTransitions,
   PreloadingStrategy,
-  withHashLocation,
 } from '@angular/router';
 import {
   provideHttpClient,
@@ -83,7 +82,6 @@ export const appConfig: ApplicationConfig = {
     // Skip the very first view transition to avoid bootstrap-time InvalidStateError
     provideRouter(
       routes,
-      withHashLocation(),
       withViewTransitions({ skipInitialTransition: true }),
     ),
     { provide: PreloadingStrategy, useClass: CustomPreloadStrategy },
