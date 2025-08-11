@@ -1,3 +1,4 @@
+// theme.service.ts
 import { Injectable, signal } from '@angular/core';
 
 type Theme = 'light' | 'dark' | 'system';
@@ -8,16 +9,11 @@ export class ThemeService {
   private _theme = signal<Theme>('system');
   readonly theme = this._theme.asReadonly();
   private media: MediaQueryList | null = null;
-  private mediaListener:
-    | ((this: MediaQueryList, ev: MediaQueryListEvent) => any)
-    | null = null;
+  private mediaListener: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | null = null;
 
   init() {
     const saved = this.safeLocalStorageGet(STORAGE_KEY) as Theme | null;
-    const t: Theme =
-      saved === 'light' || saved === 'dark' || saved === 'system'
-        ? saved
-        : 'system';
+    const t: Theme = saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system';
     this.setTheme(t);
   }
 
@@ -34,27 +30,41 @@ export class ThemeService {
     this.setTheme(next);
   }
 
+  /** 'light' | 'dark' resolviendo 'system' */
+  effective(): 'light' | 'dark' {
+    const t = this._theme();
+    if (t === 'system') return this.prefersDark() ? 'dark' : 'light';
+    return t;
+  }
+
+  /** Útil en templates si quieres booleano */
+  isDark(): boolean {
+    return this.effective() === 'dark';
+  }
+
   private applyTheme() {
     const doc = this.safeDocument();
     if (!doc) return;
-    const root = doc.documentElement;
-    const mode = this.resolveEffectiveMode();
-    root.classList.toggle('dark', mode === 'dark');
-  }
 
-  private resolveEffectiveMode(): 'light' | 'dark' {
-    const t = this._theme();
-    if (t === 'system') {
-      return this.prefersDark() ? 'dark' : 'light';
-    }
-    return t;
+    const root = doc.documentElement;
+    const mode = this.effective();
+
+    // 🔧 Limpia `.dark` de cualquier otro elemento (body, contenedores, etc.)
+    doc.querySelectorAll('.dark').forEach(el => {
+      if (el !== root) el.classList.remove('dark');
+    });
+
+    // Tailwind dark:
+    root.classList.toggle('dark', mode === 'dark');
+
+    // Para componentes que lean variables/attr
+    root.setAttribute('data-theme', mode);
+    root.style.colorScheme = mode;
   }
 
   private setupSystemListener() {
     if (typeof window === 'undefined') return;
-    if (!this.media) {
-      this.media = window.matchMedia('(prefers-color-scheme: dark)');
-    }
+    if (!this.media) this.media = window.matchMedia('(prefers-color-scheme: dark)');
     if (this.mediaListener) {
       this.media.removeEventListener?.('change', this.mediaListener);
       this.mediaListener = null;
@@ -67,30 +77,14 @@ export class ThemeService {
 
   private prefersDark(): boolean {
     try {
-      if (typeof window !== 'undefined') {
-        return (
-          window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false
-        );
-      }
-    } catch {}
-    return false;
+      return typeof window !== 'undefined'
+        ? window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false
+        : false;
+    } catch { return false; }
   }
 
-  private safeLocalStorageGet(key: string): string | null {
-    try {
-      if (typeof localStorage !== 'undefined') return localStorage.getItem(key);
-    } catch {}
-    return null;
-  }
-  private safeLocalStorageSet(key: string, value: string) {
-    try {
-      if (typeof localStorage !== 'undefined') localStorage.setItem(key, value);
-    } catch {}
-  }
-  private safeDocument(): Document | null {
-    try {
-      if (typeof document !== 'undefined') return document;
-    } catch {}
-    return null;
-  }
+  private safeLocalStorageGet(key: string): string | null { try { return localStorage.getItem(key); } catch { return null; } }
+  private safeLocalStorageSet(key: string, value: string) { try { localStorage.setItem(key, value); } catch { } }
+  private safeDocument(): Document | null { try { return document; } catch { return null; } }
+
 }

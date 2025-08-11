@@ -128,14 +128,25 @@
   }
 
   @if (profileMenuOpen()) {
+    <!-- CONTENEDOR DEL MENÚ: controla fondo/borde según modo efectivo -->
     <div
-      class="menu-enter absolute right-0 bottom-full mb-2 z-50 w-72 sm:w-80 max-w-[calc(100vw-1rem)] max-h-[75vh] overflow-y-auto overscroll-contain rounded-xl border border-black/10 bg-white/90 shadow-2xl backdrop-blur dark:border-white/10 dark:bg-neutral-900/90"
+      class="menu-enter absolute right-0 bottom-full mb-2 z-50 w-72 sm:w-80 max-w-[calc(100vw-2rem)] max-h-[75vh] overflow-y-auto overscroll-contain rounded-xl shadow-2xl backdrop-blur"
       role="menu"
       aria-label="Profile menu"
+      [ngClass]="
+        theme.isDark()
+          ? 'bg-neutral-900/90 border border-white/10'
+          : 'bg-white/90 border border-black/10'
+      "
     >
-      <!-- Perfil (sticky header) -->
+      <!-- HEADER STICKY: también controlado por modo efectivo -->
       <div
-        class="sticky top-0 z-10 flex items-center gap-3 border-b border-black/5 px-4 py-3 bg-white/95 backdrop-blur-sm dark:bg-neutral-900/95 dark:border-white/5"
+        class="sticky top-0 z-10 flex items-center gap-3 px-4 py-3 backdrop-blur-sm"
+        [ngClass]="
+          theme.isDark()
+            ? 'bg-neutral-900/95 border-b border-white/5'
+            : 'bg-white/95 border-b border-black/5'
+        "
       >
         <div
           class="relative grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold shadow"
@@ -182,7 +193,9 @@
       <!-- Loading -->
       @if (profileLoading()) {
         <div class="flex items-center gap-3 px-5 py-2.5 text-neutral-500">
-          <span class="loading-spinner h-4 w-4"></span>
+          <span
+            class="h-4 w-4 rounded-full border-2 border-neutral-300 border-t-transparent animate-spin"
+          ></span>
           <span>{{ "COMMON.LOADING" | translate }}</span>
         </div>
       }
@@ -227,7 +240,8 @@
           <button
             class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600': lang.current() === 'es',
+              'bg-blue-600 text-white border-blue-600 shadow':
+                lang.current() === 'es',
             }"
             (click)="switchLang('es')"
             [attr.aria-pressed]="lang.current() === 'es'"
@@ -238,7 +252,8 @@
           <button
             class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600': lang.current() === 'en',
+              'bg-blue-600 text-white border-blue-600 shadow':
+                lang.current() === 'en',
             }"
             (click)="switchLang('en')"
             [attr.aria-pressed]="lang.current() === 'en'"
@@ -266,7 +281,7 @@
           <button
             class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600':
+              'bg-blue-600 text-white border-blue-600 shadow':
                 theme.theme() === 'light',
             }"
             (click)="setTheme('light')"
@@ -277,7 +292,7 @@
           <button
             class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600':
+              'bg-blue-600 text-white border-blue-600 shadow':
                 theme.theme() === 'dark',
             }"
             (click)="setTheme('dark')"
@@ -288,7 +303,7 @@
           <button
             class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600':
+              'bg-blue-600 text-white border-blue-600 shadow':
                 theme.theme() === 'system',
             }"
             (click)="setTheme('system')"
@@ -317,7 +332,8 @@
           <button
             class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600': bg.bg() === 'minimal',
+              'bg-blue-600 text-white border-blue-600 shadow':
+                bg.bg() === 'minimal',
             }"
             (click)="setBg('minimal')"
           >
@@ -328,7 +344,8 @@
           <button
             class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600': bg.bg() === 'aurora',
+              'bg-blue-600 text-white border-blue-600 shadow':
+                bg.bg() === 'aurora',
             }"
             (click)="setBg('aurora')"
           >
@@ -339,7 +356,8 @@
           <button
             class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600': bg.bg() === 'bokeh',
+              'bg-blue-600 text-white border-blue-600 shadow':
+                bg.bg() === 'bokeh',
             }"
             (click)="setBg('bokeh')"
           >
@@ -353,7 +371,7 @@
           <button
             class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600':
+              'bg-blue-600 text-white border-blue-600 shadow':
                 bg.palette() === 'default',
             }"
             (click)="setPalette('default')"
@@ -365,7 +383,7 @@
           <button
             class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600':
+              'bg-blue-600 text-white border-blue-600 shadow':
                 bg.palette() === 'vaporwave',
             }"
             (click)="setPalette('vaporwave')"
@@ -377,7 +395,7 @@
           <button
             class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             [ngClass]="{
-              'bg-blue-600 text-white border-blue-600':
+              'bg-blue-600 text-white border-blue-600 shadow':
                 bg.palette() === 'cyber',
             }"
             (click)="setPalette('cyber')"
@@ -391,7 +409,7 @@
 
       <!-- Effects -->
       <div
-        class="border-t border-black/5 px-4 py-3 text-xs text-neutral-500 dark:border-white/5"
+        class="border-t px-4 py-3 text-xs text-neutral-500 dark:border-white/5 border-black/5"
       >
         <div
           class="mb-2.5 flex items-center gap-2 font-semibold uppercase tracking-wide"
@@ -412,8 +430,14 @@
           >
             <mat-icon fontIcon="highlight" class="text-sm"></mat-icon>
             <span class="flex-1">Neon edges</span>
-            <span class="switch-track" [class.switch-on]="bg.neon()">
-              <span class="switch-thumb"></span>
+            <span
+              class="relative inline-flex h-5 w-10 items-center rounded-full transition"
+              [ngClass]="bg.neon() ? 'bg-blue-600' : 'bg-neutral-300'"
+            >
+              <span
+                class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition"
+                [ngClass]="bg.neon() ? 'translate-x-5' : ''"
+              ></span>
             </span>
           </button>
 
@@ -425,8 +449,14 @@
           >
             <mat-icon fontIcon="view_in_ar" class="text-sm"></mat-icon>
             <span class="flex-1">Parallax</span>
-            <span class="switch-track" [class.switch-on]="bg.parallax()">
-              <span class="switch-thumb"></span>
+            <span
+              class="relative inline-flex h-5 w-10 items-center rounded-full transition"
+              [ngClass]="bg.parallax() ? 'bg-blue-600' : 'bg-neutral-300'"
+            >
+              <span
+                class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition"
+                [ngClass]="bg.parallax() ? 'translate-x-5' : ''"
+              ></span>
             </span>
           </button>
         </div>
