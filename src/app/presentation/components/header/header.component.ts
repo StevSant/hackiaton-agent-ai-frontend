@@ -30,7 +30,7 @@ export class HeaderComponent {
   }
 
   get frontend_repository() {
-    return 'https://github.com/tu-org/proyecto-frontend';
+    return 'https://github.com/SteveSant26/hackiaton-agent-ai-frontend';
   }
 
   get youtube_video() {
