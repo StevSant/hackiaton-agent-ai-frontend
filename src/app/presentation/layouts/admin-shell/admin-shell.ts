@@ -6,7 +6,12 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterOutlet, NavigationEnd} from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterOutlet,
+  NavigationEnd,
+} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
@@ -110,7 +115,7 @@ export class AdminShellLayout {
       typeof window !== 'undefined' &&
         window.localStorage.setItem(
           'adminSidebarCollapsed',
-          this.sidebarCollapsed() ? '1' : '0'
+          this.sidebarCollapsed() ? '1' : '0',
         );
     } catch {
       /* ignore */

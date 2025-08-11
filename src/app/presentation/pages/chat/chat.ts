@@ -1,9 +1,25 @@
-import { Component, inject, ChangeDetectorRef, type OnDestroy, type OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectorRef,
+  type OnDestroy,
+  type OnInit,
+} from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import type { Subscription } from 'rxjs';
-import type { ChatMessage, EventType, StreamResponseModel, SessionEntry } from '@core/models';
+import type {
+  ChatMessage,
+  EventType,
+  StreamResponseModel,
+  SessionEntry,
+} from '@core/models';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Servicios/utilidades
@@ -39,8 +55,8 @@ import { SessionCompaniesModalComponent } from '../../components/companies/sessi
     MatIconModule,
     ChatMessagesListComponent,
     ChatComposerComponent,
-  SessionFilesModalComponent,
-  SessionCompaniesModalComponent,
+    SessionFilesModalComponent,
+    SessionCompaniesModalComponent,
   ],
   templateUrl: './chat.html',
   styleUrls: ['./chat.css'],
@@ -92,7 +108,11 @@ export class Chat implements OnDestroy, OnInit {
   msgForm = this.fb.group({
     message: [
       '',
-      [Validators.required, Validators.minLength(1), Validators.maxLength(1000)],
+      [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(1000),
+      ],
     ],
   });
 
@@ -116,7 +136,8 @@ export class Chat implements OnDestroy, OnInit {
         if (this.selectedSessionId !== paramSession) {
           this.selectedSessionId = paramSession;
           this.cdr.markForCheck();
-          if (this.isSending() && this.streamingSessionId === paramSession) return;
+          if (this.isSending() && this.streamingSessionId === paramSession)
+            return;
           this.loadSession(paramSession);
           queueMicrotask(() => this.sessionsEvents.triggerRefresh());
         }
@@ -149,23 +170,25 @@ export class Chat implements OnDestroy, OnInit {
     });
 
     // Listen for global requests to open/close the files modal (from shell header)
-    this.uiSub = this.sessionsEvents.onFilesModal().subscribe(({ open, sessionId }) => {
-      if (open) {
-        // Prefer provided sessionId; otherwise use current selection
-        if (sessionId) {
-          this.selectedSessionId = sessionId;
+    this.uiSub = this.sessionsEvents
+      .onFilesModal()
+      .subscribe(({ open, sessionId }) => {
+        if (open) {
+          // Prefer provided sessionId; otherwise use current selection
+          if (sessionId) {
+            this.selectedSessionId = sessionId;
+            this.cdr.markForCheck();
+          }
+          if (!this.ensureSessionOrWarn()) {
+            return;
+          }
+          this.showFilesModal = true;
+          this.cdr.markForCheck();
+        } else {
+          this.showFilesModal = false;
           this.cdr.markForCheck();
         }
-        if (!this.ensureSessionOrWarn()) {
-          return;
-        }
-        this.showFilesModal = true;
-        this.cdr.markForCheck();
-      } else {
-        this.showFilesModal = false;
-        this.cdr.markForCheck();
-      }
-    });
+      });
     // Companies modal events
     this.sessionsEvents.onCompaniesModal().subscribe(({ open, sessionId }) => {
       if (open) {
@@ -184,12 +207,10 @@ export class Chat implements OnDestroy, OnInit {
   }
 
   loadSessions() {
-    this.chatFacade
-      .listSessions()
-      .subscribe((d: SessionEntry[]) => {
-        this.sessions = d || [];
-        this.cdr.markForCheck();
-      });
+    this.chatFacade.listSessions().subscribe((d: SessionEntry[]) => {
+      this.sessions = d || [];
+      this.cdr.markForCheck();
+    });
   }
 
   loadSession(sessionId: string | null, attempt: number = 0) {
@@ -205,7 +226,8 @@ export class Chat implements OnDestroy, OnInit {
     this.chatFacade.getSession(sessionId).subscribe({
       next: (data) => {
         const d: any = data as any;
-        const chats = d?.chats ?? d?.session?.chats ?? (Array.isArray(d) ? d : []);
+        const chats =
+          d?.chats ?? d?.session?.chats ?? (Array.isArray(d) ? d : []);
         this.chatFacade.setMessages(adaptChatEntriesToMessages(chats));
         this.cdr.markForCheck();
         this.cdr.detectChanges();
@@ -236,7 +258,11 @@ export class Chat implements OnDestroy, OnInit {
   sendMessage() {
     const messageContent = this.msgForm.get('message')?.value?.trim();
     const hasFiles = this.filesToUpload.length > 0;
-    if ((!messageContent && !hasFiles) || this.isSending() || this.isUploadingFiles) {
+    if (
+      (!messageContent && !hasFiles) ||
+      this.isSending() ||
+      this.isUploadingFiles
+    ) {
       return;
     }
     this.startNewConversation(messageContent || '');
@@ -350,8 +376,12 @@ export class Chat implements OnDestroy, OnInit {
   isSystemMessage = this.chatUtils.isSystemMessage.bind(this.chatUtils);
   isBotMessage = this.chatUtils.isBotMessage.bind(this.chatUtils);
   isErrorMessage = this.chatUtils.isErrorMessage.bind(this.chatUtils);
-  getConnectionStatusText = this.connectionStatus.getStatusText.bind(this.connectionStatus);
-  getConnectionStatusClass = this.connectionStatus.getStatusClass.bind(this.connectionStatus);
+  getConnectionStatusText = this.connectionStatus.getStatusText.bind(
+    this.connectionStatus,
+  );
+  getConnectionStatusClass = this.connectionStatus.getStatusClass.bind(
+    this.connectionStatus,
+  );
 
   // UI handlers
   handleKeyDown(event: KeyboardEvent) {
@@ -373,7 +403,10 @@ export class Chat implements OnDestroy, OnInit {
     this.chatFacade.setIsSending(false);
     this.chatFacade.setToolRunning(false);
     this.connectionStatus.setStatus('idle');
-    this.chatFacade.addSystemMessage('🚫 Envío cancelado por el usuario', 'Cancelled' as EventType);
+    this.chatFacade.addSystemMessage(
+      '🚫 Envío cancelado por el usuario',
+      'Cancelled' as EventType,
+    );
   }
   openSessionFiles() {
     if (!this.selectedSessionId) return;
@@ -382,14 +415,18 @@ export class Chat implements OnDestroy, OnInit {
   }
   closeSessionFiles() {
     this.showFilesModal = false;
-  // Notify others that the modal is closed
-  try { this.sessionsEvents.closeFilesModal(); } catch {}
+    // Notify others that the modal is closed
+    try {
+      this.sessionsEvents.closeFilesModal();
+    } catch {}
     this.cdr.markForCheck();
   }
 
   closeSessionCompanies() {
     this.showCompaniesModal = false;
-    try { this.sessionsEvents.closeCompaniesModal(); } catch {}
+    try {
+      this.sessionsEvents.closeCompaniesModal();
+    } catch {}
     this.cdr.markForCheck();
   }
 
@@ -415,7 +452,7 @@ export class Chat implements OnDestroy, OnInit {
     if (!this.selectedSessionId) {
       this.chatFacade.addSystemMessage(
         'Primero envía un mensaje para crear la sesión y luego adjunta archivos.',
-        'Info' as EventType
+        'Info' as EventType,
       );
       return false;
     }
@@ -429,16 +466,19 @@ export class Chat implements OnDestroy, OnInit {
     if (tooMany) {
       this.chatFacade.addSystemMessage(
         `⚠️ Máximo ${this.MAX_FILES_PER_DROP} archivos por intento.`,
-        'ToolCallResult' as EventType
+        'ToolCallResult' as EventType,
       );
     }
     if (oversized.length) {
-      const names = oversized.slice(0, 3).map((f) => f.name).join(', ');
+      const names = oversized
+        .slice(0, 3)
+        .map((f) => f.name)
+        .join(', ');
       this.chatFacade.addSystemMessage(
         `⚠️ Algunos archivos superan el límite de 25MB: ${names}${
           oversized.length > 3 ? '…' : ''
         }`,
-        'ToolCallResult' as EventType
+        'ToolCallResult' as EventType,
       );
     }
 
@@ -493,7 +533,7 @@ export class Chat implements OnDestroy, OnInit {
         console.error('Error subiendo archivos:', e);
         this.chatFacade.addSystemMessage(
           '⚠️ No se pudieron subir algunos archivos',
-          'ToolCallResult' as EventType
+          'ToolCallResult' as EventType,
         );
       })
       .finally(() => {
@@ -505,14 +545,21 @@ export class Chat implements OnDestroy, OnInit {
   removeUploadedFile(file: UploadedFileMeta) {
     this.uploadedFiles = this.uploadedFiles.filter((u) => u.id !== file.id);
     this.filesToUpload = this.filesToUpload.filter(
-      (f) => !(f.name === (file as any).filename || `${f.size}` === (file as any).size)
+      (f) =>
+        !(
+          f.name === (file as any).filename ||
+          `${f.size}` === (file as any).size
+        ),
     );
     this.cdr.markForCheck();
   }
 
   ngOnDestroy() {
     this.cleanup();
-  if (this.uiSub) { this.uiSub.unsubscribe(); this.uiSub = null; }
+    if (this.uiSub) {
+      this.uiSub.unsubscribe();
+      this.uiSub = null;
+    }
     this.connectionStatus.destroy();
   }
 }

@@ -6,7 +6,13 @@ import type { Paginated } from '@core/models/paginated';
 @Injectable({ providedIn: 'root' })
 export class ListFilesUseCase {
   private readonly files = inject<FilesPort>(FILES_PORT);
-  execute(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; page?: number; limit?: number; offset?: number }): Promise<Paginated<UploadedFileMeta>> {
+  execute(params?: {
+    type_file?: 'image' | 'pdf' | 'document';
+    subfolder?: string;
+    page?: number;
+    limit?: number;
+    offset?: number;
+  }): Promise<Paginated<UploadedFileMeta>> {
     return this.files.list(params);
   }
 }

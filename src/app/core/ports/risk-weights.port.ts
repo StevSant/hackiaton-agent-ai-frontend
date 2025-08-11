@@ -6,5 +6,8 @@ export interface RiskWeightsConfig {
 
 export interface RiskWeightsPort {
   getActive(): Promise<RiskWeightsConfig | { message: string; weights: null }>;
-  upsert(version: number, weights: Record<string, number>): Promise<{ status: string; weights: RiskWeightsConfig }>;
+  upsert(
+    version: number,
+    weights: Record<string, number>,
+  ): Promise<{ status: string; weights: RiskWeightsConfig }>;
 }

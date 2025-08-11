@@ -1,9 +1,14 @@
 .profile-menu-surface {
-	/* Frosted glass: subtle transparency + blur */
-	background-color: hsl(var(--card) / 0.78);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	border: 1px solid hsl(var(--border) / 0.35);
+  /* Frosted glass: subtle transparency + blur */
+  background-color: hsl(var(--card) / 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid hsl(var(--border) / 0.35);
 }
-.profile-menu-header { font-weight: 600; font-size: 0.9rem; }
-.profile-menu-divider { border-top: 1px dashed oklch(var(--bc)/0.15); }
+.profile-menu-header {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.profile-menu-divider {
+  border-top: 1px dashed oklch(var(--bc) / 0.15);
+}

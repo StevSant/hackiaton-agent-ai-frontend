@@ -4,11 +4,15 @@ import { Injectable } from '@angular/core';
 export class PerformanceService {
   init() {
     try {
-      const isSmallScreen = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 480px)').matches;
+      const isSmallScreen =
+        typeof window !== 'undefined' &&
+        window.matchMedia &&
+        window.matchMedia('(max-width: 480px)').matches;
       // Heuristic: low cores or very high DPR on small screens → enable lite mode
       const cores = (navigator as any).hardwareConcurrency ?? 4;
       const deviceMemory = (navigator as any).deviceMemory ?? 4;
-      const dpr = typeof window !== 'undefined' ? window.devicePixelRatio ?? 1 : 1;
+      const dpr =
+        typeof window !== 'undefined' ? (window.devicePixelRatio ?? 1) : 1;
       const isLowEnd = cores <= 4 || deviceMemory <= 4;
       const isiOS = /iP(ad|hone|od)/.test(navigator.userAgent);
 

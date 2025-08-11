@@ -1,35 +1,70 @@
 <div class="p-6 space-y-4 vt-page">
-  <h2 class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2">{{ 'ADMIN.MESSAGES.TITLE' | translate }}</h2>
+  <h2
+    class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
+  >
+    {{ "ADMIN.MESSAGES.TITLE" | translate }}
+  </h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 page-stagger">
     <div class="md:col-span-1 glass-card p-2 max-h-[70vh] flex flex-col">
       <div class="p-2 flex items-center gap-2 border-b/40">
-        <input class="input input-sm input-bordered flex-1" [placeholder]="'ADMIN.MESSAGES.SEARCH_PLACEHOLDER' | translate" #q (keyup.enter)="applySessionsSearch(q.value)" />
-        <button class="btn btn-sm" (click)="applySessionsSearch(q.value)">{{ 'ADMIN.MESSAGES.FILTER' | translate }}</button>
+        <input
+          class="input input-sm input-bordered flex-1"
+          [placeholder]="'ADMIN.MESSAGES.SEARCH_PLACEHOLDER' | translate"
+          #q
+          (keyup.enter)="applySessionsSearch(q.value)"
+        />
+        <button class="btn btn-sm" (click)="applySessionsSearch(q.value)">
+          {{ "ADMIN.MESSAGES.FILTER" | translate }}
+        </button>
       </div>
-    <div class="flex-1 overflow-y-auto" #sessionsContainer>
+      <div class="flex-1 overflow-y-auto" #sessionsContainer>
         @for (s of sessions(); track s.session_id) {
-          <button class="w-full text-left p-2 border-b hover:bg-[hsl(var(--card)_/_0.5)]" (click)="open(s.session_id)">
-            <div class="font-medium truncate">{{ s.title || s.session_id }}</div>
+          <button
+            class="w-full text-left p-2 border-b hover:bg-[hsl(var(--card)_/_0.5)]"
+            (click)="open(s.session_id)"
+          >
+            <div class="font-medium truncate">
+              {{ s.title || s.session_id }}
+            </div>
             <div class="text-xs opacity-70 flex flex-wrap gap-2">
               <span>{{ s.updated_at }}</span>
               <span class="opacity-60">•</span>
-              <span>User: <span class="font-mono" [attr.title]="userLabel(s.user_id)">{{ getCachedUserLabel(s.user_id) || s.user_id }}</span></span>
+              <span
+                >User:
+                <span class="font-mono" [attr.title]="userLabel(s.user_id)">{{
+                  getCachedUserLabel(s.user_id) || s.user_id
+                }}</span></span
+              >
             </div>
           </button>
         }
-        <div class="py-2 flex justify-center text-xs opacity-60" #sessionsSentinel>
-          @if (loading()) { {{ 'COMMON.LOADING' | translate }} }
+        <div
+          class="py-2 flex justify-center text-xs opacity-60"
+          #sessionsSentinel
+        >
+          @if (loading()) {
+            {{ "COMMON.LOADING" | translate }}
+          }
         </div>
       </div>
-      <div class="p-2 flex items-center justify-between gap-2 border-t/40 text-xs opacity-70">
-        <div>{{ sessions().length }} / {{ total() || '∞' }}</div>
+      <div
+        class="p-2 flex items-center justify-between gap-2 border-t/40 text-xs opacity-70"
+      >
+        <div>{{ sessions().length }} / {{ total() || "∞" }}</div>
       </div>
     </div>
-  <div class="md:col-span-2 glass-card p-3 max-h-[70vh] overflow-y-auto">
+    <div class="md:col-span-2 glass-card p-3 max-h-[70vh] overflow-y-auto">
       @if (!selected()) {
-        <div class="opacity-70">{{ 'ADMIN.MESSAGES.SELECT_SESSION' | translate }}</div>
+        <div class="opacity-70">
+          {{ "ADMIN.MESSAGES.SELECT_SESSION" | translate }}
+        </div>
       } @else {
-  <div class="mb-2 text-xs opacity-70">User: <span class="font-mono" [attr.title]="userLabel(selectedOwnerId())">{{ getCachedUserLabel(selectedOwnerId()) || selectedOwnerId() }}</span></div>
+        <div class="mb-2 text-xs opacity-70">
+          User:
+          <span class="font-mono" [attr.title]="userLabel(selectedOwnerId())">{{
+            getCachedUserLabel(selectedOwnerId()) || selectedOwnerId()
+          }}</span>
+        </div>
         @for (m of messages(); track m.id) {
           <div class="mb-3">
             <div class="text-xs opacity-60 flex items-center gap-2">
@@ -43,12 +78,27 @@
               }
               @if (view.thinks.length) {
                 <div class="mt-2">
-                  <button class="btn btn-ghost btn-xs" type="button" (click)="toggleThink(m)">
-                    <mat-icon [fontIcon]="view.expanded ? 'visibility_off' : 'visibility'" class="mr-1"></mat-icon>
-                    {{ view.expanded ? ('CHAT.HIDE_THINK' | translate) : ('CHAT.SHOW_THINK' | translate) }}
+                  <button
+                    class="btn btn-ghost btn-xs"
+                    type="button"
+                    (click)="toggleThink(m)"
+                  >
+                    <mat-icon
+                      [fontIcon]="
+                        view.expanded ? 'visibility_off' : 'visibility'
+                      "
+                      class="mr-1"
+                    ></mat-icon>
+                    {{
+                      view.expanded
+                        ? ("CHAT.HIDE_THINK" | translate)
+                        : ("CHAT.SHOW_THINK" | translate)
+                    }}
                   </button>
                   @if (view.expanded) {
-                    <div class="mt-2 rounded-md border border-base-300 bg-base-200/40 p-2 text-xs">
+                    <div
+                      class="mt-2 rounded-md border border-base-300 bg-base-200/40 p-2 text-xs"
+                    >
                       <div class="opacity-70 mb-1">&lt;think&gt;</div>
                       @for (t of view.thinks; track t) {
                         <div class="mb-2"><markdown [data]="t"></markdown></div>
@@ -60,8 +110,13 @@
             </div>
           </div>
         }
-        <div class="h-8 flex items-center justify-center text-xs opacity-60" #sentinel>
-          @if ((messages()?.length || 0) < msgTotal()) { {{ 'ADMIN.MESSAGES.LOADING_MORE' | translate }} }
+        <div
+          class="h-8 flex items-center justify-center text-xs opacity-60"
+          #sentinel
+        >
+          @if ((messages()?.length || 0) < msgTotal()) {
+            {{ "ADMIN.MESSAGES.LOADING_MORE" | translate }}
+          }
         </div>
       }
     </div>

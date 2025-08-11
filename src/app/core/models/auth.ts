@@ -14,7 +14,13 @@ export interface RegisterRequest {
 // Backend login returns nested token + user
 export interface LoginSuccessResponse {
   token: { access_token: string; token_type: string };
-  user: { user_id: string; username: string; email: string; role: string; created_at?: string };
+  user: {
+    user_id: string;
+    username: string;
+    email: string;
+    role: string;
+    created_at?: string;
+  };
 }
 
 // Backend register returns basic user (UserBaseResponseDTO)

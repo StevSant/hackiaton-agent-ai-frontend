@@ -8,9 +8,15 @@ import type { UploadedFileMeta } from '@core/ports';
 @Component({
   selector: 'app-chat-composer',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatIconModule, TranslateModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    TranslateModule,
+  ],
   templateUrl: './composer.component.html',
-  styleUrls: ['./composer.component.css']
+  styleUrls: ['./composer.component.css'],
 })
 export class ChatComposerComponent {
   @Input() form!: FormGroup;
@@ -39,7 +45,9 @@ export class ChatComposerComponent {
     }
     this.send.emit();
   }
-  onCancel() { this.cancel.emit(); }
+  onCancel() {
+    this.cancel.emit();
+  }
   onRemove(file: UploadedFileMeta, e?: Event) {
     e?.preventDefault();
     e?.stopPropagation();
@@ -48,7 +56,9 @@ export class ChatComposerComponent {
 
   onDragEnter(e: DragEvent) {
     if (!this.allowUpload || !e) return;
-    const hasFiles = !!e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+    const hasFiles =
+      !!e.dataTransfer &&
+      Array.from(e.dataTransfer.types || []).includes('Files');
     if (!hasFiles) return;
     e.preventDefault();
     e.stopPropagation();
@@ -61,7 +71,9 @@ export class ChatComposerComponent {
     if (!this.allowUpload) return; // block when uploads are not allowed
     if (!e) return;
     // Only react to file drags
-    const hasFiles = !!e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+    const hasFiles =
+      !!e.dataTransfer &&
+      Array.from(e.dataTransfer.types || []).includes('Files');
     if (!hasFiles) return;
     e.preventDefault();
     e.stopPropagation();

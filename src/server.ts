@@ -29,7 +29,7 @@ app.use(express.json());
 // just acknowledge and return an empty transcript placeholder to keep the flow working without extra deps.
 app.post('/api/stt', async (req, res) => {
   try {
-  // NOTE: For real STT, integrate a provider and parse multipart/form-data here.
+    // NOTE: For real STT, integrate a provider and parse multipart/form-data here.
     // Placeholder: integrate a real STT provider here (Azure, Deepgram, Whisper, etc.)
     // For now, just return an empty transcript to avoid breaking the UI.
     res.json({ transcript: '' });
@@ -53,7 +53,10 @@ app.post('/auth/register', (req, res) => {
 
 app.get('/auth/me', (req, res) => {
   const auth = req.headers['authorization'] || '';
-  if (!auth.startsWith('Bearer ')) { res.status(401).json({ message: 'Unauthorized' }); return; }
+  if (!auth.startsWith('Bearer ')) {
+    res.status(401).json({ message: 'Unauthorized' });
+    return;
+  }
   const token = auth.substring('Bearer '.length);
   // Derive a fake profile from token suffix
   const suffix = token.replace(/^dev-token-/, '') || 'user';

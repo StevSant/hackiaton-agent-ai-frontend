@@ -1,5 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild, inject, OnChanges, SimpleChanges, AfterViewInit, AfterViewChecked } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  inject,
+  OnChanges,
+  SimpleChanges,
+  AfterViewInit,
+  AfterViewChecked,
+} from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,9 +23,11 @@ import { TtsService } from '@infrastructure/services/tts.service';
   standalone: true,
   imports: [CommonModule, MarkdownModule, MatIconModule, TranslateModule],
   templateUrl: './messages-list.component.html',
-  styleUrls: ['./messages-list.component.css']
+  styleUrls: ['./messages-list.component.css'],
 })
-export class ChatMessagesListComponent implements OnChanges, AfterViewInit, AfterViewChecked {
+export class ChatMessagesListComponent
+  implements OnChanges, AfterViewInit, AfterViewChecked
+{
   @Input() messages: ChatMessage[] = [];
   @Input() isSending = false;
   @Input() toolRunning = false;
@@ -30,7 +42,10 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   private scrollTicking = false;
 
   // Cache for processed message content (main without <think> and extracted think blocks)
-  private processed = new Map<string, { main: string; thinks: string[]; expanded: boolean; last: string }>();
+  private processed = new Map<
+    string,
+    { main: string; thinks: string[]; expanded: boolean; last: string }
+  >();
 
   // Services
   private readonly scrollManager = inject(ScrollManagerService);
@@ -50,9 +65,11 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   ngAfterViewInit() {
     this.viewReady = true;
     // On first render, ensure we land at the bottom
-  this.pendingAutoScrollCheck = true;
-  // Try a rAF-based scroll to cover async markdown rendering
-  queueMicrotask(() => this.scrollManager.scrollToBottomRaf(this.messagesContainer, 5));
+    this.pendingAutoScrollCheck = true;
+    // Try a rAF-based scroll to cover async markdown rendering
+    queueMicrotask(() =>
+      this.scrollManager.scrollToBottomRaf(this.messagesContainer, 5),
+    );
   }
 
   ngAfterViewChecked() {
@@ -64,7 +81,8 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
     // If last message is streaming and user is near bottom, keep following
     const last = this.messages?.[this.messages.length - 1];
     const container = this.messagesContainer.nativeElement as HTMLElement;
-    const distance = container.scrollHeight - (container.scrollTop + container.clientHeight);
+    const distance =
+      container.scrollHeight - (container.scrollTop + container.clientHeight);
     const nearBottom = distance <= 160;
     const isStreaming = !!last?.isStreaming;
 
@@ -88,10 +106,13 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
     this.scrollTicking = true;
     requestAnimationFrame(() => {
       try {
-        const el = this.messagesContainer?.nativeElement as HTMLElement | undefined;
+        const el = this.messagesContainer?.nativeElement as
+          | HTMLElement
+          | undefined;
         if (!el) return;
         const threshold = 120;
-        const distanceFromBottom = el.scrollHeight - (el.scrollTop + el.clientHeight);
+        const distanceFromBottom =
+          el.scrollHeight - (el.scrollTop + el.clientHeight);
         const shouldShow = distanceFromBottom > threshold;
         if (shouldShow !== this.showScrollToBottom) {
           this.showScrollToBottom = shouldShow;
@@ -108,11 +129,21 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   }
 
   // TTS helpers
-  ttsPause() { this.tts.pause(); }
-  ttsResume() { this.tts.resume(); }
-  ttsStop() { this.tts.stop(); }
-  isPlayingFor(id: string) { return this.tts.isSpeaking() && this.tts.currentMessageId() === id; }
-  isPausedFor(id: string) { return this.tts.isPaused() && this.tts.currentMessageId() === id; }
+  ttsPause() {
+    this.tts.pause();
+  }
+  ttsResume() {
+    this.tts.resume();
+  }
+  ttsStop() {
+    this.tts.stop();
+  }
+  isPlayingFor(id: string) {
+    return this.tts.isSpeaking() && this.tts.currentMessageId() === id;
+  }
+  isPausedFor(id: string) {
+    return this.tts.isPaused() && this.tts.currentMessageId() === id;
+  }
 
   onVolumeInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -121,7 +152,10 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   }
 
   // Extract visible content and hidden <think> blocks from a markdown string
-  private extractThinkBlocks(content: string): { main: string; thinks: string[] } {
+  private extractThinkBlocks(content: string): {
+    main: string;
+    thinks: string[];
+  } {
     if (!content) return { main: '', thinks: [] };
     const thinks: string[] = [];
     const re = /<think[^>]*>([\s\S]*?)<\/think>/gi;
@@ -136,7 +170,11 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   }
 
   // Get or (re)build processed view for a message, updating cache when content changes
-  getProcessed(message: ChatMessage): { main: string; thinks: string[]; expanded: boolean } {
+  getProcessed(message: ChatMessage): {
+    main: string;
+    thinks: string[];
+    expanded: boolean;
+  } {
     const id = message.id || `${message.timestamp}-${Math.random()}`;
     const content = message.displayedContent ?? message.content ?? '';
     const cached = this.processed.get(id);
@@ -147,7 +185,11 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
       this.processed.set(id, entry);
       return entry;
     }
-    return { main: cached.main, thinks: cached.thinks, expanded: cached.expanded };
+    return {
+      main: cached.main,
+      thinks: cached.thinks,
+      expanded: cached.expanded,
+    };
   }
 
   toggleThink(message: ChatMessage) {
@@ -158,7 +200,12 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
     } else {
       // initialize from current content
       const cur = this.getProcessed(message);
-      this.processed.set(id, { main: cur.main, thinks: cur.thinks, expanded: !cur.expanded, last: message.displayedContent ?? message.content ?? '' });
+      this.processed.set(id, {
+        main: cur.main,
+        thinks: cur.thinks,
+        expanded: !cur.expanded,
+        last: message.displayedContent ?? message.content ?? '',
+      });
     }
   }
 }

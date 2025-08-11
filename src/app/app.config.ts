@@ -6,8 +6,17 @@ import {
   provideAppInitializer,
   inject, // <-- use inject for deps inside initializers
 } from '@angular/core';
-import { provideRouter, withViewTransitions, PreloadingStrategy } from '@angular/router';
-import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
+import {
+  provideRouter,
+  withViewTransitions,
+  PreloadingStrategy,
+} from '@angular/router';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+  HttpClient,
+} from '@angular/common/http';
 
 import { routes } from './app.routes';
 import {
@@ -16,8 +25,15 @@ import {
 } from '@angular/platform-browser';
 import { provideMarkdown } from 'ngx-markdown';
 import {
-  CHAT_STREAM_PORT, SESSIONS_PORT, AUTH_PORT, APP_INFO_PORT, FILES_PORT,
-  ADMIN_USERS_PORT, COMPANIES_PORT, RISK_WEIGHTS_PORT, ADMIN_MESSAGES_PORT
+  CHAT_STREAM_PORT,
+  SESSIONS_PORT,
+  AUTH_PORT,
+  APP_INFO_PORT,
+  FILES_PORT,
+  ADMIN_USERS_PORT,
+  COMPANIES_PORT,
+  RISK_WEIGHTS_PORT,
+  ADMIN_MESSAGES_PORT,
 } from '@core/tokens';
 import { SseService } from '@infrastructure/services/sse-service';
 import { SessionsService } from '@infrastructure/services/sessions.service';
@@ -25,7 +41,11 @@ import { AuthService } from '@infrastructure/services/auth.service';
 import { authInterceptorFn } from '@infrastructure/interceptors/auth.interceptor';
 import { AppInfoService } from '@infrastructure/services/app-info.service';
 import { FilesService } from '@infrastructure/services/files.service';
-import { TranslateLoader, TranslateModule, type TranslationObject } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  type TranslationObject,
+} from '@ngx-translate/core';
 import es from '../assets/i18n/es.json';
 import en from '../assets/i18n/en.json';
 import { of } from 'rxjs';
@@ -74,7 +94,7 @@ export const appConfig: ApplicationConfig = {
           deps: [HttpClient],
         },
         fallbackLang: 'es',
-      })
+      }),
     ),
 
     // Initializer 1: language init
@@ -91,7 +111,8 @@ export const appConfig: ApplicationConfig = {
       const t = token.getToken();
       if (!t) return; // nothing to do
 
-      return getProfile.execute(t)
+      return getProfile
+        .execute(t)
         .then((profile) => {
           if (profile?.role) token.setRole(profile.role);
         })

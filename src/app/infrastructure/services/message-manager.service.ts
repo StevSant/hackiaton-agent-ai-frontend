@@ -31,7 +31,7 @@ export class MessageManagerService {
   addSystemMessage(
     messages: ChatMessage[],
     content: string,
-    event: EventType
+    event: EventType,
   ): ChatMessage {
     const systemMessage = this.chatUtils.createSystemMessage(content, event);
     this.addMessage(messages, systemMessage);
@@ -44,7 +44,7 @@ export class MessageManagerService {
   addErrorMessage(messages: ChatMessage[], content: string): ChatMessage {
     const errorMessage = this.chatUtils.createSystemMessage(
       content,
-      'Error' as EventType
+      'Error' as EventType,
     );
     this.addMessage(messages, errorMessage);
     return errorMessage;
@@ -56,7 +56,7 @@ export class MessageManagerService {
   createBotMessage(
     messages: ChatMessage[],
     runId: string,
-    timestamp?: number
+    timestamp?: number,
   ): ChatMessage {
     const botMessage = this.chatUtils.createBotMessage(runId, timestamp);
     this.addMessage(messages, botMessage);
@@ -67,7 +67,7 @@ export class MessageManagerService {
    * Finaliza un mensaje (completa el streaming)
    */
   completeMessage(message: ChatMessage): void {
-  if (message?.isStreaming) {
+    if (message?.isStreaming) {
       message.displayedContent = message.content;
       message.isComplete = true;
       message.isStreaming = false;
@@ -88,7 +88,7 @@ export class MessageManagerService {
    */
   findMessageById(
     messages: ChatMessage[],
-    id: string
+    id: string,
   ): ChatMessage | undefined {
     return messages.find((msg) => msg.id === id);
   }

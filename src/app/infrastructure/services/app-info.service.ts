@@ -13,7 +13,7 @@ export class AppInfoService implements AppInfoPort {
   constructor(private readonly http: HttpClient) {}
 
   async getAppInfo(): Promise<AppInfo> {
-  const url = `${this.base}/app-info/`;
+    const url = `${this.base}/app-info/`;
     return firstValueFrom(
       this.http.get<AppInfo>(url).pipe(
         catchError(() =>
@@ -21,14 +21,14 @@ export class AppInfoService implements AppInfoPort {
             site_name: 'Agente IA',
             site_icon: '/favicon.ico',
             site_logo: '/favicon.ico',
-          } satisfies AppInfo)
-        )
-      )
+          } satisfies AppInfo),
+        ),
+      ),
     );
   }
 
   async updateAppInfo(payload: Partial<AppInfo>): Promise<AppInfo> {
-  const url = `${this.base}/app-info/`;
+    const url = `${this.base}/app-info/`;
     return firstValueFrom(this.http.put<AppInfo>(url, payload));
   }
 }

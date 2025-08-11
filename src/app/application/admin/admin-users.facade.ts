@@ -1,6 +1,11 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
 import type { AdminUserItem } from '@core/ports';
-import { ListUsersUseCase, CreateUserUseCase, UpdateUserUseCase, DeleteUserUseCase } from '@core/use-cases';
+import {
+  ListUsersUseCase,
+  CreateUserUseCase,
+  UpdateUserUseCase,
+  DeleteUserUseCase,
+} from '@core/use-cases';
 
 @Injectable({ providedIn: 'root' })
 export class AdminUsersFacade {
@@ -17,7 +22,9 @@ export class AdminUsersFacade {
   readonly total = signal(0);
   readonly search = signal('');
   readonly start = computed(() => (this.page() - 1) * this.limit() + 1);
-  readonly end = computed(() => Math.min(this.page() * this.limit(), this.total()));
+  readonly end = computed(() =>
+    Math.min(this.page() * this.limit(), this.total()),
+  );
   readonly sortBy = signal<'email' | 'username' | 'created_at' | ''>('');
   readonly sortOrder = signal<'asc' | 'desc'>('asc');
 
@@ -69,7 +76,12 @@ export class AdminUsersFacade {
     await this.refresh();
   };
 
-  create = async (payload: { username: string; email: string; password: string; role: 'admin' | 'user' }) => {
+  create = async (payload: {
+    username: string;
+    email: string;
+    password: string;
+    role: 'admin' | 'user';
+  }) => {
     if (this.creating()) return;
     this.creating.set(true);
     this.error.set(null);

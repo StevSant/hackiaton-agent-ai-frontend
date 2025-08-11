@@ -20,8 +20,18 @@ export interface ListFilesResponse {
 }
 
 export interface FilesPort {
-  upload(file: File, subfolder?: string, sessionId?: string): Promise<UploadedFileMeta>;
+  upload(
+    file: File,
+    subfolder?: string,
+    sessionId?: string,
+  ): Promise<UploadedFileMeta>;
   getFile(fileId: string): Promise<UploadedFileMeta>;
-  list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; page?: number; limit?: number; offset?: number }): Promise<Paginated<UploadedFileMeta>>;
+  list(params?: {
+    type_file?: 'image' | 'pdf' | 'document';
+    subfolder?: string;
+    page?: number;
+    limit?: number;
+    offset?: number;
+  }): Promise<Paginated<UploadedFileMeta>>;
   listBySession(sessionId: string): Promise<UploadedFileMeta[]>;
 }

@@ -1,5 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject, signal, OnInit, AfterViewInit, HostListener } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  inject,
+  signal,
+  OnInit,
+  AfterViewInit,
+  HostListener,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import type { SessionCompaniesAnalysis } from '@core/models/session-analysis';
@@ -10,10 +22,11 @@ import { AnalyzeSessionCompaniesUseCase } from '@core/use-cases/sessions/analyze
   standalone: true,
   imports: [CommonModule, MatIconModule, TranslateModule],
   templateUrl: './session-companies-modal.component.html',
-  styleUrls: ['./session-companies-modal.component.css']
+  styleUrls: ['./session-companies-modal.component.css'],
 })
 export class SessionCompaniesModalComponent implements OnInit, AfterViewInit {
-  @ViewChild('modalRoot', { static: false }) modalRoot?: ElementRef<HTMLElement>;
+  @ViewChild('modalRoot', { static: false })
+  modalRoot?: ElementRef<HTMLElement>;
   @Input({ required: true }) sessionId!: string;
   @Output() closed = new EventEmitter<void>();
 
@@ -27,35 +40,59 @@ export class SessionCompaniesModalComponent implements OnInit, AfterViewInit {
     if (!this.sessionId) return;
     this.loading.set(true);
     this.analyze.execute(this.sessionId).subscribe({
-      next: (d) => { this.data.set(d); },
-      error: (e) => { this.error.set(e?.message || 'Error'); },
-      complete: () => { this.loading.set(false); }
+      next: (d) => {
+        this.data.set(d);
+      },
+      error: (e) => {
+        this.error.set(e?.message || 'Error');
+      },
+      complete: () => {
+        this.loading.set(false);
+      },
     });
   }
 
   trackByTaxId = (_: number, item: any) => item?.tax_id || _;
-  isEmpty(obj: any) { return !obj || (Array.isArray(obj) ? obj.length === 0 : Object.keys(obj).length === 0); }
+  isEmpty(obj: any) {
+    return (
+      !obj ||
+      (Array.isArray(obj) ? obj.length === 0 : Object.keys(obj).length === 0)
+    );
+  }
 
-  onBackdropClick() { this.closed.emit(); }
+  onBackdropClick() {
+    this.closed.emit();
+  }
   @ViewChild('closeBtn') closeBtn?: ElementRef<HTMLButtonElement>;
-  ngAfterViewInit() { queueMicrotask(() => this.closeBtn?.nativeElement?.focus()); }
+  ngAfterViewInit() {
+    queueMicrotask(() => this.closeBtn?.nativeElement?.focus());
+  }
 
   // Basic focus trap similar to files modal
   onKeydown(event: KeyboardEvent) {
     if (event.key !== 'Tab') return;
-    const root = this.modalRoot?.nativeElement; if (!root) return;
+    const root = this.modalRoot?.nativeElement;
+    if (!root) return;
     const focusables = root.querySelectorAll<HTMLElement>(
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
     );
     if (!focusables.length) return;
     const first = focusables[0];
     const last = focusables[focusables.length - 1];
     const active = document.activeElement as HTMLElement | null;
     if (event.shiftKey) {
-      if (active === first) { last.focus(); event.preventDefault(); }
-    } else if (active === last) { first.focus(); event.preventDefault(); }
+      if (active === first) {
+        last.focus();
+        event.preventDefault();
+      }
+    } else if (active === last) {
+      first.focus();
+      event.preventDefault();
+    }
   }
 
   @HostListener('document:keydown.escape')
-  onEsc() { this.closed.emit(); }
+  onEsc() {
+    this.closed.emit();
+  }
 }

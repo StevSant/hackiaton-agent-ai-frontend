@@ -4,7 +4,10 @@ import type { SessionsPort } from '@core/ports';
 
 export class GetSessionUseCase {
   constructor(private readonly sessions: SessionsPort) {}
-  execute(agentId: string, sessionId: string): Observable<{ chats: ChatEntry[] }> {
+  execute(
+    agentId: string,
+    sessionId: string,
+  ): Observable<{ chats: ChatEntry[] }> {
     return this.sessions.getSession(agentId, sessionId);
   }
 }

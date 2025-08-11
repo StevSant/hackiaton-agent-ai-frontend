@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,37 +37,64 @@ export class AdminUsersPage {
   sortOrder = this.facade.sortOrder;
 
   editingId = signal<string | null>(null);
-  editForm = this.fb.group({ username: [''], email: [''], role: ['user' as 'admin' | 'user'], password: [''] });
+  editForm = this.fb.group({
+    username: [''],
+    email: [''],
+    role: ['user' as 'admin' | 'user'],
+    password: [''],
+  });
 
   form = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    role: ['user' as 'admin' | 'user']
+    role: ['user' as 'admin' | 'user'],
   });
 
-  async ngOnInit() { await this.refresh(); }
+  async ngOnInit() {
+    await this.refresh();
+  }
 
-  async refresh() { await this.facade.refresh(); }
+  async refresh() {
+    await this.facade.refresh();
+  }
 
-  async nextPage() { await this.facade.nextPage(); }
+  async nextPage() {
+    await this.facade.nextPage();
+  }
 
-  async prevPage() { await this.facade.prevPage(); }
+  async prevPage() {
+    await this.facade.prevPage();
+  }
 
-  async applySearch(value: string) { await this.facade.applySearch(value); }
+  async applySearch(value: string) {
+    await this.facade.applySearch(value);
+  }
 
-  setSort(field: 'email'|'username'|'created_at') { this.facade.setSort(field); }
+  setSort(field: 'email' | 'username' | 'created_at') {
+    this.facade.setSort(field);
+  }
 
   async create() {
     if (this.form.invalid || this.creating()) return;
     const { username, email, password, role } = this.form.value;
-    await this.facade.create({ username: username!, email: email!, password: password!, role: role! });
+    await this.facade.create({
+      username: username!,
+      email: email!,
+      password: password!,
+      role: role!,
+    });
     this.form.reset({ role: 'user' });
   }
 
   startEdit(u: AdminUserItem) {
     this.editingId.set(u.user_id);
-    this.editForm.setValue({ username: u.username || '', email: u.email || '', role: (u.role as any) || 'user', password: '' });
+    this.editForm.setValue({
+      username: u.username || '',
+      email: u.email || '',
+      role: (u.role as any) || 'user',
+      password: '',
+    });
   }
 
   cancelEdit() {
@@ -79,8 +111,10 @@ export class AdminUsersPage {
   }
 
   async confirmDelete(u: AdminUserItem) {
-  const msg = this.i18n.instant('ADMIN.USERS.CONFIRM_DELETE', { email: u.email });
-  if (confirm(msg)) {
+    const msg = this.i18n.instant('ADMIN.USERS.CONFIRM_DELETE', {
+      email: u.email,
+    });
+    if (confirm(msg)) {
       await this.facade.delete(u.user_id);
     }
   }

@@ -1,33 +1,33 @@
-import { Injectable } from "@angular/core"
-import { BehaviorSubject } from "rxjs"
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
-export type ConnectionStatus = "idle" | "connecting" | "streaming" | "error"
+export type ConnectionStatus = 'idle' | 'connecting' | 'streaming' | 'error';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ConnectionStatusService {
-  private connectionStatus$ = new BehaviorSubject<ConnectionStatus>("idle")
+  private connectionStatus$ = new BehaviorSubject<ConnectionStatus>('idle');
 
   /**
    * Observable del estado de conexión
    */
   get status$() {
-    return this.connectionStatus$.asObservable()
+    return this.connectionStatus$.asObservable();
   }
 
   /**
    * Valor actual del estado
    */
   get currentStatus(): ConnectionStatus {
-    return this.connectionStatus$.value
+    return this.connectionStatus$.value;
   }
 
   /**
    * Actualiza el estado de conexión
    */
   setStatus(status: ConnectionStatus): void {
-    this.connectionStatus$.next(status)
+    this.connectionStatus$.next(status);
   }
 
   /**
@@ -35,12 +35,12 @@ export class ConnectionStatusService {
    */
   getStatusText(): string {
     const statusMap = {
-      idle: "Listo",
-      connecting: "Conectando...",
-      streaming: "Recibiendo...",
-      error: "Error",
-    }
-    return statusMap[this.currentStatus] || "Desconocido"
+      idle: 'Listo',
+      connecting: 'Conectando...',
+      streaming: 'Recibiendo...',
+      error: 'Error',
+    };
+    return statusMap[this.currentStatus] || 'Desconocido';
   }
 
   /**
@@ -48,18 +48,18 @@ export class ConnectionStatusService {
    */
   getStatusClass(): string {
     const statusClasses = {
-      idle: "bg-success animate-pulse",
-      connecting: "bg-warning animate-ping",
-      streaming: "bg-info animate-pulse",
-      error: "bg-error animate-bounce",
-    }
-    return statusClasses[this.currentStatus] || "bg-secondary"
+      idle: 'bg-success animate-pulse',
+      connecting: 'bg-warning animate-ping',
+      streaming: 'bg-info animate-pulse',
+      error: 'bg-error animate-bounce',
+    };
+    return statusClasses[this.currentStatus] || 'bg-secondary';
   }
 
   /**
    * Limpia el servicio
    */
   destroy(): void {
-    this.connectionStatus$.complete()
+    this.connectionStatus$.complete();
   }
 }

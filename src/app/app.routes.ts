@@ -24,15 +24,15 @@ export const routes: Routes = [
       import('@presentation/pages/home').then((m) => m.HomePage),
   },
   {
-  path: '',
-  pathMatch: 'full',
-  redirectTo: 'home',
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home',
   },
   {
     path: 'forbidden',
     loadComponent: () =>
       import('@presentation/pages/forbidden/forbidden').then(
-        (m) => m.ForbiddenPage
+        (m) => m.ForbiddenPage,
       ),
   },
 
@@ -63,58 +63,58 @@ export const routes: Routes = [
   {
     path: 'admin',
     canActivate: [RoleGuard],
-  data: { roles: ['admin'], preload: false },
+    data: { roles: ['admin'], preload: false },
     loadComponent: () =>
       import('./presentation/layouts/admin-shell/admin-shell').then(
-        (m) => m.AdminShellLayout
+        (m) => m.AdminShellLayout,
       ),
     children: [
       {
         path: '',
-  data: { preload: true },
+        data: { preload: true },
         loadComponent: () =>
           import('./presentation/pages/admin/dashboard').then(
-            (m) => m.AdminDashboardPage
+            (m) => m.AdminDashboardPage,
           ),
       },
       {
         path: 'users',
-    data: { preload: false },
+        data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/users').then(
-            (m) => m.AdminUsersPage
+            (m) => m.AdminUsersPage,
           ),
       },
       {
         path: 'files',
-    data: { preload: false },
+        data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/files').then(
-            (m) => m.AdminFilesPage
+            (m) => m.AdminFilesPage,
           ),
       },
       {
         path: 'messages',
-    data: { preload: false },
+        data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/messages').then(
-            (m) => m.AdminMessagesPage
+            (m) => m.AdminMessagesPage,
           ),
       },
       {
         path: 'app-info',
-    data: { preload: false },
+        data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/app-info').then(
-            (m) => m.AdminAppInfoPage
+            (m) => m.AdminAppInfoPage,
           ),
       },
       {
         path: 'companies',
-    data: { preload: false },
+        data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/companies').then(
-            (m) => m.AdminCompaniesPage
+            (m) => m.AdminCompaniesPage,
           ),
       },
       {
@@ -122,7 +122,7 @@ export const routes: Routes = [
         data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/companies').then(
-            (m) => m.AdminCompaniesPage
+            (m) => m.AdminCompaniesPage,
           ),
       },
     ],
@@ -133,7 +133,7 @@ export const routes: Routes = [
     path: '**',
     loadComponent: () =>
       import('@presentation/pages/not-found/not-found').then(
-        (m) => m.NotFoundPage
+        (m) => m.NotFoundPage,
       ),
   },
 ];

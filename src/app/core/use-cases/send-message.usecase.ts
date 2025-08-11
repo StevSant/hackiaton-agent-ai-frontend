@@ -7,7 +7,14 @@ export class SendMessageUseCase {
 
   execute(
     agentId: string,
-  payload: { message?: string; session_id?: string; user_id?: string; audioFile?: File; files?: File[]; file_ids?: string[] }
+    payload: {
+      message?: string;
+      session_id?: string;
+      user_id?: string;
+      audioFile?: File;
+      files?: File[];
+      file_ids?: string[];
+    },
   ): Observable<StreamResponseModel> {
     console.log('📨 Enviando mensaje:', payload);
     return this.chatStream.streamFromAgent(agentId, payload);

@@ -11,7 +11,9 @@ export class LoginFacade {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
 
-  async login(payload: LoginRequest): Promise<LoginSuccessResponse | undefined> {
+  async login(
+    payload: LoginRequest,
+  ): Promise<LoginSuccessResponse | undefined> {
     if (this.loading()) return;
     this.loading.set(true);
     this.error.set(null);

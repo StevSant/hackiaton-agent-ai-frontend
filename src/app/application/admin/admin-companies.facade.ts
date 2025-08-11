@@ -10,8 +10,8 @@ export class AdminCompaniesFacade {
   readonly page = signal(1);
   readonly limit = signal(20);
   readonly total = signal(0);
-  readonly sortBy = signal<'tax_id'|'name'|'sector'|''>('');
-  readonly sortOrder = signal<'asc'|'desc'>('asc');
+  readonly sortBy = signal<'tax_id' | 'name' | 'sector' | ''>('');
+  readonly sortOrder = signal<'asc' | 'desc'>('asc');
   readonly search = signal('');
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -26,12 +26,12 @@ export class AdminCompaniesFacade {
         page: this.page(),
         limit: this.limit(),
         search: this.search() || undefined,
-  sector: this.sector() || undefined,
+        sector: this.sector() || undefined,
         sort_by: (this.sortBy() || undefined) as any,
         sort_order: this.sortOrder(),
       });
-  this.items.set(res.items || []);
-  this.total.set(res.total || 0);
+      this.items.set(res.items || []);
+      this.total.set(res.total || 0);
     } catch (e: any) {
       this.error.set(e?.message || 'Error cargando compañías');
     } finally {
@@ -52,18 +52,18 @@ export class AdminCompaniesFacade {
   }
 
   async nextPage() {
-  if (this.page() * this.limit() >= this.total()) return;
-  this.page.update((p) => p + 1);
+    if (this.page() * this.limit() >= this.total()) return;
+    this.page.update((p) => p + 1);
     await this.refresh();
   }
 
   async prevPage() {
-  if (this.page() <= 1) return;
+    if (this.page() <= 1) return;
     this.page.update((p) => p - 1);
     await this.refresh();
   }
 
-  setSort(field: 'tax_id'|'name'|'sector') {
+  setSort(field: 'tax_id' | 'name' | 'sector') {
     if (this.sortBy() === field) {
       this.sortOrder.update((o) => (o === 'asc' ? 'desc' : 'asc'));
     } else {
@@ -79,5 +79,5 @@ export class AdminCompaniesFacade {
     this.limit.set(limit);
     this.page.set(1);
     await this.refresh();
-  }
+  };
 }

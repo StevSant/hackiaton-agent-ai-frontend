@@ -23,12 +23,18 @@ export class BackgroundService {
 
   init() {
     const bg = this.readLS(STORAGE_BG) as BgStyle | null;
-  const pal = this.readLS(STORAGE_PAL) as Palette | null;
+    const pal = this.readLS(STORAGE_PAL) as Palette | null;
     const neon = this.readLS(STORAGE_NEON);
     const prlx = this.readLS(STORAGE_PRLX);
 
-    this.setBackground(bg === 'minimal' || bg === 'aurora' || bg === 'bokeh' ? bg : 'bokeh');
-  this.setPalette(pal === 'vaporwave' || pal === 'cyber' || pal === 'default' ? pal : 'vaporwave');
+    this.setBackground(
+      bg === 'minimal' || bg === 'aurora' || bg === 'bokeh' ? bg : 'bokeh',
+    );
+    this.setPalette(
+      pal === 'vaporwave' || pal === 'cyber' || pal === 'default'
+        ? pal
+        : 'vaporwave',
+    );
     this.setNeonEdges(neon === 'false' ? false : true);
     this.setParallax(prlx === 'false' ? false : true);
   }
@@ -66,7 +72,11 @@ export class BackgroundService {
     body.classList.remove('bg-minimal', 'bg-aurora', 'bg-bokeh');
     body.classList.add(`bg-${this._bg()}`);
     // palette
-    body.classList.remove('palette-default', 'palette-vaporwave', 'palette-cyber');
+    body.classList.remove(
+      'palette-default',
+      'palette-vaporwave',
+      'palette-cyber',
+    );
     body.classList.add(`palette-${this._palette()}`);
     // neon edges
     body.classList.toggle('neon-edges', this._neon());
@@ -79,9 +89,13 @@ export class BackgroundService {
 
   private setupParallaxListener() {
     if (typeof window === 'undefined') return;
-    window.removeEventListener('pointermove', this.onPointerMove, { capture: false } as any);
+    window.removeEventListener('pointermove', this.onPointerMove, {
+      capture: false,
+    } as any);
     if (!this._parallax()) return;
-    window.addEventListener('pointermove', this.onPointerMove, { passive: true });
+    window.addEventListener('pointermove', this.onPointerMove, {
+      passive: true,
+    });
   }
 
   private onPointerMove = (ev: PointerEvent) => {
@@ -104,12 +118,22 @@ export class BackgroundService {
   };
 
   private readLS(k: string): string | null {
-    try { return localStorage.getItem(k); } catch { return null; }
+    try {
+      return localStorage.getItem(k);
+    } catch {
+      return null;
+    }
   }
   private writeLS(k: string, v: string) {
-    try { localStorage.setItem(k, v); } catch {}
+    try {
+      localStorage.setItem(k, v);
+    } catch {}
   }
   private safeDoc(): Document | null {
-    try { return document; } catch { return null; }
+    try {
+      return document;
+    } catch {
+      return null;
+    }
   }
 }

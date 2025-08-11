@@ -24,9 +24,10 @@ export function adaptAgent(rawAgent: any): AgentModel {
         }))
       : [],
     memory: agent.memory ?? null,
-    storage: typeof agent.storage === 'object' && agent.storage !== null
-      ? { name: agent.storage.name ?? 'default' }
-      : { name: agent.storage ? 'enabled' : 'disabled' },
+    storage:
+      typeof agent.storage === 'object' && agent.storage !== null
+        ? { name: agent.storage.name ?? 'default' }
+        : { name: agent.storage ? 'enabled' : 'disabled' },
     knowledge: agent.knowledge ?? null,
     description: agent.description ?? null,
     instructions: (() => {

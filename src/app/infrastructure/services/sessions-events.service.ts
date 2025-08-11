@@ -7,8 +7,14 @@ import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class SessionsEventsService {
   private readonly refresh$ = new Subject<void>();
-  private readonly filesModal$ = new Subject<{ open: boolean; sessionId?: string | null }>();
-  private readonly companiesModal$ = new Subject<{ open: boolean; sessionId?: string | null }>();
+  private readonly filesModal$ = new Subject<{
+    open: boolean;
+    sessionId?: string | null;
+  }>();
+  private readonly companiesModal$ = new Subject<{
+    open: boolean;
+    sessionId?: string | null;
+  }>();
 
   onRefresh() {
     return this.refresh$.asObservable();

@@ -11,8 +11,7 @@
       "@presentation/*": ["src/app/presentation/*"],
       "@domain/*": ["src/app/domain/*"],
       "@infrastructure/*": ["src/app/infrastructure/*"],
-      "@environments/*": ["src/environments/*"],
-      
+      "@environments/*": ["src/environments/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
@@ -24,8 +23,8 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-  "module": "preserve",
-  "resolveJsonModule": true
+    "module": "preserve",
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

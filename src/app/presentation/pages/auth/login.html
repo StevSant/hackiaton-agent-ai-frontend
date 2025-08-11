@@ -1,66 +1,161 @@
-<div class="min-h-screen w-full flex items-center justify-center px-4 py-10 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--brand-primary)/0.18),transparent_60%)] vt-page">
+<div
+  class="min-h-screen w-full flex items-center justify-center px-4 py-10 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--brand-primary)/0.18),transparent_60%)] vt-page"
+>
   <div class="absolute top-3 left-3 z-20">
-    <a routerLink="/home" class="btn btn-ghost btn-xs" [title]="'NOT_FOUND.BACK_HOME' | translate">
+    <a
+      routerLink="/home"
+      class="btn btn-ghost btn-xs"
+      [title]="'NOT_FOUND.BACK_HOME' | translate"
+    >
       <mat-icon fontIcon="home"></mat-icon>
-      <span class="ml-1 text-xs">{{ 'NOT_FOUND.BACK_HOME' | translate }}</span>
+      <span class="ml-1 text-xs">{{ "NOT_FOUND.BACK_HOME" | translate }}</span>
     </a>
   </div>
   <div class="relative w-full max-w-md">
     <!-- Glow / gradient decoration -->
-    <div class="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[hsl(var(--brand-primary)/0.25)] via-transparent to-[hsl(var(--accent)/0.15)] blur-2xl" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[hsl(var(--brand-primary)/0.25)] via-transparent to-[hsl(var(--accent)/0.15)] blur-2xl"
+      aria-hidden="true"
+    ></div>
 
-    <div class="relative overflow-hidden rounded-3xl border border-[hsl(var(--border))] bg-card/70 backdrop-blur-xl shadow-xl shadow-[hsl(var(--brand-primary)/0.15)]">
+    <div
+      class="relative overflow-hidden rounded-3xl border border-[hsl(var(--border))] bg-card/70 backdrop-blur-xl shadow-xl shadow-[hsl(var(--brand-primary)/0.15)]"
+    >
       <!-- Back to Home -->
-      <div class="absolute -top-24 -right-24 h-72 w-72 bg-[conic-gradient(from_90deg_at_50%_50%,hsl(var(--brand-primary)/0.25),transparent_70%)] blur-2xl opacity-70"></div>
+      <div
+        class="absolute -top-24 -right-24 h-72 w-72 bg-[conic-gradient(from_90deg_at_50%_50%,hsl(var(--brand-primary)/0.25),transparent_70%)] blur-2xl opacity-70"
+      ></div>
       <div class="p-8 relative z-10">
         <div class="mb-8 text-center space-y-2 vt-stagger">
-          <h1 class="text-3xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-primary))] to-[hsl(var(--accent))]">{{ 'LOGIN.TITLE' | translate }}</h1>
-          <p class="text-sm text-[hsl(var(--muted-foreground))]">{{ 'LOGIN.SUBTITLE' | translate }}</p>
+          <h1
+            class="text-3xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-primary))] to-[hsl(var(--accent))]"
+          >
+            {{ "LOGIN.TITLE" | translate }}
+          </h1>
+          <p class="text-sm text-[hsl(var(--muted-foreground))]">
+            {{ "LOGIN.SUBTITLE" | translate }}
+          </p>
         </div>
 
-        <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-5 vt-stagger" novalidate>
+        <form
+          [formGroup]="form"
+          (ngSubmit)="submit()"
+          class="space-y-5 vt-stagger"
+          novalidate
+        >
           <!-- Email -->
           <div class="space-y-1.5">
-            <label for="email" class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase">{{ 'LOGIN.EMAIL' | translate }}</label>
-            <input id="email" type="email" formControlName="email"
-              class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition placeholder:text-[hsl(var(--muted-foreground)/0.7)]" [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate" />
-            @if (form.get('email')?.invalid && form.get('email')?.touched) {<div class="text-xs text-[hsl(var(--destructive))]">{{ 'LOGIN.EMAIL_INVALID' | translate }}</div>}
+            <label
+              for="email"
+              class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase"
+              >{{ "LOGIN.EMAIL" | translate }}</label
+            >
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition placeholder:text-[hsl(var(--muted-foreground)/0.7)]"
+              [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
+            />
+            @if (form.get("email")?.invalid && form.get("email")?.touched) {
+              <div class="text-xs text-[hsl(var(--destructive))]">
+                {{ "LOGIN.EMAIL_INVALID" | translate }}
+              </div>
+            }
           </div>
 
           <!-- Password -->
           <div class="space-y-1.5">
             <div class="flex items-center justify-between">
-              <label for="password" class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase">{{ 'LOGIN.PASSWORD' | translate }}</label>
-              <button type="button" class="text-[hsl(var(--primary))] text-xs hover:underline opacity-70 hover:opacity-100 cursor-not-allowed" [title]="'LOGIN.FORGOT' | translate" disabled>{{ 'LOGIN.FORGOT' | translate }}</button>
-            </div>
-            <div class="relative">
-              <input id="password" [type]="showPassword() ? 'text' : 'password'" formControlName="password"
-                class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur pr-10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition" placeholder="••••••" />
-              <button type="button" (click)="toggleShowPassword()" [attr.aria-label]="(showPassword() ? ('LOGIN.HIDE_PASSWORD' | translate) : ('LOGIN.SHOW_PASSWORD' | translate))" class="absolute right-2 top-1/2 -translate-y-1/2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]">
-                <mat-icon fontIcon="{{ showPassword() ? 'visibility_off' : 'visibility' }}"></mat-icon>
+              <label
+                for="password"
+                class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase"
+                >{{ "LOGIN.PASSWORD" | translate }}</label
+              >
+              <button
+                type="button"
+                class="text-[hsl(var(--primary))] text-xs hover:underline opacity-70 hover:opacity-100 cursor-not-allowed"
+                [title]="'LOGIN.FORGOT' | translate"
+                disabled
+              >
+                {{ "LOGIN.FORGOT" | translate }}
               </button>
             </div>
-            @if (form.get('password')?.invalid && form.get('password')?.touched) {<div class="text-xs text-[hsl(var(--destructive))]">{{ 'LOGIN.MIN_6_CHARS' | translate }}</div>}
+            <div class="relative">
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur pr-10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition"
+                placeholder="••••••"
+              />
+              <button
+                type="button"
+                (click)="toggleShowPassword()"
+                [attr.aria-label]="
+                  showPassword()
+                    ? ('LOGIN.HIDE_PASSWORD' | translate)
+                    : ('LOGIN.SHOW_PASSWORD' | translate)
+                "
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]"
+              >
+                <mat-icon
+                  fontIcon="{{
+                    showPassword() ? 'visibility_off' : 'visibility'
+                  }}"
+                ></mat-icon>
+              </button>
+            </div>
+            @if (
+              form.get("password")?.invalid && form.get("password")?.touched
+            ) {
+              <div class="text-xs text-[hsl(var(--destructive))]">
+                {{ "LOGIN.MIN_6_CHARS" | translate }}
+              </div>
+            }
           </div>
 
           <!-- Error -->
-          @if (error()) {<div class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2">
-            <span class="inline-block h-2 w-2 rounded-full bg-[hsl(var(--destructive))]"></span>{{ error() }}
-          </div>}
+          @if (error()) {
+            <div
+              class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2"
+            >
+              <span
+                class="inline-block h-2 w-2 rounded-full bg-[hsl(var(--destructive))]"
+              ></span
+              >{{ error() }}
+            </div>
+          }
 
           <!-- Submit -->
-          <button type="submit" [disabled]="form.invalid || submitting()"
-            class="relative w-full inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-medium text-sm text-white transition focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[hsl(var(--brand-primary))] to-[hsl(var(--accent))] shadow-lg shadow-[hsl(var(--brand-primary)/0.35)] hover:shadow-[0_0_32px_hsl(var(--brand-primary)/0.45)]">
-            @if (!submitting()) {<span>{{ 'LOGIN.SUBMIT' | translate }}</span>}
-            @if (submitting()) {<span class="flex items-center gap-2"><span
-                class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>{{ 'LOGIN.PROCESSING' | translate }}</span>
+          <button
+            type="submit"
+            [disabled]="form.invalid || submitting()"
+            class="relative w-full inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-medium text-sm text-white transition focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[hsl(var(--brand-primary))] to-[hsl(var(--accent))] shadow-lg shadow-[hsl(var(--brand-primary)/0.35)] hover:shadow-[0_0_32px_hsl(var(--brand-primary)/0.45)]"
+          >
+            @if (!submitting()) {
+              <span>{{ "LOGIN.SUBMIT" | translate }}</span>
+            }
+            @if (submitting()) {
+              <span class="flex items-center gap-2"
+                ><span
+                  class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+                ></span
+                >{{ "LOGIN.PROCESSING" | translate }}</span
+              >
             }
           </button>
         </form>
 
-        <div class="mt-8 text-center text-sm text-[hsl(var(--muted-foreground))]">
-          {{ 'LOGIN.NO_ACCOUNT' | translate }} <a [routerLink]="['/register']"
-            class="font-medium text-[hsl(var(--primary))] hover:underline">{{ 'LOGIN.CREATE_ACCOUNT' | translate }}</a>
+        <div
+          class="mt-8 text-center text-sm text-[hsl(var(--muted-foreground))]"
+        >
+          {{ "LOGIN.NO_ACCOUNT" | translate }}
+          <a
+            [routerLink]="['/register']"
+            class="font-medium text-[hsl(var(--primary))] hover:underline"
+            >{{ "LOGIN.CREATE_ACCOUNT" | translate }}</a
+          >
         </div>
       </div>
     </div>

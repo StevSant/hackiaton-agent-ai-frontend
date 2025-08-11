@@ -1,4 +1,13 @@
-import { Component, ChangeDetectionStrategy, computed, effect, inject, signal, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  computed,
+  effect,
+  inject,
+  signal,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,14 +36,16 @@ export class AdminCompaniesPage {
   selectedSector = signal<string>('');
   sectors = computed(() => {
     const set = new Set<string>();
-    for (const it of this.items() || []) { if (it.sector) set.add(it.sector); }
+    for (const it of this.items() || []) {
+      if (it.sector) set.add(it.sector);
+    }
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   });
   filteredItems = computed(() => {
     const sector = this.selectedSector();
     const arr = this.items() || [];
     if (!sector) return arr;
-    return arr.filter(i => i.sector === sector);
+    return arr.filter((i) => i.sector === sector);
   });
   page = this.facade.page;
   limit = this.facade.limit;
@@ -56,7 +67,8 @@ export class AdminCompaniesPage {
     return m ? Object.keys(m) : [];
   });
 
-  @ViewChild('metricsChart', { static: false }) metricsChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('metricsChart', { static: false })
+  metricsChartRef?: ElementRef<HTMLCanvasElement>;
   private chart?: Chart;
 
   // React to modal open + metrics ready to render/destroy chart
@@ -74,7 +86,7 @@ export class AdminCompaniesPage {
   async ngOnInit() {
     await this.refresh();
     // Deep link: react to taxId param or query changes
-    this.route.paramMap.subscribe(pm => {
+    this.route.paramMap.subscribe((pm) => {
       const tax = pm.get('taxId');
       if (tax) {
         // Only load if changed
@@ -88,7 +100,7 @@ export class AdminCompaniesPage {
         }
       }
     });
-    this.route.queryParamMap.subscribe(qp => {
+    this.route.queryParamMap.subscribe((qp) => {
       const tax = qp.get('taxId');
       if (tax && !this.route.snapshot.paramMap.get('taxId')) {
         // Support legacy query deep link
@@ -99,20 +111,30 @@ export class AdminCompaniesPage {
     });
   }
 
-  async refresh() { await this.facade.refresh(); }
+  async refresh() {
+    await this.facade.refresh();
+  }
 
-  async applySearch() { await this.facade.applySearch(this.form.value.search?.trim() || ''); }
+  async applySearch() {
+    await this.facade.applySearch(this.form.value.search?.trim() || '');
+  }
 
-  async nextPage() { await this.facade.nextPage(); }
+  async nextPage() {
+    await this.facade.nextPage();
+  }
 
-  async prevPage() { await this.facade.prevPage(); }
+  async prevPage() {
+    await this.facade.prevPage();
+  }
 
-  setSort(field: 'tax_id'|'name'|'sector') { this.facade.setSort(field); }
+  setSort(field: 'tax_id' | 'name' | 'sector') {
+    this.facade.setSort(field);
+  }
 
   selectSector(sector: string) {
-  const next = this.selectedSector() === sector ? '' : sector;
-  this.selectedSector.set(next);
-  this.facade.setSector(next);
+    const next = this.selectedSector() === sector ? '' : sector;
+    this.selectedSector.set(next);
+    this.facade.setSector(next);
   }
 
   async copyTaxId(taxId: string) {
@@ -120,7 +142,9 @@ export class AdminCompaniesPage {
       if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(taxId);
       }
-    } catch { /* noop */ }
+    } catch {
+      /* noop */
+    }
   }
 
   async openDashboard(taxId: string) {
@@ -140,13 +164,17 @@ export class AdminCompaniesPage {
     this.stats.company.set(null);
     this.stats.companyError.set(null);
     this.destroyChart();
-  // Always navigate back to companies list
-  void this.router.navigate(['/admin/companies']);
+    // Always navigate back to companies list
+    void this.router.navigate(['/admin/companies']);
   }
 
   copyText = async (text?: string | null) => {
     if (!text) return;
-    try { await navigator.clipboard?.writeText(text); } catch { /* noop */ }
+    try {
+      await navigator.clipboard?.writeText(text);
+    } catch {
+      /* noop */
+    }
   };
 
   private renderChart() {
@@ -155,22 +183,36 @@ export class AdminCompaniesPage {
     if (!el || !Object.keys(data).length) return;
     this.destroyChart();
     const labels = Object.keys(data);
-    const values = labels.map(k => Number(data[k] as any) || 0);
+    const values = labels.map((k) => Number(data[k] as any) || 0);
     this.chart = new Chart(el, {
       type: 'bar',
       data: {
         labels,
-        datasets: [{ label: 'Metrics', data: values, backgroundColor: 'rgba(59,130,246,0.4)', borderColor: 'rgba(59,130,246,1)', borderWidth: 1 }]
+        datasets: [
+          {
+            label: 'Metrics',
+            data: values,
+            backgroundColor: 'rgba(59,130,246,0.4)',
+            borderColor: 'rgba(59,130,246,1)',
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         responsive: true,
         plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-      }
+        scales: { y: { beginAtZero: true } },
+      },
     });
   }
 
   private destroyChart() {
-    try { this.chart?.destroy(); } catch { /* noop */ } finally { this.chart = undefined; }
+    try {
+      this.chart?.destroy();
+    } catch {
+      /* noop */
+    } finally {
+      this.chart = undefined;
+    }
   }
 }

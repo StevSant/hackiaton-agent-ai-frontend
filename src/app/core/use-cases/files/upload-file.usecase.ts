@@ -5,7 +5,11 @@ import type { FilesPort, UploadedFileMeta } from '@core/ports';
 @Injectable({ providedIn: 'root' })
 export class UploadFileUseCase {
   private readonly files = inject<FilesPort>(FILES_PORT);
-  execute(file: File, subfolder = '', sessionId?: string): Promise<UploadedFileMeta> {
+  execute(
+    file: File,
+    subfolder = '',
+    sessionId?: string,
+  ): Promise<UploadedFileMeta> {
     return this.files.upload(file, subfolder, sessionId);
   }
 }

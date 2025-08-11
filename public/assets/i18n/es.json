@@ -16,11 +16,11 @@
     "HOME": "Inicio",
     "LANGUAGE": "Idioma",
     "SPANISH": "Español",
-  "ENGLISH": "Inglés",
-  "THEME": "Tema",
-  "THEME_LIGHT": "Claro",
-  "THEME_DARK": "Oscuro",
-  "THEME_SYSTEM": "Sistema"
+    "ENGLISH": "Inglés",
+    "THEME": "Tema",
+    "THEME_LIGHT": "Claro",
+    "THEME_DARK": "Oscuro",
+    "THEME_SYSTEM": "Sistema"
   },
   "CHAT": {
     "TITLE": "Chat con Agente",
@@ -37,13 +37,12 @@
     "SENDING_BTN": "Enviando...",
     "CANCEL": "Cancelar",
     "HINT": "Presiona Shift + Enter para nueva línea",
-  "FILES_COUNT": "{{count}} archivo(s)",
-  "ATTACHMENTS_VIEW": "Ver adjuntos",
-  "ATTACHMENTS_TITLE": "Archivos adjuntos de la sesión",
-  "ATTACHMENTS_EMPTY": "No hay archivos adjuntos en esta sesión",
-  "ATTACHMENTS_INFO": "Archivos que has subido en esta sesión para que el agente los use en sus respuestas."
-  }
-  ,
+    "FILES_COUNT": "{{count}} archivo(s)",
+    "ATTACHMENTS_VIEW": "Ver adjuntos",
+    "ATTACHMENTS_TITLE": "Archivos adjuntos de la sesión",
+    "ATTACHMENTS_EMPTY": "No hay archivos adjuntos en esta sesión",
+    "ATTACHMENTS_INFO": "Archivos que has subido en esta sesión para que el agente los use en sus respuestas."
+  },
   "HOME": {
     "TITLE": "Evaluación inteligente de riesgo financiero para PYMEs",
     "SUBTITLE": "Una vista general con indicadores y simulaciones para agilizar análisis crediticios con datos alternativos.",

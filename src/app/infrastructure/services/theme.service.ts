@@ -8,11 +8,16 @@ export class ThemeService {
   private _theme = signal<Theme>('system');
   readonly theme = this._theme.asReadonly();
   private media: MediaQueryList | null = null;
-  private mediaListener: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | null = null;
+  private mediaListener:
+    | ((this: MediaQueryList, ev: MediaQueryListEvent) => any)
+    | null = null;
 
   init() {
     const saved = this.safeLocalStorageGet(STORAGE_KEY) as Theme | null;
-    const t: Theme = saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system';
+    const t: Theme =
+      saved === 'light' || saved === 'dark' || saved === 'system'
+        ? saved
+        : 'system';
     this.setTheme(t);
   }
 
@@ -63,21 +68,29 @@ export class ThemeService {
   private prefersDark(): boolean {
     try {
       if (typeof window !== 'undefined') {
-        return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false;
+        return (
+          window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false
+        );
       }
     } catch {}
     return false;
   }
 
   private safeLocalStorageGet(key: string): string | null {
-    try { if (typeof localStorage !== 'undefined') return localStorage.getItem(key); } catch {}
+    try {
+      if (typeof localStorage !== 'undefined') return localStorage.getItem(key);
+    } catch {}
     return null;
   }
   private safeLocalStorageSet(key: string, value: string) {
-    try { if (typeof localStorage !== 'undefined') localStorage.setItem(key, value); } catch {}
+    try {
+      if (typeof localStorage !== 'undefined') localStorage.setItem(key, value);
+    } catch {}
   }
   private safeDocument(): Document | null {
-    try { if (typeof document !== 'undefined') return document; } catch {}
+    try {
+      if (typeof document !== 'undefined') return document;
+    } catch {}
     return null;
   }
 }

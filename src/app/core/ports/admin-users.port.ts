@@ -16,9 +16,18 @@ export interface CreateUserPayload {
 }
 
 export interface AdminUsersPort {
-  list(params?: { page?: number; limit?: number; email?: string; sort_by?: 'email'|'username'|'created_at'; sort_order?: 'asc'|'desc' }): Promise<Paginated<AdminUserItem>>;
+  list(params?: {
+    page?: number;
+    limit?: number;
+    email?: string;
+    sort_by?: 'email' | 'username' | 'created_at';
+    sort_order?: 'asc' | 'desc';
+  }): Promise<Paginated<AdminUserItem>>;
   get(userId: string): Promise<AdminUserItem>;
   create(payload: CreateUserPayload): Promise<AdminUserItem>;
-  update(userId: string, payload: Partial<CreateUserPayload>): Promise<AdminUserItem>;
+  update(
+    userId: string,
+    payload: Partial<CreateUserPayload>,
+  ): Promise<AdminUserItem>;
   delete(userId: string): Promise<void>;
 }

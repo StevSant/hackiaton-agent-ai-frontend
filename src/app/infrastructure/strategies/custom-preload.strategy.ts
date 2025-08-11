@@ -10,7 +10,9 @@ export class CustomPreloadStrategy implements PreloadingStrategy {
   // Simple heuristic: if body has perf-lite, avoid preloading admin/* and other heavy routes
   preload(route: Route, load: () => Observable<any>): Observable<any> {
     try {
-      const isLite = typeof document !== 'undefined' && document.body.classList.contains('perf-lite');
+      const isLite =
+        typeof document !== 'undefined' &&
+        document.body.classList.contains('perf-lite');
       const path = route.path ?? '';
       // Allow opt-in override with data: { preload: true|false }
       const flag = route.data?.['preload'];

@@ -1,77 +1,121 @@
 <aside class="h-screen w-72 p-4 flex flex-col border-r sticky top-0 vt-sidebar">
-    <div class="flex flex-col h-full gap-3">
-        <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center justify-center w-full gap-2">
-                <button [routerLink]="['/']"
-                    class="flex items-center gap-2 rounded-lg bg-gradient-to-l from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all cursor-pointer py-2 px-3 text-white font-semibold">
-                    <mat-icon>home</mat-icon>
-                    {{ 'COMMON.HOME' | translate }}
-                </button>
-                <button class="flex items-center gap-1 text-xs opacity-70 hover:opacity-100" (click)="tryLoad()"
-                    [disabled]="isLoading">
-                    <mat-icon fontIcon="refresh"></mat-icon>{{ 'COMMON.REFRESH' | translate }}
-                </button>
-            </div>
-            <!-- Profile icon/menu moved to footer -->
-        </div>
-
+  <div class="flex flex-col h-full gap-3">
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center justify-center w-full gap-2">
         <button
-            class="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all cursor-pointer py-2 px-4 text-white font-semibold"
-            (click)="newChat()">
-            <mat-icon>edit_square</mat-icon> {{ 'COMMON.NEW_CHAT' | translate }}
+          [routerLink]="['/']"
+          class="flex items-center gap-2 rounded-lg bg-gradient-to-l from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all cursor-pointer py-2 px-3 text-white font-semibold"
+        >
+          <mat-icon>home</mat-icon>
+          {{ "COMMON.HOME" | translate }}
         </button>
-
-        <div class="flex-1 overflow-y-auto" #scrollContainer>
-            <div class="text-sm opacity-70 px-2 mb-2">{{ 'COMMON.HISTORY' | translate }}</div>
-            <ng-container>
-                <div *ngIf="isLoading" class="px-2 py-2">
-                    <div class="space-y-2">
-                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
-                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
-                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
-                        <div class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"></div>
-                    </div>
-                </div>
-                <div *ngIf="!isLoading && sessions.length === 0" class="px-2 py-2 text-xs opacity-60">{{
-                    'COMMON.NO_SESSIONS' | translate }}</div>
-                <ul class="space-y-2">
-                    <li *ngFor="let s of sessions; trackBy: trackBySessionId"
-                        class="group border border-white/10 rounded-md hover:bg-white/5">
-                        <div class="grid grid-cols-[1fr_auto] items-center px-2 py-2 gap-2">
-                            <button class="text-left flex-1 min-w-0" (click)="openSession(s)">
-                                <div class="text-sm font-medium min-w-0">
-                                    <div class="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis" 
-                                         [title]="sanitizeTitle(s.title) || ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6))">
-                                        {{ sanitizeTitle(s.title) || ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6)) }}
-                                    </div>
-                                </div>
-                            </button>
-                            <button class="btn btn-ghost btn-xs text-error" (click)="openDeleteModal(s, $event)"
-                                [title]="('COMMON.DELETE' | translate)">
-                                <mat-icon fontIcon="delete"></mat-icon>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-                <div class="py-2 flex justify-center text-xs opacity-60" #sentinel>
-                    <ng-container *ngIf="isLoading">{{ 'COMMON.LOADING' | translate }}</ng-container>
-                    <ng-container *ngIf="!isLoading">&nbsp;</ng-container>
-                </div>
-            </ng-container>
-
-        </div>
-
-        <!-- Footer: reusable profile menu + admin entry button -->
-        <div class="mt-3 pt-3 border-t" style="border-color:hsl(var(--border))">
-            <button *ngIf="profileRole() === 'admin'" [routerLink]="['/admin']"
-                class="w-full mx-2 py-2 px-3 ml-auto flex items-center gap-2 rounded-lg bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all cursor-pointer   text-white font-semibold">
-                <mat-icon fontIcon="admin_panel_settings" class="!text-base"></mat-icon>
-                {{ 'COMMON.ADMIN' | translate }}
-            </button>
-            <app-profile-menu [showBackToChat]="false" [showBackHome]="true" (closed)="closed.emit()">
-            </app-profile-menu>
-        </div>
-
+        <button
+          class="flex items-center gap-1 text-xs opacity-70 hover:opacity-100"
+          (click)="tryLoad()"
+          [disabled]="isLoading"
+        >
+          <mat-icon fontIcon="refresh"></mat-icon
+          >{{ "COMMON.REFRESH" | translate }}
+        </button>
+      </div>
+      <!-- Profile icon/menu moved to footer -->
     </div>
 
+    <button
+      class="flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all cursor-pointer py-2 px-4 text-white font-semibold"
+      (click)="newChat()"
+    >
+      <mat-icon>edit_square</mat-icon> {{ "COMMON.NEW_CHAT" | translate }}
+    </button>
+
+    <div class="flex-1 overflow-y-auto" #scrollContainer>
+      <div class="text-sm opacity-70 px-2 mb-2">
+        {{ "COMMON.HISTORY" | translate }}
+      </div>
+      <ng-container>
+        <div *ngIf="isLoading" class="px-2 py-2">
+          <div class="space-y-2">
+            <div
+              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"
+            ></div>
+            <div
+              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"
+            ></div>
+            <div
+              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"
+            ></div>
+            <div
+              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"
+            ></div>
+          </div>
+        </div>
+        <div
+          *ngIf="!isLoading && sessions.length === 0"
+          class="px-2 py-2 text-xs opacity-60"
+        >
+          {{ "COMMON.NO_SESSIONS" | translate }}
+        </div>
+        <ul class="space-y-2">
+          <li
+            *ngFor="let s of sessions; trackBy: trackBySessionId"
+            class="group border border-white/10 rounded-md hover:bg-white/5"
+          >
+            <div class="grid grid-cols-[1fr_auto] items-center px-2 py-2 gap-2">
+              <button class="text-left flex-1 min-w-0" (click)="openSession(s)">
+                <div class="text-sm font-medium min-w-0">
+                  <div
+                    class="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis"
+                    [title]="
+                      sanitizeTitle(s.title) ||
+                      ('CHAT.SESSION' | translate) +
+                        ' ' +
+                        s.session_id.slice(0, 6)
+                    "
+                  >
+                    {{
+                      sanitizeTitle(s.title) ||
+                        ("CHAT.SESSION" | translate) +
+                          " " +
+                          s.session_id.slice(0, 6)
+                    }}
+                  </div>
+                </div>
+              </button>
+              <button
+                class="btn btn-ghost btn-xs text-error"
+                (click)="openDeleteModal(s, $event)"
+                [title]="'COMMON.DELETE' | translate"
+              >
+                <mat-icon fontIcon="delete"></mat-icon>
+              </button>
+            </div>
+          </li>
+        </ul>
+        <div class="py-2 flex justify-center text-xs opacity-60" #sentinel>
+          <ng-container *ngIf="isLoading">{{
+            "COMMON.LOADING" | translate
+          }}</ng-container>
+          <ng-container *ngIf="!isLoading">&nbsp;</ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Footer: reusable profile menu + admin entry button -->
+    <div class="mt-3 pt-3 border-t" style="border-color: hsl(var(--border))">
+      <button
+        *ngIf="profileRole() === 'admin'"
+        [routerLink]="['/admin']"
+        class="w-full mx-2 py-2 px-3 ml-auto flex items-center gap-2 rounded-lg bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all cursor-pointer text-white font-semibold"
+      >
+        <mat-icon fontIcon="admin_panel_settings" class="!text-base"></mat-icon>
+        {{ "COMMON.ADMIN" | translate }}
+      </button>
+      <app-profile-menu
+        [showBackToChat]="false"
+        [showBackHome]="true"
+        (closed)="closed.emit()"
+      >
+      </app-profile-menu>
+    </div>
+  </div>
 </aside>

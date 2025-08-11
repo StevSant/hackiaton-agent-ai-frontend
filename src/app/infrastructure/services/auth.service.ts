@@ -1,7 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import type { LoginRequest, RegisterRequest, UserProfile, LoginSuccessResponse, RegisterSuccessResponse } from '@core/models/auth';
+import type {
+  LoginRequest,
+  RegisterRequest,
+  UserProfile,
+  LoginSuccessResponse,
+  RegisterSuccessResponse,
+} from '@core/models/auth';
 import type { AuthPort } from '@core/ports';
 import { environment } from '@environments/environment';
 
@@ -18,14 +24,20 @@ export class AuthService implements AuthPort {
 
   async register(payload: RegisterRequest): Promise<RegisterSuccessResponse> {
     const url = `${this.base}/auth/register`;
-  const body = { email: payload.email, password: payload.password, username: payload.username };
+    const body = {
+      email: payload.email,
+      password: payload.password,
+      username: payload.username,
+    };
     return firstValueFrom(this.http.post<RegisterSuccessResponse>(url, body));
   }
 
   getProfile(token: string): Promise<UserProfile> {
-  const url = `${this.base}/auth/me`;
-    return firstValueFrom(this.http.get<UserProfile>(url, {
-      headers: { Authorization: `Bearer ${token}` },
-    }));
+    const url = `${this.base}/auth/me`;
+    return firstValueFrom(
+      this.http.get<UserProfile>(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+    );
   }
 }

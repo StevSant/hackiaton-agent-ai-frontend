@@ -32,7 +32,12 @@ export interface SessionCompanyItem {
 
 export interface AggregateInsights {
   overview?: string;
-  ranking?: Array<{ tax_id: string; score?: number; risk_class?: string; position?: number }>;
+  ranking?: Array<{
+    tax_id: string;
+    score?: number;
+    risk_class?: string;
+    position?: number;
+  }>;
   common_opportunities?: string[];
   common_risks?: string[];
   diversification_comment?: string;

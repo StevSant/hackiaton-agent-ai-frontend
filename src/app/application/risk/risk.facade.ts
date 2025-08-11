@@ -20,7 +20,9 @@ export class RiskFacade {
     this.error.set(null);
     try {
       const result = await firstValueFrom(
-        this.http.post(`${this.baseUrl}/risk/analysis/text`, { text: this.inputText() })
+        this.http.post(`${this.baseUrl}/risk/analysis/text`, {
+          text: this.inputText(),
+        }),
       );
       this.resultText.set(result);
     } catch (e: any) {
@@ -40,7 +42,7 @@ export class RiskFacade {
     this.error.set(null);
     try {
       const result = await firstValueFrom(
-        this.http.post(`${this.baseUrl}/risk/analysis/pdf`, formData)
+        this.http.post(`${this.baseUrl}/risk/analysis/pdf`, formData),
       );
       this.resultPdf.set(result);
     } catch (e: any) {

@@ -9,12 +9,22 @@ import type { CompaniesPort } from './ports/companies.port';
 import type { RiskWeightsPort } from './ports/risk-weights.port';
 import type { AdminMessagesPort } from './ports/admin-messages.port';
 
-export const CHAT_STREAM_PORT = new InjectionToken<ChatStreamPort>('CHAT_STREAM_PORT');
+export const CHAT_STREAM_PORT = new InjectionToken<ChatStreamPort>(
+  'CHAT_STREAM_PORT',
+);
 export const SESSIONS_PORT = new InjectionToken<SessionsPort>('SESSIONS_PORT');
 export const AUTH_PORT = new InjectionToken<AuthPort>('AUTH_PORT');
 export const APP_INFO_PORT = new InjectionToken<AppInfoPort>('APP_INFO_PORT');
 export const FILES_PORT = new InjectionToken<FilesPort>('FILES_PORT');
-export const ADMIN_USERS_PORT = new InjectionToken<AdminUsersPort>('ADMIN_USERS_PORT');
-export const COMPANIES_PORT = new InjectionToken<CompaniesPort>('COMPANIES_PORT');
-export const RISK_WEIGHTS_PORT = new InjectionToken<RiskWeightsPort>('RISK_WEIGHTS_PORT');
-export const ADMIN_MESSAGES_PORT = new InjectionToken<AdminMessagesPort>('ADMIN_MESSAGES_PORT');
+export const ADMIN_USERS_PORT = new InjectionToken<AdminUsersPort>(
+  'ADMIN_USERS_PORT',
+);
+export const COMPANIES_PORT = new InjectionToken<CompaniesPort>(
+  'COMPANIES_PORT',
+);
+export const RISK_WEIGHTS_PORT = new InjectionToken<RiskWeightsPort>(
+  'RISK_WEIGHTS_PORT',
+);
+export const ADMIN_MESSAGES_PORT = new InjectionToken<AdminMessagesPort>(
+  'ADMIN_MESSAGES_PORT',
+);

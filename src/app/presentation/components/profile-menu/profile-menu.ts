@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,13 +47,15 @@ export class ProfileMenuComponent {
   profileMenuOpen = signal(false);
 
   ngOnInit() {
-  // initialize theme and background services once menu is loaded
-  this.theme.init?.();
-  this.bg.init();
+    // initialize theme and background services once menu is loaded
+    this.theme.init?.();
+    this.bg.init();
     this.loadProfileIfAuthenticated();
   }
 
-  isAuthenticated() { return this.token.isAuthenticated(); }
+  isAuthenticated() {
+    return this.token.isAuthenticated();
+  }
 
   private async loadProfileIfAuthenticated() {
     if (!this.token.isAuthenticated() || this.profileEmail()) return;
@@ -71,7 +82,7 @@ export class ProfileMenuComponent {
     if (!this.profileEmail() && !this.profileLoading()) {
       this.loadProfileIfAuthenticated();
     }
-    this.profileMenuOpen.update(v => !v);
+    this.profileMenuOpen.update((v) => !v);
   }
 
   logout(event?: Event) {
@@ -83,14 +94,28 @@ export class ProfileMenuComponent {
     this.router.navigateByUrl('/login');
   }
 
-  navigateToLogin() { this.router.navigateByUrl('/login'); }
+  navigateToLogin() {
+    this.router.navigateByUrl('/login');
+  }
 
-  switchLang(lang: 'es' | 'en') { this.lang.switch(lang); }
-  setTheme(value: 'light' | 'dark' | 'system') { this.theme.setTheme(value); }
-  setBg(style: 'minimal' | 'aurora' | 'bokeh') { this.bg.setBackground(style); }
-  setPalette(p: 'default' | 'vaporwave' | 'cyber') { this.bg.setPalette(p); }
-  toggleNeonEdges() { this.bg.setNeonEdges(!this.bg.neon()); }
-  toggleParallax() { this.bg.setParallax(!this.bg.parallax()); }
+  switchLang(lang: 'es' | 'en') {
+    this.lang.switch(lang);
+  }
+  setTheme(value: 'light' | 'dark' | 'system') {
+    this.theme.setTheme(value);
+  }
+  setBg(style: 'minimal' | 'aurora' | 'bokeh') {
+    this.bg.setBackground(style);
+  }
+  setPalette(p: 'default' | 'vaporwave' | 'cyber') {
+    this.bg.setPalette(p);
+  }
+  toggleNeonEdges() {
+    this.bg.setNeonEdges(!this.bg.neon());
+  }
+  toggleParallax() {
+    this.bg.setParallax(!this.bg.parallax());
+  }
 
   @HostListener('document:click')
   closeOnOutsideClick() {

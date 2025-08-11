@@ -16,11 +16,11 @@
     "HOME": "Home",
     "LANGUAGE": "Language",
     "SPANISH": "Spanish",
-  "ENGLISH": "English",
-  "THEME": "Theme",
-  "THEME_LIGHT": "Light",
-  "THEME_DARK": "Dark",
-  "THEME_SYSTEM": "System"
+    "ENGLISH": "English",
+    "THEME": "Theme",
+    "THEME_LIGHT": "Light",
+    "THEME_DARK": "Dark",
+    "THEME_SYSTEM": "System"
   },
   "CHAT": {
     "TITLE": "Chat with Agent",
@@ -37,13 +37,12 @@
     "SENDING_BTN": "Sending...",
     "CANCEL": "Cancel",
     "HINT": "Press Shift + Enter for a new line",
-  "FILES_COUNT": "{{count}} file(s)",
-  "ATTACHMENTS_VIEW": "View attachments",
-  "ATTACHMENTS_TITLE": "Session attachments",
-  "ATTACHMENTS_EMPTY": "No attachments in this session",
-  "ATTACHMENTS_INFO": "Files you've uploaded in this session for the agent to use in its answers."
-  }
-  ,
+    "FILES_COUNT": "{{count}} file(s)",
+    "ATTACHMENTS_VIEW": "View attachments",
+    "ATTACHMENTS_TITLE": "Session attachments",
+    "ATTACHMENTS_EMPTY": "No attachments in this session",
+    "ATTACHMENTS_INFO": "Files you've uploaded in this session for the agent to use in its answers."
+  },
   "HOME": {
     "TITLE": "Intelligent financial risk evaluation for SMEs",
     "SUBTITLE": "A quick overview with indicators and simulations to speed up credit analysis using alternative data.",

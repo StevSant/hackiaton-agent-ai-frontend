@@ -29,9 +29,15 @@
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Scroll to bottom floating button */
@@ -54,41 +60,74 @@
 }
 
 @keyframes msgFromRight {
-  from { opacity: 0; transform: translateY(6px) translateX(8px); }
-  to   { opacity: 1; transform: translateY(0) translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px) translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
 }
 @keyframes msgFromLeft {
-  from { opacity: 0; transform: translateY(6px) translateX(-8px); }
-  to   { opacity: 1; transform: translateY(0) translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px) translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
 }
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Sticky composer with frosted background */
-.composer-surface{
+.composer-surface {
   position: sticky;
   bottom: 0;
-  background-color: rgb(var(--b1) / .85);
+  background-color: rgb(var(--b1) / 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgb(var(--bc) / .06);
-  box-shadow: 0 6px 14px rgba(0,0,0,.06), 0 -2px 10px rgba(0,0,0,.05) inset;
+  border: 1px solid rgb(var(--bc) / 0.06);
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.06),
+    0 -2px 10px rgba(0, 0, 0, 0.05) inset;
   animation: composerReveal 180ms ease-out;
   /* Sticky works when parent has overflow hidden/auto and a defined height context */
   will-change: transform;
   z-index: 5;
 }
 
-@keyframes composerReveal{
-  from{ opacity: 0; transform: translateY(6px); }
-  to{ opacity: 1; transform: translateY(0); }
+@keyframes composerReveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* end of chat page styles */
 
 /* Layout guards to ensure ChatGPT-like behavior */
-.chat-container{ display:flex; flex-direction:column; min-height:0; }
-:host{ display:flex; flex:1 1 auto; min-height:0; }
-
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}

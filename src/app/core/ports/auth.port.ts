@@ -1,4 +1,10 @@
-import type { LoginRequest, RegisterRequest, UserProfile, LoginSuccessResponse, RegisterSuccessResponse } from '../models/auth';
+import type {
+  LoginRequest,
+  RegisterRequest,
+  UserProfile,
+  LoginSuccessResponse,
+  RegisterSuccessResponse,
+} from '../models/auth';
 
 export interface AuthPort {
   login(payload: LoginRequest): Promise<LoginSuccessResponse>;

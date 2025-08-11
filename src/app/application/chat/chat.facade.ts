@@ -32,7 +32,7 @@ export class ChatFacade {
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
   private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
   private readonly deleteSessionUC = new DeleteSessionUseCase(
-    this.sessionsPort
+    this.sessionsPort,
   );
   private readonly uploadFileUC = inject(UploadFileUseCase);
 
@@ -52,7 +52,7 @@ export class ChatFacade {
   }
   replaceLastMessage(updater: (m: ChatMessage) => ChatMessage) {
     this.messages.update((arr) =>
-      arr.length ? [...arr.slice(0, -1), updater(arr[arr.length - 1])] : arr
+      arr.length ? [...arr.slice(0, -1), updater(arr[arr.length - 1])] : arr,
     );
   }
   setIsSending(v: boolean) {
@@ -129,7 +129,10 @@ export class ChatFacade {
     return 'default';
   }
 
-  listSessions(params?: { page?: number; limit?: number }): Observable<SessionEntry[]> {
+  listSessions(params?: {
+    page?: number;
+    limit?: number;
+  }): Observable<SessionEntry[]> {
     return this.listSessionsUC.execute(this.agentId(), params);
   }
 
@@ -158,7 +161,10 @@ export class ChatFacade {
     this.sendMessageUC.cancel();
   }
 
-  async uploadFiles(files: File[], opts?: { sessionId?: string; subfolder?: string }): Promise<UploadedFileMeta[]> {
+  async uploadFiles(
+    files: File[],
+    opts?: { sessionId?: string; subfolder?: string },
+  ): Promise<UploadedFileMeta[]> {
     const result: UploadedFileMeta[] = [];
     const sessionId = opts?.sessionId;
     const subfolder = opts?.subfolder ?? 'chat';

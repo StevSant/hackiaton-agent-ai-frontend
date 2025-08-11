@@ -1,4 +1,17 @@
-import { Component, ChangeDetectionStrategy, OnInit, inject, computed, ViewChild, ElementRef, effect, PLATFORM_ID, OnDestroy, signal, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  inject,
+  computed,
+  ViewChild,
+  ElementRef,
+  effect,
+  PLATFORM_ID,
+  OnDestroy,
+  signal,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
@@ -19,15 +32,19 @@ export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
 
   loading = this.stats.loading;
   readonly days = signal(30);
-  totals = computed<Record<string, number>>(() => this.stats.data()?.totals || {});
+  totals = computed<Record<string, number>>(
+    () => this.stats.data()?.totals || {},
+  );
   filesBreakdown = computed<Record<string, number>>(
-    () => this.stats.data()?.files_breakdown || {}
+    () => this.stats.data()?.files_breakdown || {},
   );
 
   readonly isBrowser = computed(() => isPlatformBrowser(this.platformId));
 
-  @ViewChild('activityCanvas') private readonly activityCanvas?: ElementRef<HTMLCanvasElement>;
-  @ViewChild('filesCanvas') private readonly filesCanvas?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('activityCanvas')
+  private readonly activityCanvas?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('filesCanvas')
+  private readonly filesCanvas?: ElementRef<HTMLCanvasElement>;
   private activityChart?: any;
   private filesChart?: any;
   private ChartCtor?: any;
@@ -41,18 +58,18 @@ export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
     // Build sorted unique date labels
     const labelSet = new Set<string>();
     for (const k of seriesKeys) {
-      (ts[k] || []).forEach(p => labelSet.add(p.date));
+      (ts[k] || []).forEach((p) => labelSet.add(p.date));
     }
-  const labels = Array.from(labelSet).sort((a, b) => a.localeCompare(b));
+    const labels = Array.from(labelSet).sort((a, b) => a.localeCompare(b));
     const colorMap: Record<string, string> = {
       users: '#60a5fa',
       sessions: '#34d399',
       messages: '#fbbf24',
       files: '#f472b6',
     };
-    const datasets = seriesKeys.map(k => ({
+    const datasets = seriesKeys.map((k) => ({
       label: k,
-      data: labels.map(d => (ts[k]?.find(p => p.date === d)?.count ?? 0)),
+      data: labels.map((d) => ts[k]?.find((p) => p.date === d)?.count ?? 0),
       fill: false,
       borderColor: colorMap[k] || '#94a3b8',
       backgroundColor: colorMap[k] || '#94a3b8',
@@ -76,8 +93,16 @@ export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
   filesByTypeData = computed<any>(() => {
     const fb = this.filesBreakdown();
     const labels = Object.keys(fb);
-    const values = labels.map(k => fb[k]);
-    const palette = ['#60a5fa', '#34d399', '#fbbf24', '#f472b6', '#a78bfa', '#fca5a5', '#4ade80'];
+    const values = labels.map((k) => fb[k]);
+    const palette = [
+      '#60a5fa',
+      '#34d399',
+      '#fbbf24',
+      '#f472b6',
+      '#a78bfa',
+      '#fca5a5',
+      '#4ade80',
+    ];
     return {
       labels,
       datasets: [
@@ -112,7 +137,11 @@ export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
       if (!this.ChartCtor) return;
       const Ctor: any = this.ChartCtor;
       if (!this.activityChart) {
-        this.activityChart = new Ctor(canvas, { type: 'line', data, options: this.activityOptions });
+        this.activityChart = new Ctor(canvas, {
+          type: 'line',
+          data,
+          options: this.activityOptions,
+        });
       } else {
         this.activityChart.data = data;
         this.activityChart.update();
@@ -129,7 +158,11 @@ export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
       if (!this.ChartCtor) return;
       const Ctor: any = this.ChartCtor;
       if (!this.filesChart) {
-        this.filesChart = new Ctor(canvas, { type: 'doughnut', data, options: { plugins: { legend: { position: 'bottom' } } } });
+        this.filesChart = new Ctor(canvas, {
+          type: 'doughnut',
+          data,
+          options: { plugins: { legend: { position: 'bottom' } } },
+        });
       } else {
         this.filesChart.data = data;
         this.filesChart.update();
@@ -177,7 +210,7 @@ export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
   ];
 
   ngOnInit(): void {
-  this.stats.load(this.days());
+    this.stats.load(this.days());
   }
 
   ngAfterViewInit(): void {

@@ -30,7 +30,7 @@ export class ChatEventsService {
     private readonly location: Location,
     private readonly tts: TtsService,
     private readonly chatUtils: ChatUtilsService,
-    private readonly messageManager: MessageManagerService
+    private readonly messageManager: MessageManagerService,
   ) {}
 
   handleStreamData(ctx: ChatPageCtx, data: StreamResponseModel) {
@@ -56,7 +56,7 @@ export class ChatEventsService {
       case 'RunStarted':
         this.chatFacade.addSystemMessage(
           '🤖 El agente está procesando tu solicitud...',
-          'RunStarted'
+          'RunStarted',
         );
         break;
       case 'RunCompleted':
@@ -80,7 +80,7 @@ export class ChatEventsService {
     if (!ctx.currentMessage || ctx.currentMessage.isComplete) {
       ctx.currentMessage = this.chatFacade.createBotMessage(
         data.rawMessage.run_id || this.chatUtils.generateId(),
-        data.rawMessage.created_at
+        data.rawMessage.created_at,
       );
     }
 
@@ -93,7 +93,7 @@ export class ChatEventsService {
             this.scrollManager.scheduleScrollToBottom();
             ctx.cdr.detectChanges();
           },
-          25
+          25,
         );
       }
     }

@@ -11,4 +11,3 @@ export class LoginUseCase {
     return this.auth.login(payload);
   }
 }
-

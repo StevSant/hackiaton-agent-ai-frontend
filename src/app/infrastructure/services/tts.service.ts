@@ -15,11 +15,14 @@ export class TtsService {
 
   async play(text: string, messageId?: string | null) {
     try {
-      if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+      if (typeof window === 'undefined' || !('speechSynthesis' in window))
+        return;
       const synth = window.speechSynthesis;
 
       // Always reset synth to avoid stuck paused states
-      try { synth.cancel(); } catch { }
+      try {
+        synth.cancel();
+      } catch {}
       await this.waitForIdle(synth, 150);
 
       // Ensure voices are ready (Chrome may return [] on first call)
@@ -35,11 +38,14 @@ export class TtsService {
       try {
         const voices = synth.getVoices?.() || [];
         const langLower = this.lang().toLowerCase();
-        let preferred = voices.find(v => v.lang?.toLowerCase() === langLower)
-          || voices.find(v => v.lang?.toLowerCase().startsWith(langLower.split('-')[0] || ''))
-          || voices[0];
+        let preferred =
+          voices.find((v) => v.lang?.toLowerCase() === langLower) ||
+          voices.find((v) =>
+            v.lang?.toLowerCase().startsWith(langLower.split('-')[0] || ''),
+          ) ||
+          voices[0];
         if (preferred) utter.voice = preferred;
-      } catch { }
+      } catch {}
 
       this.currentUtterance = utter;
       this.currentMessageId.set(messageId ?? null);
@@ -58,25 +64,38 @@ export class TtsService {
       utter.onresume = () => this.isPaused.set(false);
 
       let started = false;
-      utter.onstart = () => { started = true; this.isPaused.set(false); };
+      utter.onstart = () => {
+        started = true;
+        this.isPaused.set(false);
+      };
 
       // Speak on next macrotask to allow cancel() flush and voices attach
       await this.nextTick();
       synth.speak(utter);
 
       // Kick the synth in case it comes up paused (Chrome quirk)
-      setTimeout(() => { try { if (synth.paused) synth.resume(); } catch { } }, 80);
+      setTimeout(() => {
+        try {
+          if (synth.paused) synth.resume();
+        } catch {}
+      }, 80);
 
       // Watchdog: if not started, retry once
       setTimeout(async () => {
         if (!started && this.currentUtterance === utter) {
-          try { synth.cancel(); } catch { }
+          try {
+            synth.cancel();
+          } catch {}
           await this.nextTick();
           synth.speak(utter);
-          setTimeout(() => { try { if (synth.paused) synth.resume(); } catch { } }, 60);
+          setTimeout(() => {
+            try {
+              if (synth.paused) synth.resume();
+            } catch {}
+          }, 60);
         }
       }, 300);
-    } catch { }
+    } catch {}
   }
 
   pause() {
@@ -86,7 +105,7 @@ export class TtsService {
         window.speechSynthesis.pause();
         this.isPaused.set(true);
       }
-    } catch { }
+    } catch {}
   }
 
   resume() {
@@ -96,7 +115,7 @@ export class TtsService {
         window.speechSynthesis.resume();
         this.isPaused.set(false);
       }
-    } catch { }
+    } catch {}
   }
 
   stop() {
@@ -107,7 +126,7 @@ export class TtsService {
       this.isSpeaking.set(false);
       this.isPaused.set(false);
       this.currentMessageId.set(null);
-    } catch { }
+    } catch {}
   }
 
   setVolume(val: number) {
@@ -118,14 +137,26 @@ export class TtsService {
     }
   }
 
-  private async ensureVoices(synth: SpeechSynthesis, timeoutMs = 1200): Promise<void> {
+  private async ensureVoices(
+    synth: SpeechSynthesis,
+    timeoutMs = 1200,
+  ): Promise<void> {
     if (this.voicesReady && (synth.getVoices?.() || []).length > 0) return;
     const existing = synth.getVoices?.() || [];
-    if (existing.length > 0) { this.voicesReady = true; return; }
+    if (existing.length > 0) {
+      this.voicesReady = true;
+      return;
+    }
     let resolve!: () => void;
-    const p = new Promise<void>(r => (resolve = r));
-    const onChange = () => { this.voicesReady = true; synth.removeEventListener?.('voiceschanged', onChange as any); resolve(); };
-    try { synth.addEventListener?.('voiceschanged', onChange as any); } catch { }
+    const p = new Promise<void>((r) => (resolve = r));
+    const onChange = () => {
+      this.voicesReady = true;
+      synth.removeEventListener?.('voiceschanged', onChange as any);
+      resolve();
+    };
+    try {
+      synth.addEventListener?.('voiceschanged', onChange as any);
+    } catch {}
     // Fallback polling
     const start = Date.now();
     const poll = () => {
@@ -142,12 +173,15 @@ export class TtsService {
 
   private async waitForIdle(synth: SpeechSynthesis, timeoutMs = 200) {
     const start = Date.now();
-    while ((synth.speaking || (synth as any).pending) && Date.now() - start < timeoutMs) {
+    while (
+      (synth.speaking || (synth as any).pending) &&
+      Date.now() - start < timeoutMs
+    ) {
       await this.nextTick();
     }
   }
 
   private nextTick(): Promise<void> {
-    return new Promise(res => setTimeout(res, 0));
+    return new Promise((res) => setTimeout(res, 0));
   }
 }

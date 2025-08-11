@@ -1,4 +1,9 @@
-import { Component, inject, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  PLATFORM_ID,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { GetAppInfoUseCase } from '@core/use-cases';
@@ -32,7 +37,8 @@ export class App {
       const name = this.info?.site_name || 'Agente IA';
       this.title.setTitle(name);
       if (isPlatformBrowser(this.platformId)) {
-        const icon = this.info?.site_icon || this.info?.site_logo || '/favicon.ico';
+        const icon =
+          this.info?.site_icon || this.info?.site_logo || '/favicon.ico';
         this.setFavicon(icon);
       }
     } catch {}

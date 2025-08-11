@@ -34,9 +34,13 @@ export class AdminAppInfoFacade {
 
   async save() {
     if (this.form.invalid || this.saving()) return;
-    this.saving.set(true); this.error.set(null); this.saved.set(false);
+    this.saving.set(true);
+    this.error.set(null);
+    this.saved.set(false);
     try {
-      const res = await this.appInfo.updateAppInfo(this.form.value as Partial<AppInfo>);
+      const res = await this.appInfo.updateAppInfo(
+        this.form.value as Partial<AppInfo>,
+      );
       this.form.patchValue(res as any);
       this.saved.set(true);
     } catch (e: any) {
@@ -48,9 +52,14 @@ export class AdminAppInfoFacade {
   }
 
   async uploadIcon(file: File) {
-    this.uploadingIcon.set(true); this.error.set(null);
+    this.uploadingIcon.set(true);
+    this.error.set(null);
     try {
-  const meta: UploadedFileMeta = await this.files.upload(file, 'app-info', 'admin-app-info');
+      const meta: UploadedFileMeta = await this.files.upload(
+        file,
+        'app-info',
+        'admin-app-info',
+      );
       this.form.patchValue({ site_icon: meta.url });
     } catch (e: any) {
       this.error.set(e?.message || 'No se pudo subir el icono');
@@ -60,9 +69,14 @@ export class AdminAppInfoFacade {
   }
 
   async uploadLogo(file: File) {
-    this.uploadingLogo.set(true); this.error.set(null);
+    this.uploadingLogo.set(true);
+    this.error.set(null);
     try {
-  const meta: UploadedFileMeta = await this.files.upload(file, 'app-info', 'admin-app-info');
+      const meta: UploadedFileMeta = await this.files.upload(
+        file,
+        'app-info',
+        'admin-app-info',
+      );
       this.form.patchValue({ site_logo: meta.url });
     } catch (e: any) {
       this.error.set(e?.message || 'No se pudo subir el logo');

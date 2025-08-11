@@ -11,12 +11,12 @@ import type { SessionCompaniesAnalysis } from '@core/models/session-analysis';
 export class SessionsService implements SessionsPort {
   private readonly base = environment.baseUrl;
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   // agentId is ignored in backend; kept for API compatibility with UI
   getSessions(
     agentId: string,
-    params?: { page?: number; limit?: number }
+    params?: { page?: number; limit?: number },
   ): Observable<SessionEntry[]> {
     const url = `${this.base}/agent/sessions`;
     return this.http.get<any>(url, { params: (params as any) || {} }).pipe(
@@ -35,11 +35,14 @@ export class SessionsService implements SessionsPort {
         }));
 
         return sessions;
-      })
+      }),
     );
   }
 
-  getSession(agentId: string, sessionId: string): Observable<{ chats: ChatEntry[] }> {
+  getSession(
+    agentId: string,
+    sessionId: string,
+  ): Observable<{ chats: ChatEntry[] }> {
     const url = `${this.base}/agent/sessions/${sessionId}/messages`;
     return this.http.get<any>(url).pipe(
       map((data: any) => {
@@ -51,7 +54,7 @@ export class SessionsService implements SessionsPort {
 
         const chats = this.mapMessagesToChats(items);
         return { chats };
-      })
+      }),
     );
   }
 
@@ -63,24 +66,27 @@ export class SessionsService implements SessionsPort {
       user_id?: string;
       audioFile?: File;
       files?: File[];
-    }
+    },
   ): Observable<any> {
-    const hasBinary = !!(payload.audioFile || (payload.files && payload.files.length));
+    const hasBinary = !!(
+      payload.audioFile ||
+      (payload.files && payload.files.length)
+    );
     const creating = !payload.session_id;
 
     // Candidatos (orden) dependiendo si existe sesión
     const endpoints: string[] = creating
       ? [
-        `${this.base}/agent/message`, // probable endpoint correcto (equivalente al stream pero sin /stream)
-        `${this.base}/agent/messages`,
-        `${this.base}/agent/sessions/messages`,
-      ]
+          `${this.base}/agent/message`, // probable endpoint correcto (equivalente al stream pero sin /stream)
+          `${this.base}/agent/messages`,
+          `${this.base}/agent/sessions/messages`,
+        ]
       : [
-        `${this.base}/agent/sessions/${payload.session_id}/messages`,
-        `${this.base}/agent/message`,
-        `${this.base}/agent/messages`,
-        `${this.base}/agent/sessions/${payload.session_id}/message`,
-      ];
+          `${this.base}/agent/sessions/${payload.session_id}/messages`,
+          `${this.base}/agent/message`,
+          `${this.base}/agent/messages`,
+          `${this.base}/agent/sessions/${payload.session_id}/message`,
+        ];
 
     const buildFormData = () => {
       const fd = new FormData();
@@ -91,7 +97,9 @@ export class SessionsService implements SessionsPort {
       if (payload.user_id) fd.append('user_id', payload.user_id);
       if (payload.session_id) fd.append('session_id', payload.session_id);
       if (payload.audioFile) fd.append('audio', payload.audioFile);
-      payload.files?.forEach((f, i) => fd.append('files', f, f.name || `file-${i}`));
+      payload.files?.forEach((f, i) =>
+        fd.append('files', f, f.name || `file-${i}`),
+      );
       return fd;
     };
     const buildJson = () => ({
@@ -108,7 +116,8 @@ export class SessionsService implements SessionsPort {
       if (idx >= endpoints.length) {
         return of({
           error: true,
-          message: 'No se pudo enviar el mensaje (fallaron todos los endpoints) ',
+          message:
+            'No se pudo enviar el mensaje (fallaron todos los endpoints) ',
           lastError: lastStructuredError,
         });
       }
@@ -123,8 +132,13 @@ export class SessionsService implements SessionsPort {
             };
             return tryNext(idx + 1);
           }
-          return of({ error: true, message: 'Error enviando mensaje', status: err?.status, url });
-        })
+          return of({
+            error: true,
+            message: 'Error enviando mensaje',
+            status: err?.status,
+            url,
+          });
+        }),
       );
     };
 
@@ -134,7 +148,7 @@ export class SessionsService implements SessionsPort {
           return of({ ...resp, created_new_session: true });
         }
         return of(resp);
-      })
+      }),
     );
   }
 
@@ -151,7 +165,7 @@ export class SessionsService implements SessionsPort {
   // ---- Internal helpers ----
   private mapMessagesToChats(items: any[]): ChatEntry[] {
     const sorted = [...(items || [])].sort(
-      (a, b) => toMs(a?.created_at) - toMs(b?.created_at)
+      (a, b) => toMs(a?.created_at) - toMs(b?.created_at),
     );
 
     const chats: ChatEntry[] = [];
@@ -166,7 +180,11 @@ export class SessionsService implements SessionsPort {
         if (next && next.role === 'agent') {
           const createdAgent = toEpochSeconds(next.created_at);
           chats.push({
-            message: { role: 'user', content: msg.content, created_at: createdUser },
+            message: {
+              role: 'user',
+              content: msg.content,
+              created_at: createdUser,
+            },
             // Keeping extras to satisfy UI expectations; shape may be narrowed by ChatEntry
             response: {
               content: next.content,
@@ -185,7 +203,11 @@ export class SessionsService implements SessionsPort {
 
         // orphan user message (no immediate agent reply)
         chats.push({
-          message: { role: 'user', content: msg.content, created_at: createdUser },
+          message: {
+            role: 'user',
+            content: msg.content,
+            created_at: createdUser,
+          },
           response: { content: '', created_at: createdUser } as any,
         });
       }

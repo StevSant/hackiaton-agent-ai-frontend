@@ -1,16 +1,16 @@
-import { Injectable, type ElementRef } from "@angular/core"
+import { Injectable, type ElementRef } from '@angular/core';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ScrollManagerService {
-  private shouldScrollToBottom = false
+  private shouldScrollToBottom = false;
 
   /**
    * Programa un scroll hacia abajo en el próximo ciclo
    */
   scheduleScrollToBottom(): void {
-    this.shouldScrollToBottom = true
+    this.shouldScrollToBottom = true;
   }
 
   /**
@@ -18,8 +18,8 @@ export class ScrollManagerService {
    */
   executeScheduledScroll(container: ElementRef): void {
     if (this.shouldScrollToBottom) {
-      this.scrollToBottom(container)
-      this.shouldScrollToBottom = false
+      this.scrollToBottom(container);
+      this.shouldScrollToBottom = false;
     }
   }
 
@@ -29,11 +29,11 @@ export class ScrollManagerService {
   scrollToBottom(container: ElementRef): void {
     try {
       if (container?.nativeElement) {
-        const element = container.nativeElement
-        element.scrollTop = element.scrollHeight
+        const element = container.nativeElement;
+        element.scrollTop = element.scrollHeight;
       }
     } catch (err) {
-      console.warn("Error al hacer scroll:", err)
+      console.warn('Error al hacer scroll:', err);
     }
   }
 
@@ -42,16 +42,18 @@ export class ScrollManagerService {
    */
   scrollToBottomRaf(container: ElementRef, frames = 3): void {
     try {
-      if (!container?.nativeElement) return
-      const el = container.nativeElement as HTMLElement
-      let i = 0
+      if (!container?.nativeElement) return;
+      const el = container.nativeElement as HTMLElement;
+      let i = 0;
       const tick = () => {
-        try { el.scrollTop = el.scrollHeight } catch {}
-        if (++i < frames) requestAnimationFrame(tick)
-      }
-      requestAnimationFrame(tick)
+        try {
+          el.scrollTop = el.scrollHeight;
+        } catch {}
+        if (++i < frames) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
     } catch (err) {
-      console.warn("Error al hacer scroll rAF:", err)
+      console.warn('Error al hacer scroll rAF:', err);
     }
   }
 
@@ -60,23 +62,23 @@ export class ScrollManagerService {
    */
   scrollToBottomSmooth(container: ElementRef): void {
     try {
-      if (!container?.nativeElement) return
-      const el = container.nativeElement as HTMLElement
-      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' })
+      if (!container?.nativeElement) return;
+      const el = container.nativeElement as HTMLElement;
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     } catch (err) {
-      console.warn("Error al hacer scroll suave:", err)
+      console.warn('Error al hacer scroll suave:', err);
     }
   }
 
   /** Comprueba si el usuario está cerca del final */
   isNearBottom(container: ElementRef, threshold = 160): boolean {
     try {
-      if (!container?.nativeElement) return false
-      const el = container.nativeElement as HTMLElement
-      const distance = el.scrollHeight - (el.scrollTop + el.clientHeight)
-      return distance <= threshold
+      if (!container?.nativeElement) return false;
+      const el = container.nativeElement as HTMLElement;
+      const distance = el.scrollHeight - (el.scrollTop + el.clientHeight);
+      return distance <= threshold;
     } catch {
-      return false
+      return false;
     }
   }
 
@@ -84,13 +86,13 @@ export class ScrollManagerService {
    * Verifica si hay scroll programado
    */
   hasScheduledScroll(): boolean {
-    return this.shouldScrollToBottom
+    return this.shouldScrollToBottom;
   }
 
   /**
    * Cancela el scroll programado
    */
   cancelScheduledScroll(): void {
-    this.shouldScrollToBottom = false
+    this.shouldScrollToBottom = false;
   }
 }

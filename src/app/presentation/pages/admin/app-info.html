@@ -5,7 +5,7 @@
     {{ "ADMIN.SIDENAV.APP_INFO" | translate }}
   </h2>
   @if (error()) {
-  <div class="alert alert-error">{{ error() }}</div>
+    <div class="alert alert-error">{{ error() }}</div>
   }
   <div class="glass-card">
     <form
@@ -48,13 +48,13 @@
           </label>
         </div>
         @if (form.value.site_icon) {
-        <div class="mt-2">
-          <img
-            [src]="form.value.site_icon!"
-            alt="icon preview"
-            class="h-10 w-10 object-contain rounded border border-white/10"
-          />
-        </div>
+          <div class="mt-2">
+            <img
+              [src]="form.value.site_icon!"
+              alt="icon preview"
+              class="h-10 w-10 object-contain rounded border border-white/10"
+            />
+          </div>
         }
       </div>
       <div>
@@ -82,13 +82,13 @@
           </label>
         </div>
         @if (form.value.site_logo) {
-        <div class="mt-2">
-          <img
-            [src]="form.value.site_logo!"
-            alt="logo preview"
-            class="h-16 object-contain rounded border border-white/10"
-          />
-        </div>
+          <div class="mt-2">
+            <img
+              [src]="form.value.site_logo!"
+              alt="logo preview"
+              class="h-16 object-contain rounded border border-white/10"
+            />
+          </div>
         }
       </div>
       <div class="md:col-span-2 flex items-center gap-2">
@@ -104,14 +104,14 @@
           }}
         </button>
         @if (saved()) {
-        <span class="text-success text-sm">{{
-          "ADMIN.APP_INFO.SAVED" | translate
-        }}</span>
+          <span class="text-success text-sm">{{
+            "ADMIN.APP_INFO.SAVED" | translate
+          }}</span>
         }
       </div>
     </form>
   </div>
   @if (!loaded()) {
-  <div class="text-sm opacity-70">{{ "COMMON.LOADING" | translate }}</div>
+    <div class="text-sm opacity-70">{{ "COMMON.LOADING" | translate }}</div>
   }
 </div>

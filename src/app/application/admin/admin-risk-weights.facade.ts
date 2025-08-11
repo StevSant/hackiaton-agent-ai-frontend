@@ -32,7 +32,10 @@ export class AdminRiskWeightsFacade {
   addKey() {
     const key = prompt('Nombre del factor:');
     if (!key) return;
-    (this.weights as any).addControl(key, new FormControl(0, { nonNullable: true }));
+    (this.weights as any).addControl(
+      key,
+      new FormControl(0, { nonNullable: true }),
+    );
   }
 
   onVersionChange(event: Event) {

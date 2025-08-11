@@ -59,7 +59,7 @@ export class SseService {
       audioFile?: File;
       files?: File[];
       file_ids?: string[];
-    }
+    },
   ): Observable<StreamResponse> {
     // New backend endpoint: JSON body -> POST /agent/message/stream
     const url = `${this.baseUrl}/agent/message/stream`;
@@ -93,7 +93,7 @@ export class SseService {
           if (!response.ok || !response.body) {
             const errorText = await response.text();
             throw new Error(
-              `Error SSE: ${response.status} ${response.statusText} - ${errorText}`
+              `Error SSE: ${response.status} ${response.statusText} - ${errorText}`,
             );
           }
 
@@ -273,10 +273,9 @@ export class SseService {
       return () => {
         try {
           controller.abort();
-        } catch { }
+        } catch {}
         this.lastSessionId = null;
       };
     });
   }
-
 }

@@ -16,9 +16,13 @@ export class SttService {
     this.engine = engine;
   }
 
-  getEngine(): SttEngine { return this.engine; }
+  getEngine(): SttEngine {
+    return this.engine;
+  }
 
-  onResult() { return this.results$.asObservable(); }
+  onResult() {
+    return this.results$.asObservable();
+  }
 
   // Placeholder: hook to plug an Azure SDK streaming STT if desired later
   async startStreaming(): Promise<void> {
@@ -34,8 +38,14 @@ export class SttService {
     const form = new FormData();
     form.append('audio', blob, 'recording.webm');
     const url = `${this.base}/stt`;
-    const params = language ? new HttpParams().set('language', language) : undefined;
-    const data = await firstValueFrom(this.http.post<{ transcript?: string; text?: string }>(url, form, { params }));
+    const params = language
+      ? new HttpParams().set('language', language)
+      : undefined;
+    const data = await firstValueFrom(
+      this.http.post<{ transcript?: string; text?: string }>(url, form, {
+        params,
+      }),
+    );
     return (data && (data.transcript || data.text)) || '';
   }
 }

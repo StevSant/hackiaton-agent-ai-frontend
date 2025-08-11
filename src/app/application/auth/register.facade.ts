@@ -8,7 +8,11 @@ export class RegisterFacade {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
 
-  async register(payload: { email: string; password: string; username: string }) {
+  async register(payload: {
+    email: string;
+    password: string;
+    username: string;
+  }) {
     if (this.loading()) return;
     this.loading.set(true);
     this.error.set(null);
@@ -20,7 +24,8 @@ export class RegisterFacade {
       if (Array.isArray(detail)) {
         errorMessage = detail.map((d: any) => d?.msg || d).join(' | ');
       } else {
-        errorMessage = detail || e?.error?.message || e?.message || 'Error de registro';
+        errorMessage =
+          detail || e?.error?.message || e?.message || 'Error de registro';
       }
       if (/uppercase/i.test(errorMessage)) {
         errorMessage = 'La contraseña debe tener al menos una MAYÚSCULA';

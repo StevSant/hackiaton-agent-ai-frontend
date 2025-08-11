@@ -1,19 +1,40 @@
 <div class="flex relative flex-1 min-h-0">
   <!-- Sidebar placeholder - puedes agregar tu sidebar aquí -->
 
-  <div class="chat-container flex-1 min-h-0 w-full pt-4 px-4 md:pt-8 md:px-8 flex flex-col gap-4 overflow-hidden">
-  <!-- Files button moved to shell header to give more space to chat -->
-    <app-chat-messages-list class="flex-1 min-h-0 flex flex-col" [messages]="messages()" [isSending]="isSending()"
-      [toolRunning]="toolRunning()"></app-chat-messages-list>
-    <app-chat-composer [form]="msgForm" [isSending]="isSending()" [isUploadingFiles]="isUploadingFiles"
-      [filesCount]="uploadedFiles.length + filesToUpload.length" [uploadedFiles]="uploadedFiles" (send)="sendMessage()"
-      (cancel)="cancelSending()" (filesSelected)="onFilesSelected($event)" (filesDropped)="onFilesDropped($event)"
-      (removeUploadedFile)="removeUploadedFile($event)" (keydown)="handleKeyDown($event)"
+  <div
+    class="chat-container flex-1 min-h-0 w-full pt-4 px-4 md:pt-8 md:px-8 flex flex-col gap-4 overflow-hidden"
+  >
+    <!-- Files button moved to shell header to give more space to chat -->
+    <app-chat-messages-list
+      class="flex-1 min-h-0 flex flex-col"
+      [messages]="messages()"
+      [isSending]="isSending()"
+      [toolRunning]="toolRunning()"
+    ></app-chat-messages-list>
+    <app-chat-composer
+      [form]="msgForm"
+      [isSending]="isSending()"
+      [isUploadingFiles]="isUploadingFiles"
+      [filesCount]="uploadedFiles.length + filesToUpload.length"
+      [uploadedFiles]="uploadedFiles"
+      (send)="sendMessage()"
+      (cancel)="cancelSending()"
+      (filesSelected)="onFilesSelected($event)"
+      (filesDropped)="onFilesDropped($event)"
+      (removeUploadedFile)="removeUploadedFile($event)"
+      (keydown)="handleKeyDown($event)"
       [allowUpload]="!!selectedSessionId && messages().length > 0"
-      (composerInput)="handleComposerInput($event)"></app-chat-composer>
-    <app-session-files-modal *ngIf="showFilesModal && selectedSessionId" [sessionId]="selectedSessionId!"
-      (closed)="closeSessionFiles()"></app-session-files-modal>
-    <app-session-companies-modal *ngIf="showCompaniesModal && selectedSessionId" [sessionId]="selectedSessionId!"
-      (closed)="closeSessionCompanies()"></app-session-companies-modal>
+      (composerInput)="handleComposerInput($event)"
+    ></app-chat-composer>
+    <app-session-files-modal
+      *ngIf="showFilesModal && selectedSessionId"
+      [sessionId]="selectedSessionId!"
+      (closed)="closeSessionFiles()"
+    ></app-session-files-modal>
+    <app-session-companies-modal
+      *ngIf="showCompaniesModal && selectedSessionId"
+      [sessionId]="selectedSessionId!"
+      (closed)="closeSessionCompanies()"
+    ></app-session-companies-modal>
   </div>
 </div>

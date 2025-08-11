@@ -163,8 +163,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.viewReady.set(true);
-  // Schedule Chart.js load during an idle period (non-blocking)
-  this.scheduleChartLibLoad();
+    // Schedule Chart.js load during an idle period (non-blocking)
+    this.scheduleChartLibLoad();
     // Fallback: re-render after a short delay to ensure containers have final size
     if (this.isBrowser()) {
       setTimeout(() => {
@@ -212,12 +212,26 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.totalTimeChart = undefined;
     }
     if (this.isBrowser()) {
-      if (this.resizeHandler) window.removeEventListener('resize', this.resizeHandler);
-      if (this.loadHandler) window.removeEventListener('load', this.loadHandler as any);
-      if (this.speedRO) { this.speedRO.disconnect(); this.speedRO = undefined; }
-      if (this.approvalsRO) { this.approvalsRO.disconnect(); this.approvalsRO = undefined; }
-      if (this.totalTimeRO) { this.totalTimeRO.disconnect(); this.totalTimeRO = undefined; }
-      if (this.io) { this.io.disconnect(); this.io = undefined; }
+      if (this.resizeHandler)
+        window.removeEventListener('resize', this.resizeHandler);
+      if (this.loadHandler)
+        window.removeEventListener('load', this.loadHandler as any);
+      if (this.speedRO) {
+        this.speedRO.disconnect();
+        this.speedRO = undefined;
+      }
+      if (this.approvalsRO) {
+        this.approvalsRO.disconnect();
+        this.approvalsRO = undefined;
+      }
+      if (this.totalTimeRO) {
+        this.totalTimeRO.disconnect();
+        this.totalTimeRO = undefined;
+      }
+      if (this.io) {
+        this.io.disconnect();
+        this.io = undefined;
+      }
     }
   }
 
@@ -228,7 +242,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.speedCanvas?.nativeElement;
     if (!canvas) return;
-  if (!this.isInViewport(canvas)) return;
+    if (!this.isInViewport(canvas)) return;
     // quick fallback paint while waiting
     if (!this.speedChart) this.drawFallback(canvas, 'line');
     const data = this.speedChartData();
@@ -281,7 +295,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.approvalsCanvas?.nativeElement;
     if (!canvas) return;
-  if (!this.isInViewport(canvas)) return;
+    if (!this.isInViewport(canvas)) return;
     if (!this.approvalsChart) this.drawFallback(canvas, 'doughnut');
     const data = this.approvalsChartData();
     this.ensureChartLib().then(() => {
@@ -337,7 +351,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.totalTimeCanvas?.nativeElement;
     if (!canvas) return;
-  if (!this.isInViewport(canvas)) return;
+    if (!this.isInViewport(canvas)) return;
     if (!this.totalTimeChart) this.drawFallback(canvas, 'bar');
     const data = this.totalTimeChartData();
     this.ensureChartLib().then(() => {
@@ -429,7 +443,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     const w = Math.max(1, Math.floor(rect.width) || canvas.clientWidth || 800);
     const h = Math.max(
       1,
-      Math.floor(rect.height) || canvas.clientHeight || 220
+      Math.floor(rect.height) || canvas.clientHeight || 220,
     );
     if (w <= 1 || h <= 1) return false;
     if (canvas.width !== w) canvas.width = w;
@@ -439,7 +453,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   private ensureResizeObserver(
     canvas: HTMLCanvasElement,
-    key: 'speed' | 'approvals' | 'total'
+    key: 'speed' | 'approvals' | 'total',
   ) {
     const parent = canvas.parentElement as HTMLElement | null;
     if (!parent) return;
@@ -472,9 +486,14 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     try {
       if (document?.body?.classList?.contains('perf-lite')) return;
     } catch {}
-    const idle = (window as any).requestIdleCallback as ((cb: () => void, opts?: any) => any) | undefined;
+    const idle = (window as any).requestIdleCallback as
+      | ((cb: () => void, opts?: any) => any)
+      | undefined;
     if (typeof idle === 'function') {
-      try { idle(() => this.ensureChartLib(), { timeout: 1200 }); return; } catch {}
+      try {
+        idle(() => this.ensureChartLib(), { timeout: 1200 });
+        return;
+      } catch {}
     }
     setTimeout(() => this.ensureChartLib(), 300);
   }
@@ -482,16 +501,22 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   private setupIntersectionObserver() {
     try {
       if (!('IntersectionObserver' in window)) return;
-      this.io = new IntersectionObserver((entries) => {
-        let anyVisible = false;
-        for (const e of entries) {
-          if (e.isIntersecting) { anyVisible = true; break; }
-        }
-        if (anyVisible) {
-          // Nudge effects to re-run when canvases enter the viewport
-          this.tick.update((v) => v + 1);
-        }
-      }, { root: null, rootMargin: '0px', threshold: 0.05 });
+      this.io = new IntersectionObserver(
+        (entries) => {
+          let anyVisible = false;
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              anyVisible = true;
+              break;
+            }
+          }
+          if (anyVisible) {
+            // Nudge effects to re-run when canvases enter the viewport
+            this.tick.update((v) => v + 1);
+          }
+        },
+        { root: null, rootMargin: '0px', threshold: 0.05 },
+      );
       const c1 = this.speedCanvas?.nativeElement;
       const c2 = this.approvalsCanvas?.nativeElement;
       const c3 = this.totalTimeCanvas?.nativeElement;
@@ -504,10 +529,15 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   private isInViewport(el: Element): boolean {
     try {
       const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      const vh =
+        window.innerHeight || document.documentElement.clientHeight || 0;
       const vw = window.innerWidth || document.documentElement.clientWidth || 0;
-      return rect.bottom > 0 && rect.right > 0 && rect.top < vh && rect.left < vw;
-    } catch { return true; }
+      return (
+        rect.bottom > 0 && rect.right > 0 && rect.top < vh && rect.left < vw
+      );
+    } catch {
+      return true;
+    }
   }
 
   private tryInitCharts(attempt: number) {
@@ -526,7 +556,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!pending) return;
     if (!ChartCtor) {
       this.ensureChartLib().then(() =>
-        setTimeout(() => this.tryInitCharts(attempt + 1), backoff)
+        setTimeout(() => this.tryInitCharts(attempt + 1), backoff),
       );
       return;
     }
@@ -591,7 +621,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   private drawFallback(
     canvas: HTMLCanvasElement,
-    kind: 'line' | 'doughnut' | 'bar'
+    kind: 'line' | 'doughnut' | 'bar',
   ) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;

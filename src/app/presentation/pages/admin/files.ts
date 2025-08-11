@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +26,7 @@ export class AdminFilesPage {
   total = signal(0);
   limit = signal(20);
   offset = signal(0);
-  type_file = signal<'image'|'pdf'|'document'|''>('');
+  type_file = signal<'image' | 'pdf' | 'document' | ''>('');
   subfolder = signal<string>('');
   // Expose cached label getter for template
   getCachedUserLabel = this.users.getCachedUserLabel.bind(this.users);
@@ -30,9 +35,15 @@ export class AdminFilesPage {
     const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
-  // Warm up user cache for listed files
-  const ids = Array.from(new Set((res.items || []).map(f => f.owner_id).filter((v): v is string => !!v)));
-  await Promise.all(ids.map(id => this.users.resolveUser(id)));
+    // Warm up user cache for listed files
+    const ids = Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) => f.owner_id)
+          .filter((v): v is string => !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) => this.users.resolveUser(id)));
   }
 
   private list() {
@@ -46,22 +57,34 @@ export class AdminFilesPage {
 
   async next() {
     if (this.offset() + this.limit() >= this.total()) return;
-    this.offset.update(o => o + this.limit());
+    this.offset.update((o) => o + this.limit());
     const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
-  const ids = Array.from(new Set((res.items || []).map(f => f.owner_id).filter((v): v is string => !!v)));
-  await Promise.all(ids.map(id => this.users.resolveUser(id)));
+    const ids = Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) => f.owner_id)
+          .filter((v): v is string => !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) => this.users.resolveUser(id)));
   }
 
   async prev() {
     if (this.offset() <= 0) return;
-    this.offset.update(o => Math.max(0, o - this.limit()));
+    this.offset.update((o) => Math.max(0, o - this.limit()));
     const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
-  const ids = Array.from(new Set((res.items || []).map(f => f.owner_id).filter((v): v is string => !!v)));
-  await Promise.all(ids.map(id => this.users.resolveUser(id)));
+    const ids = Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) => f.owner_id)
+          .filter((v): v is string => !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) => this.users.resolveUser(id)));
   }
 
   async applyFilters() {
@@ -69,8 +92,14 @@ export class AdminFilesPage {
     const res = await this.list();
     this.items.set(res.items || []);
     this.total.set(res.total || 0);
-  const ids = Array.from(new Set((res.items || []).map(f => f.owner_id).filter((v): v is string => !!v)));
-  await Promise.all(ids.map(id => this.users.resolveUser(id)));
+    const ids = Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) => f.owner_id)
+          .filter((v): v is string => !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) => this.users.resolveUser(id)));
   }
 
   onTypeChange(val: string) {

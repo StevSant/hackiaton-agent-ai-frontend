@@ -35,7 +35,13 @@ export class FilesFacade {
     }
   }
 
-  list(params?: { type_file?: 'image' | 'pdf' | 'document'; subfolder?: string; page?: number; limit?: number; offset?: number }) {
+  list(params?: {
+    type_file?: 'image' | 'pdf' | 'document';
+    subfolder?: string;
+    page?: number;
+    limit?: number;
+    offset?: number;
+  }) {
     return this.listFilesUC.execute(params);
   }
 
@@ -46,7 +52,7 @@ export class FilesFacade {
       for (const file of Array.from(input.files)) {
         await this.uploadFileUC.execute(file);
       }
-    await this.load();
+      await this.load();
       input.value = '';
     } catch (e: any) {
       this.error.set(e?.message || 'Error subiendo archivo');
@@ -59,14 +65,14 @@ export class FilesFacade {
     if (this.page() * this.limit() >= this.total()) {
       return;
     }
-    this.page.update(p => p + 1);
+    this.page.update((p) => p + 1);
     await this.load();
   }
   async prevPage() {
     if (this.page() <= 1) {
       return;
     }
-    this.page.update(p => p - 1);
+    this.page.update((p) => p - 1);
     await this.load();
   }
 }

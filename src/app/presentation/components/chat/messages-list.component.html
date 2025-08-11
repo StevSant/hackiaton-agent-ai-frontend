@@ -1,172 +1,275 @@
 <div class="flex-1 flex flex-col gap-4 min-h-0">
-        <div #messagesContainer
-                class="messages-container flex-1 min-h-0 overflow-y-auto p-4 space-y-4 surface-clear rounded-xl relative"
-        (scroll)="onMessagesScroll()">
-                <style>
-                    .messages-container { contain: content; content-visibility: auto; will-change: scroll-position; }
-                    @media (max-width: 480px) { .messages-container { padding: 0.75rem; } }
-                </style>
-
-        @if (messages.length === 0 && !isSending) {
-        <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
-            <div class="text-6xl mb-4">💬</div>
-            <h4 class="text-xl font-semibold mb-2">{{ 'CHAT.EMPTY.TITLE' | translate }}</h4>
-            <p class="text-base-content/70 max-w-md">{{ 'CHAT.EMPTY.SUBTITLE' | translate }}</p>
-        </div>
+  <div
+    #messagesContainer
+    class="messages-container flex-1 min-h-0 overflow-y-auto p-4 space-y-4 surface-clear rounded-xl relative"
+    (scroll)="onMessagesScroll()"
+  >
+    <style>
+      .messages-container {
+        contain: content;
+        content-visibility: auto;
+        will-change: scroll-position;
+      }
+      @media (max-width: 480px) {
+        .messages-container {
+          padding: 0.75rem;
         }
+      }
+    </style>
 
-        @for (message of messages; track chatUtils.trackByMessageId($index, message)) {
-        @if (chatUtils.isUserMessage(message)) {
-        <div class="chat chat-end msg-user mb-4 pb-8 text-right flex items-end  flex-col">
-            <div class="chat-header mb-1">
-                <span class="text-xs opacity-60">{{ chatUtils.getEventLabel(message.event) }}</span>
-                <time class="text-xs opacity-60 ml-2">{{ chatUtils.formatTimestamp(message.timestamp) }}</time>
-            </div>
-            <div class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-lg py-2 px-4 rounded-lg">
-                {{ message.displayedContent }}
-            </div>
+    @if (messages.length === 0 && !isSending) {
+      <div
+        class="flex flex-col items-center justify-center h-full min-h-[300px] text-center"
+      >
+        <div class="text-6xl mb-4">💬</div>
+        <h4 class="text-xl font-semibold mb-2">
+          {{ "CHAT.EMPTY.TITLE" | translate }}
+        </h4>
+        <p class="text-base-content/70 max-w-md">
+          {{ "CHAT.EMPTY.SUBTITLE" | translate }}
+        </p>
+      </div>
+    }
+
+    @for (
+      message of messages;
+      track chatUtils.trackByMessageId($index, message)
+    ) {
+      @if (chatUtils.isUserMessage(message)) {
+        <div
+          class="chat chat-end msg-user mb-4 pb-8 text-right flex items-end flex-col"
+        >
+          <div class="chat-header mb-1">
+            <span class="text-xs opacity-60">{{
+              chatUtils.getEventLabel(message.event)
+            }}</span>
+            <time class="text-xs opacity-60 ml-2">{{
+              chatUtils.formatTimestamp(message.timestamp)
+            }}</time>
+          </div>
+          <div
+            class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-lg py-2 px-4 rounded-lg"
+          >
+            {{ message.displayedContent }}
+          </div>
         </div>
-        }
+      }
 
-        @if (chatUtils.isBotMessage(message)) {
+      @if (chatUtils.isBotMessage(message)) {
         <div class="chat chat-start msg-bot">
-            <div class="chat-header mb-1">
-                <span class="text-xs opacity-60">{{ chatUtils.getEventLabel(message.event) }}</span>
-                <time class="text-xs opacity-60 ml-2">{{ chatUtils.formatTimestamp(message.timestamp) }}</time>
-                @if (message.isStreaming) { <span class="loading loading-dots loading-xs ml-2"></span> }
-            </div>
-            <div class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-2xl py-2 px-4 rounded-lg">
-                                                <div class="prose prose-sm max-w-none ">
-                                                    @let view = getProcessed(message);
-                                                    @if (view.main.length) {
-                                                        <markdown [data]="view.main"></markdown>
-                                                    }
-                                                    @if (view.thinks.length) {
-                                                        <div class="mt-2">
-                                                            <button class="btn btn-ghost btn-xs" type="button" (click)="toggleThink(message)">
-                                                                <mat-icon [fontIcon]="view.expanded ? 'visibility_off' : 'visibility'" class="mr-1"></mat-icon>
-                                                                {{ view.expanded ? ('CHAT.HIDE_THINK' | translate) : ('CHAT.SHOW_THINK' | translate) }}
-                                                            </button>
-                                                            @if (view.expanded) {
-                                                                <div class="mt-2 rounded-md border border-base-300 bg-base-200/40 p-2 text-xs">
-                                                                    <div class="opacity-70 mb-1">&lt;think&gt;</div>
-                                                                    @for (t of view.thinks; track t) {
-                                                                        <div class="mb-2"><markdown [data]="t"></markdown></div>
-                                                                    }
-                                                                </div>
-                                                            }
-                                                        </div>
-                                                    }
-                                                </div>
-
-                @if (message.extra_data?.reasoning_steps?.length) {
-                <div class="mt-3 border-t pt-2">
-                    <div class="text-xs font-semibold mb-1">Razonamiento</div>
-                    <ul class="list-disc ml-5 text-xs space-y-1">
-                        @for (step of message.extra_data?.reasoning_steps; track step.title) {
-                        <li>
-                            <div class="font-medium">{{ step.title }}</div>
-                            <div class="opacity-80">{{ step.reasoning }}</div>
-                            @if (step.result) { <div class="opacity-70">→ {{ step.result }}</div> }
-                        </li>
-                        }
-                    </ul>
-                </div>
-                }
-
-                @if (message.extra_data?.references?.length) {
-                <div class="mt-3 border-t pt-2">
-                    <div class="text-xs font-semibold mb-1">Referencias</div>
-                    <ul class="list-disc ml-5 text-xs space-y-1">
-                        @for (block of message.extra_data?.references; track block.query) {
-                        <li>
-                            <div class="font-medium">Consulta: {{ block.query }}</div>
-                            <ul class="list-disc ml-5">
-                                @for (ref of block.references; track ref.name) {
-                                <li>
-                                    <div class="opacity-90">{{ ref.name }}</div>
-                                    <div class="opacity-70">{{ ref.content }}</div>
-                                </li>
-                                }
-                            </ul>
-                        </li>
-                        }
-                    </ul>
-                </div>
-                }
-
-                @if (message.images?.length) {
-                <div class="mt-2 grid grid-cols-2 gap-2">
-                    @for (img of message.images; track img.url) {
-                    <img [src]="img.url" alt="media" class="rounded-md max-h-48 object-cover" />
-                    }
-                </div>
-                }
-
-                @if (message.videos?.length) {
-                <div class="mt-2 space-y-2">
-                    @for (v of message.videos; track v.url) {
-                    <video class="rounded-md w-full" controls [src]="v.url">
-                        <track kind="captions" />
-                    </video>
-                    }
-                </div>
-                }
-
-                @if (chatUtils.isBotMessage(message) && message.content.trim() && !message.isStreaming) {
-                <div class="mt-2 flex flex-wrap items-center gap-2">
-                    @if (!isPlayingFor(message.id)) {
-                    <button class="btn btn-xs btn-ghost" (click)="tts.play(message.content, message.id)"
-                        title="Reproducir">
-                        <mat-icon fontIcon="play_arrow"></mat-icon>
-                    </button>
-                    } @else {
-                    <button class="btn btn-xs btn-ghost" (click)="isPausedFor(message.id) ? tts.resume() : tts.pause()"
-                        title="Pausar/Reanudar">
-                        <mat-icon [fontIcon]="isPausedFor(message.id) ? 'play_arrow' : 'pause'"></mat-icon>
-                    </button>
-                    }
-
-                    <div class="flex items-center gap-2 ml-2">
-                        <mat-icon fontIcon="volume_up" class="opacity-70"></mat-icon>
-                        <input type="range" min="0" max="1" step="0.05" [value]="tts.volume()"
-                            (input)="onVolumeInput($event)" class="range range-xs w-32" />
-                        <span class="text-xs opacity-70 w-8 text-right">{{ (tts.volume() * 100) | number:'1.0-0'
-                            }}%</span>
+          <div class="chat-header mb-1">
+            <span class="text-xs opacity-60">{{
+              chatUtils.getEventLabel(message.event)
+            }}</span>
+            <time class="text-xs opacity-60 ml-2">{{
+              chatUtils.formatTimestamp(message.timestamp)
+            }}</time>
+            @if (message.isStreaming) {
+              <span class="loading loading-dots loading-xs ml-2"></span>
+            }
+          </div>
+          <div
+            class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-2xl py-2 px-4 rounded-lg"
+          >
+            <div class="prose prose-sm max-w-none">
+              @let view = getProcessed(message);
+              @if (view.main.length) {
+                <markdown [data]="view.main"></markdown>
+              }
+              @if (view.thinks.length) {
+                <div class="mt-2">
+                  <button
+                    class="btn btn-ghost btn-xs"
+                    type="button"
+                    (click)="toggleThink(message)"
+                  >
+                    <mat-icon
+                      [fontIcon]="
+                        view.expanded ? 'visibility_off' : 'visibility'
+                      "
+                      class="mr-1"
+                    ></mat-icon>
+                    {{
+                      view.expanded
+                        ? ("CHAT.HIDE_THINK" | translate)
+                        : ("CHAT.SHOW_THINK" | translate)
+                    }}
+                  </button>
+                  @if (view.expanded) {
+                    <div
+                      class="mt-2 rounded-md border border-base-300 bg-base-200/40 p-2 text-xs"
+                    >
+                      <div class="opacity-70 mb-1">&lt;think&gt;</div>
+                      @for (t of view.thinks; track t) {
+                        <div class="mb-2"><markdown [data]="t"></markdown></div>
+                      }
                     </div>
+                  }
                 </div>
+              }
+            </div>
+
+            @if (message.extra_data?.reasoning_steps?.length) {
+              <div class="mt-3 border-t pt-2">
+                <div class="text-xs font-semibold mb-1">Razonamiento</div>
+                <ul class="list-disc ml-5 text-xs space-y-1">
+                  @for (
+                    step of message.extra_data?.reasoning_steps;
+                    track step.title
+                  ) {
+                    <li>
+                      <div class="font-medium">{{ step.title }}</div>
+                      <div class="opacity-80">{{ step.reasoning }}</div>
+                      @if (step.result) {
+                        <div class="opacity-70">→ {{ step.result }}</div>
+                      }
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (message.extra_data?.references?.length) {
+              <div class="mt-3 border-t pt-2">
+                <div class="text-xs font-semibold mb-1">Referencias</div>
+                <ul class="list-disc ml-5 text-xs space-y-1">
+                  @for (
+                    block of message.extra_data?.references;
+                    track block.query
+                  ) {
+                    <li>
+                      <div class="font-medium">Consulta: {{ block.query }}</div>
+                      <ul class="list-disc ml-5">
+                        @for (ref of block.references; track ref.name) {
+                          <li>
+                            <div class="opacity-90">{{ ref.name }}</div>
+                            <div class="opacity-70">{{ ref.content }}</div>
+                          </li>
+                        }
+                      </ul>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (message.images?.length) {
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                @for (img of message.images; track img.url) {
+                  <img
+                    [src]="img.url"
+                    alt="media"
+                    class="rounded-md max-h-48 object-cover"
+                  />
+                }
+              </div>
+            }
+
+            @if (message.videos?.length) {
+              <div class="mt-2 space-y-2">
+                @for (v of message.videos; track v.url) {
+                  <video class="rounded-md w-full" controls [src]="v.url">
+                    <track kind="captions" />
+                  </video>
+                }
+              </div>
+            }
+
+            @if (
+              chatUtils.isBotMessage(message) &&
+              message.content.trim() &&
+              !message.isStreaming
+            ) {
+              <div class="mt-2 flex flex-wrap items-center gap-2">
+                @if (!isPlayingFor(message.id)) {
+                  <button
+                    class="btn btn-xs btn-ghost"
+                    (click)="tts.play(message.content, message.id)"
+                    title="Reproducir"
+                  >
+                    <mat-icon fontIcon="play_arrow"></mat-icon>
+                  </button>
+                } @else {
+                  <button
+                    class="btn btn-xs btn-ghost"
+                    (click)="
+                      isPausedFor(message.id) ? tts.resume() : tts.pause()
+                    "
+                    title="Pausar/Reanudar"
+                  >
+                    <mat-icon
+                      [fontIcon]="
+                        isPausedFor(message.id) ? 'play_arrow' : 'pause'
+                      "
+                    ></mat-icon>
+                  </button>
                 }
 
-                @if (message.isStreaming && message.displayedContent.length < message.content.length) { <span
-                    class="inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70"></span>
-                    }
-            </div>
-        </div>
-        }
+                <div class="flex items-center gap-2 ml-2">
+                  <mat-icon fontIcon="volume_up" class="opacity-70"></mat-icon>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    [value]="tts.volume()"
+                    (input)="onVolumeInput($event)"
+                    class="range range-xs w-32"
+                  />
+                  <span class="text-xs opacity-70 w-8 text-right"
+                    >{{ tts.volume() * 100 | number: "1.0-0" }}%</span
+                  >
+                </div>
+              </div>
+            }
 
-        @if (chatUtils.isSystemMessage(message)) {
+            @if (
+              message.isStreaming &&
+              message.displayedContent.length < message.content.length
+            ) {
+              <span
+                class="inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70"
+              ></span>
+            }
+          </div>
+        </div>
+      }
+
+      @if (chatUtils.isSystemMessage(message)) {
         <div class="flex justify-center my-2 msg-system">
-            <div class="flex items-center gap-2 px-4 py-2 bg-info/10 text-info rounded-full text-sm">
-                <span class="opacity-70">{{ chatUtils.formatTimestamp(message.timestamp) }}</span>
-                <span>{{ message.displayedContent }}</span>
-            </div>
+          <div
+            class="flex items-center gap-2 px-4 py-2 bg-info/10 text-info rounded-full text-sm"
+          >
+            <span class="opacity-70">{{
+              chatUtils.formatTimestamp(message.timestamp)
+            }}</span>
+            <span>{{ message.displayedContent }}</span>
+          </div>
         </div>
-        }
-        }
+      }
+    }
 
-        @if (toolRunning) {
-        <div class="flex justify-center items-center py-2">
-            <div class="loading loading-dots loading-sm text-info" [attr.aria-label]="'CHAT.RUNNING_TOOLS' | translate">
-            </div>
-            <span class="text-xs ml-2 text-info/80">{{ 'CHAT.RUNNING_TOOLS' | translate }}</span>
-        </div>
-        }
+    @if (toolRunning) {
+      <div class="flex justify-center items-center py-2">
+        <div
+          class="loading loading-dots loading-sm text-info"
+          [attr.aria-label]="'CHAT.RUNNING_TOOLS' | translate"
+        ></div>
+        <span class="text-xs ml-2 text-info/80">{{
+          "CHAT.RUNNING_TOOLS" | translate
+        }}</span>
+      </div>
+    }
 
-        @if (showScrollToBottom) {
-        <button type="button" class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg"
-            (click)="scrollToBottom()" title="Bajar al final">
-            <mat-icon fontIcon="arrow_downward"></mat-icon>
-        </button>
-        }
-    </div>
+    @if (showScrollToBottom) {
+      <button
+        type="button"
+        class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg"
+        (click)="scrollToBottom()"
+        title="Bajar al final"
+      >
+        <mat-icon fontIcon="arrow_downward"></mat-icon>
+      </button>
+    }
+  </div>
 </div>

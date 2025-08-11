@@ -1,4 +1,7 @@
-export interface TimeSeriesPoint { date: string; count: number }
+export interface TimeSeriesPoint {
+  date: string;
+  count: number;
+}
 export interface AdminStatsDTO {
   totals: Record<string, number>;
   files_breakdown: Record<string, number>;
@@ -56,5 +59,7 @@ export interface AdminCompanyDashboardDTO {
 
 export abstract class AdminStatsPort {
   abstract getOverview(days?: number): Promise<AdminStatsDTO>;
-  abstract getCompanyDashboard(taxId: string): Promise<AdminCompanyDashboardDTO>;
+  abstract getCompanyDashboard(
+    taxId: string,
+  ): Promise<AdminCompanyDashboardDTO>;
 }

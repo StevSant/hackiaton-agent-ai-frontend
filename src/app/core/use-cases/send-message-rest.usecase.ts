@@ -7,7 +7,13 @@ export class SendMessageRestUseCase {
 
   execute(
     agentId: string,
-    payload: { message?: string; session_id?: string; user_id?: string; audioFile?: File; files?: File[] }
+    payload: {
+      message?: string;
+      session_id?: string;
+      user_id?: string;
+      audioFile?: File;
+      files?: File[];
+    },
   ): Observable<StreamResponseModel> {
     return this.sessions.sendMessage(agentId, payload).pipe(
       map((resp: any) => ({
@@ -17,7 +23,7 @@ export class SendMessageRestUseCase {
         isComplete: true,
         isError: !!resp?.error,
         rawMessage: resp,
-      }))
+      })),
     );
   }
 }

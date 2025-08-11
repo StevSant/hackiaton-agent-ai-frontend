@@ -1,4 +1,16 @@
-import { Component, inject, signal, HostListener, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  HostListener,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+  Input,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,12 +28,17 @@ import { ProfileMenuComponent } from '../profile-menu/profile-menu';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule, TranslateModule, ProfileMenuComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatIconModule,
+    TranslateModule,
+    ProfileMenuComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './sidebar.html',
-  styleUrls: ['./sidebar.css']
+  styleUrls: ['./sidebar.css'],
 })
-
 export class SidebarComponent {
   @Input() isOpen = true;
   @Output() closed = new EventEmitter<void>();
@@ -62,8 +79,10 @@ export class SidebarComponent {
   trackBySessionId = (_: number, s: SessionEntry) => s.session_id;
   trackByIndex = (i: number) => i;
 
-  @ViewChild('sentinel', { static: false }) sentinel?: ElementRef<HTMLDivElement>;
-  @ViewChild('scrollContainer', { static: false }) scrollContainer?: ElementRef<HTMLDivElement>;
+  @ViewChild('sentinel', { static: false })
+  sentinel?: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollContainer', { static: false })
+  scrollContainer?: ElementRef<HTMLDivElement>;
   private io?: IntersectionObserver;
 
   // Helpers to sanitize and sort sessions
@@ -80,9 +99,16 @@ export class SidebarComponent {
       .trim();
   }
   private tsOf(s: SessionEntry): number {
-    const u: any = (s as any).updated_at ?? s.updated_at ?? (s as any).updatedAt;
-    const c: any = (s as any).created_at ?? s.created_at ?? (s as any).createdAt;
-    const parse = (v: any) => typeof v === 'number' ? v : (typeof v === 'string' ? Date.parse(v) || 0 : 0);
+    const u: any =
+      (s as any).updated_at ?? s.updated_at ?? (s as any).updatedAt;
+    const c: any =
+      (s as any).created_at ?? s.created_at ?? (s as any).createdAt;
+    const parse = (v: any) =>
+      typeof v === 'number'
+        ? v
+        : typeof v === 'string'
+          ? Date.parse(v) || 0
+          : 0;
     return parse(u) || parse(c) || 0;
   }
   private sortSessionsDesc(list: SessionEntry[]): SessionEntry[] {
@@ -91,7 +117,7 @@ export class SidebarComponent {
 
   ngOnInit() {
     this.tryLoad();
-  this.loadProfileIfAuthenticated();
+    this.loadProfileIfAuthenticated();
     // refresh when someone triggers a sessions update
     this.sessionsEvents.onRefresh().subscribe(() => this.tryLoad());
   }
@@ -99,29 +125,38 @@ export class SidebarComponent {
   tryLoad() {
     if (this.isLoading) return;
     // Defer loading flag to avoid NG0100 when toggling quickly in same tick
-    setTimeout(() => { this.isLoading = true; this.cdr.markForCheck(); });
-    // agentId is ignored by backend; pass a placeholder
-  this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
-      next: (list) => {
-    // sanitize titles and sort newest first
-    const sanitized = (list || []).map(s => ({
-      ...s,
-      title: this.sanitizeTitle(s.title) || s.title
-    }));
-    this.sessions = this.sortSessionsDesc(sanitized);
-    // total could come in a separate response in the future; fallback keeps hasMore true until we reach an empty page
-    this.hasMore = (list?.length || 0) === this.limit;
-        this.cdr.markForCheck();
-    // setup IO after first paint
-    queueMicrotask(() => this.setupIO());
-      },
-      error: () => {
-        // ensure loading state is cleared so future refresh triggers work
-        this.isLoading = false;
-        this.cdr.markForCheck();
-      },
-      complete: () => setTimeout(() => { this.isLoading = false; this.cdr.markForCheck(); }),
+    setTimeout(() => {
+      this.isLoading = true;
+      this.cdr.markForCheck();
     });
+    // agentId is ignored by backend; pass a placeholder
+    this.chatFacade
+      .listSessions({ page: this.page, limit: this.limit })
+      .subscribe({
+        next: (list) => {
+          // sanitize titles and sort newest first
+          const sanitized = (list || []).map((s) => ({
+            ...s,
+            title: this.sanitizeTitle(s.title) || s.title,
+          }));
+          this.sessions = this.sortSessionsDesc(sanitized);
+          // total could come in a separate response in the future; fallback keeps hasMore true until we reach an empty page
+          this.hasMore = (list?.length || 0) === this.limit;
+          this.cdr.markForCheck();
+          // setup IO after first paint
+          queueMicrotask(() => this.setupIO());
+        },
+        error: () => {
+          // ensure loading state is cleared so future refresh triggers work
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        },
+        complete: () =>
+          setTimeout(() => {
+            this.isLoading = false;
+            this.cdr.markForCheck();
+          }),
+      });
   }
 
   loadMore() {
@@ -129,39 +164,57 @@ export class SidebarComponent {
     if (!this.hasMore) return;
     this.page += 1;
     // For now, append by calling again (SessionsService isn’t paginated yet); dedupe by id
-    this.isLoading = true; this.cdr.markForCheck();
-    this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
-      next: (list) => {
+    this.isLoading = true;
+    this.cdr.markForCheck();
+    this.chatFacade
+      .listSessions({ page: this.page, limit: this.limit })
+      .subscribe({
+        next: (list) => {
           const map = new Map<string, SessionEntry>();
           for (const s of this.sessions) map.set(s.session_id, s);
-          for (const s of (list || [])) map.set(s.session_id, s);
-          const merged = Array.from(map.values()).map(s => ({
+          for (const s of list || []) map.set(s.session_id, s);
+          const merged = Array.from(map.values()).map((s) => ({
             ...s,
-            title: this.sanitizeTitle(s.title) || s.title
+            title: this.sanitizeTitle(s.title) || s.title,
           }));
           this.sessions = this.sortSessionsDesc(merged);
-        this.hasMore = (list?.length || 0) === this.limit;
-        this.cdr.markForCheck();
-      },
-      complete: () => { this.isLoading = false; this.cdr.markForCheck(); },
-      error: () => { this.isLoading = false; this.cdr.markForCheck(); }
-    });
+          this.hasMore = (list?.length || 0) === this.limit;
+          this.cdr.markForCheck();
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   private setupIO() {
     if (!this.sentinel || !this.scrollContainer) return;
     if (this.io) return; // create once
-    this.io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          this.loadMore();
+    this.io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            this.loadMore();
+          }
         }
-      }
-    }, { root: this.scrollContainer.nativeElement, rootMargin: '0px 0px 200px 0px', threshold: 0.1 });
+      },
+      {
+        root: this.scrollContainer.nativeElement,
+        rootMargin: '0px 0px 200px 0px',
+        threshold: 0.1,
+      },
+    );
     this.io.observe(this.sentinel.nativeElement);
   }
 
-  ngOnDestroy() { if (this.io) this.io.disconnect(); }
+  ngOnDestroy() {
+    if (this.io) this.io.disconnect();
+  }
 
   openSession(session: SessionEntry) {
     this.router.navigate(['/chat', 'session', session.session_id]).then(() => {
@@ -178,21 +231,28 @@ export class SidebarComponent {
 
   openDeleteModal(session: SessionEntry, event?: Event) {
     event?.stopPropagation();
-  this.toDelete.set(session);
-  this.confirmOpen.set(true);
-  this.deleteRequested.emit(session);
+    this.toDelete.set(session);
+    this.confirmOpen.set(true);
+    this.deleteRequested.emit(session);
   }
 
   confirmDelete() {
     const session = this.toDelete();
-    if (!session) { this.confirmOpen.set(false); return; }
-  this.chatFacade.deleteSession(session.session_id).subscribe({
+    if (!session) {
+      this.confirmOpen.set(false);
+      return;
+    }
+    this.chatFacade.deleteSession(session.session_id).subscribe({
       next: () => {
         // remove locally
-        this.sessions = this.sessions.filter(s => s.session_id !== session.session_id);
+        this.sessions = this.sessions.filter(
+          (s) => s.session_id !== session.session_id,
+        );
         this.cdr.markForCheck();
         // redirect to new chat page
-        this.router.navigate(['/chat']).then(() => setTimeout(() => this.tryLoad()));
+        this.router
+          .navigate(['/chat'])
+          .then(() => setTimeout(() => this.tryLoad()));
       },
       complete: () => {
         this.confirmOpen.set(false);
@@ -202,17 +262,19 @@ export class SidebarComponent {
       error: () => {
         this.confirmOpen.set(false);
         this.toDelete.set(null);
-      }
+      },
     });
   }
 
   cancelDelete() {
-  this.confirmOpen.set(false);
-  this.deleteCancelled.emit();
-  this.toDelete.set(null);
+    this.confirmOpen.set(false);
+    this.deleteCancelled.emit();
+    this.toDelete.set(null);
   }
 
-  isAuthenticated() { return this.token.isAuthenticated(); }
+  isAuthenticated() {
+    return this.token.isAuthenticated();
+  }
 
   // --- Auth / Profile dropdown logic ---
   private async loadProfileIfAuthenticated() {
@@ -223,7 +285,7 @@ export class SidebarComponent {
     try {
       const profile = await this.getProfileUC.execute(t);
       this.profileEmail.set(profile.email || profile.username || null);
-  this.profileRole.set(profile.role || null);
+      this.profileRole.set(profile.role || null);
     } catch {
       // si falla, limpiamos token para evitar estado inconsistente
       // this.token.clear(); // opcional: comentar para no forzar logout automático
@@ -233,7 +295,9 @@ export class SidebarComponent {
   }
 
   // toggleProfileMenu now handled inside ProfileMenuComponent when used in the template
-  toggleProfileMenu(event?: Event) { /* deprecated in this view */ }
+  toggleProfileMenu(event?: Event) {
+    /* deprecated in this view */
+  }
 
   logout(event?: Event) {
     event?.stopPropagation();
@@ -244,9 +308,13 @@ export class SidebarComponent {
     this.router.navigateByUrl('/login');
   }
 
-  switchLang(lang: 'es' | 'en') { this.lang.switch(lang); }
+  switchLang(lang: 'es' | 'en') {
+    this.lang.switch(lang);
+  }
 
-  setTheme(value: 'light' | 'dark' | 'system') { this.theme.setTheme(value); }
+  setTheme(value: 'light' | 'dark' | 'system') {
+    this.theme.setTheme(value);
+  }
 
   @HostListener('document:click')
   closeOnOutsideClick() {
