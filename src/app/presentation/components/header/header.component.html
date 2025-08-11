@@ -51,7 +51,8 @@
         <!-- Menú -->
         @if (isOpen) {
           <div
-            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-base-100 ring-1 ring-black ring-opacity-5 z-50"
+            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-base-100 ring-1 ring-black/10 z-50 isolate backdrop-blur-0"
+            style="--tw-bg-opacity: 1"
             role="menu"
             aria-label="Repositorios del proyecto"
           >
@@ -60,7 +61,7 @@
                 [href]="backend_repository"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center px-4 py-2 text-sm hover:bg-base-200"
+                class="flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary"
                 role="menuitem"
               >
                 <mat-icon
@@ -74,7 +75,7 @@
                 [href]="frontend_repository"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center px-4 py-2 text-sm hover:bg-base-200"
+                class="flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary"
                 role="menuitem"
               >
                 <mat-icon
@@ -88,7 +89,7 @@
                 [href]="youtube_video"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center px-4 py-2 text-sm hover:bg-base-200"
+                class="flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary"
                 role="menuitem"
               >
                 <mat-icon
