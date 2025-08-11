@@ -163,8 +163,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.viewReady.set(true);
-    // Preload Chart.js ASAP on the client
-    this.ensureChartLib();
+  // Schedule Chart.js load during an idle period (non-blocking)
+  this.scheduleChartLibLoad();
     // Fallback: re-render after a short delay to ensure containers have final size
     if (this.isBrowser()) {
       setTimeout(() => {
@@ -464,6 +464,19 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (key === 'speed') this.speedRO = ro;
     if (key === 'approvals') this.approvalsRO = ro;
     if (key === 'total') this.totalTimeRO = ro;
+  }
+
+  private scheduleChartLibLoad() {
+    if (!this.isBrowser()) return;
+    // Avoid scheduling if perf-lite will skip the lib anyway
+    try {
+      if (document?.body?.classList?.contains('perf-lite')) return;
+    } catch {}
+    const idle = (window as any).requestIdleCallback as ((cb: () => void, opts?: any) => any) | undefined;
+    if (typeof idle === 'function') {
+      try { idle(() => this.ensureChartLib(), { timeout: 1200 }); return; } catch {}
+    }
+    setTimeout(() => this.ensureChartLib(), 300);
   }
 
   private setupIntersectionObserver() {
