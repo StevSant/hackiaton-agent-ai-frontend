@@ -1,7 +1,14 @@
 <div class="min-h-screen w-full flex items-center justify-center px-4 py-10 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--accent)/0.18),transparent_60%)] vt-page">
+  <div class="absolute top-3 left-3 z-20">
+    <a routerLink="/home" class="btn btn-ghost btn-xs" [title]="'NOT_FOUND.BACK_HOME' | translate">
+      <mat-icon fontIcon="home"></mat-icon>
+      <span class="ml-1 text-xs">{{ 'NOT_FOUND.BACK_HOME' | translate }}</span>
+    </a>
+  </div>
   <div class="relative w-full max-w-md">
     <div class="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[hsl(var(--accent)/0.25)] via-transparent to-[hsl(var(--brand-primary)/0.15)] blur-2xl" aria-hidden="true"></div>
     <div class="relative overflow-hidden rounded-3xl border border-[hsl(var(--border))] bg-card/70 backdrop-blur-xl shadow-xl shadow-[hsl(var(--accent)/0.15)]">
+      <!-- Back to Home -->
       <div class="absolute -top-24 -left-24 h-72 w-72 bg-[conic-gradient(from_180deg_at_50%_50%,hsl(var(--accent)/0.25),transparent_70%)] blur-2xl opacity-70"></div>
       <div class="p-8 relative z-10">
         <div class="mb-8 text-center space-y-2 vt-stagger">

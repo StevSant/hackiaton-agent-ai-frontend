@@ -21,7 +21,10 @@
         <div class="font-medium truncate" [title]="f.filename">{{ f.filename }}</div>
         <div class="text-xs opacity-70">{{ f.content_type }} • {{ f.type_file }}</div>
         <div class="text-xs opacity-70" *ngIf="f.session_id">Session: <span class="font-mono">{{ f.session_id }}</span></div>
-        <div class="text-xs opacity-70" *ngIf="f.owner_id">User: <span class="font-mono">{{ f.owner_id }}</span></div>
+        <div class="text-xs opacity-70" *ngIf="f.owner_id">
+          User:
+          <span class="font-mono" [attr.title]="userLabel(f.owner_id)">{{ getCachedUserLabel(f.owner_id) || f.owner_id }}</span>
+        </div>
         <a [href]="f.url" target="_blank" class="btn btn-ghost btn-xs mt-1">{{ 'COMMON.OPEN' | translate }}</a>
       </div>
     }
