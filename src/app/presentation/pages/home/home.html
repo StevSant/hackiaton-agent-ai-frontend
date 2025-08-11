@@ -1,63 +1,11 @@
 <!-- Public Home page -->
 <div class="min-h-dvh overflow-x-hidden relative bg-home vt-page text-[15px]">
-  <!-- Header fijo -->
-  <header
-    class="sticky top-0 z-40 bg-base-100/80 backdrop-blur border-b border-base-200"
-  >
-    <div class="mx-auto max-w-7xl px-5 py-3 flex items-center justify-between">
-      <!-- Marca -->
-      <a
-        routerLink="/"
-        class="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-primary rounded"
-      >
-        <img
-          [src]="
-            (info()?.site_icon || info()?.site_logo) ?? '/assets/favicon.ico'
-          "
-          [alt]="info()?.site_name || ('SHELL.APP_TITLE' | translate)"
-          class="w-12 h-12 rounded object-cover"
-        />
-        <span class="font-bold tracking-tight text-xl md:text-2xl">
-          {{ info()?.site_name || ("SHELL.APP_TITLE" | translate) }}
-        </span>
-      </a>
-
-      <!-- Navegación primaria -->
-      <nav
-        class="flex items-center gap-2"
-        [attr.aria-label]="'COMMON.PRIMARY_NAV' | translate"
-      >
-        @if (isAdmin()) {
-          <a
-            routerLink="/admin"
-            routerLinkActive="btn-primary"
-            class="btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary hover:bg-primary/10"
-            [attr.aria-label]="'COMMON.ADMIN' | translate"
-          >
-            <mat-icon
-              fontIcon="admin_panel_settings"
-              class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
-              aria-hidden="true"
-            ></mat-icon>
-            <span class="ml-1">{{ "COMMON.ADMIN" | translate }}</span>
-          </a>
-        }
-        <a
-          routerLink="/chat"
-          routerLinkActive="btn-primary"
-          class="btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary"
-          [attr.aria-label]="'COMMON.OPEN' | translate"
-        >
-          <mat-icon
-            fontIcon="chat"
-            class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
-            aria-hidden="true"
-          ></mat-icon>
-          <span class="ml-1">{{ "COMMON.OPEN" | translate }}</span>
-        </a>
-      </nav>
-    </div>
-  </header>
+  <!-- Header fijo extraído a componente -->
+  <app-header
+    [(isOpen)]="open"
+    [info]="info()"
+    [isAdmin]="isAdmin()"
+  ></app-header>
 
   <!-- Contenido principal -->
   <main id="main" class="mx-auto max-w-7xl px-5 py-6 md:py-8">
@@ -73,6 +21,89 @@
       </p>
     </section>
 
+    <!-- Texto explicativo -->
+    <section class="px-0 mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+      <figure
+        class="glass-card p-4 min-h-[260px] lg:col-span-1 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
+      >
+        <div class="flex items-center justify-between">
+          <h3 class="font-medium" id="totalTimeChartTitle">
+            {{ "HOME.MKT.TOTAL_TIME_TITLE" | translate }}
+          </h3>
+          <mat-icon
+            fontIcon="timer"
+            class="opacity-80 transition-colors duration-300 hover:text-primary"
+            aria-hidden="true"
+          ></mat-icon>
+        </div>
+        <p class="mt-3 text-xs opacity-70" id="totalTimeChartDesc">
+          {{ "HOME.MKT.TOTAL_TIME_DESC" | translate }}
+        </p>
+        <app-lazy-chart
+          class="mt-3"
+          [chartType]="'bar'"
+          [data]="totalTimeChartData()"
+          [options]="{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } },
+          }"
+          [ariaLabelledby]="'totalTimeChartTitle totalTimeChartDesc'"
+        ></app-lazy-chart>
+        <figcaption class="sr-only">
+          {{ "HOME.MKT.TOTAL_TIME_DESC" | translate }}
+        </figcaption>
+      </figure>
+
+      <article
+        class="glass-card p-4 lg:col-span-2 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
+      >
+        <h3 class="font-medium">{{ "HOME.MKT.RETO_TITLE" | translate }}</h3>
+        <div class="mt-3 space-y-3 text-sm opacity-90 leading-relaxed">
+          <p>{{ "HOME.MKT.OBJETIVO_INTRO" | translate }}</p>
+          <p>{{ "HOME.MKT.IMPORTA_INTRO" | translate }}</p>
+          <ul class="list-disc ml-5 opacity-90 marker:opacity-60 space-y-1">
+            <li>{{ "HOME.MKT.BULLET1" | translate }}</li>
+            <li>{{ "HOME.MKT.BULLET2" | translate }}</li>
+            <li>{{ "HOME.MKT.BULLET3" | translate }}</li>
+            <li>{{ "HOME.MKT.BULLET4" | translate }}</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+      <article
+        class="glass-card p-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
+      >
+        <h3 class="font-medium">{{ "HOME.MKT.IA_TITLE" | translate }}</h3>
+        <div class="mt-3 text-sm opacity-90 leading-relaxed space-y-2">
+          <p>{{ "HOME.MKT.IA_P1" | translate }}</p>
+          <p>{{ "HOME.MKT.IA_P2" | translate }}</p>
+          <p>{{ "HOME.MKT.IA_P3" | translate }}</p>
+          <p>{{ "HOME.MKT.IA_P4" | translate }}</p>
+        </div>
+      </article>
+
+      <aside
+        class="glass-card p-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
+      >
+        <h3 id="deliverablesTitle" class="font-medium">
+          {{ "HOME.MKT.ENTREGABLES_TITLE" | translate }}
+        </h3>
+        <ul class="mt-3 list-disc ml-5 text-sm opacity-90 space-y-1">
+          <li>{{ "HOME.MKT.ENT_ITEM1" | translate }}</li>
+          <li>{{ "HOME.MKT.ENT_ITEM2" | translate }}</li>
+          <li>{{ "HOME.MKT.ENT_ITEM3" | translate }}</li>
+          <li>{{ "HOME.MKT.ENT_ITEM4" | translate }}</li>
+        </ul>
+        <p class="mt-4 text-xs opacity-70">
+          {{ "HOME.MKT.DATOS_LABEL" | translate }}
+        </p>
+      </aside>
+    </section>
+
     <!-- KPIs -->
     <section class="mt-6 md:mt-8" aria-labelledby="kpi-title">
       <h2 id="kpi-title" class="sr-only">
@@ -80,7 +111,7 @@
       </h2>
       <dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <div
-          class="glass-card p-4 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
+          class="glass-card p-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
         >
           <div class="flex items-center justify-between">
             <dt class="text-xs opacity-70">
@@ -88,7 +119,7 @@
             </dt>
             <mat-icon
               fontIcon="bolt"
-              class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
+              class="opacity-80 transition-colors duration-300 hover:text-primary"
               aria-hidden="true"
             ></mat-icon>
           </div>
@@ -104,7 +135,7 @@
         </div>
 
         <div
-          class="glass-card p-4 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
+          class="glass-card p-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
         >
           <div class="flex items-center justify-between">
             <dt class="text-xs opacity-70">
@@ -112,7 +143,7 @@
             </dt>
             <mat-icon
               fontIcon="thumb_up"
-              class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
+              class="opacity-80 transition-colors duration-300 hover:text-primary"
               aria-hidden="true"
             ></mat-icon>
           </div>
@@ -125,7 +156,7 @@
         </div>
 
         <div
-          class="glass-card p-4 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
+          class="glass-card p-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
         >
           <div class="flex items-center justify-between">
             <dt class="text-xs opacity-70">
@@ -133,7 +164,7 @@
             </dt>
             <mat-icon
               fontIcon="insights"
-              class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
+              class="opacity-80 transition-colors duration-300 hover:text-primary"
               aria-hidden="true"
             ></mat-icon>
           </div>
@@ -146,7 +177,7 @@
         </div>
 
         <div
-          class="glass-card p-4 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
+          class="glass-card p-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary"
         >
           <div class="flex items-center justify-between">
             <dt class="text-xs opacity-70">
@@ -154,7 +185,7 @@
             </dt>
             <mat-icon
               fontIcon="timer"
-              class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
+              class="opacity-80 transition-colors duration-300 hover:text-primary"
               aria-hidden="true"
             ></mat-icon>
           </div>
@@ -173,7 +204,7 @@
       class="mt-8 md:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6"
     >
       <figure
-        class="glass-card p-4 lg:col-span-2 min-h-[260px] rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
+        class="glass-card p-4 lg:col-span-2 min-h-[260px] rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
       >
         <div class="flex items-center justify-between">
           <h3 class="font-medium" id="speedChartTitle">
@@ -181,7 +212,7 @@
           </h3>
           <mat-icon
             fontIcon="show_chart"
-            class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
+            class="opacity-80 transition-colors duration-300 hover:text-primary"
             aria-hidden="true"
           ></mat-icon>
         </div>
@@ -212,7 +243,7 @@
       </figure>
 
       <figure
-        class="glass-card p-4 min-h-[260px] rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
+        class="glass-card p-4 min-h-[260px] rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
       >
         <div class="flex items-center justify-between">
           <h3 class="font-medium" id="resultsChartTitle">
@@ -220,7 +251,7 @@
           </h3>
           <mat-icon
             fontIcon="donut_small"
-            class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
+            class="opacity-80 transition-colors duration-300 hover:text-primary"
             aria-hidden="true"
           ></mat-icon>
         </div>
@@ -243,89 +274,6 @@
         </figcaption>
       </figure>
     </section>
-
-    <!-- Texto explicativo -->
-    <section class="px-0 mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-      <figure
-        class="glass-card p-4 min-h-[260px] lg:col-span-1 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
-      >
-        <div class="flex items-center justify-between">
-          <h3 class="font-medium" id="totalTimeChartTitle">
-            {{ "HOME.MKT.TOTAL_TIME_TITLE" | translate }}
-          </h3>
-          <mat-icon
-            fontIcon="timer"
-            class="opacity-80 transition-colors duration-300 ease-out hover:text-primary"
-            aria-hidden="true"
-          ></mat-icon>
-        </div>
-        <p class="mt-3 text-xs opacity-70" id="totalTimeChartDesc">
-          {{ "HOME.MKT.TOTAL_TIME_DESC" | translate }}
-        </p>
-        <app-lazy-chart
-          class="mt-3"
-          [chartType]="'bar'"
-          [data]="totalTimeChartData()"
-          [options]="{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true } },
-          }"
-          [ariaLabelledby]="'totalTimeChartTitle totalTimeChartDesc'"
-        ></app-lazy-chart>
-        <figcaption class="sr-only">
-          {{ "HOME.MKT.TOTAL_TIME_DESC" | translate }}
-        </figcaption>
-      </figure>
-
-      <article
-        class="glass-card p-4 lg:col-span-2 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
-      >
-        <h3 class="font-medium">{{ "HOME.MKT.RETO_TITLE" | translate }}</h3>
-        <div class="mt-3 space-y-3 text-sm opacity-90 leading-relaxed">
-          <p>{{ "HOME.MKT.OBJETIVO_INTRO" | translate }}</p>
-          <p>{{ "HOME.MKT.IMPORTA_INTRO" | translate }}</p>
-          <ul class="list-disc ml-5 opacity-90 marker:opacity-60 space-y-1">
-            <li>{{ "HOME.MKT.BULLET1" | translate }}</li>
-            <li>{{ "HOME.MKT.BULLET2" | translate }}</li>
-            <li>{{ "HOME.MKT.BULLET3" | translate }}</li>
-            <li>{{ "HOME.MKT.BULLET4" | translate }}</li>
-          </ul>
-        </div>
-      </article>
-    </section>
-
-    <section class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-      <article
-        class="glass-card p-4 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
-      >
-        <h3 class="font-medium">{{ "HOME.MKT.IA_TITLE" | translate }}</h3>
-        <div class="mt-3 text-sm opacity-90 leading-relaxed space-y-2">
-          <p>{{ "HOME.MKT.IA_P1" | translate }}</p>
-          <p>{{ "HOME.MKT.IA_P2" | translate }}</p>
-          <p>{{ "HOME.MKT.IA_P3" | translate }}</p>
-          <p>{{ "HOME.MKT.IA_P4" | translate }}</p>
-        </div>
-      </article>
-
-      <aside
-        class="glass-card p-4 rounded-xl transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
-      >
-        <h3 id="deliverablesTitle" class="font-medium">
-          {{ "HOME.MKT.ENTREGABLES_TITLE" | translate }}
-        </h3>
-        <ul class="mt-3 list-disc ml-5 text-sm opacity-90 space-y-1">
-          <li>{{ "HOME.MKT.ENT_ITEM1" | translate }}</li>
-          <li>{{ "HOME.MKT.ENT_ITEM2" | translate }}</li>
-          <li>{{ "HOME.MKT.ENT_ITEM3" | translate }}</li>
-          <li>{{ "HOME.MKT.ENT_ITEM4" | translate }}</li>
-        </ul>
-        <p class="mt-4 text-xs opacity-70">
-          {{ "HOME.MKT.DATOS_LABEL" | translate }}
-        </p>
-      </aside>
-    </section>
   </main>
 
   <!-- Footer -->
@@ -337,9 +285,6 @@
         >© {{ info()?.site_name || ("SHELL.APP_TITLE" | translate) }} ·
         {{ today | date: "yyyy" }}</span
       >
-      <a routerLink="/privacy" class="link link-hover">{{
-        "COMMON.PRIVACY" | translate
-      }}</a>
     </div>
   </footer>
 
