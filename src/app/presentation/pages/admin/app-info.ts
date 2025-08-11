@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminAppInfoFacade } from '@app/application/admin/admin-app-info.facade';
@@ -8,10 +8,11 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-admin-app-info',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  styleUrls: ['./app-info.css'],
   templateUrl: './app-info.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminAppInfoPage {
+export class AdminAppInfoPage implements OnInit {
   private readonly facade = inject(AdminAppInfoFacade);
   form = this.facade.form;
   loaded = this.facade.loaded;
@@ -21,8 +22,8 @@ export class AdminAppInfoPage {
   uploadingIcon = this.facade.uploadingIcon;
   uploadingLogo = this.facade.uploadingLogo;
 
-  async ngOnInit() {
-    await this.facade.load();
+  ngOnInit() {
+    this.facade.load();
   }
 
   async save() {
