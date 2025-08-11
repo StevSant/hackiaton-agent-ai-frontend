@@ -64,7 +64,13 @@
   "ATTACHMENTS_EMPTY": "No hay archivos adjuntos en esta sesión",
   "ATTACHMENTS_INFO": "Archivos que has subido en esta sesión para que el agente los use en sus respuestas.",
   "SHOW_THINK": "Ver razonamiento (<think>)",
-  "HIDE_THINK": "Ocultar razonamiento"
+  "HIDE_THINK": "Ocultar razonamiento",
+  "COMPANIES_ANALYSIS_TITLE": "Análisis de compañías de la sesión",
+  "COMPANIES_ANALYSIS_EMPTY": "No se detectaron RUCs en esta sesión",
+  "COMPANIES_ANALYSIS_COMPANIES": "Compañías detectadas",
+  "COMPANY_SCORE": "Puntaje",
+  "INSIGHTS": "Insights",
+  "AGGREGATE_SUMMARY": "Resumen comparativo"
   }
   ,
   "AUDIO": {

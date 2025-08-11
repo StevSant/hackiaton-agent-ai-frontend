@@ -25,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ChatMessagesListComponent } from '../../components/chat/messages-list.component';
 import { ChatComposerComponent } from '../../components/chat/composer.component';
 import { SessionFilesModalComponent } from '../../components/files/session-files-modal.component';
+import { SessionCompaniesModalComponent } from '../../components/companies/session-companies-modal.component';
 
 @Component({
   selector: 'app-chat',
@@ -38,7 +39,8 @@ import { SessionFilesModalComponent } from '../../components/files/session-files
     MatIconModule,
     ChatMessagesListComponent,
     ChatComposerComponent,
-    SessionFilesModalComponent,
+  SessionFilesModalComponent,
+  SessionCompaniesModalComponent,
   ],
   templateUrl: './chat.html',
   styleUrls: ['./chat.css'],
@@ -75,6 +77,7 @@ export class Chat implements OnDestroy, OnInit {
   uploadedFiles: UploadedFileMeta[] = [];
   isUploadingFiles = false;
   showFilesModal = false;
+  showCompaniesModal = false;
 
   // Streaming
   private streamingSessionId: string | null = null;
@@ -160,6 +163,21 @@ export class Chat implements OnDestroy, OnInit {
         this.cdr.markForCheck();
       } else {
         this.showFilesModal = false;
+        this.cdr.markForCheck();
+      }
+    });
+    // Companies modal events
+    this.sessionsEvents.onCompaniesModal().subscribe(({ open, sessionId }) => {
+      if (open) {
+        if (sessionId) {
+          this.selectedSessionId = sessionId;
+          this.cdr.markForCheck();
+        }
+        if (!this.ensureSessionOrWarn()) return;
+        this.showCompaniesModal = true;
+        this.cdr.markForCheck();
+      } else {
+        this.showCompaniesModal = false;
         this.cdr.markForCheck();
       }
     });
@@ -366,6 +384,12 @@ export class Chat implements OnDestroy, OnInit {
     this.showFilesModal = false;
   // Notify others that the modal is closed
   try { this.sessionsEvents.closeFilesModal(); } catch {}
+    this.cdr.markForCheck();
+  }
+
+  closeSessionCompanies() {
+    this.showCompaniesModal = false;
+    try { this.sessionsEvents.closeCompaniesModal(); } catch {}
     this.cdr.markForCheck();
   }
 

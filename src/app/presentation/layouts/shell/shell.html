@@ -38,6 +38,14 @@
             <mat-icon fontIcon="attach_file" style="transform: rotate(45deg);"></mat-icon>
             <span class="ml-1 text-xs">{{ 'CHAT.ATTACHMENTS_VIEW' | translate }}</span>
           </button>
+          <button
+            class="btn btn-ghost btn-xs"
+            (click)="openSessionCompaniesFromShell()"
+            [title]="'CHAT.COMPANIES_ANALYSIS_TITLE' | translate"
+            [attr.aria-label]="'CHAT.COMPANIES_ANALYSIS_TITLE' | translate">
+            <mat-icon fontIcon="apartment"></mat-icon>
+            <span class="ml-1 text-xs">{{ 'COMMON.COMPANIES' | translate }}</span>
+          </button>
         </div>
         <div class="w-8 hidden md:block">
           <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" [title]="'SHELL.TOGGLE_PANEL' | translate">

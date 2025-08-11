@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject, signal, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject, signal, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import type { SessionCompaniesAnalysis } from '@core/models/session-analysis';
@@ -39,4 +39,23 @@ export class SessionCompaniesModalComponent implements OnInit, AfterViewInit {
   onBackdropClick() { this.closed.emit(); }
   @ViewChild('closeBtn') closeBtn?: ElementRef<HTMLButtonElement>;
   ngAfterViewInit() { queueMicrotask(() => this.closeBtn?.nativeElement?.focus()); }
+
+  // Basic focus trap similar to files modal
+  onKeydown(event: KeyboardEvent) {
+    if (event.key !== 'Tab') return;
+    const root = this.modalRoot?.nativeElement; if (!root) return;
+    const focusables = root.querySelectorAll<HTMLElement>(
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = document.activeElement as HTMLElement | null;
+    if (event.shiftKey) {
+      if (active === first) { last.focus(); event.preventDefault(); }
+    } else if (active === last) { first.focus(); event.preventDefault(); }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEsc() { this.closed.emit(); }
 }

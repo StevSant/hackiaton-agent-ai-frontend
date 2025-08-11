@@ -122,6 +122,11 @@ export class ShellLayout implements OnInit {
     this.sessionsEvents.openFilesModal(this.selectedSessionId);
   }
 
+  // Header button: open companies analysis modal via event bus
+  openSessionCompaniesFromShell() {
+    this.sessionsEvents.openCompaniesModal(this.selectedSessionId);
+  }
+
   private isDesktop(): boolean {
     try { return typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches; } catch { return true; }
   }

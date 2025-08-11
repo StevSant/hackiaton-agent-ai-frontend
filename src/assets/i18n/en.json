@@ -62,7 +62,13 @@
   "ATTACHMENTS_VIEW": "View attachments",
   "ATTACHMENTS_TITLE": "Session attachments",
   "ATTACHMENTS_EMPTY": "No attachments in this session",
-  "ATTACHMENTS_INFO": "Files you've uploaded in this session for the agent to use in its answers."
+  "ATTACHMENTS_INFO": "Files you've uploaded in this session for the agent to use in its answers.",
+  "COMPANIES_ANALYSIS_TITLE": "Session companies analysis",
+  "COMPANIES_ANALYSIS_EMPTY": "No RUCs detected in this session",
+  "COMPANIES_ANALYSIS_COMPANIES": "Detected companies",
+  "COMPANY_SCORE": "Score",
+  "INSIGHTS": "Insights",
+  "AGGREGATE_SUMMARY": "Aggregate summary"
   }
   ,
   "AUDIO": {

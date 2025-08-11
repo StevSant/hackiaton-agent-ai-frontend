@@ -12,5 +12,7 @@
       (composerInput)="handleComposerInput($event)"></app-chat-composer>
     <app-session-files-modal *ngIf="showFilesModal && selectedSessionId" [sessionId]="selectedSessionId!"
       (closed)="closeSessionFiles()"></app-session-files-modal>
+    <app-session-companies-modal *ngIf="showCompaniesModal && selectedSessionId" [sessionId]="selectedSessionId!"
+      (closed)="closeSessionCompanies()"></app-session-companies-modal>
   </div>
 </div>

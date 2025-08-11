@@ -1,5 +1,5 @@
 <div class="modal-backdrop" (click)="onBackdropClick()" (keydown)="$event.stopPropagation()">
-  <div #modalRoot class="modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+  <dialog #modalRoot open class="modal" (click)="$event.stopPropagation()" (keydown)="onKeydown($event)">
     <header class="modal-header">
       <h3>{{ 'CHAT.COMPANIES_ANALYSIS_TITLE' | translate }}</h3>
       <button #closeBtn type="button" class="btn btn-ghost btn-sm" (click)="closed.emit()" [attr.aria-label]="'COMPOSER.CANCEL' | translate">
@@ -66,5 +66,5 @@
     <ng-template #loadingTpl>
       <div class="loading">{{ 'COMMON.LOADING' | translate }}…</div>
     </ng-template>
-  </div>
+  </dialog>
 </div>
