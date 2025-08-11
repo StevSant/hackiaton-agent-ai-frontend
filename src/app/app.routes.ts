@@ -63,7 +63,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     canActivate: [RoleGuard],
-    data: { roles: ['admin'] },
+  data: { roles: ['admin'], preload: false },
     loadComponent: () =>
       import('./presentation/layouts/admin-shell/admin-shell').then(
         (m) => m.AdminShellLayout
@@ -71,6 +71,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+  data: { preload: true },
         loadComponent: () =>
           import('./presentation/pages/admin/dashboard').then(
             (m) => m.AdminDashboardPage
@@ -78,6 +79,7 @@ export const routes: Routes = [
       },
       {
         path: 'users',
+    data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/users').then(
             (m) => m.AdminUsersPage
@@ -85,6 +87,7 @@ export const routes: Routes = [
       },
       {
         path: 'files',
+    data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/files').then(
             (m) => m.AdminFilesPage
@@ -92,6 +95,7 @@ export const routes: Routes = [
       },
       {
         path: 'messages',
+    data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/messages').then(
             (m) => m.AdminMessagesPage
@@ -99,6 +103,7 @@ export const routes: Routes = [
       },
       {
         path: 'app-info',
+    data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/app-info').then(
             (m) => m.AdminAppInfoPage
@@ -106,6 +111,7 @@ export const routes: Routes = [
       },
       {
         path: 'risk-weights',
+    data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/risk-weights').then(
             (m) => m.AdminRiskWeightsPage
@@ -113,6 +119,7 @@ export const routes: Routes = [
       },
       {
         path: 'companies',
+    data: { preload: false },
         loadComponent: () =>
           import('./presentation/pages/admin/companies').then(
             (m) => m.AdminCompaniesPage

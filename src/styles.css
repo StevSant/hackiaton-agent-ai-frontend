@@ -151,6 +151,29 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   body::before { animation: none; }
 }
+/* Performance-lite mode for mobile/low-end devices */
+body.perf-lite::before {
+  /* simplify background */
+  background: linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+  animation: none;
+  filter: none;
+}
+body.perf-lite::after { display: none; }
+body.perf-lite .surface-clear,
+body.perf-lite .glass-surface,
+body.perf-lite .glass-card {
+  /* reduce/disable blur and heavy shadows */
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  background-color: hsl(var(--card) / 0.9) !important;
+}
+body.perf-lite .chat-bubble.surface-clear { background-color: hsl(var(--card) / 0.9) !important; }
+body.perf-lite .btn-hero, body.perf-lite .btn-brand { box-shadow: none !important; }
+body.perf-lite * { transition: none !important; animation: none !important; }
+body.perf-lite * { view-transition-name: none !important; }
+/* slightly smaller markdown prose for mobile perf */
+@media (max-width: 480px) { body.perf-lite .prose { font-size: 0.9375rem; } }
 /* Reduce motion on small screens a bit for comfort */
 @media (max-width: 640px) {
   :root { --vt-in-translate: 4px; --vt-out-translate: -4px; }

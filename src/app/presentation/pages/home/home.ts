@@ -65,6 +65,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   private speedRO?: ResizeObserver;
   private approvalsRO?: ResizeObserver;
   private totalTimeRO?: ResizeObserver;
+  private io?: IntersectionObserver;
+  private loadHandler?: () => void;
 
   // Marketing charts (static demo data)
   speedChartData = computed<any>(() => {
@@ -185,10 +187,14 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       };
       window.addEventListener('resize', this.resizeHandler);
       // Also on window load (post-hydration layout)
-      window.addEventListener('load', () => {
+      this.loadHandler = () => {
         this.resizeHandler?.();
         this.tryInitCharts(0);
-      });
+      };
+      window.addEventListener('load', this.loadHandler, { once: true } as any);
+
+      // Observe canvases coming into view to trigger lazy chart init
+      this.setupIntersectionObserver();
     }
   }
 
@@ -205,9 +211,13 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.totalTimeChart.destroy();
       this.totalTimeChart = undefined;
     }
-    if (this.isBrowser() && this.resizeHandler) {
-      window.removeEventListener('resize', this.resizeHandler);
-      window.removeEventListener('load', this.resizeHandler);
+    if (this.isBrowser()) {
+      if (this.resizeHandler) window.removeEventListener('resize', this.resizeHandler);
+      if (this.loadHandler) window.removeEventListener('load', this.loadHandler as any);
+      if (this.speedRO) { this.speedRO.disconnect(); this.speedRO = undefined; }
+      if (this.approvalsRO) { this.approvalsRO.disconnect(); this.approvalsRO = undefined; }
+      if (this.totalTimeRO) { this.totalTimeRO.disconnect(); this.totalTimeRO = undefined; }
+      if (this.io) { this.io.disconnect(); this.io = undefined; }
     }
   }
 
@@ -218,6 +228,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.speedCanvas?.nativeElement;
     if (!canvas) return;
+  if (!this.isInViewport(canvas)) return;
     // quick fallback paint while waiting
     if (!this.speedChart) this.drawFallback(canvas, 'line');
     const data = this.speedChartData();
@@ -270,6 +281,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.approvalsCanvas?.nativeElement;
     if (!canvas) return;
+  if (!this.isInViewport(canvas)) return;
     if (!this.approvalsChart) this.drawFallback(canvas, 'doughnut');
     const data = this.approvalsChartData();
     this.ensureChartLib().then(() => {
@@ -325,6 +337,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.totalTimeCanvas?.nativeElement;
     if (!canvas) return;
+  if (!this.isInViewport(canvas)) return;
     if (!this.totalTimeChart) this.drawFallback(canvas, 'bar');
     const data = this.totalTimeChartData();
     this.ensureChartLib().then(() => {
@@ -388,6 +401,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   private async ensureChartLib(): Promise<void> {
     if (!this.isBrowser() || this.ChartCtor || this.chartLibLoading) return;
+    // In performance-lite mode, avoid loading Chart.js (fallback canvases will render)
+    try {
+      if (document?.body?.classList?.contains('perf-lite')) return;
+    } catch {}
     this.chartLibLoading = true;
     try {
       // Use core build and register elements/controllers explicitly for reliability
@@ -447,6 +464,37 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (key === 'speed') this.speedRO = ro;
     if (key === 'approvals') this.approvalsRO = ro;
     if (key === 'total') this.totalTimeRO = ro;
+  }
+
+  private setupIntersectionObserver() {
+    try {
+      if (!('IntersectionObserver' in window)) return;
+      this.io = new IntersectionObserver((entries) => {
+        let anyVisible = false;
+        for (const e of entries) {
+          if (e.isIntersecting) { anyVisible = true; break; }
+        }
+        if (anyVisible) {
+          // Nudge effects to re-run when canvases enter the viewport
+          this.tick.update((v) => v + 1);
+        }
+      }, { root: null, rootMargin: '0px', threshold: 0.05 });
+      const c1 = this.speedCanvas?.nativeElement;
+      const c2 = this.approvalsCanvas?.nativeElement;
+      const c3 = this.totalTimeCanvas?.nativeElement;
+      if (c1) this.io.observe(c1);
+      if (c2) this.io.observe(c2);
+      if (c3) this.io.observe(c3);
+    } catch {}
+  }
+
+  private isInViewport(el: Element): boolean {
+    try {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      const vw = window.innerWidth || document.documentElement.clientWidth || 0;
+      return rect.bottom > 0 && rect.right > 0 && rect.top < vh && rect.left < vw;
+    } catch { return true; }
   }
 
   private tryInitCharts(attempt: number) {

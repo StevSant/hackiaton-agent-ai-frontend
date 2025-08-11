@@ -6,7 +6,7 @@ import {
   provideAppInitializer,
   inject, // <-- use inject for deps inside initializers
 } from '@angular/core';
-import { provideRouter, withViewTransitions } from '@angular/router';
+import { provideRouter, withViewTransitions, PreloadingStrategy } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -36,6 +36,8 @@ import { AdminMessagesService } from '@infrastructure/services/admin-messages.se
 import { LanguageService } from '@infrastructure/services/language.service';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
 import { GetProfileUseCase } from '@core/use-cases';
+import { PerformanceService } from '@infrastructure/services/performance.service';
+import { CustomPreloadStrategy } from '@infrastructure/strategies/custom-preload.strategy';
 
 class AppTranslateLoader implements TranslateLoader {
   getTranslation(lang: string) {
@@ -59,6 +61,7 @@ export const appConfig: ApplicationConfig = {
 
     // Skip the very first view transition to avoid bootstrap-time InvalidStateError
     provideRouter(routes, withViewTransitions({ skipInitialTransition: true })),
+    { provide: PreloadingStrategy, useClass: CustomPreloadStrategy },
 
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptorFn])),
@@ -95,6 +98,12 @@ export const appConfig: ApplicationConfig = {
         .catch(() => {
           // swallow bootstrap errors
         });
+    }),
+
+    // Initializer 3: performance-lite toggling for mobile/low-end
+    provideAppInitializer(() => {
+      const perf = inject(PerformanceService);
+      perf.init();
     }),
 
     { provide: CHAT_STREAM_PORT, useExisting: SseService },

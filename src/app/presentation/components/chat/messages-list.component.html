@@ -1,7 +1,11 @@
 <div class="flex-1 flex flex-col gap-4 min-h-0">
-    <div #messagesContainer
-        class="messages-container flex-1 min-h-0 overflow-y-auto p-4 space-y-4 surface-clear rounded-xl relative"
+        <div #messagesContainer
+                class="messages-container flex-1 min-h-0 overflow-y-auto p-4 space-y-4 surface-clear rounded-xl relative"
         (scroll)="onMessagesScroll()">
+                <style>
+                    .messages-container { contain: content; content-visibility: auto; will-change: scroll-position; }
+                    @media (max-width: 480px) { .messages-container { padding: 0.75rem; } }
+                </style>
 
         @if (messages.length === 0 && !isSending) {
         <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
@@ -32,9 +36,11 @@
                 @if (message.isStreaming) { <span class="loading loading-dots loading-xs ml-2"></span> }
             </div>
             <div class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-2xl py-2 px-4 rounded-lg">
-                <div class="prose prose-sm max-w-none ">
-                    <markdown [data]="message.displayedContent"></markdown>
-                </div>
+                                <div class="prose prose-sm max-w-none ">
+                                        @if (message.displayedContent.length) {
+                                            <markdown [data]="message.displayedContent"></markdown>
+                                        }
+                                </div>
 
                 @if (message.extra_data?.reasoning_steps?.length) {
                 <div class="mt-3 border-t pt-2">
@@ -90,7 +96,7 @@
                 </div>
                 }
 
-                @if (chatUtils.isBotMessage(message) && message.content.trim()) {
+                @if (chatUtils.isBotMessage(message) && message.content.trim() && !message.isStreaming) {
                 <div class="mt-2 flex flex-wrap items-center gap-2">
                     @if (!isPlayingFor(message.id)) {
                     <button class="btn btn-xs btn-ghost" (click)="tts.play(message.content, message.id)"

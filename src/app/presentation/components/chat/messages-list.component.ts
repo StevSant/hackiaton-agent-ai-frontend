@@ -27,6 +27,7 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   private pendingAutoScrollCheck = false;
   private viewReady = false;
   private lastCount = 0;
+  private scrollTicking = false;
 
   // Services
   private readonly scrollManager = inject(ScrollManagerService);
@@ -80,16 +81,22 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   }
 
   onMessagesScroll() {
-    try {
-      const el = this.messagesContainer?.nativeElement as HTMLElement | undefined;
-      if (!el) return;
-      const threshold = 120;
-      const distanceFromBottom = el.scrollHeight - (el.scrollTop + el.clientHeight);
-      const shouldShow = distanceFromBottom > threshold;
-      if (shouldShow !== this.showScrollToBottom) {
-        this.showScrollToBottom = shouldShow;
+    if (this.scrollTicking) return;
+    this.scrollTicking = true;
+    requestAnimationFrame(() => {
+      try {
+        const el = this.messagesContainer?.nativeElement as HTMLElement | undefined;
+        if (!el) return;
+        const threshold = 120;
+        const distanceFromBottom = el.scrollHeight - (el.scrollTop + el.clientHeight);
+        const shouldShow = distanceFromBottom > threshold;
+        if (shouldShow !== this.showScrollToBottom) {
+          this.showScrollToBottom = shouldShow;
+        }
+      } finally {
+        this.scrollTicking = false;
       }
-    } catch {}
+    });
   }
 
   scrollToBottom() {
