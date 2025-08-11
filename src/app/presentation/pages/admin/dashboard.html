@@ -1,34 +1,34 @@
-<div class="p-6 space-y-6 vt-page">
+<div class="dashboard-container" style="overflow: visible;">
   <h1
-    class="text-2xl font-bold sticky top-0 z-20"
+    class="dashboard-title"
   >
     {{ "ADMIN.DASHBOARD.TITLE" | translate }}
   </h1>
 
-  <div class="flex flex-col lg:flex-row gap-6 items-start justify-between">
-    <div class="metrics-grid flex-1 min-w-0">
-      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+  <div class="metrics-section">
+    <div class="metrics-grid flex-1 min-w-0 w-full">
+      <div class="metric-card p-4 lg:p-6 flex flex-col items-center metric-card-animation">
         <div class="metric-icon">👥</div>
         <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_USERS" | translate }}</span>
         <span class="metric-value">{{ totals()["users"] || 0 }}</span>
       </div>
-      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+      <div class="metric-card p-4 lg:p-6 flex flex-col items-center metric-card-animation">
         <div class="metric-icon">💬</div>
         <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_SESSIONS" | translate }}</span>
         <span class="metric-value">{{ totals()["sessions"] || 0 }}</span>
       </div>
-      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+      <div class="metric-card p-4 lg:p-6 flex flex-col items-center metric-card-animation">
         <div class="metric-icon">📨</div>
         <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_MESSAGES" | translate }}</span>
         <span class="metric-value">{{ totals()["messages"] || 0 }}</span>
       </div>
-      <div class="metric-card p-6 flex flex-col items-center metric-card-animation">
+      <div class="metric-card p-4 lg:p-6 flex flex-col items-center metric-card-animation">
         <div class="metric-icon">📁</div>
         <span class="metric-label">{{ "ADMIN.DASHBOARD.CARD_FILES" | translate }}</span>
         <span class="metric-value">{{ totals()["files"] || 0 }}</span>
       </div>
     </div>
-    <div class="time-filter-container">
+    <div class="time-filter-container w-full xl:w-auto">
       <button
         class="time-filter-btn"
         [class.active]="days() === 7"
@@ -53,14 +53,17 @@
     </div>
   </div>
 
-  <div class="modern-card p-6">
+  <div class="charts-section">
+    <div class="modern-card p-4 lg:p-6">
     <div class="charts-grid">
       <div class="chart-container">
         <div class="chart-title">
           {{ "ADMIN.DASHBOARD.ACTIVITY_30D" | translate }}
         </div>
         @if (isBrowser()) {
-          <canvas #activityCanvas class="block h-full w-full"></canvas>
+          <div class="chart-wrapper">
+            <canvas #activityCanvas class="chart-canvas"></canvas>
+          </div>
         } @else {
           <div class="chart-loading">
             <div class="loading-spinner"></div>
@@ -72,24 +75,27 @@
           {{ "ADMIN.DASHBOARD.FILES_BY_TYPE" | translate }}
         </div>
         @if (isBrowser()) {
-          <canvas #filesCanvas class="block h-full w-full"></canvas>
+          <div class="chart-wrapper">
+            <canvas #filesCanvas class="chart-canvas"></canvas>
+          </div>
         } @else {
           <div class="chart-loading">
             <div class="loading-spinner"></div>
           </div>
         }
-      </div>
     </div>
   </div>
-  <div class="nav-grid page-stagger">
+</div>  <div class="navigation-section">
+    <div class="nav-grid page-stagger loaded">
     @for (s of sections; track s.route) {
       <a
         [routerLink]="[s.route]"
-        class="nav-card p-6"
+        class="nav-card p-4 lg:p-6"
+        style="opacity: 1; transform: translateY(0);"
       >
         <div class="nav-card-content">
           <mat-icon>{{ s.icon }}</mat-icon>
-          <div>
+          <div class="nav-card-text">
             <div class="nav-card-title">{{ s.title | translate }}</div>
             <div class="nav-card-desc">{{ s.desc | translate }}</div>
           </div>
