@@ -94,6 +94,33 @@ li.group:hover .marquee__content {
   overflow: hidden;
 }
 
+/* ============================================
+   SUBTLE SCROLLBAR STYLING
+   ============================================ */
+
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted) / 0.3) transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted) / 0.3);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted) / 0.5);
+}
+
 .vt-sidebar::before {
   content: '';
   position: absolute;

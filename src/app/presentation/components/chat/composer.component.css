@@ -5,7 +5,7 @@
 .composer-surface {
   position: relative;
   bottom: auto;
-  z-index: 10;
+  z-index: 50;
   background: linear-gradient(135deg, 
     hsl(var(--card) / 0.4) 0%, 
     hsl(var(--card) / 0.2) 100%);
@@ -246,6 +246,7 @@
   pointer-events: none;
   transition: all 0.3s ease;
   animation: dropOverlayPulse 2s infinite;
+  z-index: 100;
 }
 
 @keyframes dropOverlayPulse {

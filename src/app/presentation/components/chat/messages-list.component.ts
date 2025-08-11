@@ -145,6 +145,13 @@ export class ChatMessagesListComponent
     return this.tts.isPaused() && this.tts.currentMessageId() === id;
   }
 
+  // Play TTS with cleaned content (without <think> blocks)
+  playTTS(message: ChatMessage) {
+    const processed = this.getProcessed(message);
+    const cleanContent = processed.main || message.content;
+    this.tts.play(cleanContent, message.id);
+  }
+
   onVolumeInput(event: Event) {
     const input = event.target as HTMLInputElement;
     const v = Number.parseFloat(input.value || '0');

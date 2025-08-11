@@ -508,6 +508,21 @@ body:not(.dark) .glass-card {
     inset 0 1px 0 hsl(0 0% 100% / 0.22);
 }
 
+/* ============================================
+   Z-INDEX HIERARCHY (UPDATED)
+   ============================================
+   Background elements: -1
+   Base content: 0-10
+   Navigation: 20-30
+   Floating elements: 40-50
+   Chat components: 50-100 (composer: 50, scroll-btn: 60)
+   Drop overlays: 100-200 (file-drop: 100, profile-menu: 200)
+   Toasts/Notifications: 500-1000
+   Global modals: 1500+ (styles.css)
+   Specific modals: 2000+ (session files/companies)
+   Shell modals: 2100+ (shell delete dialog)
+   ============================================ */
+
 /* Global modal styles (glass, centered, smooth transitions) */
 .modal-backdrop {
   position: fixed;
@@ -518,7 +533,7 @@ body:not(.dark) .glass-card {
   background: hsl(0 0% 0% / 0.45);
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
-  z-index: 1000;
+  z-index: 1500;
   animation: backdrop-in 180ms ease-out both;
   padding: 12px; /* keep spacing from edges on small screens */
 }

@@ -45,7 +45,7 @@
   position: absolute;
   right: 1rem;
   bottom: 1rem;
-  z-index: 10;
+  z-index: 60;
 }
 
 /* Message entry animations */
@@ -104,7 +104,7 @@
   animation: composerReveal 180ms ease-out;
   /* Sticky works when parent has overflow hidden/auto and a defined height context */
   will-change: transform;
-  z-index: 5;
+  z-index: 50;
 }
 
 @keyframes composerReveal {

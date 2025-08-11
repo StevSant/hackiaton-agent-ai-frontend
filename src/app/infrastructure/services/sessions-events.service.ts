@@ -15,6 +15,9 @@ export class SessionsEventsService {
     open: boolean;
     sessionId?: string | null;
   }>();
+  private readonly sidebarControl$ = new Subject<{
+    action: 'hide' | 'restore';
+  }>();
 
   onRefresh() {
     return this.refresh$.asObservable();
@@ -29,11 +32,13 @@ export class SessionsEventsService {
   }
 
   openFilesModal(sessionId?: string | null) {
+    this.sidebarControl$.next({ action: 'hide' });
     this.filesModal$.next({ open: true, sessionId });
   }
 
   closeFilesModal() {
     this.filesModal$.next({ open: false });
+    this.sidebarControl$.next({ action: 'restore' });
   }
 
   onCompaniesModal() {
@@ -41,10 +46,24 @@ export class SessionsEventsService {
   }
 
   openCompaniesModal(sessionId?: string | null) {
+    this.sidebarControl$.next({ action: 'hide' });
     this.companiesModal$.next({ open: true, sessionId });
   }
 
   closeCompaniesModal() {
     this.companiesModal$.next({ open: false });
+    this.sidebarControl$.next({ action: 'restore' });
+  }
+
+  onSidebarControl() {
+    return this.sidebarControl$.asObservable();
+  }
+
+  hideSidebar() {
+    this.sidebarControl$.next({ action: 'hide' });
+  }
+
+  restoreSidebar() {
+    this.sidebarControl$.next({ action: 'restore' });
   }
 }

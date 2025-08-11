@@ -16,9 +16,22 @@
       >
         {{ "HOME.TITLE" | translate }}
       </h1>
-      <p class="max-w-3xl text-body-large leading-relaxed">
+      <p class="max-w-3xl text-body-large leading-relaxed mb-8">
         {{ "HOME.SUBTITLE" | translate }}
       </p>
+      
+      <!-- Call to Action -->
+      <div class="flex flex-col sm:flex-row gap-4 max-w-md">
+        <button 
+          class="cta-button primary-cta"
+          (click)="goToChat()"
+          type="button"
+        >
+          <mat-icon fontIcon="chat" class="mr-2"></mat-icon>
+          Prueba nuestro Chat IA
+        </button>
+        
+      </div>
     </section>
 
     <!-- Texto explicativo -->
@@ -122,7 +135,7 @@
           <li>{{ "HOME.MKT.ENT_ITEM3" | translate }}</li>
           <li>{{ "HOME.MKT.ENT_ITEM4" | translate }}</li>
         </ul>
-        <p class="mt-6 text-xs bg-primary/10 p-3 rounded-lg">
+        <p class="mt-6 text-xs info-highlight-box">
           {{ "HOME.MKT.DATOS_LABEL" | translate }}
         </p>
       </aside>

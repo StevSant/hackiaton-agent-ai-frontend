@@ -6,9 +6,10 @@ import {
   ElementRef,
   ViewChild,
   HostListener,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { MatIconModule } from '@angular/material/icon';
 import { SessionsEventsService } from '@infrastructure/services/sessions-events.service';
@@ -16,7 +17,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import type { SessionEntry } from '@core/models';
 import { ChatFacade } from '@app/application/chat/chat.facade';
 import { BackgroundService } from '@infrastructure/services/background.service';
-import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-shell',
@@ -36,10 +36,12 @@ import { Router, NavigationEnd } from '@angular/router';
 export class ShellLayout implements OnInit {
   // Mobile sidebar state
   isSidebarOpen = false;
+  private sidebarStateBeforeModal = false; // Recordar estado anterior
   private readonly router = inject(Router);
   private readonly sessionsEvents = inject(SessionsEventsService);
   private readonly chatFacade = inject(ChatFacade);
   private readonly bg = inject(BackgroundService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private lastFocused: HTMLElement | null = null;
   // Current session id propagated by chat page via route; optional
   selectedSessionId: string | null = null;
@@ -75,6 +77,7 @@ export class ShellLayout implements OnInit {
         this.isSidebarOpen = false;
       }
     } catch {}
+    
     // Initialize background defaults early
     queueMicrotask(() => this.bg.init());
     // Ensure sessions list tries to load at app start (helps after F5 on deep links)
@@ -84,6 +87,20 @@ export class ShellLayout implements OnInit {
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
         if (!this.isDesktop()) this.isSidebarOpen = false;
+      }
+    });
+
+    // Manejar eventos de control del sidebar desde modales
+    this.sessionsEvents.onSidebarControl().subscribe((event) => {
+      if (event.action === 'hide') {
+        // Guardar estado actual antes de ocultar
+        this.sidebarStateBeforeModal = this.isSidebarOpen;
+        this.isSidebarOpen = false;
+        this.cdr.markForCheck(); // Forzar detección de cambios
+      } else if (event.action === 'restore') {
+        // Restaurar estado anterior
+        this.isSidebarOpen = this.sidebarStateBeforeModal;
+        this.cdr.markForCheck(); // Forzar detección de cambios
       }
     });
   }

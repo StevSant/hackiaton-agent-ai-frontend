@@ -8,6 +8,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileMenuComponent } from '@presentation/components/profile-menu/profile-menu';
@@ -42,6 +43,7 @@ export class HomePage implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly getInfo = inject(GetAppInfoUseCase);
   private readonly bg = inject(BackgroundService);
+  private readonly router = inject(Router);
 
   // KPIs
   private readonly getKpis = inject(GetKpisUseCase);
@@ -150,39 +152,39 @@ export class HomePage implements OnInit {
         callbacks: {
           label: (context: any) => {
             return context.parsed.y + ' minutos';
-          }
-        }
-      }
+          },
+        },
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
         grid: {
           color: 'rgba(255, 255, 255, 0.08)',
-          drawBorder: false
+          drawBorder: false,
         },
         ticks: {
           color: '#e5e5e5',
           font: {
-            size: 12
+            size: 12,
           },
           callback: (value: any) => {
             return value + 'm';
-          }
-        }
+          },
+        },
       },
       x: {
         grid: {
-          display: false
+          display: false,
         },
         ticks: {
           color: '#e5e5e5',
           font: {
-            size: 12
-          }
-        }
-      }
-    }
+            size: 12,
+          },
+        },
+      },
+    },
   }));
 
   constructor() {
@@ -238,4 +240,13 @@ export class HomePage implements OnInit {
     'Leopoldo Miquel Muñiz Rivas',
     'Gonzalo Delgado',
   ];
+
+  // Navigation methods
+  goToChat(): void {
+    this.router.navigate(['/chat']);
+  }
+
+  goToDashboard(): void {
+    this.router.navigate(['/admin/dashboard']);
+  }
 }

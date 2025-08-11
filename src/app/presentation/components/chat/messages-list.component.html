@@ -207,7 +207,7 @@
                   @if (!isPlayingFor(message.id)) {
                     <button
                       class="tts-btn tts-play-btn"
-                      (click)="tts.play(message.content, message.id)"
+                      (click)="playTTS(message)"
                       title="Reproducir"
                     >
                       <mat-icon fontIcon="play_arrow"></mat-icon>
