@@ -1,7 +1,8 @@
-<div class="composer-surface surface-clear rounded-xl p-3 md:p-4">
+<div class="composer-surface surface-clear rounded-xl p-3 md:p-4" 
+     (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
     <form [formGroup]="form" (submit)="onSubmit()" class="w-full">
         <div class="flex flex-col gap-3">
-            <div class="flex items-end gap-2 md:gap-3">
+        <div class="flex items-end gap-2 md:gap-3">
                 <button type="button" class="btn btn-ghost btn-square btn-sm md:btn-md"
                     [title]="'COMPOSER.ATTACH_FILES' | translate"
                     [attr.aria-label]="'COMPOSER.ATTACH_FILES' | translate" (click)="fileInput.click()">
@@ -11,8 +12,9 @@
                     (change)="filesSelected.emit($event)" />
 
                 <div class="flex-1">
-                    <div
-                        class="rounded-xl border border-base-content/20 bg-transparent focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3">
+            <div
+            class="rounded-xl border border-base-content/20 bg-transparent focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3"
+            [class.drop-active]="dragging">
                         <textarea class="w-full bg-transparent outline-none resize-none leading-6 md:leading-7"
                             [placeholder]="('CHAT.PLACEHOLDER' | translate)" rows="1" spellcheck="true"
                             formControlName="message" (input)="composerInput.emit($event)"
@@ -53,6 +55,12 @@
             <div class="mt-2 flex items-center gap-2 text-xs text-info">
                 <span class="loading loading-spinner loading-xs"></span>
                 <span>{{ 'COMPOSER.UPLOADING_FILES' | translate }}</span>
+            </div>
+            }
+
+            @if (dragging) {
+            <div class="mt-2 text-xs text-info/80">
+                {{ 'COMPOSER.DROP_HINT' | translate:'Drop files to attach' }}
             </div>
             }
 

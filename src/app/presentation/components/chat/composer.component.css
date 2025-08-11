@@ -1,3 +1,4 @@
 .composer-surface{position:relative;bottom:auto;z-index:10;background-color: hsl(var(--card)/0.08);backdrop-filter: blur(8px) saturate(110%);-webkit-backdrop-filter: blur(8px) saturate(110%);border-top: 1px solid hsl(var(--border) / 0.38);transition: box-shadow 180ms ease, filter 180ms ease}
 .composer-surface textarea{min-height:2.5rem}
 .composer-surface .btn{min-width:2.5rem}
+.drop-active{border-color: hsl(var(--primary)/0.6) !important; box-shadow: 0 0 0 2px hsl(var(--primary)/0.15) inset}

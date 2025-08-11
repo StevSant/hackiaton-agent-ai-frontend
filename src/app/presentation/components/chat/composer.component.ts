@@ -21,9 +21,13 @@ export class ChatComposerComponent {
   @Output() send = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
   @Output() filesSelected = new EventEmitter<Event>();
+  @Output() filesDropped = new EventEmitter<File[]>();
   @Output() removeUploadedFile = new EventEmitter<UploadedFileMeta>();
   @Output() keydown = new EventEmitter<KeyboardEvent>();
   @Output() composerInput = new EventEmitter<Event>();
+
+  // Drag & Drop state
+  dragging = false;
 
   onSubmit() {
     // Hard guard: do not emit send if uploading files, already sending, or form invalid
@@ -37,5 +41,33 @@ export class ChatComposerComponent {
     e?.preventDefault();
     e?.stopPropagation();
     this.removeUploadedFile.emit(file);
+  }
+
+  onDragOver(e: DragEvent) {
+    if (!e) return;
+    // Only react to file drags
+    const hasFiles = !!e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+    if (!hasFiles) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragging = true;
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+  }
+
+  onDragLeave(e: DragEvent) {
+    e?.preventDefault();
+    e?.stopPropagation();
+    this.dragging = false;
+  }
+
+  onDrop(e: DragEvent) {
+    if (!e) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragging = false;
+    const files = Array.from(e.dataTransfer?.files || []);
+    if (files.length) {
+      this.filesDropped.emit(files);
+    }
   }
 }
