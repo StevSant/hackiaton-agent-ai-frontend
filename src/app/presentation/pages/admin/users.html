@@ -5,41 +5,56 @@
     {{ "ADMIN.USERS.TITLE" | translate }}
   </h2>
 
-  <div class="flex items-end justify-between gap-3 flex-wrap">
-    <div class="flex items-center gap-2 flex-wrap">
-      <label for="userSearch" class="text-xs">{{
-        "ADMIN.USERS.SEARCH_LABEL" | translate
-      }}</label>
-      <input
-        #userSearch
-        id="userSearch"
-        class="input input-bordered input-sm w-full sm:w-64"
-        (keyup.enter)="applySearch(userSearch.value)"
-        [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
-      />
-      <button
-        class="btn btn-sm"
-        (click)="applySearch(userSearch.value)"
-        type="button"
-      >
-        {{ "ADMIN.USERS.SEARCH_BUTTON" | translate }}
-      </button>
-    </div>
-    <div class="text-sm opacity-70 ml-auto">
-      {{ start() }}–{{ end() }} de {{ total() }}
+  <div class="search-section">
+    <div class="flex items-end justify-between gap-4 flex-wrap">
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="form-group">
+          <label for="userSearch" class="form-label">
+            <mat-icon class="text-sm mr-1">search</mat-icon>
+            {{ "ADMIN.USERS.SEARCH_LABEL" | translate }}
+          </label>
+          <input
+            #userSearch
+            id="userSearch"
+            class="input input-bordered input-sm w-full sm:w-72"
+            (keyup.enter)="applySearch(userSearch.value)"
+            [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
+          />
+        </div>
+        <button
+          class="btn btn-gradient-blue btn-sm mt-6"
+          (click)="applySearch(userSearch.value)"
+          type="button"
+        >
+          <mat-icon class="text-sm mr-1">search</mat-icon>
+          {{ "ADMIN.USERS.SEARCH_BUTTON" | translate }}
+        </button>
+      </div>
+      <div class="stats-text">
+        <mat-icon class="text-sm mr-1">people</mat-icon>
+        {{ start() }}–{{ end() }} de {{ total() }}
+      </div>
     </div>
   </div>
 
-  <div class="modern-card users-card p-4">
+  <div class="modern-card users-card p-6">
+    <div class="mb-4">
+      <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">
+        <mat-icon>person_add</mat-icon>
+        {{ "ADMIN.USERS.CREATE_NEW" | translate }}
+      </h3>
+      <div class="text-sm opacity-70">{{ "ADMIN.USERS.CREATE_DESCRIPTION" | translate }}</div>
+    </div>
     <form
       [formGroup]="form"
       (ngSubmit)="create()"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end"
+      class="create-form grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end"
     >
-      <div>
-        <label class="text-xs" for="username">{{
-          "ADMIN.USERS.USERNAME" | translate
-        }}</label>
+      <div class="form-group">
+        <label class="form-label" for="username">
+          <mat-icon class="text-sm mr-1">person</mat-icon>
+          {{ "ADMIN.USERS.USERNAME" | translate }}
+        </label>
         <input
           id="username"
           class="input input-bordered w-full"
@@ -47,10 +62,11 @@
           [placeholder]="'ADMIN.USERS.USERNAME_PLACEHOLDER' | translate"
         />
       </div>
-      <div>
-        <label class="text-xs" for="email">{{
-          "ADMIN.USERS.EMAIL" | translate
-        }}</label>
+      <div class="form-group">
+        <label class="form-label" for="email">
+          <mat-icon class="text-sm mr-1">email</mat-icon>
+          {{ "ADMIN.USERS.EMAIL" | translate }}
+        </label>
         <input
           id="email"
           class="input input-bordered w-full"
@@ -59,10 +75,11 @@
           type="email"
         />
       </div>
-      <div class="md:col-span-2">
-        <label class="text-xs" for="password">{{
-          "ADMIN.USERS.PASSWORD" | translate
-        }}</label>
+      <div class="form-group md:col-span-2">
+        <label class="form-label" for="password">
+          <mat-icon class="text-sm mr-1">lock</mat-icon>
+          {{ "ADMIN.USERS.PASSWORD" | translate }}
+        </label>
         <input
           id="password"
           class="input input-bordered w-full"
@@ -71,10 +88,11 @@
           type="password"
         />
       </div>
-      <div>
-        <label class="text-xs" for="role">{{
-          "ADMIN.USERS.ROLE" | translate
-        }}</label>
+      <div class="form-group">
+        <label class="form-label" for="role">
+          <mat-icon class="text-sm mr-1">badge</mat-icon>
+          {{ "ADMIN.USERS.ROLE" | translate }}
+        </label>
         <select
           id="role"
           class="select select-bordered w-full"
@@ -84,12 +102,13 @@
           <option [ngValue]="'admin'">{{ "COMMON.ADMIN" | translate }}</option>
         </select>
       </div>
-      <div>
+      <div class="flex items-end">
         <button
-          class="btn btn-gradient-blue"
+          class="btn btn-gradient-blue w-full"
           [disabled]="form.invalid || creating()"
           type="submit"
         >
+          <mat-icon class="text-sm mr-1">add</mat-icon>
           {{ "ADMIN.USERS.CREATE" | translate }}
         </button>
       </div>
@@ -97,7 +116,13 @@
   </div>
 
   @if (error()) {
-    <div class="alert alert-error">{{ error() }}</div>
+    <div class="modern-card p-4 border-l-4 border-destructive bg-gradient-to-r from-destructive/10 to-destructive/5">
+      <div class="flex items-center gap-2">
+        <mat-icon class="text-destructive">error</mat-icon>
+        <span class="font-medium text-destructive">Error</span>
+      </div>
+      <div class="mt-2 text-sm">{{ error() }}</div>
+    </div>
   }
 
   <div class="overflow-x-auto modern-card p-2">
