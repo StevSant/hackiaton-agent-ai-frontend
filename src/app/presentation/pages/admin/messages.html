@@ -1,138 +1,215 @@
 <link rel="stylesheet" href="./messages.css">
-<div class="p-6 space-y-4 vt-page">
-  <h2
-    class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
-  >
-    {{ "ADMIN.MESSAGES.TITLE" | translate }}
-  </h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 page-stagger">
-  <div class="md:col-span-1 modern-card p-2 max-h-[70vh] flex flex-col">
-      <div class="p-2 flex items-center gap-2 border-b/40">
-        <input
-          class="input input-sm input-bordered flex-1"
-          [placeholder]="'ADMIN.MESSAGES.SEARCH_PLACEHOLDER' | translate"
-          #q
-          (keyup.enter)="applySessionsSearch(q.value)"
-        />
-        <button class="btn btn-sm" (click)="applySessionsSearch(q.value)">
-          {{ "ADMIN.MESSAGES.FILTER" | translate }}
-        </button>
+<div class="messages-container vt-page">
+  <!-- Header Section -->
+  <div class="messages-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <i class="fas fa-comments title-icon"></i>
+        {{ "ADMIN.MESSAGES.TITLE" | translate }}
+      </h1>
+      <p class="page-subtitle">
+        Gestiona y revisa las conversaciones del sistema
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="messages-grid">
+    <!-- Sessions Panel -->
+    <div class="sessions-panel modern-card">
+      <div class="panel-header">
+        <h3 class="panel-title">
+          <i class="fas fa-list"></i>
+          Sesiones de Chat
+        </h3>
       </div>
-      <div class="flex-1 overflow-y-auto" #sessionsContainer>
+      
+      <!-- Search Section -->
+      <div class="search-section">
+        <div class="search-input-group">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            class="search-input"
+            [placeholder]="'ADMIN.MESSAGES.SEARCH_PLACEHOLDER' | translate"
+            #q
+            (keyup.enter)="applySessionsSearch(q.value)"
+          />
+          <button class="search-btn" (click)="applySessionsSearch(q.value)">
+            <i class="fas fa-filter"></i>
+            <span>{{ "ADMIN.MESSAGES.FILTER" | translate }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sessions List -->
+      <div class="sessions-list" #sessionsContainer>
         @for (s of sessions(); track s.session_id) {
           <button
-            class="w-full text-left p-2 border-b hover:bg-[hsl(var(--card)_/_0.5)]"
+            class="session-item"
             (click)="open(s.session_id)"
+            [class.active]="selected() === s.session_id"
           >
-            <div class="font-medium truncate">
-              {{ s.title || s.session_id }}
+            <div class="session-main">
+              <div class="session-title">
+                <i class="fas fa-comment-dots session-icon"></i>
+                <span>{{ s.title || s.session_id }}</span>
+              </div>
+              <div class="session-meta">
+                <div class="meta-item">
+                  <i class="fas fa-clock"></i>
+                  <span>{{ s.updated_at }}</span>
+                </div>
+                <div class="meta-separator">•</div>
+                <div class="meta-item">
+                  <i class="fas fa-user"></i>
+                  <span class="user-id" [attr.title]="userLabel(s.user_id)">{{
+                    getCachedUserLabel(s.user_id) || s.user_id
+                  }}</span>
+                </div>
+              </div>
             </div>
-            <div class="text-xs opacity-70 flex flex-wrap gap-2">
-              <span>{{ s.updated_at }}</span>
-              <span class="opacity-60">•</span>
-              <span
-                >User:
-                <span class="font-mono" [attr.title]="userLabel(s.user_id)">{{
-                  getCachedUserLabel(s.user_id) || s.user_id
-                }}</span></span
-              >
+            <div class="session-indicator">
+              <i class="fas fa-chevron-right"></i>
             </div>
           </button>
         }
-        <div
-          class="py-2 flex justify-center text-xs opacity-60"
-          #sessionsSentinel
-        >
+        
+        <!-- Loading Indicator -->
+        <div class="loading-section" #sessionsSentinel>
           @if (loading()) {
-            {{ "COMMON.LOADING" | translate }}
+            <div class="loading-item">
+              <i class="fas fa-spinner fa-spin"></i>
+              <span>{{ "COMMON.LOADING" | translate }}</span>
+            </div>
           }
         </div>
       </div>
-      <div
-        class="p-2 flex items-center justify-between gap-2 border-t/40 text-xs opacity-70"
-      >
-        <div>{{ sessions().length }} / {{ total() || "∞" }}</div>
+
+      <!-- Sessions Footer -->
+      <div class="sessions-footer">
+        <div class="sessions-count">
+          <i class="fas fa-info-circle"></i>
+          <span>{{ sessions().length }} / {{ total() || "∞" }}</span>
+        </div>
       </div>
     </div>
-  <div class="md:col-span-2 modern-card p-3 max-h-[70vh] overflow-y-auto">
+
+    <!-- Messages Panel -->
+    <div class="messages-panel modern-card">
       @if (!selected()) {
-        <div class="opacity-70">
-          {{ "ADMIN.MESSAGES.SELECT_SESSION" | translate }}
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-message"></i>
+          </div>
+          <h3 class="empty-title">{{ "ADMIN.MESSAGES.SELECT_SESSION" | translate }}</h3>
+          <p class="empty-description">
+            Selecciona una sesión de la lista para ver los mensajes
+          </p>
         </div>
       } @else {
-        <div class="mb-2 text-xs opacity-70 flex items-center justify-between gap-2">
-          User:
-          <span class="font-mono" [attr.title]="userLabel(selectedOwnerId())">{{
-            getCachedUserLabel(selectedOwnerId()) || selectedOwnerId()
-          }}</span>
-          <div class="flex items-center gap-2">
-            <button class="btn btn-ghost btn-xs" type="button" (click)="showFilesModal = true">
-              <mat-icon fontIcon="attach_file" class="mr-1"></mat-icon>
-              {{ 'CHAT.ATTACHMENTS_VIEW' | translate }}
+        <!-- Messages Header -->
+        <div class="messages-header-bar">
+          <div class="session-info">
+            <div class="session-user">
+              <i class="fas fa-user-circle"></i>
+              <span class="user-label" [attr.title]="userLabel(selectedOwnerId())">{{
+                getCachedUserLabel(selectedOwnerId()) || selectedOwnerId()
+              }}</span>
+            </div>
+          </div>
+          
+          <div class="header-actions">
+            <button class="action-btn files-btn" type="button" (click)="showFilesModal = true">
+              <i class="fas fa-paperclip"></i>
+              <span>{{ 'CHAT.ATTACHMENTS_VIEW' | translate }}</span>
             </button>
-            <button class="btn btn-ghost btn-xs" type="button" (click)="showCompaniesModal = true">
-              <mat-icon fontIcon="apartment" class="mr-1"></mat-icon>
-              {{ 'COMMON.COMPANIES' | translate }}
+            <button class="action-btn companies-btn" type="button" (click)="showCompaniesModal = true">
+              <i class="fas fa-building"></i>
+              <span>{{ 'COMMON.COMPANIES' | translate }}</span>
             </button>
           </div>
         </div>
-        @for (m of messages(); track m.id) {
-          <div class="mb-3">
-            <div class="text-xs opacity-60 flex items-center gap-2">
-              <span class="badge badge-outline badge-xs">{{ m.role }}</span>
-              <span>{{ m.created_at }}</span>
-            </div>
-            @let view = getProcessed(m);
-            <div class="prose prose-sm max-w-none mt-1">
-              @if (view.main.length) {
-                <markdown [data]="view.main"></markdown>
-              }
-              @if (view.thinks.length) {
-                <div class="mt-2">
-                  <button
-                    class="btn btn-ghost btn-xs"
-                    type="button"
-                    (click)="toggleThink(m)"
-                  >
-                    <mat-icon
-                      [fontIcon]="
-                        view.expanded ? 'visibility_off' : 'visibility'
-                      "
-                      class="mr-1"
-                    ></mat-icon>
-                    {{
-                      view.expanded
-                        ? ("CHAT.HIDE_THINK" | translate)
-                        : ("CHAT.SHOW_THINK" | translate)
-                    }}
-                  </button>
-                  @if (view.expanded) {
-                    <div
-                      class="mt-2 rounded-md border border-base-300 bg-base-200/40 p-2 text-xs"
-                    >
-                      <div class="opacity-70 mb-1">&lt;think&gt;</div>
-                      @for (t of view.thinks; track t) {
-                        <div class="mb-2"><markdown [data]="t"></markdown></div>
-                      }
-                    </div>
+
+        <!-- Messages List -->
+        <div class="messages-list">
+          @for (m of messages(); track m.id) {
+            <div class="message-item" [class]="'message-' + m.role">
+              <div class="message-header">
+                <div class="message-role">
+                  @if (m.role === 'user') {
+                    <i class="fas fa-user"></i>
+                  } @else if (m.role === 'agent') {
+                    <i class="fas fa-robot"></i>
+                  } @else {
+                    <i class="fas fa-cog"></i>
                   }
+                  <span class="role-badge">{{ m.role }}</span>
                 </div>
-              }
+                <div class="message-time">
+                  <i class="fas fa-clock"></i>
+                  <span>{{ m.created_at }}</span>
+                </div>
+              </div>
+              
+              @let view = getProcessed(m);
+              <div class="message-content">
+                @if (view.main.length) {
+                  <div class="message-main">
+                    <markdown [data]="view.main"></markdown>
+                  </div>
+                }
+                
+                @if (view.thinks.length) {
+                  <div class="think-section">
+                    <button
+                      class="think-toggle"
+                      type="button"
+                      (click)="toggleThink(m)"
+                    >
+                      <i class="fas" [class]="view.expanded ? 'fa-eye-slash' : 'fa-eye'"></i>
+                      <span>
+                        {{
+                          view.expanded
+                            ? ("CHAT.HIDE_THINK" | translate)
+                            : ("CHAT.SHOW_THINK" | translate)
+                        }}
+                      </span>
+                    </button>
+                    
+                    @if (view.expanded) {
+                      <div class="think-content">
+                        <div class="think-header">
+                          <i class="fas fa-brain"></i>
+                          <span>&lt;think&gt;</span>
+                        </div>
+                        @for (t of view.thinks; track t) {
+                          <div class="think-item">
+                            <markdown [data]="t"></markdown>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-        }
-        <div
-          class="h-8 flex items-center justify-center text-xs opacity-60"
-          #sentinel
-        >
-          @if ((messages()?.length || 0) < msgTotal()) {
-            {{ "ADMIN.MESSAGES.LOADING_MORE" | translate }}
           }
+          
+          <!-- Load More Indicator -->
+          <div class="load-more-section" #sentinel>
+            @if ((messages()?.length || 0) < msgTotal()) {
+              <div class="loading-more">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>{{ "ADMIN.MESSAGES.LOADING_MORE" | translate }}</span>
+              </div>
+            }
+          </div>
         </div>
       }
     </div>
   </div>
 
+  <!-- Modals -->
   @if (showFilesModal && selected()) {
     <app-session-files-modal [sessionId]="selected()!" (closed)="showFilesModal = false"></app-session-files-modal>
   }

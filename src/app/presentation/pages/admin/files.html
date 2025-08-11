@@ -1,65 +1,185 @@
 <link rel="stylesheet" href="./files.css">
-<div class="p-6 space-y-4 vt-page">
-  <div
-    class="flex flex-wrap items-center justify-between gap-3 sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
-  >
-    <h2 class="text-xl font-semibold">
-      {{ "ADMIN.FILES.TITLE" | translate }} ({{ total() }})
-    </h2>
-    <div
-  class="flex flex-wrap items-center gap-2 modern-card p-2 rounded-lg flex-1 min-w-[240px]"
-    >
-      <select #t class="w-full sm:w-40" (change)="onTypeChange(t.value)">
-        <option value="">{{ "ADMIN.FILES.TYPE_ALL" | translate }}</option>
-        <option value="image">image</option>
-        <option value="pdf">pdf</option>
-        <option value="document">document</option>
-      </select>
-      <input
-        #sf
-        class="w-full sm:w-48"
-        [value]="subfolder()"
-        (change)="subfolder.set(sf.value); applyFilters()"
-        [placeholder]="'ADMIN.FILES.SUBFOLDER' | translate"
-      />
-    </div>
-    <div class="flex gap-2 w-full sm:w-auto">
-      <button class="btn btn-sm" (click)="prev()" [disabled]="offset() <= 0">
-        {{ "COMMON.PREVIOUS" | translate }}
-      </button>
-      <button
-        class="btn btn-sm"
-        (click)="next()"
-        [disabled]="offset() + limit() >= total()"
-      >
-        {{ "COMMON.NEXT" | translate }}
-      </button>
+<div class="files-container vt-page">
+  <!-- Header Section -->
+  <div class="files-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <i class="fas fa-folder-open title-icon"></i>
+        {{ "ADMIN.FILES.TITLE" | translate }}
+        <span class="file-count">({{ total() }})</span>
+      </h1>
+      <p class="page-subtitle">
+        Gestiona y explora todos los archivos subidos al sistema
+      </p>
     </div>
   </div>
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 page-stagger"
-  >
+
+  <!-- Filters and Controls Section -->
+  <div class="filters-section modern-card">
+    <div class="filters-header">
+      <h3 class="section-title">
+        <i class="fas fa-filter"></i>
+        Filtros y Controles
+      </h3>
+    </div>
+    
+    <div class="filters-grid">
+      <!-- Type Filter -->
+      <div class="filter-group">
+        <label class="filter-label" for="type-filter">
+          <i class="fas fa-file-alt"></i>
+          Tipo de Archivo
+        </label>
+        <select #t id="type-filter" class="filter-select" (change)="onTypeChange(t.value)">
+          <option value="">{{ "ADMIN.FILES.TYPE_ALL" | translate }}</option>
+          <option value="image">Imágenes</option>
+          <option value="pdf">PDFs</option>
+          <option value="document">Documentos</option>
+        </select>
+      </div>
+
+      <!-- Subfolder Filter -->
+      <div class="filter-group">
+        <label class="filter-label" for="subfolder-filter">
+          <i class="fas fa-folder"></i>
+          Subcarpeta
+        </label>
+        <input
+          #sf
+          id="subfolder-filter"
+          class="filter-input"
+          [value]="subfolder()"
+          (change)="subfolder.set(sf.value); applyFilters()"
+          [placeholder]="'ADMIN.FILES.SUBFOLDER' | translate"
+        />
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-controls">
+        <button 
+          class="nav-btn prev-btn" 
+          (click)="prev()" 
+          [disabled]="offset() <= 0"
+        >
+          <i class="fas fa-chevron-left"></i>
+          <span>{{ "COMMON.PREVIOUS" | translate }}</span>
+        </button>
+        
+        <div class="page-info">
+          <span class="page-text">Mostrando</span>
+          <span class="page-number">{{ items().length }}</span>
+          <span class="page-text">archivos</span>
+        </div>
+        
+        <button
+          class="nav-btn next-btn"
+          (click)="next()"
+          [disabled]="offset() + limit() >= total()"
+        >
+          <span>{{ "COMMON.NEXT" | translate }}</span>
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Files Grid -->
+  <div class="files-grid">
     @for (f of items(); track f.url) {
-  <div class="p-3 modern-card space-y-1">
-        <div class="font-medium truncate" [title]="f.filename">
-          {{ f.filename }}
+      <div class="file-card modern-card">
+        <!-- File Preview -->
+        <div class="file-preview">
+          @if (f.content_type.startsWith('image/')) {
+            <div class="image-preview">
+              <img [src]="f.url" [alt]="f.filename" class="preview-image" />
+              <div class="preview-overlay">
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+          } @else if (f.content_type === 'application/pdf') {
+            <div class="pdf-preview">
+              <i class="fas fa-file-pdf"></i>
+              <span>PDF</span>
+            </div>
+          } @else {
+            <div class="document-preview">
+              <i class="fas fa-file-text"></i>
+              <span>{{ f.type_file || 'DOC' }}</span>
+            </div>
+          }
         </div>
-        <div class="text-xs opacity-70">
-          {{ f.content_type }} • {{ f.type_file }}
+
+        <!-- File Info -->
+        <div class="file-info">
+          <div class="file-title" [title]="f.filename">
+            <i class="fas fa-file file-icon"></i>
+            <span>{{ f.filename }}</span>
+          </div>
+          
+          <div class="file-meta">
+            <div class="meta-item">
+              <i class="fas fa-tags"></i>
+              <span class="content-type">{{ f.content_type }}</span>
+              <span class="separator">•</span>
+              <span class="file-type">{{ f.type_file }}</span>
+            </div>
+            
+            @if (f.session_id) {
+              <div class="meta-item session-info">
+                <i class="fas fa-comments"></i>
+                <span class="label">Sesión:</span>
+                <span class="session-id">{{ f.session_id }}</span>
+              </div>
+            }
+            
+            @if (f.owner_id) {
+              <div class="meta-item owner-info">
+                <i class="fas fa-user"></i>
+                <span class="label">Usuario:</span>
+                <span 
+                  class="owner-id" 
+                  [attr.title]="userLabel(f.owner_id)"
+                >
+                  {{ getCachedUserLabel(f.owner_id) || f.owner_id }}
+                </span>
+              </div>
+            }
+          </div>
         </div>
-        <div class="text-xs opacity-70" *ngIf="f.session_id">
-          Session: <span class="font-mono">{{ f.session_id }}</span>
+
+        <!-- File Actions -->
+        <div class="file-actions">
+          <a 
+            [href]="f.url" 
+            target="_blank" 
+            class="open-btn"
+            [title]="'Abrir ' + f.filename"
+          >
+            <i class="fas fa-external-link-alt"></i>
+            <span>{{ "COMMON.OPEN" | translate }}</span>
+          </a>
+          
+          <button 
+            class="copy-btn"
+            [title]="'Copiar enlace de ' + f.filename"
+          >
+            <i class="fas fa-copy"></i>
+          </button>
         </div>
-        <div class="text-xs opacity-70" *ngIf="f.owner_id">
-          User:
-          <span class="font-mono" [attr.title]="userLabel(f.owner_id)">{{
-            getCachedUserLabel(f.owner_id) || f.owner_id
-          }}</span>
-        </div>
-        <a [href]="f.url" target="_blank" class="btn btn-ghost btn-xs mt-1">{{
-          "COMMON.OPEN" | translate
-        }}</a>
       </div>
     }
   </div>
+
+  <!-- Empty State -->
+  @if (items().length === 0) {
+    <div class="empty-state modern-card">
+      <div class="empty-icon">
+        <i class="fas fa-folder-open"></i>
+      </div>
+      <h3 class="empty-title">No se encontraron archivos</h3>
+      <p class="empty-description">
+        No hay archivos que coincidan con los filtros seleccionados.
+      </p>
+    </div>
+  }
 </div>
