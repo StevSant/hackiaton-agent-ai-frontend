@@ -7,4 +7,3 @@ export * from './companies.port';
 export * from './files.port';
 export * from './risk-weights.port';
 export * from './sessions.port';
-export * from './stt.port';
