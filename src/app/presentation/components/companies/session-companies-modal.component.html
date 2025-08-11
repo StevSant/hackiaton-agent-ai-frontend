@@ -24,10 +24,12 @@
     </header>
 
     <section class="modal-body" *ngIf="!loading(); else loadingTpl">
-      <div *ngIf="error()" class="error">{{ error() }}</div>
+      <div *ngIf="error()" class="error">
+        <div>{{ error() }}</div>
+      </div>
       <ng-container *ngIf="data() as d">
         <div *ngIf="!d || d.company_count === 0" class="empty">
-          {{ "CHAT.COMPANIES_ANALYSIS_EMPTY" | translate }}
+          <div>{{ "CHAT.COMPANIES_ANALYSIS_EMPTY" | translate }}</div>
         </div>
         <div *ngIf="d && d.company_count > 0" class="content">
           <h4>{{ "CHAT.COMPANIES_ANALYSIS_COMPANIES" | translate }}</h4>
@@ -37,11 +39,15 @@
               class="card"
             >
               <div class="row">
-                <div class="col key">RUC</div>
+                <div class="col key">
+                  <mat-icon class="text-sm mr-1">business</mat-icon>
+                  RUC
+                </div>
                 <div class="col val">{{ c.tax_id }}</div>
               </div>
               <div class="row" *ngIf="c.dashboard as dash">
                 <div class="col key">
+                  <mat-icon class="text-sm mr-1">analytics</mat-icon>
                   {{ "CHAT.COMPANY_SCORE" | translate }}
                 </div>
                 <div class="col val">
@@ -52,12 +58,17 @@
                 </div>
               </div>
               <div class="row" *ngIf="c.insights as ins">
-                <div class="col key">{{ "CHAT.INSIGHTS" | translate }}</div>
+                <div class="col key">
+                  <mat-icon class="text-sm mr-1">lightbulb</mat-icon>
+                  {{ "CHAT.INSIGHTS" | translate }}
+                </div>
                 <div class="col val">
                   <div class="ins-item" *ngIf="ins?.credit_recommendation">
+                    <mat-icon class="text-sm mr-1">recommend</mat-icon>
                     {{ ins.credit_recommendation }}
                   </div>
                   <div class="ins-item" *ngIf="ins?.risk_summary">
+                    <mat-icon class="text-sm mr-1">assessment</mat-icon>
                     {{ ins.risk_summary }}
                   </div>
                   <div class="ins-pills">
@@ -74,7 +85,10 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="c.error" class="row error">{{ c.error }}</div>
+              <div *ngIf="c.error" class="row error">
+                <mat-icon class="text-sm mr-1">error</mat-icon>
+                {{ c.error }}
+              </div>
             </li>
           </ul>
 
@@ -83,10 +97,22 @@
             <p class="mb-2" *ngIf="agg?.overview">{{ agg.overview }}</p>
             <div class="ranking" *ngIf="agg?.ranking?.length">
               <div class="row head">
-                <div>#</div>
-                <div>RUC</div>
-                <div>{{ "CHAT.COMPANY_SCORE" | translate }}</div>
-                <div>{{ "COMMON.RISK" | translate }}</div>
+                <div>
+                  <mat-icon class="text-sm">tag</mat-icon>
+                  #
+                </div>
+                <div>
+                  <mat-icon class="text-sm">business</mat-icon>
+                  RUC
+                </div>
+                <div>
+                  <mat-icon class="text-sm">analytics</mat-icon>
+                  {{ "CHAT.COMPANY_SCORE" | translate }}
+                </div>
+                <div>
+                  <mat-icon class="text-sm">warning</mat-icon>
+                  {{ "COMMON.RISK" | translate }}
+                </div>
               </div>
               <div class="row" *ngFor="let r of agg.ranking">
                 <div>{{ r.position ?? "—" }}</div>
@@ -101,7 +127,14 @@
     </section>
 
     <ng-template #loadingTpl>
-      <div class="loading">{{ "COMMON.LOADING" | translate }}…</div>
+      <div class="loading">
+        <div class="spinner">
+          <mat-icon class="animate-spin">autorenew</mat-icon>
+        </div>
+        <div class="loading-text">
+          {{ "COMMON.LOADING" | translate }}...
+        </div>
+      </div>
     </ng-template>
   </dialog>
 </div>

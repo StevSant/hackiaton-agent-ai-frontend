@@ -47,7 +47,7 @@
             [title]="'NOT_FOUND.BACK_HOME' | translate"
           >
             <mat-icon fontIcon="home"></mat-icon>
-            <span class="ml-1 text-xs">{{ "COMMON.HOME" | translate }}</span>
+            <span class="ml-1 text-xs hidden sm:inline">{{ "COMMON.HOME" | translate }}</span>
           </a>
           <button
             class="btn btn-ghost btn-xs"
@@ -60,7 +60,7 @@
               fontIcon="attach_file"
               style="transform: rotate(45deg)"
             ></mat-icon>
-            <span class="ml-1 text-xs">{{
+            <span class="ml-1 text-xs hidden sm:inline">{{
               "CHAT.ATTACHMENTS_VIEW" | translate
             }}</span>
           </button>
@@ -71,7 +71,7 @@
             [attr.aria-label]="'CHAT.COMPANIES_ANALYSIS_TITLE' | translate"
           >
             <mat-icon fontIcon="apartment"></mat-icon>
-            <span class="ml-1 text-xs">{{
+            <span class="ml-1 text-xs hidden sm:inline">{{
               "COMMON.COMPANIES" | translate
             }}</span>
           </button>
@@ -125,7 +125,10 @@
         </button>
       </header>
       <section class="modal-body">
-        <p>{{ "SIDEBAR.DELETE_TEXT" | translate }}</p>
+        <p>
+          <mat-icon class="inline mr-2 text-amber-500">warning</mat-icon>
+          {{ "SIDEBAR.DELETE_TEXT" | translate }}
+        </p>
       </section>
       <footer class="modal-actions">
         <button
@@ -133,6 +136,7 @@
           type="button"
           (click)="closeDeleteModal()"
         >
+          <mat-icon class="mr-1 text-sm">close</mat-icon>
           {{ "SIDEBAR.CANCEL" | translate }}
         </button>
         <button
@@ -141,6 +145,7 @@
           type="button"
           (click)="confirmDeleteFromShell()"
         >
+          <mat-icon class="mr-1 text-sm">delete</mat-icon>
           {{ "SIDEBAR.CONFIRM" | translate }}
         </button>
       </footer>

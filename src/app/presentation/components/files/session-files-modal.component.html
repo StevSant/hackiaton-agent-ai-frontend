@@ -25,7 +25,7 @@
 
     <section class="modal-body" *ngIf="!loading(); else loadingTpl">
       <div *ngIf="files().length === 0" class="empty">
-        {{ "CHAT.ATTACHMENTS_EMPTY" | translate }}
+        <div>{{ "CHAT.ATTACHMENTS_EMPTY" | translate }}</div>
       </div>
       <ul class="files-grid">
         <li *ngFor="let f of files()" class="file-item">
@@ -44,19 +44,23 @@
             <div class="type">{{ f.content_type }}</div>
           </div>
           <div class="actions">
-            <a class="btn" [href]="f.url" target="_blank" rel="noopener">{{
-              "COMMON.OPEN" | translate
-            }}</a>
-            <a class="btn" [href]="f.url + '?download=true'">{{
-              "FILES_PAGE.DOWNLOAD" | translate
-            }}</a>
+            <a class="btn" [href]="f.url" target="_blank" rel="noopener">
+              <mat-icon class="text-sm mr-1">open_in_new</mat-icon>
+              {{ "COMMON.OPEN" | translate }}
+            </a>
+            <a class="btn" [href]="f.url + '?download=true'">
+              <mat-icon class="text-sm mr-1">download</mat-icon>
+              {{ "FILES_PAGE.DOWNLOAD" | translate }}
+            </a>
           </div>
         </li>
       </ul>
     </section>
 
     <ng-template #loadingTpl>
-      <div class="loading">{{ "COMMON.LOADING" | translate }}…</div>
+      <div class="loading">
+        <div>{{ "COMMON.LOADING" | translate }}…</div>
+      </div>
     </ng-template>
   </div>
 </div>

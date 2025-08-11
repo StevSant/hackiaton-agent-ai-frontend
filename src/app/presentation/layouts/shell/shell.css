@@ -149,9 +149,304 @@
 }
 
 .topbar-surface {
-  /* Blur-only: transparent to let global background show through */
-  background-color: transparent;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.9) 0%,
+    hsl(var(--background) / 0.7) 50%,
+    hsl(var(--background) / 0.8) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+  box-shadow: 
+    0 4px 32px hsl(var(--primary) / 0.1),
+    inset 0 1px 0 hsl(var(--foreground) / 0.1);
+  position: relative;
+}
+
+.topbar-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.3) 20%,
+    hsl(var(--primary) / 0.5) 50%,
+    hsl(var(--primary) / 0.3) 80%,
+    transparent 100%
+  );
+}
+
+/* Topbar buttons styling */
+.topbar-surface .btn {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.6) 0%,
+    hsl(var(--background) / 0.3) 100%
+  );
+  border: 1px solid hsl(var(--border) / 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.topbar-surface .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.1) 50%,
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.topbar-surface .btn:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.15) 0%,
+    hsl(var(--primary) / 0.05) 100%
+  );
+  border-color: hsl(var(--primary) / 0.4);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 25px hsl(var(--primary) / 0.15),
+    inset 0 1px 0 hsl(var(--foreground) / 0.1);
+}
+
+.topbar-surface .btn:hover::before {
+  left: 100%;
+}
+
+.topbar-surface .btn:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 8px hsl(var(--primary) / 0.2),
+    inset 0 1px 2px hsl(var(--foreground) / 0.1);
+}
+
+.topbar-surface .btn mat-icon {
+  transition: all 0.3s ease;
+}
+
+.topbar-surface .btn:hover mat-icon {
+  color: hsl(var(--primary));
+  filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.3));
+}
+
+/* Modal styling with glassmorphism */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: linear-gradient(
+    45deg,
+    hsl(var(--background) / 0.4) 0%,
+    hsl(var(--background) / 0.7) 50%,
+    hsl(var(--background) / 0.4) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: modalBackdropIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalBackdropIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(12px);
+  }
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 1rem;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.95) 0%,
+    hsl(var(--background) / 0.85) 50%,
+    hsl(var(--background) / 0.9) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  box-shadow: 
+    0 25px 50px hsl(var(--foreground) / 0.15),
+    inset 0 1px 0 hsl(var(--foreground) / 0.1),
+    0 0 0 1px hsl(var(--primary) / 0.1);
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.5) 50%,
+    transparent 100%
+  );
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  position: relative;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-header h3::before {
+  content: '🗑️';
+  font-size: 1.1rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  color: hsl(var(--foreground) / 0.8);
+  line-height: 1.6;
+}
+
+.modal-body p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  justify-content: flex-end;
+}
+
+.modal-actions .btn {
+  position: relative;
+  min-width: 5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.modal-actions .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.modal-actions .btn:hover::before {
+  left: 100%;
+}
+
+.modal-actions .btn-gradient-blue {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.9) 0%,
+    hsl(var(--primary) / 0.7) 100%
+  );
+  color: hsl(var(--primary-foreground));
+  border: 1px solid hsl(var(--primary) / 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-actions .btn-gradient-blue:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--primary) / 0.8) 100%
+  );
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 25px hsl(var(--primary) / 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.modal-actions .btn-error {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--destructive) / 0.9) 0%,
+    hsl(var(--destructive) / 0.7) 100%
+  );
+  color: hsl(var(--destructive-foreground));
+  border: 1px solid hsl(var(--destructive) / 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-actions .btn-error:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--destructive)) 0%,
+    hsl(var(--destructive) / 0.8) 100%
+  );
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 25px hsl(var(--destructive) / 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.modal-actions .btn:active {
+  transform: translateY(0);
 }
