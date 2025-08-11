@@ -18,21 +18,24 @@ import {
   UploadFileUseCase,
   DeleteSessionUseCase,
 } from '@core/use-cases';
-import { SendMessageRestUseCase } from '@core/use-cases/send-message-rest.usecase';
+import { SendMessageUseCase } from '@core/use-cases/send-message.usecase';
 
 @Injectable({ providedIn: 'root' })
 export class ChatFacade {
-  // private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT); // SSE deshabilitado temporalmente
+  // SSE stream port
+  private readonly chatStream = inject<ChatStreamPort>(CHAT_STREAM_PORT);
   private readonly sessionsPort = inject<SessionsPort>(SESSIONS_PORT);
 
-  // private readonly sendMessageUC = new SendMessageUseCase(this.chatStream); // SSE deshabilitado temporalmente
-  private readonly sendMessageRestUC = new SendMessageRestUseCase(this.sessionsPort); // Usar REST temporalmente
+  // Use-cases
+  private readonly sendMessageUC = new SendMessageUseCase(this.chatStream); // SSE enabled
+  // private readonly sendMessageRestUC = new SendMessageRestUseCase(this.sessionsPort); // REST fallback (disabled)
   private readonly listSessionsUC = new ListSessionsUseCase(this.sessionsPort);
   private readonly getSessionUC = new GetSessionUseCase(this.sessionsPort);
   private readonly deleteSessionUC = new DeleteSessionUseCase(
     this.sessionsPort
   );
   private readonly uploadFileUC = inject(UploadFileUseCase);
+
   // UI state signals to simplify page component
   readonly messages = signal<ChatMessage[]>([]);
   readonly isSending = signal(false);
@@ -146,15 +149,13 @@ export class ChatFacade {
     files?: File[];
     file_ids?: string[];
   }): Observable<StreamResponseModel> {
-    // SSE (chatStream) deshabilitado temporalmente:
-    // return this.sendMessageUC.execute(this.agentId(), payload);
-    // Usar REST (sessionsPort) temporalmente:
-    return this.sendMessageRestUC.execute(this.agentId(), payload);
+    // SSE enabled
+    return this.sendMessageUC.execute(this.agentId(), payload as any);
   }
 
   cancel(): void {
-    // if (this.sendMessageUC) this.sendMessageUC.cancel(); // SSE (chatStream) deshabilitado temporalmente
-    // No hay cancelación para REST
+    // Cancel SSE stream
+    this.sendMessageUC.cancel();
   }
 
   async uploadFiles(files: File[], opts?: { sessionId?: string; subfolder?: string }): Promise<UploadedFileMeta[]> {

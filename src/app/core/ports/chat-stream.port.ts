@@ -9,7 +9,8 @@ export interface ChatStreamPort {
       session_id?: string;
       user_id?: string;
       audioFile?: File;
-      files?: File[];
+  files?: File[];
+  file_ids?: string[];
     }
   ): Observable<StreamResponseModel>;
   cancel(): void;
