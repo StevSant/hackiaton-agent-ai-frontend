@@ -79,6 +79,7 @@ export class Chat implements OnDestroy, OnInit {
   // Streaming
   private streamingSessionId: string | null = null;
   private subscription: Subscription | null = null;
+  private uiSub: Subscription | null = null;
 
   // Límites de archivos
   private readonly MAX_FILES_PER_DROP = 10;
@@ -142,6 +143,25 @@ export class Chat implements OnDestroy, OnInit {
         this.cdr.detectChanges();
         queueMicrotask(() => this.sessionsEvents.triggerRefresh());
       });
+    });
+
+    // Listen for global requests to open/close the files modal (from shell header)
+    this.uiSub = this.sessionsEvents.onFilesModal().subscribe(({ open, sessionId }) => {
+      if (open) {
+        // Prefer provided sessionId; otherwise use current selection
+        if (sessionId) {
+          this.selectedSessionId = sessionId;
+          this.cdr.markForCheck();
+        }
+        if (!this.ensureSessionOrWarn()) {
+          return;
+        }
+        this.showFilesModal = true;
+        this.cdr.markForCheck();
+      } else {
+        this.showFilesModal = false;
+        this.cdr.markForCheck();
+      }
     });
   }
 
@@ -344,6 +364,8 @@ export class Chat implements OnDestroy, OnInit {
   }
   closeSessionFiles() {
     this.showFilesModal = false;
+  // Notify others that the modal is closed
+  try { this.sessionsEvents.closeFilesModal(); } catch {}
     this.cdr.markForCheck();
   }
 
@@ -461,6 +483,7 @@ export class Chat implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.cleanup();
+  if (this.uiSub) { this.uiSub.unsubscribe(); this.uiSub = null; }
     this.connectionStatus.destroy();
   }
 }
