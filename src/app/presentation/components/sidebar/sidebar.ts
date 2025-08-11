@@ -67,7 +67,7 @@ export class SidebarComponent {
   private io?: IntersectionObserver;
 
   // Helpers to sanitize and sort sessions
-  private sanitizeTitle(title?: string | null): string {
+  sanitizeTitle(title?: string | null): string {
     const t = title || '';
     return t.replace(/<think[^>]*>[\s\S]*?<\/think>/gi, '').trim();
   }

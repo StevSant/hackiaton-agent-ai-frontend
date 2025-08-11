@@ -41,10 +41,8 @@
                             <button class="text-left flex-1 min-w-0" (click)="openSession(s)">
                                 <div class="text-sm font-medium min-w-0">
                                     <div class="marquee max-w-40">
-                                        <span class="marquee__content">{{ s.title || ((('CHAT.SESSION' | translate) + '
-                                            ') + s.session_id.slice(0,6)) }}</span>
-                                        <span class="marquee__content" aria-hidden="true">{{ s.title ||
-                                            ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6)) }}</span>
+                                        <span class="marquee__content">{{ sanitizeTitle(s.title) || ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6)) }}</span>
+                                        <span class="marquee__content" aria-hidden="true">{{ sanitizeTitle(s.title) || ((('CHAT.SESSION' | translate) + ' ') + s.session_id.slice(0,6)) }}</span>
                                     </div>
                                 </div>
                             </button>
