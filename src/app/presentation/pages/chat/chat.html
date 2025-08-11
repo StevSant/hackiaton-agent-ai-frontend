@@ -6,9 +6,10 @@
     <app-chat-messages-list class="flex-1 min-h-0 flex flex-col" [messages]="messages()" [isSending]="isSending()"
       [toolRunning]="toolRunning()"></app-chat-messages-list>
     <app-chat-composer [form]="msgForm" [isSending]="isSending()" [isUploadingFiles]="isUploadingFiles"
-      [filesCount]="filesToUpload.length" [uploadedFiles]="uploadedFiles" (send)="sendMessage()"
+      [filesCount]="uploadedFiles.length + filesToUpload.length" [uploadedFiles]="uploadedFiles" (send)="sendMessage()"
       (cancel)="cancelSending()" (filesSelected)="onFilesSelected($event)" (filesDropped)="onFilesDropped($event)"
       (removeUploadedFile)="removeUploadedFile($event)" (keydown)="handleKeyDown($event)"
+      [allowUpload]="!!selectedSessionId && messages().length > 0"
       (composerInput)="handleComposerInput($event)"></app-chat-composer>
     <app-session-files-modal *ngIf="showFilesModal && selectedSessionId" [sessionId]="selectedSessionId!"
       (closed)="closeSessionFiles()"></app-session-files-modal>

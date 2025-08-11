@@ -69,7 +69,11 @@ export class SidebarComponent {
   // Helpers to sanitize and sort sessions
   sanitizeTitle(title?: string | null): string {
     const t = title || '';
-    return t.replace(/<think[^>]*>[\s\S]*?<\/think>/gi, '').trim();
+    // Remove <think> blocks even if the closing tag is missing (truncate to end)
+    return t
+      .replace(/<think[^>]*>[\s\S]*?(?:<\/think>|$)/gi, '')
+      .replace(/<\/?think[^>]*>/gi, '')
+      .trim();
   }
   private tsOf(s: SessionEntry): number {
     const u: any = (s as any).updated_at ?? s.updated_at ?? (s as any).updatedAt;

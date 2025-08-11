@@ -1,14 +1,17 @@
 <div class="composer-surface surface-clear rounded-xl p-3 md:p-4" 
-     (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+    (dragenter)="onDragEnter($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
     <form [formGroup]="form" (submit)="onSubmit()" class="w-full">
         <div class="flex flex-col gap-3">
         <div class="flex items-end gap-2 md:gap-3">
                 <button type="button" class="btn btn-ghost btn-square btn-sm md:btn-md"
                     [title]="'COMPOSER.ATTACH_FILES' | translate"
-                    [attr.aria-label]="'COMPOSER.ATTACH_FILES' | translate" (click)="fileInput.click()">
+                    [attr.aria-label]="'COMPOSER.ATTACH_FILES' | translate" (click)="allowUpload && fileInput.click()"
+                    [disabled]="!allowUpload"
+                    [class.opacity-50]="!allowUpload"
+                    [class.cursor-not-allowed]="!allowUpload">
                     <mat-icon fontIcon="attach_file"></mat-icon>
                 </button>
-                <input #fileInput id="chat-file-input" type="file" multiple class="hidden"
+                <input #fileInput id="chat-file-input" type="file" multiple class="hidden" [disabled]="!allowUpload"
                     (change)="filesSelected.emit($event)" />
 
                 <div class="flex-1">
@@ -37,9 +40,19 @@
                 </div>
             </div>
 
+            @if (!allowUpload) {
+            <div class="upload-disabled-banner" role="status" aria-live="polite">
+                <mat-icon fontIcon="info"></mat-icon>
+                <span>{{ 'COMPOSER.UPLOADS_DISABLED' | translate }}</span>
+            </div>
+            }
+
             <div class="flex flex-wrap items-center justify-between gap-2 text-xs opacity-70">
                 <div class="hidden sm:block">{{ 'CHAT.HINT' | translate }}</div>
                 <div class="flex items-center gap-2">
+                    @if (!allowUpload) {
+                    <div class="badge badge-warning" [title]="'COMPOSER.UPLOADS_DISABLED' | translate">{{ 'COMPOSER.UPLOADS_DISABLED' | translate }}</div>
+                    }
                     @if (isUploadingFiles) {
                     <div class="loading loading-dots loading-xs text-info"
                         [title]="'COMPOSER.UPLOADING_FILES' | translate"></div>
@@ -59,8 +72,11 @@
             }
 
             @if (dragging) {
-            <div class="mt-2 text-xs text-info/80">
-                {{ 'COMPOSER.DROP_HINT' | translate:'Drop files to attach' }}
+            <div class="drop-overlay" aria-hidden="true">
+                <div class="drop-overlay__content">
+                    <mat-icon fontIcon="cloud_upload" class="text-5xl md:text-6xl"></mat-icon>
+                    <div class="mt-2 text-base md:text-lg font-semibold">{{ 'COMPOSER.DROP_HINT' | translate }}</div>
+                </div>
             </div>
             }
 

@@ -483,7 +483,12 @@ export class Chat implements OnDestroy, OnInit {
         sessionId: this.selectedSessionId ?? undefined,
         subfolder: 'chat',
       })
-      .then((uploaded) => this.mergeUploaded(uploaded))
+      .then((uploaded) => {
+        this.mergeUploaded(uploaded);
+        // Once uploaded to the session, clear the local selection so the counter resets
+        this.filesToUpload = [];
+        this.cdr.markForCheck();
+      })
       .catch((e) => {
         console.error('Error subiendo archivos:', e);
         this.chatFacade.addSystemMessage(

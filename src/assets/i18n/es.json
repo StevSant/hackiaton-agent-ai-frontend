@@ -222,7 +222,9 @@
     "UPLOADING": "Subiendo...",
     "UPLOADING_FILES": "Subiendo archivos...",
     "ATTACH_FILES": "Adjuntar archivos",
-    "REMOVE_FILE": "Quitar"
+  "REMOVE_FILE": "Quitar",
+  "DROP_HINT": "Suelta archivos para adjuntar",
+  "UPLOADS_DISABLED": "Primero envía un mensaje para habilitar archivos"
   },
   "SIDEBAR": {
     "DELETE_TITLE": "Eliminar chat",

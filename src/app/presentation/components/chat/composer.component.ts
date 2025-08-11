@@ -18,6 +18,8 @@ export class ChatComposerComponent {
   @Input() filesCount = 0;
   @Input() isUploadingFiles = false;
   @Input() uploadedFiles: UploadedFileMeta[] = [];
+  // When false, file attach UI is disabled (e.g., on brand new chat before first message)
+  @Input() allowUpload: boolean = true;
   @Output() send = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
   @Output() filesSelected = new EventEmitter<Event>();
@@ -28,6 +30,7 @@ export class ChatComposerComponent {
 
   // Drag & Drop state
   dragging = false;
+  private dragCounter = 0;
 
   onSubmit() {
     // Hard guard: do not emit send if uploading files, already sending, or form invalid
@@ -43,7 +46,19 @@ export class ChatComposerComponent {
     this.removeUploadedFile.emit(file);
   }
 
+  onDragEnter(e: DragEvent) {
+    if (!this.allowUpload || !e) return;
+    const hasFiles = !!e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+    if (!hasFiles) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragCounter++;
+    this.dragging = true;
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+  }
+
   onDragOver(e: DragEvent) {
+    if (!this.allowUpload) return; // block when uploads are not allowed
     if (!e) return;
     // Only react to file drags
     const hasFiles = !!e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
@@ -55,16 +70,24 @@ export class ChatComposerComponent {
   }
 
   onDragLeave(e: DragEvent) {
-    e?.preventDefault();
-    e?.stopPropagation();
-    this.dragging = false;
+    if (!e) return;
+    e.preventDefault();
+    e.stopPropagation();
+    // Use counter to avoid flicker when overlay/dom changes
+    if (this.dragCounter > 0) this.dragCounter--;
+    if (this.dragCounter <= 0) {
+      this.dragCounter = 0;
+      this.dragging = false;
+    }
   }
 
   onDrop(e: DragEvent) {
+    if (!this.allowUpload) return;
     if (!e) return;
     e.preventDefault();
     e.stopPropagation();
     this.dragging = false;
+    this.dragCounter = 0;
     const files = Array.from(e.dataTransfer?.files || []);
     if (files.length) {
       this.filesDropped.emit(files);
