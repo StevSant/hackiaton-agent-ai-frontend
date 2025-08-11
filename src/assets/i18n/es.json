@@ -62,7 +62,9 @@
   "ATTACHMENTS_VIEW": "Ver adjuntos",
   "ATTACHMENTS_TITLE": "Archivos adjuntos de la sesión",
   "ATTACHMENTS_EMPTY": "No hay archivos adjuntos en esta sesión",
-  "ATTACHMENTS_INFO": "Archivos que has subido en esta sesión para que el agente los use en sus respuestas."
+  "ATTACHMENTS_INFO": "Archivos que has subido en esta sesión para que el agente los use en sus respuestas.",
+  "SHOW_THINK": "Ver razonamiento (<think>)",
+  "HIDE_THINK": "Ocultar razonamiento"
   }
   ,
   "AUDIO": {

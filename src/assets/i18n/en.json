@@ -56,6 +56,8 @@
     "ERROR_REQUIRED": "Please write a message before sending.",
     "SEND": "Send",
     "SENDING_BTN": "Sending...",
+  "SHOW_THINK": "Show reasoning (<think>)",
+  "HIDE_THINK": "Hide reasoning",
   "CANCEL": "Cancel",
   "ATTACHMENTS_VIEW": "View attachments",
   "ATTACHMENTS_TITLE": "Session attachments",

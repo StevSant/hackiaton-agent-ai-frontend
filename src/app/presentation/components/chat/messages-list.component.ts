@@ -29,6 +29,9 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
   private lastCount = 0;
   private scrollTicking = false;
 
+  // Cache for processed message content (main without <think> and extracted think blocks)
+  private processed = new Map<string, { main: string; thinks: string[]; expanded: boolean; last: string }>();
+
   // Services
   private readonly scrollManager = inject(ScrollManagerService);
   protected readonly chatUtils = inject(ChatUtilsService);
@@ -115,5 +118,47 @@ export class ChatMessagesListComponent implements OnChanges, AfterViewInit, Afte
     const input = event.target as HTMLInputElement;
     const v = Number.parseFloat(input.value || '0');
     this.tts.setVolume(Number.isFinite(v) ? v : 0);
+  }
+
+  // Extract visible content and hidden <think> blocks from a markdown string
+  private extractThinkBlocks(content: string): { main: string; thinks: string[] } {
+    if (!content) return { main: '', thinks: [] };
+    const thinks: string[] = [];
+    const re = /<think[^>]*>([\s\S]*?)<\/think>/gi;
+    let main = content;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(content)) !== null) {
+      const inner = (m[1] || '').trim();
+      if (inner) thinks.push(inner);
+    }
+    main = main.replace(re, '').trim();
+    return { main, thinks };
+  }
+
+  // Get or (re)build processed view for a message, updating cache when content changes
+  getProcessed(message: ChatMessage): { main: string; thinks: string[]; expanded: boolean } {
+    const id = message.id || `${message.timestamp}-${Math.random()}`;
+    const content = message.displayedContent ?? message.content ?? '';
+    const cached = this.processed.get(id);
+    if (!cached || cached.last !== content) {
+      const { main, thinks } = this.extractThinkBlocks(content);
+      const expanded = cached?.expanded ?? false; // keep user toggle if same message id
+      const entry = { main, thinks, expanded, last: content };
+      this.processed.set(id, entry);
+      return entry;
+    }
+    return { main: cached.main, thinks: cached.thinks, expanded: cached.expanded };
+  }
+
+  toggleThink(message: ChatMessage) {
+    const id = message.id || `${message.timestamp}`;
+    const p = this.processed.get(id);
+    if (p) {
+      p.expanded = !p.expanded;
+    } else {
+      // initialize from current content
+      const cur = this.getProcessed(message);
+      this.processed.set(id, { main: cur.main, thinks: cur.thinks, expanded: !cur.expanded, last: message.displayedContent ?? message.content ?? '' });
+    }
   }
 }

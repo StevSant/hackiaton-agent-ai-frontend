@@ -59,8 +59,8 @@ export class AdminMessagesFacade {
         sort_by: (this.sortBy() || undefined) as any,
         sort_order: this.sortOrder(),
       });
-      this.sessions.set(res.items || []);
-      this.total.set(res.total || 0);
+  this.sessions.set(res.items || []);
+  this.total.set(res.total || 0);
   // Warm up user cache for visible sessions
   const uniqUserIds = Array.from(new Set((res.items || []).map(s => s.user_id).filter(Boolean)));
   await Promise.all(uniqUserIds.map(id => this.resolveUser(id)));
@@ -87,7 +87,8 @@ export class AdminMessagesFacade {
   }
 
   async nextSessionsPage() {
-    this.page.update(p => p + 1);
+  if (this.page() * this.limit() >= this.total()) return;
+  this.page.update(p => p + 1);
     await this.loadSessions();
   }
   async nextSessionsInfinite() {
@@ -117,9 +118,7 @@ export class AdminMessagesFacade {
     }
   }
   async prevSessionsPage() {
-    if (this.page() <= 1) {
-      return;
-    }
+    if (this.page() <= 1) return;
     this.page.update(p => p - 1);
     await this.loadSessions();
   }
@@ -135,6 +134,12 @@ export class AdminMessagesFacade {
       this.sortBy.set(field);
       this.sortOrder.set('desc');
     }
+    this.page.set(1);
+    this.loadSessions();
+  }
+  setLimit(limit: number) {
+    if (!Number.isFinite(limit) || limit <= 0) return;
+    this.limit.set(limit);
     this.page.set(1);
     this.loadSessions();
   }

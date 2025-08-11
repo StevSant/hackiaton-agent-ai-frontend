@@ -43,12 +43,13 @@ export class AdminCompaniesFacade {
   }
 
   async nextPage() {
-    this.page.update((p) => p + 1);
+  if (this.page() * this.limit() >= this.total()) return;
+  this.page.update((p) => p + 1);
     await this.refresh();
   }
 
   async prevPage() {
-    if (this.page() <= 1) return;
+  if (this.page() <= 1) return;
     this.page.update((p) => p - 1);
     await this.refresh();
   }
@@ -62,5 +63,12 @@ export class AdminCompaniesFacade {
     }
     this.page.set(1);
     this.refresh();
+  }
+
+  setLimit = async (limit: number) => {
+    if (!Number.isFinite(limit) || limit <= 0) return;
+    this.limit.set(limit);
+    this.page.set(1);
+    await this.refresh();
   }
 }

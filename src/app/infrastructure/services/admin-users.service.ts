@@ -37,8 +37,16 @@ export class AdminUsersService {
 
   async list(params?: { page?: number; limit?: number; email?: string; sort_by?: 'email'|'username'|'created_at'; sort_order?: 'asc'|'desc' }): Promise<Paginated<AdminUserItem>> {
     const url = `${this.base}/users/`;
+    // build params without undefined/null/empty values to avoid sending 'undefined'
+    const qp: any = {};
+    const src = params || {};
+    if (src.page != null) qp.page = String(src.page);
+    if (src.limit != null) qp.limit = String(src.limit);
+    if (src.email != null && src.email !== '') qp.email = src.email;
+  if (src.sort_by != null) qp.sort_by = src.sort_by;
+    if (src.sort_order != null) qp.sort_order = src.sort_order;
     const data = await firstValueFrom(
-      this.http.get<PaginatedApi<AdminUserItem>>(url, { params: (params as any) || {} })
+      this.http.get<PaginatedApi<AdminUserItem>>(url, { params: qp })
     );
     return {
       items: data?.results ?? [],

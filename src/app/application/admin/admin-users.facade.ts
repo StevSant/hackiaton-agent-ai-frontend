@@ -62,6 +62,13 @@ export class AdminUsersFacade {
     this.refresh();
   };
 
+  setLimit = async (limit: number) => {
+    if (!Number.isFinite(limit) || limit <= 0) return;
+    this.limit.set(limit);
+    this.page.set(1);
+    await this.refresh();
+  };
+
   create = async (payload: { username: string; email: string; password: string; role: 'admin' | 'user' }) => {
     if (this.creating()) return;
     this.creating.set(true);
