@@ -81,7 +81,11 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
 
     // Skip the very first view transition to avoid bootstrap-time InvalidStateError
-    provideRouter(routes,withViewTransitions({ skipInitialTransition: true })),
+    provideRouter(
+      routes,
+      withHashLocation(),
+      withViewTransitions({ skipInitialTransition: true }),
+    ),
     { provide: PreloadingStrategy, useClass: CustomPreloadStrategy },
 
     provideClientHydration(withEventReplay()),
