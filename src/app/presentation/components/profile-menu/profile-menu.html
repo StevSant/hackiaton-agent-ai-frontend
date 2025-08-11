@@ -1,55 +1,38 @@
 <div
-  class="relative text-sm font-sans"
+  class="profile-menu-container"
   (click)="$event.stopPropagation()"
   (keydown.escape)="profileMenuOpen.set(false)"
 >
   @if (!showBackToChat) {
-    <div class="flex items-center justify-between gap-2">
+    <div class="profile-trigger-wrapper">
       <button
-        class="group inline-flex w-full items-center gap-3 rounded-xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-neutral-900/60 px-4 py-2.5 text-neutral-800 dark:text-neutral-200 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-xl hover:bg-white/90 dark:hover:bg-neutral-900/90 focus:outline-none focus:ring-2 focus:ring-primary-500"
+        class="profile-trigger"
         (click)="toggleProfileMenu($event)"
         [attr.aria-expanded]="profileMenuOpen()"
         [attr.aria-label]="'COMMON.ACCOUNT' | translate"
         [title]="'COMMON.ACCOUNT' | translate"
       >
-        <!-- Avatar -->
-        <div
-          class="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold shadow-lg transition group-hover:scale-105"
-        >
+        <div class="profile-avatar">
           @if (profileEmail()) {
-            <span class="leading-none">{{
+            <span class="avatar-initial">{{
               profileEmail()!.charAt(0).toUpperCase()
             }}</span>
           } @else {
-            <mat-icon
-              fontIcon="person"
-              class="text-base !leading-none"
-            ></mat-icon>
+            <mat-icon fontIcon="person" class="avatar-icon"></mat-icon>
           }
           @if (isAuthenticated()) {
-            <span
-              class="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white dark:border-neutral-900 bg-emerald-500 shadow"
-            ></span>
+            <div class="avatar-status-indicator"></div>
           }
         </div>
-
-        <!-- Info -->
-        <div class="min-w-0 flex-1 leading-tight">
-          <div class="truncate font-semibold">
+        <div class="profile-info">
+          <div class="profile-name">
             {{ profileEmail() || ("COMMON.GUEST" | translate) }}
           </div>
           @if (isAuthenticated()) {
-            <div
-              class="mt-0.5 flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400"
-            >
+            <div class="profile-role">
               <span
-                class="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-semibold transition"
-                [ngClass]="{
-                  'border-blue-600/20 bg-blue-600 text-white shadow-sm':
-                    profileRole() === 'admin',
-                  'border-neutral-300/50 bg-neutral-200/60 text-neutral-700 dark:bg-neutral-800/50 dark:text-neutral-200 dark:border-neutral-700/60':
-                    profileRole() !== 'admin',
-                }"
+                class="role-badge"
+                [ngClass]="{ 'role-admin': profileRole() === 'admin' }"
               >
                 {{
                   profileRole() === "admin"
@@ -60,59 +43,45 @@
             </div>
           }
         </div>
-
-        <!-- Chevron -->
         <mat-icon
           fontIcon="expand_more"
-          class="text-neutral-400 transition-transform duration-200"
-          [class.rotate-180]="profileMenuOpen()"
+          class="expand-icon"
+          [class.expanded]="profileMenuOpen()"
         ></mat-icon>
       </button>
     </div>
   } @else {
-    <div class="flex flex-col gap-2">
+    <div class="back-navigation">
       @if (showBackHome) {
-        <a
-          routerLink="/home"
-          class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 px-3 py-2 text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-        >
+        <a routerLink="/home" class="nav-button primary">
           <mat-icon fontIcon="home"></mat-icon>
           <span>{{ "NOT_FOUND.BACK_HOME" | translate }}</span>
         </a>
       }
-      <a
-        routerLink="/chat"
-        class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-fuchsia-500 px-3 py-2 text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-      >
+      <a routerLink="/chat" class="nav-button primary">
         <mat-icon fontIcon="chat"></mat-icon>
         <span>{{ "COMMON.BACK_TO_CHAT" | translate }}</span>
       </a>
-
       <button
-        class="group inline-flex items-center gap-2 rounded-xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-neutral-900/60 px-3 py-2 text-neutral-800 dark:text-neutral-200 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-xl hover:bg-white/90 dark:hover:bg-neutral-900/90 focus:outline-none focus:ring-2 focus:ring-primary-500"
+        class="profile-trigger compact"
         (click)="toggleProfileMenu($event)"
         [attr.aria-expanded]="profileMenuOpen()"
         [title]="'COMMON.ACCOUNT' | translate"
       >
-        <div
-          class="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold shadow"
-        >
-          <span>{{ (profileEmail() || "?")!.charAt(0).toUpperCase() }}</span>
+        <div class="profile-avatar">
+          <span class="avatar-initial">{{
+            (profileEmail() || "?")!.charAt(0).toUpperCase()
+          }}</span>
         </div>
-        <div class="min-w-0">
-          <div class="truncate font-semibold">
+        <div class="profile-info">
+          <div class="profile-name">
             {{ profileEmail() || ("COMMON.GUEST" | translate) }}
           </div>
           @if (isAuthenticated()) {
-            <div class="mt-0.5">
+            <div class="profile-role">
               <span
-                class="inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-semibold"
-                [ngClass]="{
-                  'border-blue-600/20 bg-blue-600 text-white':
-                    profileRole() === 'admin',
-                  'border-neutral-300/50 bg-neutral-200/60 text-neutral-700 dark:bg-neutral-800/50 dark:text-neutral-200 dark:border-neutral-700/60':
-                    profileRole() !== 'admin',
-                }"
+                class="role-badge"
+                [ngClass]="{ 'role-admin': profileRole() === 'admin' }"
               >
                 {{
                   profileRole() === "admin"
@@ -128,84 +97,23 @@
   }
 
   @if (profileMenuOpen()) {
-    <!-- CONTENEDOR DEL MENÚ: controla fondo/borde según modo efectivo -->
-    <div
-      class="menu-enter absolute right-0 bottom-full mb-2 z-50 w-72 sm:w-80 max-w-[calc(100vw-2rem)] max-h-[75vh] overflow-y-auto overscroll-contain rounded-xl shadow-2xl backdrop-blur"
-      role="menu"
-      aria-label="Profile menu"
-      [ngClass]="
-        theme.isDark()
-          ? 'bg-neutral-900/90 border border-white/10'
-          : 'bg-white/90 border border-black/10'
-      "
-    >
-      <!-- HEADER STICKY: también controlado por modo efectivo -->
-      <div
-        class="sticky top-0 z-10 flex items-center gap-3 px-4 py-3 backdrop-blur-sm"
-        [ngClass]="
-          theme.isDark()
-            ? 'bg-neutral-900/95 border-b border-white/5'
-            : 'bg-white/95 border-b border-black/5'
-        "
-      >
-        <div
-          class="relative grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold shadow"
-        >
-          @if (profileEmail()) {
-            <span>{{ profileEmail()!.charAt(0).toUpperCase() }}</span>
-          } @else {
-            <mat-icon fontIcon="person" class="text-lg"></mat-icon>
-          }
-          @if (isAuthenticated()) {
-            <span
-              class="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white dark:border-neutral-900 bg-emerald-500"
-            ></span>
-          }
-        </div>
-        <div class="min-w-0">
-          <h3
-            class="truncate font-semibold text-neutral-900 dark:text-neutral-100"
-          >
-            {{ profileEmail() || ("COMMON.GUEST" | translate) }}
-          </h3>
-          @if (isAuthenticated()) {
-            <div class="mt-1">
-              <span
-                class="inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-semibold"
-                [ngClass]="{
-                  'border-blue-600/20 bg-blue-600 text-white':
-                    profileRole() === 'admin',
-                  'border-neutral-300/50 bg-neutral-200/60 text-neutral-700 dark:bg-neutral-800/50 dark:text-neutral-200 dark:border-neutral-700/60':
-                    profileRole() !== 'admin',
-                }"
-              >
-                {{
-                  profileRole() === "admin"
-                    ? ("COMMON.ADMIN" | translate)
-                    : ("COMMON.USER" | translate)
-                }}
-              </span>
-            </div>
-          }
-        </div>
+    <div class="profile-dropdown">
+      <div class="dropdown-header">
+        <mat-icon fontIcon="account_circle" class="header-icon"></mat-icon>
+        <span>{{ "COMMON.ACCOUNT" | translate }}</span>
       </div>
 
-      <!-- Loading -->
       @if (profileLoading()) {
-        <div class="flex items-center gap-3 px-5 py-2.5 text-neutral-500">
-          <span
-            class="h-4 w-4 rounded-full border-2 border-neutral-300 border-t-transparent animate-spin"
-          ></span>
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
           <span>{{ "COMMON.LOADING" | translate }}</span>
         </div>
       }
 
-      <!-- Auth actions -->
       @if (!isAuthenticated()) {
         <button
-          class="flex w-full items-center gap-3 px-5 py-2.5 text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:hover:bg-blue-950/30"
+          class="menu-button primary"
           (click)="toggleProfileMenu(); navigateToLogin()"
-          role="menuitem"
         >
           <mat-icon fontIcon="login"></mat-icon>
           <span>{{ "COMMON.LOGIN" | translate }}</span>
@@ -213,99 +121,62 @@
       }
 
       @if (isAuthenticated()) {
-        <button
-          class="flex w-full items-center gap-3 px-5 py-2.5 text-rose-600 hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:hover:bg-rose-900/20"
-          (click)="logout($event)"
-          role="menuitem"
-        >
+        <button class="menu-button danger" (click)="logout($event)">
           <mat-icon fontIcon="logout"></mat-icon>
           <span>{{ "COMMON.LOGOUT" | translate }}</span>
         </button>
       }
 
-      <!-- Idioma -->
-      <div
-        class="border-t border-black/5 px-4 py-3 text-xs text-neutral-500 dark:border-white/5"
-      >
-        <div
-          class="mb-2.5 flex items-center gap-2 font-semibold uppercase tracking-wide"
-        >
-          <mat-icon
-            fontIcon="translate"
-            class="text-[14px] text-blue-600"
-          ></mat-icon>
+      <div class="menu-section">
+        <div class="section-header">
+          <mat-icon fontIcon="language" class="section-icon"></mat-icon>
           <span>{{ "COMMON.LANGUAGE" | translate }}</span>
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="button-group">
           <button
-            class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                lang.current() === 'es',
-            }"
+            class="toggle-button"
+            [class.active]="lang.current() === 'es'"
             (click)="switchLang('es')"
-            [attr.aria-pressed]="lang.current() === 'es'"
           >
-            <span class="text-base">🇪🇸</span>
+            <span class="flag">🇪🇸</span>
             <span>{{ "COMMON.SPANISH" | translate }}</span>
           </button>
           <button
-            class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                lang.current() === 'en',
-            }"
+            class="toggle-button"
+            [class.active]="lang.current() === 'en'"
             (click)="switchLang('en')"
-            [attr.aria-pressed]="lang.current() === 'en'"
           >
-            <span class="text-base">🇺🇸</span>
+            <span class="flag">🇺🇸</span>
             <span>{{ "COMMON.ENGLISH" | translate }}</span>
           </button>
         </div>
       </div>
 
-      <!-- Tema -->
-      <div
-        class="border-t border-black/5 px-4 py-3 text-xs text-neutral-500 dark:border-white/5"
-      >
-        <div
-          class="mb-2.5 flex items-center gap-2 font-semibold uppercase tracking-wide"
-        >
-          <mat-icon
-            fontIcon="palette"
-            class="text-[14px] text-blue-600"
-          ></mat-icon>
+      <div class="menu-section">
+        <div class="section-header">
+          <mat-icon fontIcon="palette" class="section-icon"></mat-icon>
           <span>{{ "COMMON.THEME" | translate }}</span>
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="button-group">
           <button
-            class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                theme.theme() === 'light',
-            }"
+            class="toggle-button"
+            [class.active]="theme.theme() === 'light'"
             (click)="setTheme('light')"
           >
             <mat-icon fontIcon="light_mode"></mat-icon>
             <span>{{ "COMMON.THEME_LIGHT" | translate }}</span>
           </button>
           <button
-            class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                theme.theme() === 'dark',
-            }"
+            class="toggle-button"
+            [class.active]="theme.theme() === 'dark'"
             (click)="setTheme('dark')"
           >
             <mat-icon fontIcon="dark_mode"></mat-icon>
             <span>{{ "COMMON.THEME_DARK" | translate }}</span>
           </button>
           <button
-            class="flex-1 min-w-[7rem] inline-flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                theme.theme() === 'system',
-            }"
+            class="toggle-button"
+            [class.active]="theme.theme() === 'system'"
             (click)="setTheme('system')"
           >
             <mat-icon fontIcon="settings_system_daydream"></mat-icon>
@@ -314,150 +185,85 @@
         </div>
       </div>
 
-      <!-- Fondo & Paleta -->
-      <div
-        class="border-t border-black/5 px-4 py-3 text-xs text-neutral-500 dark:border-white/5"
-      >
-        <div
-          class="mb-2.5 flex items-center gap-2 font-semibold uppercase tracking-wide"
-        >
-          <mat-icon
-            fontIcon="wallpaper"
-            class="text-[14px] text-blue-600"
-          ></mat-icon>
-          <span>Background & Palette</span>
+      <div class="menu-section">
+        <div class="section-header">
+          <mat-icon fontIcon="wallpaper" class="section-icon"></mat-icon>
+          <span>Background</span>
         </div>
-
-        <div class="flex flex-wrap gap-2">
+        <div class="button-group">
           <button
-            class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                bg.bg() === 'minimal',
-            }"
+            class="toggle-button"
+            [class.active]="bg.bg() === 'minimal'"
             (click)="setBg('minimal')"
           >
-            <div class="inline-flex items-center gap-2">
-              <mat-icon fontIcon="crop_square"></mat-icon><span>Minimal</span>
-            </div>
+            <span>Minimal</span>
           </button>
           <button
-            class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                bg.bg() === 'aurora',
-            }"
+            class="toggle-button"
+            [class.active]="bg.bg() === 'aurora'"
             (click)="setBg('aurora')"
           >
-            <div class="inline-flex items-center gap-2">
-              <mat-icon fontIcon="gradient"></mat-icon><span>Aurora</span>
-            </div>
+            <span>Aurora</span>
           </button>
           <button
-            class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                bg.bg() === 'bokeh',
-            }"
+            class="toggle-button"
+            [class.active]="bg.bg() === 'bokeh'"
             (click)="setBg('bokeh')"
           >
-            <div class="inline-flex items-center gap-2">
-              <mat-icon fontIcon="blur_on"></mat-icon><span>Bokeh</span>
-            </div>
+            <span>Bokeh</span>
           </button>
         </div>
 
-        <div class="mt-2 flex flex-wrap gap-2">
+        <div class="section-header">
+          <mat-icon fontIcon="color_lens" class="section-icon"></mat-icon>
+          <span>Palette</span>
+        </div>
+        <div class="button-group">
           <button
-            class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                bg.palette() === 'default',
-            }"
+            class="toggle-button"
+            [class.active]="bg.palette() === 'default'"
             (click)="setPalette('default')"
           >
-            <div class="inline-flex items-center gap-2">
-              <mat-icon fontIcon="palette"></mat-icon><span>Default</span>
-            </div>
+            <span>Default</span>
           </button>
           <button
-            class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                bg.palette() === 'vaporwave',
-            }"
+            class="toggle-button"
+            [class.active]="bg.palette() === 'vaporwave'"
             (click)="setPalette('vaporwave')"
           >
-            <div class="inline-flex items-center gap-2">
-              <mat-icon fontIcon="style"></mat-icon><span>Vaporwave</span>
-            </div>
+            <span>Vaporwave</span>
           </button>
           <button
-            class="flex-1 min-w-[6.5rem] rounded-md border px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            [ngClass]="{
-              'bg-blue-600 text-white border-blue-600 shadow':
-                bg.palette() === 'cyber',
-            }"
+            class="toggle-button"
+            [class.active]="bg.palette() === 'cyber'"
             (click)="setPalette('cyber')"
           >
-            <div class="inline-flex items-center gap-2">
-              <mat-icon fontIcon="memory"></mat-icon><span>Cyber</span>
+            <span>Cyber</span>
+          </button>
+        </div>
+
+        <div class="toggle-group">
+          <button
+            class="toggle-switch"
+            [class.active]="bg.neon()"
+            (click)="toggleNeonEdges()"
+          >
+            <mat-icon fontIcon="highlight" class="toggle-icon"></mat-icon>
+            <span>Neon edges</span>
+            <div class="switch-track">
+              <div class="switch-thumb"></div>
             </div>
           </button>
-        </div>
-      </div>
-
-      <!-- Effects -->
-      <div
-        class="border-t px-4 py-3 text-xs text-neutral-500 dark:border-white/5 border-black/5"
-      >
-        <div
-          class="mb-2.5 flex items-center gap-2 font-semibold uppercase tracking-wide"
-        >
-          <mat-icon
-            fontIcon="tune"
-            class="text-[14px] text-blue-600"
-          ></mat-icon>
-          <span>Effects</span>
-        </div>
-
-        <div class="space-y-2">
-          <!-- Switch: Neon -->
           <button
-            class="flex w-full items-center gap-3 rounded-md px-1.5 py-2 text-left transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            (click)="toggleNeonEdges()"
-            [class.text-blue-600]="bg.neon()"
-          >
-            <mat-icon fontIcon="highlight" class="text-sm"></mat-icon>
-            <span class="flex-1">Neon edges</span>
-            <span
-              class="relative inline-flex h-5 w-10 items-center rounded-full transition"
-              [ngClass]="bg.neon() ? 'bg-blue-600' : 'bg-neutral-300'"
-            >
-              <span
-                class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition"
-                [ngClass]="bg.neon() ? 'translate-x-5' : ''"
-              ></span>
-            </span>
-          </button>
-
-          <!-- Switch: Parallax -->
-          <button
-            class="flex w-full items-center gap-3 rounded-md px-1.5 py-2 text-left transition hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            class="toggle-switch"
+            [class.active]="bg.parallax()"
             (click)="toggleParallax()"
-            [class.text-blue-600]="bg.parallax()"
           >
-            <mat-icon fontIcon="view_in_ar" class="text-sm"></mat-icon>
-            <span class="flex-1">Parallax</span>
-            <span
-              class="relative inline-flex h-5 w-10 items-center rounded-full transition"
-              [ngClass]="bg.parallax() ? 'bg-blue-600' : 'bg-neutral-300'"
-            >
-              <span
-                class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition"
-                [ngClass]="bg.parallax() ? 'translate-x-5' : ''"
-              ></span>
-            </span>
+            <mat-icon fontIcon="view_in_ar" class="toggle-icon"></mat-icon>
+            <span>Parallax</span>
+            <div class="switch-track">
+              <div class="switch-thumb"></div>
+            </div>
           </button>
         </div>
       </div>

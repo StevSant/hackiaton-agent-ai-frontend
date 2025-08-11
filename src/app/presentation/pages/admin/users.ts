@@ -105,7 +105,26 @@ export class AdminUsersPage {
   async saveEdit() {
     const id = this.editingId();
     if (!id) return;
-    const payload = this.editForm.value as any;
+    const formValue = this.editForm.value;
+
+    // Filter out empty fields to avoid validation errors
+    const payload: any = {};
+    const trimmedUsername = formValue.username?.trim();
+    if (trimmedUsername) {
+      payload.username = trimmedUsername;
+    }
+    const trimmedEmail = formValue.email?.trim();
+    if (trimmedEmail) {
+      payload.email = trimmedEmail;
+    }
+    if (formValue.role) {
+      payload.role = formValue.role;
+    }
+    const trimmedPassword = formValue.password?.trim();
+    if (trimmedPassword) {
+      payload.password = formValue.password;
+    }
+
     await this.facade.update(id, payload);
     this.cancelEdit();
   }
