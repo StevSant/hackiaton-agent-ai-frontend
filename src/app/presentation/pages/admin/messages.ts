@@ -2,12 +2,14 @@ import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, inject, comp
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AdminMessagesFacade } from '@app/application/admin/admin-messages.facade';
+import { MarkdownModule } from 'ngx-markdown';
+import { MatIconModule } from '@angular/material/icon';
 // Types are implied via facade signals; no direct import needed here
 
 @Component({
   selector: 'app-admin-messages',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, MarkdownModule, MatIconModule],
   templateUrl: './messages.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -57,6 +59,9 @@ export class AdminMessagesPage {
   @ViewChild('sessionsContainer', { static: false }) sessionsContainer?: ElementRef<HTMLDivElement>;
   private ioSessions?: IntersectionObserver;
 
+  // Cache for processed message content (main without <think> and extracted think blocks)
+  private processed = new Map<string, { main: string; thinks: string[]; expanded: boolean; last: string }>();
+
   ngAfterViewInit() {
     // set up intersection observer when sentinel is available
     queueMicrotask(() => this.setupIO());
@@ -97,5 +102,46 @@ export class AdminMessagesPage {
       }
     }, { root: this.sessionsContainer.nativeElement, rootMargin: '0px 0px 200px 0px', threshold: 0.1 });
     this.ioSessions.observe(this.sessionsSentinel.nativeElement);
+  }
+
+  // Extract visible content and hidden <think> blocks from a markdown string
+  private extractThinkBlocks(content: string): { main: string; thinks: string[] } {
+    if (!content) return { main: '', thinks: [] };
+    const thinks: string[] = [];
+    const re = /<think[^>]*>([\s\S]*?)<\/think>/gi;
+    let main = content;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(content)) !== null) {
+      const inner = (m[1] || '').trim();
+      if (inner) thinks.push(inner);
+    }
+    main = main.replace(re, '').trim();
+    return { main, thinks };
+  }
+
+  // Get or (re)build processed view for a message, updating cache when content changes
+  getProcessed(message: { id?: string; content?: string }): { main: string; thinks: string[]; expanded: boolean } {
+    const id = message.id || `${message.content?.slice(0,16) ?? 'msg'}-${Math.random()}`;
+    const content = message.content ?? '';
+    const cached = this.processed.get(id);
+    if (!cached || cached.last !== content) {
+      const { main, thinks } = this.extractThinkBlocks(content);
+      const expanded = cached?.expanded ?? false; // preserve toggle state
+      const entry = { main, thinks, expanded, last: content };
+      this.processed.set(id, entry);
+      return entry;
+    }
+    return { main: cached.main, thinks: cached.thinks, expanded: cached.expanded };
+  }
+
+  toggleThink(message: { id?: string; content?: string }) {
+    const id = message.id || `${message.content?.slice(0,16) ?? 'msg'}`;
+    const p = this.processed.get(id);
+    if (p) {
+      p.expanded = !p.expanded;
+    } else {
+      const cur = this.getProcessed(message);
+      this.processed.set(id, { main: cur.main, thinks: cur.thinks, expanded: !cur.expanded, last: message.content ?? '' });
+    }
   }
 }

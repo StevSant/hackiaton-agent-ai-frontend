@@ -31,12 +31,33 @@
       } @else {
   <div class="mb-2 text-xs opacity-70">User: <span class="font-mono" [attr.title]="userLabel(selectedOwnerId())">{{ getCachedUserLabel(selectedOwnerId()) || selectedOwnerId() }}</span></div>
         @for (m of messages(); track m.id) {
-          <div class="mb-2">
+          <div class="mb-3">
             <div class="text-xs opacity-60 flex items-center gap-2">
               <span class="badge badge-outline badge-xs">{{ m.role }}</span>
               <span>{{ m.created_at }}</span>
             </div>
-            <div>{{ m.content }}</div>
+            @let view = getProcessed(m);
+            <div class="prose prose-sm max-w-none mt-1">
+              @if (view.main.length) {
+                <markdown [data]="view.main"></markdown>
+              }
+              @if (view.thinks.length) {
+                <div class="mt-2">
+                  <button class="btn btn-ghost btn-xs" type="button" (click)="toggleThink(m)">
+                    <mat-icon [fontIcon]="view.expanded ? 'visibility_off' : 'visibility'" class="mr-1"></mat-icon>
+                    {{ view.expanded ? ('CHAT.HIDE_THINK' | translate) : ('CHAT.SHOW_THINK' | translate) }}
+                  </button>
+                  @if (view.expanded) {
+                    <div class="mt-2 rounded-md border border-base-300 bg-base-200/40 p-2 text-xs">
+                      <div class="opacity-70 mb-1">&lt;think&gt;</div>
+                      @for (t of view.thinks; track t) {
+                        <div class="mb-2"><markdown [data]="t"></markdown></div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
           </div>
         }
         <div class="h-8 flex items-center justify-center text-xs opacity-60" #sentinel>

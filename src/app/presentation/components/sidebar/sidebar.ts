@@ -80,7 +80,11 @@ export class SidebarComponent {
     // agentId is ignored by backend; pass a placeholder
   this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
       next: (list) => {
-    this.sessions = list || [];
+    // sanitize titles: remove any <think> blocks entirely
+    this.sessions = (list || []).map(s => ({
+      ...s,
+      title: (s.title || '').replace(/<think[^>]*>[\s\S]*?<\/think>/gi, '').trim() || s.title
+    }));
     // total could come in a separate response in the future; fallback keeps hasMore true until we reach an empty page
     this.hasMore = (list?.length || 0) === this.limit;
         this.cdr.markForCheck();
