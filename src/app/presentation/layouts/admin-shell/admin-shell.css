@@ -28,8 +28,46 @@ body, .admin-shell-bg {
   box-shadow: 
     4px 0 20px rgba(0, 0, 0, 0.1),
     inset -1px 0 0 hsl(var(--foreground) / 0.05);
-  position: relative;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow: hidden;
+  width: 18rem; /* Fixed width for desktop */
+  min-width: 0; /* Allow shrinking to 0 */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 40;
+}
+
+/* Mobile positioning override */
+@media (max-width: 768px) {
+  .admin-shell-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+/* Collapsed state - completely hidden on desktop */
+@media (min-width: 769px) {
+  .admin-shell-sidebar.-translate-x-full {
+    width: 0 !important;
+    min-width: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+    border-right: none;
+  }
+}
+
+/* Mobile collapsed state - slide animation */
+@media (max-width: 768px) {
+  .admin-shell-sidebar.-translate-x-full {
+    transform: translateX(-100%);
+    width: 18rem; /* Maintain width for mobile slide animation */
+    opacity: 1;
+    pointer-events: auto;
+    border-right: 1px solid hsl(var(--border) / 0.3);
+  }
 }
 
 .admin-shell-sidebar::before {
@@ -92,6 +130,7 @@ body, .admin-shell-bg {
   overflow: hidden;
   position: relative;
   gap: 0.75rem;
+  animation: slideInFromLeft 0.3s ease-out;
 }
 
 .btn.btn-ghost::before {
@@ -223,6 +262,47 @@ body, .admin-shell-bg {
 }
 
 /* ============================================
+   MAIN LAYOUT CONTAINER
+   ============================================ */
+
+.flex.min-h-screen {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================
+   MAIN CONTENT AREA
+   ============================================ */
+
+main.flex-1 {
+  flex: 1;
+  min-width: 0; /* Allow shrinking */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile top bar */
+.sticky.top-0 {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.9) 0%,
+    hsl(var(--background) / 0.7) 100%
+  );
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+}
+
+/* ============================================
    RESPONSIVE IMPROVEMENTS
    ============================================ */
 
@@ -256,10 +336,6 @@ body, .admin-shell-bg {
     opacity: 1;
     transform: translateX(0);
   }
-}
-
-.btn.btn-ghost {
-  animation: slideInFromLeft 0.3s ease-out;
 }
 
 .btn.btn-ghost:nth-child(1) { animation-delay: 0.1s; }

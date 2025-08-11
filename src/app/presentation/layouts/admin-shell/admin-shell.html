@@ -8,7 +8,7 @@
     ></button>
   }
   <aside
-    class="transition-all duration-300 ease-in-out border-r surface-clear admin-shell-sidebar p-6 flex flex-col z-40 transform w-72 md:w-72 fixed md:static inset-y-0 left-0"
+    class="admin-shell-sidebar p-6 flex flex-col"
     [class.-translate-x-full]="sidebarCollapsed()"
     (click)="$event.stopPropagation()"
     (keydown.escape)="profileMenuOpen.set(false)"
@@ -85,11 +85,11 @@
       ></app-profile-menu>
     </div>
   </aside>
-  <main class="flex-1 overflow-y-auto">
-    <div class="sticky top-0 z-10 bg-transparent p-3 md:hidden">
+  <main class="flex-1">
+    <div class="sticky top-0 z-10 p-3 md:hidden">
       <button class="btn btn-ghost btn-sm mobile-menu-btn" (click)="toggleSidebar($event)">
         <mat-icon fontIcon="menu" class="text-lg"></mat-icon>
-        <span class="ml-2 font-medium">Menu</span>
+        <span class="ml-2 font-medium">{{ "COMMON.MENU" | translate }}</span>
       </button>
     </div>
     <router-outlet />

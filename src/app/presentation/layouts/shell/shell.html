@@ -2,30 +2,20 @@
   <!-- Desktop sidebar (does not overlap) -->
   <div class="desktop-sidebar" [class.hidden]="!isSidebarOpen">
     <div class="sidebar-surface surface-clear">
-      <app-sidebar
-        (deleteRequested)="openDeleteModal($event)"
-        (deleteCancelled)="pendingDelete = undefined"
-        (deleteConfirmed)="pendingDelete = undefined"
-      ></app-sidebar>
+      <app-sidebar (deleteRequested)="openDeleteModal($event)" (deleteCancelled)="pendingDelete = undefined"
+        (deleteConfirmed)="pendingDelete = undefined"></app-sidebar>
     </div>
   </div>
 
   <!-- Mobile overlay sidebar -->
   <div class="mobile-overlay" [class.hidden]="!isSidebarOpen">
-    <button
-      class="fixed inset-0 overlay-backdrop z-40"
-      (click)="closeSidebar()"
-      [attr.aria-label]="'SHELL.CLOSE_MENU' | translate"
-    ></button>
+    <button class="fixed inset-0 overlay-backdrop z-40" (click)="closeSidebar()"
+      [attr.aria-label]="'SHELL.CLOSE_MENU' | translate"></button>
     <div
       class="fixed inset-y-0 left-0 w-72 z-50 sidebar-surface surface-clear transition-transform duration-200 ease-in-out"
-      [class.-translate-x-full]="!isSidebarOpen"
-    >
-      <app-sidebar
-        (deleteRequested)="openDeleteModal($event)"
-        (deleteCancelled)="pendingDelete = undefined"
-        (deleteConfirmed)="pendingDelete = undefined"
-      ></app-sidebar>
+      [class.-translate-x-full]="!isSidebarOpen">
+      <app-sidebar (deleteRequested)="openDeleteModal($event)" (deleteCancelled)="pendingDelete = undefined"
+        (deleteConfirmed)="pendingDelete = undefined"></app-sidebar>
     </div>
   </div>
 
@@ -33,60 +23,35 @@
     <!-- Mobile Topbar -->
     <div class="sticky top-0 z-30 topbar-surface surface-clear">
       <div class="flex items-center justify-between px-3 py-2">
-        <button
-          class="btn btn-ghost btn-sm"
-          (click)="toggleSidebar()"
-          [title]="'SHELL.MENU' | translate"
-        >
+        <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" [title]="'SHELL.MENU' | translate">
           <mat-icon fontIcon="menu"></mat-icon>
         </button>
         <div class="flex items-center gap-2">
-          <a
-            routerLink="/home"
-            class="btn btn-ghost btn-xs"
-            [title]="'NOT_FOUND.BACK_HOME' | translate"
-          >
+          <a routerLink="/home" class="btn btn-ghost btn-xs" [title]="'NOT_FOUND.BACK_HOME' | translate">
             <mat-icon fontIcon="home"></mat-icon>
             <span class="ml-1 text-xs hidden sm:inline">{{ "COMMON.HOME" | translate }}</span>
           </a>
-          <button
-            class="btn btn-ghost btn-xs"
-            (click)="openSessionFilesFromShell()"
-            [title]="'CHAT.ATTACHMENTS_INFO' | translate"
-            [attr.aria-label]="'CHAT.ATTACHMENTS_VIEW' | translate"
-            [attr.aria-description]="'CHAT.ATTACHMENTS_INFO' | translate"
-          >
-            <mat-icon
-              fontIcon="attach_file"
-              style="transform: rotate(45deg)"
-            ></mat-icon>
+          <button class="btn btn-ghost btn-xs" (click)="openSessionFilesFromShell()"
+            [title]="'CHAT.ATTACHMENTS_INFO' | translate" [attr.aria-label]="'CHAT.ATTACHMENTS_VIEW' | translate"
+            [attr.aria-description]="'CHAT.ATTACHMENTS_INFO' | translate">
+            <mat-icon fontIcon="attach_file" style="transform: rotate(45deg)"></mat-icon>
             <span class="ml-1 text-xs hidden sm:inline">{{
               "CHAT.ATTACHMENTS_VIEW" | translate
-            }}</span>
+              }}</span>
           </button>
-          <button
-            class="btn btn-ghost btn-xs"
-            (click)="openSessionCompaniesFromShell()"
+          <button class="btn btn-ghost btn-xs" (click)="openSessionCompaniesFromShell()"
             [title]="'CHAT.COMPANIES_ANALYSIS_TITLE' | translate"
-            [attr.aria-label]="'CHAT.COMPANIES_ANALYSIS_TITLE' | translate"
-          >
+            [attr.aria-label]="'CHAT.COMPANIES_ANALYSIS_TITLE' | translate">
             <mat-icon fontIcon="apartment"></mat-icon>
             <span class="ml-1 text-xs hidden sm:inline">{{
               "COMMON.COMPANIES" | translate
-            }}</span>
+              }}</span>
           </button>
         </div>
         <div class="w-8 hidden md:block">
-          <button
-            class="btn btn-ghost btn-sm"
-            (click)="toggleSidebar()"
-            [title]="'SHELL.TOGGLE_PANEL' | translate"
-          >
+          <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" [title]="'SHELL.TOGGLE_PANEL' | translate">
             <mat-icon fontIcon="chevron_left" *ngIf="isSidebarOpen"></mat-icon>
-            <mat-icon
-              fontIcon="chevron_right"
-              *ngIf="!isSidebarOpen"
-            ></mat-icon>
+            <mat-icon fontIcon="chevron_right" *ngIf="!isSidebarOpen"></mat-icon>
           </button>
         </div>
       </div>
@@ -99,28 +64,12 @@
   </main>
 
   <!-- Global delete confirmation modal (centered) -->
-  <div
-    class="modal-backdrop"
-    *ngIf="pendingDelete"
-    (click)="closeDeleteModal()"
-    (keydown.escape)="closeDeleteModal()"
-  >
-    <dialog
-      #deleteDialog
-      open
-      class="modal"
-      (click)="$event.stopPropagation()"
-      (keydown)="onDialogKeydown($event)"
-    >
+  <div class="modal-backdrop" *ngIf="pendingDelete" (click)="closeDeleteModal()" (keydown.escape)="closeDeleteModal()">
+    <dialog #deleteDialog open class="modal" (click)="$event.stopPropagation()" (keydown)="onDialogKeydown($event)">
       <header class="modal-header">
         <h3>{{ "SIDEBAR.DELETE_TITLE" | translate }}</h3>
-        <button
-          #cancelBtn
-          type="button"
-          class="btn btn-gradient-blue"
-          (click)="closeDeleteModal()"
-          [attr.aria-label]="'SIDEBAR.CANCEL' | translate"
-        >
+        <button #cancelBtn type="button" class="btn btn-gradient-blue" (click)="closeDeleteModal()"
+          [attr.aria-label]="'SIDEBAR.CANCEL' | translate">
           <mat-icon fontIcon="close" class="text-xl"></mat-icon>
         </button>
       </header>
@@ -131,20 +80,11 @@
         </p>
       </section>
       <footer class="modal-actions">
-        <button
-          class="btn btn-gradient-blue"
-          type="button"
-          (click)="closeDeleteModal()"
-        >
+        <button class="btn btn-gradient-blue" type="button" (click)="closeDeleteModal()">
           <mat-icon class="mr-1 text-sm">close</mat-icon>
           {{ "SIDEBAR.CANCEL" | translate }}
         </button>
-        <button
-          #confirmBtn
-          class="btn btn-error btn-outline"
-          type="button"
-          (click)="confirmDeleteFromShell()"
-        >
+        <button #confirmBtn class="btn btn-error btn-outline" type="button" (click)="confirmDeleteFromShell()">
           <mat-icon class="mr-1 text-sm">delete</mat-icon>
           {{ "SIDEBAR.CONFIRM" | translate }}
         </button>

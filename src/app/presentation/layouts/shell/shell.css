@@ -110,7 +110,20 @@
   display: none;
   position: sticky;
   top: 0;
+  height: 100vh;
   align-self: flex-start;
+  width: 18rem; /* w-72 equivalent */
+  min-width: 0; /* Allow shrinking to 0 */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.desktop-sidebar.hidden {
+  width: 0 !important;
+  min-width: 0 !important;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .mobile-overlay {
@@ -127,6 +140,23 @@
   }
 }
 
+/* Main content smooth transition when sidebar toggles */
+main.flex-1 {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0; /* Allow shrinking */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Page content area styling */
+.flex-1.min-h-0.overflow-hidden {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 /* Utility */
 .hidden {
   display: none !important;
@@ -135,11 +165,24 @@
 /* Frosted surfaces */
 .sidebar-surface {
   height: 100vh;
+  width: 18rem; /* Fixed width to maintain structure */
+  min-width: 18rem;
   /* Blur-only: transparent to let global background show through */
   background-color: transparent;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-right: 1px solid hsl(var(--border) / 0.5);
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.desktop-sidebar.hidden .sidebar-surface {
+  width: 0;
+  min-width: 0;
+  border-right: none;
+  opacity: 0;
 }
 
 .overlay-backdrop {
@@ -149,6 +192,9 @@
 }
 
 .topbar-surface {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   background: linear-gradient(
     135deg,
     hsl(var(--background) / 0.9) 0%,
@@ -161,7 +207,6 @@
   box-shadow: 
     0 4px 32px hsl(var(--primary) / 0.1),
     inset 0 1px 0 hsl(var(--foreground) / 0.1);
-  position: relative;
 }
 
 .topbar-surface::before {
@@ -282,7 +327,7 @@
   max-width: 28rem;
   margin: 0;
   padding: 0;
-  border: none;
+  border: 1px solid hsl(var(--border) / 0.3);
   border-radius: 1rem;
   background: linear-gradient(
     135deg,
@@ -292,7 +337,6 @@
   );
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid hsl(var(--border) / 0.3);
   box-shadow: 
     0 25px 50px hsl(var(--foreground) / 0.15),
     inset 0 1px 0 hsl(var(--foreground) / 0.1),
