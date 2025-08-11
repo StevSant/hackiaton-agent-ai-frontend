@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="./company.css">
 <div class="p-4 space-y-4 vt-page">
   <nav class="text-sm breadcrumbs">
     <ul>
@@ -12,7 +13,7 @@
   </div>
 
   @if (companyLoading()) {
-    <div class="glass-card p-3 animate-pulse">
+  <div class="modern-card p-3 animate-pulse">
       <div class="skeleton bg-base-300 h-6 w-40 mb-2"></div>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="space-y-2">
@@ -40,7 +41,7 @@
   } @else if (companyError()) {
     <div class="alert alert-error">{{ companyError() }}</div>
   } @else if (company()) {
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 glass-card p-3">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 modern-card p-3">
       <div>
         <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.TAX_ID' | translate }}</div>
         <div class="font-mono flex items-center gap-2">
@@ -99,7 +100,7 @@
       }
     </div>
 
-  <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 glass-card p-3">
+  <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 modern-card p-3">
       @if (company()!.score !== undefined && company()!.score !== null) {
         <div>
           <div class="text-sm opacity-70">Score</div>
@@ -121,7 +122,7 @@
       <div class="alert alert-warning mt-2 text-sm">{{ company()!.imputation!.error }}</div>
     }
     @if (company()!.missing_data?.length) {
-  <div class="mt-2 glass-card p-3">
+  <div class="mt-2 modern-card p-3">
         <div class="text-sm font-medium opacity-80 mb-1">Datos faltantes</div>
         <div class="flex flex-wrap gap-2">
           @for (m of company()!.missing_data!; track m) { <span class="badge badge-ghost">{{ m }}</span> }
@@ -130,7 +131,7 @@
     }
 
     @if (company()!.company?.additional) {
-  <div class="mt-2 glass-card p-3">
+  <div class="mt-2 modern-card p-3">
         <div class="text-sm font-medium opacity-80 mb-1">Atributos adicionales</div>
         <div class="flex flex-wrap gap-2">
           @if (company()!.company!.additional!.is_state_supplier !== undefined) {
@@ -163,7 +164,7 @@
     }
 
     @if (company()!.metrics) {
-  <div class="glass-card p-3">
+  <div class="modern-card p-3">
         <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.METRICS' | translate }}</h4>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
           @for (k of metricKeys(); track k) {
@@ -180,7 +181,7 @@
     }
 
     @if (company()!.signals?.length) {
-  <div class="glass-card p-3">
+  <div class="modern-card p-3">
         <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.SIGNALS' | translate }}</h4>
         <ul class="list-disc pl-5 space-y-1">
           @for (s of company()!.signals!; track s.key) {

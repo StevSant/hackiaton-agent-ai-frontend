@@ -1,3 +1,21 @@
+/* --- Admin sidebar theme fix: fuerza fondo sólido según tema --- */
+.admin-shell-sidebar {
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-right: 1px solid hsl(var(--border));
+}
+.dark .admin-shell-sidebar {
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-right: 1px solid hsl(var(--border));
+}
+/* Sobrescribe surface-clear solo para el sidebar admin */
+.admin-shell-sidebar.surface-clear {
+  background: hsl(var(--card));
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-color: hsl(var(--border));
+}
 /* Tailwind v4 config-less setup */
 @import "tailwindcss";
 

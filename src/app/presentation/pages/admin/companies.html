@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="./companies.css">
 <div class="p-6 space-y-4 vt-page">
   <h2
     class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
@@ -7,7 +8,7 @@
   <form
     [formGroup]="form"
     (ngSubmit)="applySearch()"
-    class="glass-card p-3 flex flex-wrap gap-2 items-end"
+  class="modern-card p-3 flex flex-wrap gap-2 items-end"
   >
     <input
       class="input input-bordered flex-1 min-w-[220px]"
@@ -33,7 +34,7 @@
       </select>
     </div>
   </form>
-  <div class="glass-card p-2 flex flex-wrap gap-2 items-center">
+  <div class="modern-card p-2 flex flex-wrap gap-2 items-center">
     <span class="text-xs opacity-70"
       >{{ "ADMIN.COMPANIES.SECTOR" | translate }}:</span
     >
@@ -57,7 +58,7 @@
   @if (error()) {
     <div class="alert alert-error">{{ error() }}</div>
   }
-  <div class="overflow-x-auto glass-card">
+  <div class="overflow-x-auto modern-card">
     <table class="table table-sm users-table">
       <thead>
         <tr>
@@ -119,7 +120,7 @@
       </tbody>
     </table>
   </div>
-  <div class="flex flex-wrap items-center justify-end gap-2 glass-card p-2">
+  <div class="flex flex-wrap items-center justify-end gap-2 modern-card p-2">
     <button class="btn btn-sm" (click)="prevPage()" [disabled]="page() <= 1">
       {{ "COMMON.PREVIOUS" | translate }}
     </button>
