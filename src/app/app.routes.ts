@@ -24,6 +24,11 @@ export const routes: Routes = [
       import('@presentation/pages/home').then((m) => m.HomePage),
   },
   {
+  path: '',
+  pathMatch: 'full',
+  redirectTo: 'home',
+  },
+  {
     path: 'forbidden',
     loadComponent: () =>
       import('@presentation/pages/forbidden/forbidden').then(
@@ -38,12 +43,6 @@ export const routes: Routes = [
       import('@presentation/layouts/shell/shell').then((m) => m.ShellLayout),
     canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadChildren: () =>
-          import('@presentation/pages/home/home').then((m) => m.HomePage),
-      },
       // Chat without agent routing
       {
         path: 'chat',
