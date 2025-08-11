@@ -32,6 +32,15 @@
             }
           },
           "configurations": {
+            "csr": {
+              "ssr": false,
+              "outputMode": "static",
+              "sourceMap": false,
+              "optimization": {
+                "fonts": false
+              },
+              "outputHashing": "all"
+            },
             "production": {
               "optimization": {
                 "fonts": false
