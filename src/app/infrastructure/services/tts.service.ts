@@ -19,7 +19,7 @@ export class TtsService {
       const synth = window.speechSynthesis;
 
       // Always reset synth to avoid stuck paused states
-      try { synth.cancel(); } catch {}
+      try { synth.cancel(); } catch { }
       await this.waitForIdle(synth, 150);
 
       // Ensure voices are ready (Chrome may return [] on first call)
@@ -39,7 +39,7 @@ export class TtsService {
           || voices.find(v => v.lang?.toLowerCase().startsWith(langLower.split('-')[0] || ''))
           || voices[0];
         if (preferred) utter.voice = preferred;
-      } catch {}
+      } catch { }
 
       this.currentUtterance = utter;
       this.currentMessageId.set(messageId ?? null);
@@ -65,18 +65,18 @@ export class TtsService {
       synth.speak(utter);
 
       // Kick the synth in case it comes up paused (Chrome quirk)
-      setTimeout(() => { try { if (synth.paused) synth.resume(); } catch {} }, 80);
+      setTimeout(() => { try { if (synth.paused) synth.resume(); } catch { } }, 80);
 
       // Watchdog: if not started, retry once
       setTimeout(async () => {
         if (!started && this.currentUtterance === utter) {
-          try { synth.cancel(); } catch {}
+          try { synth.cancel(); } catch { }
           await this.nextTick();
           synth.speak(utter);
-          setTimeout(() => { try { if (synth.paused) synth.resume(); } catch {} }, 60);
+          setTimeout(() => { try { if (synth.paused) synth.resume(); } catch { } }, 60);
         }
       }, 300);
-    } catch {}
+    } catch { }
   }
 
   pause() {
@@ -86,17 +86,17 @@ export class TtsService {
         window.speechSynthesis.pause();
         this.isPaused.set(true);
       }
-    } catch {}
+    } catch { }
   }
 
   resume() {
     try {
       if (typeof window === 'undefined') return;
       if (this.isPaused()) {
-  window.speechSynthesis.resume();
-  this.isPaused.set(false);
+        window.speechSynthesis.resume();
+        this.isPaused.set(false);
       }
-    } catch {}
+    } catch { }
   }
 
   stop() {
@@ -107,7 +107,7 @@ export class TtsService {
       this.isSpeaking.set(false);
       this.isPaused.set(false);
       this.currentMessageId.set(null);
-    } catch {}
+    } catch { }
   }
 
   setVolume(val: number) {
@@ -125,7 +125,7 @@ export class TtsService {
     let resolve!: () => void;
     const p = new Promise<void>(r => (resolve = r));
     const onChange = () => { this.voicesReady = true; synth.removeEventListener?.('voiceschanged', onChange as any); resolve(); };
-    try { synth.addEventListener?.('voiceschanged', onChange as any); } catch {}
+    try { synth.addEventListener?.('voiceschanged', onChange as any); } catch { }
     // Fallback polling
     const start = Date.now();
     const poll = () => {

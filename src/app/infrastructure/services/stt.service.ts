@@ -31,11 +31,11 @@ export class SttService {
 
   // Server-based STT: upload an audio Blob to the backend and receive transcript
   async transcribeBlob(blob: Blob, language?: string): Promise<string> {
-  const form = new FormData();
-  form.append('audio', blob, 'recording.webm');
-  const url = `${this.base}/stt`;
-  const params = language ? new HttpParams().set('language', language) : undefined;
-  const data = await firstValueFrom(this.http.post<{ transcript?: string; text?: string }>(url, form, { params }));
-  return (data && (data.transcript || data.text)) || '';
+    const form = new FormData();
+    form.append('audio', blob, 'recording.webm');
+    const url = `${this.base}/stt`;
+    const params = language ? new HttpParams().set('language', language) : undefined;
+    const data = await firstValueFrom(this.http.post<{ transcript?: string; text?: string }>(url, form, { params }));
+    return (data && (data.transcript || data.text)) || '';
   }
 }

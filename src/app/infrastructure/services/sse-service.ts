@@ -273,11 +273,10 @@ export class SseService {
       return () => {
         try {
           controller.abort();
-        } catch {}
+        } catch { }
         this.lastSessionId = null;
       };
     });
   }
 
-  // Legacy processors removed; now using standard SSE parsing above
 }
