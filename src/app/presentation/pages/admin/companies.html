@@ -118,8 +118,8 @@
               <div>
                 <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.NAME' | translate }}</div>
                 <div class="flex items-center gap-2">
-                  {{ company()!.name || '-' }}
-                  @if (company()!.name) { <button class="btn btn-ghost btn-xs" (click)="copyText(company()!.name!)" title="Copy">⧉</button> }
+                  {{ company()!.name || company()!.company?.business_name || '-' }}
+                  @if (company()!.name || company()!.company?.business_name) { <button class="btn btn-ghost btn-xs" (click)="copyText(company()!.name || company()!.company?.business_name!)" title="Copy">⧉</button> }
                 </div>
               </div>
               <div>
@@ -129,7 +129,104 @@
                   @if (company()!.sector) { <button class="btn btn-ghost btn-xs" (click)="copyText(company()!.sector!)" title="Copy">⧉</button> }
                 </div>
               </div>
+              @if (company()!.company?.legal_status) {
+                <div>
+                  <div class="text-sm opacity-70">Estado legal</div>
+                  <div>{{ company()!.company!.legal_status }}</div>
+                </div>
+              }
+              @if (company()!.company?.ciiu) {
+                <div>
+                  <div class="text-sm opacity-70">CIIU</div>
+                  <div class="font-mono">{{ company()!.company!.ciiu }}</div>
+                </div>
+              }
+              @if (company()!.company?.company_type) {
+                <div>
+                  <div class="text-sm opacity-70">Tipo</div>
+                  <div>{{ company()!.company!.company_type }}</div>
+                </div>
+              }
+              @if (company()!.company?.incorporation_date) {
+                <div>
+                  <div class="text-sm opacity-70">Constitución</div>
+                  <div>{{ company()!.company!.incorporation_date }}</div>
+                </div>
+              }
+              @if (company()!.company?.address) {
+                <div class="sm:col-span-2">
+                  <div class="text-sm opacity-70">Dirección</div>
+                  <div class="truncate">{{ company()!.company!.address }}</div>
+                </div>
+              }
+              @if (company()!.company?.source_url) {
+                <div class="sm:col-span-2">
+                  <a class="link link-primary text-sm" [href]="company()!.company!.source_url" target="_blank" rel="noopener">Ver fuente ↗</a>
+                </div>
+              }
             </div>
+
+            <!-- Score and data quality summary -->
+            <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              @if (company()!.score !== undefined && company()!.score !== null) {
+                <div>
+                  <div class="text-sm opacity-70">Score</div>
+                  <div class="flex items-center gap-2">
+                    <span class="badge badge-outline">{{ company()!.score }}</span>
+                    @if (company()!.score_source) { <span class="badge badge-ghost">{{ company()!.score_source }}</span> }
+                  </div>
+                </div>
+              }
+              @if (company()!.company?.fetched_at) {
+                <div>
+                  <div class="text-sm opacity-70">Actualizado</div>
+                  <div class="text-xs">{{ company()!.company!.fetched_at }}</div>
+                </div>
+              }
+            </div>
+
+            @if (company()!.imputation?.error) {
+              <div class="alert alert-warning mt-2 text-sm">
+                {{ company()!.imputation!.error }}
+              </div>
+            }
+            @if (company()!.missing_data?.length) {
+              <div class="mt-2">
+                <div class="text-sm font-medium opacity-80 mb-1">Datos faltantes</div>
+                <div class="flex flex-wrap gap-2">
+                  @for (m of company()!.missing_data!; track m) { <span class="badge badge-ghost">{{ m }}</span> }
+                </div>
+              </div>
+            }
+
+            @if (company()!.company?.additional) {
+              <div class="mt-2">
+                <div class="text-sm font-medium opacity-80 mb-1">Atributos adicionales</div>
+                <div class="flex flex-wrap gap-2">
+                  @if (company()!.company!.additional!.is_state_supplier !== undefined) {
+                    <span class="badge badge-outline">Proveedor del Estado: {{ company()!.company!.additional!.is_state_supplier ? 'Sí' : 'No' }}</span>
+                  }
+                  @if (company()!.company!.additional!.offers_remittances !== undefined) {
+                    <span class="badge badge-outline">Remesas: {{ company()!.company!.additional!.offers_remittances ? 'Sí' : 'No' }}</span>
+                  }
+                  @if (company()!.company!.additional!.sells_on_credit !== undefined) {
+                    <span class="badge badge-outline">Vende a crédito: {{ company()!.company!.additional!.sells_on_credit ? 'Sí' : 'No' }}</span>
+                  }
+                  @if (company()!.company!.additional!.belongs_to_mv !== undefined) {
+                    <span class="badge badge-outline">Pertenece a MV: {{ company()!.company!.additional!.belongs_to_mv ? 'Sí' : 'No' }}</span>
+                  }
+                  @if (company()!.company!.additional!.is_public_interest !== undefined) {
+                    <span class="badge badge-outline">Interés público: {{ company()!.company!.additional!.is_public_interest ? 'Sí' : 'No' }}</span>
+                  }
+                  @if (company()!.company!.additional!.is_bic !== undefined) {
+                    <span class="badge badge-outline">BIC: {{ company()!.company!.additional!.is_bic ? 'Sí' : 'No' }}</span>
+                  }
+                  @if (company()!.company!.additional!.judicial_disposition) {
+                    <span class="badge badge-ghost">Disposición judicial: {{ company()!.company!.additional!.judicial_disposition }}</span>
+                  }
+                </div>
+              </div>
+            }
             @if (company()!.overview) {
               <div class="prose max-w-none"><p>{{ company()!.overview }}</p></div>
             }
@@ -140,7 +237,7 @@
                   @for (k of metricKeys(); track k) {
                     <div class="stat p-2 rounded border">
                       <div class="stat-title text-xs">{{ k }}</div>
-                      <div class="stat-value text-sm">{{ company()!.metrics![k] }}</div>
+                      <div class="stat-value text-sm">{{ company()!.metrics![k] | number:'1.0-2' }}</div>
                     </div>
                   }
                 </div>
