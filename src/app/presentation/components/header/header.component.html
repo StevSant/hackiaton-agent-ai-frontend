@@ -3,13 +3,19 @@
 >
   <div class="mx-auto max-w-7xl px-5 py-3 flex items-center justify-between">
     <!-- Botón menú -->
-    <button
-      (click)="toggleMenu()"
-      class="ml-4 px-2 py-1 rounded bg-base-200 hover:bg-base-300 focus:outline-none"
-      aria-label="Abrir menú"
+    <a
+      routerLink="/"
+      class="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-primary rounded"
     >
-      <mat-icon fontIcon="menu"></mat-icon>
-    </button>
+      <img
+        [src]="(info?.site_icon || info?.site_logo) ?? '/assets/favicon.ico'"
+        [alt]="info?.site_name || ('SHELL.APP_TITLE' | translate)"
+        class="w-12 h-12 rounded object-cover"
+      />
+      <span class="font-bold tracking-tight text-xl md:text-2xl">
+        {{ info?.site_name || ("SHELL.APP_TITLE" | translate) }}
+      </span>
+    </a>
 
     <!-- Nav -->
     <nav class="flex items-center gap-2" aria-label="Primary">

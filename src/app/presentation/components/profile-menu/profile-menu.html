@@ -1,35 +1,87 @@
 <div
-  class="text-xs relative"
+  class="profile-menu-container"
   (click)="$event.stopPropagation()"
   (keydown.escape)="profileMenuOpen.set(false)"
 >
   @if (!showBackToChat) {
-    <div class="flex items-center justify-between gap-2">
+    <div class="profile-trigger-wrapper">
       <button
-        class="flex items-center gap-3 group px-4 py-3 text-base"
+        class="profile-trigger"
         (click)="toggleProfileMenu($event)"
+        [attr.aria-expanded]="profileMenuOpen()"
+        [attr.aria-label]="'COMMON.ACCOUNT' | translate"
         [title]="'COMMON.ACCOUNT' | translate"
       >
-        <div
-          class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg group-hover:scale-105 transition"
-        >
+        <div class="profile-avatar">
           @if (profileEmail()) {
-            {{ profileEmail()!.charAt(0).toUpperCase() }}
+            <span class="avatar-initial">{{
+              profileEmail()!.charAt(0).toUpperCase()
+            }}</span>
           } @else {
-            <mat-icon fontIcon="person" class="!text-xl"></mat-icon>
+            <mat-icon fontIcon="person" class="avatar-icon"></mat-icon>
+          }
+          @if (isAuthenticated()) {
+            <div class="avatar-status-indicator"></div>
           }
         </div>
-        <div class="leading-tight text-left">
-          <div
-            class="font-medium text-base-content/90 truncate max-w-[12rem] text-lg"
-          >
+        <div class="profile-info">
+          <div class="profile-name">
             {{ profileEmail() || ("COMMON.GUEST" | translate) }}
           </div>
           @if (isAuthenticated()) {
-            <div class="opacity-70 flex items-center gap-2">
+            <div class="profile-role">
               <span
-                class="badge badge-outline text-sm px-3 py-1"
-                [ngClass]="{ 'badge-primary': profileRole() === 'admin' }"
+                class="role-badge"
+                [ngClass]="{ 'role-admin': profileRole() === 'admin' }"
+              >
+                {{
+                  profileRole() === "admin"
+                    ? ("COMMON.ADMIN" | translate)
+                    : ("COMMON.USER" | translate)
+                }}
+              </span>
+            </div>
+          }
+        </div>
+        <mat-icon
+          fontIcon="expand_more"
+          class="expand-icon"
+          [class.expanded]="profileMenuOpen()"
+        ></mat-icon>
+      </button>
+    </div>
+  } @else {
+    <div class="back-navigation">
+      @if (showBackHome) {
+        <a routerLink="/home" class="nav-button primary">
+          <mat-icon fontIcon="home"></mat-icon>
+          <span>{{ "NOT_FOUND.BACK_HOME" | translate }}</span>
+        </a>
+      }
+      <a routerLink="/chat" class="nav-button primary">
+        <mat-icon fontIcon="chat"></mat-icon>
+        <span>{{ "COMMON.BACK_TO_CHAT" | translate }}</span>
+      </a>
+      <button
+        class="profile-trigger compact"
+        (click)="toggleProfileMenu($event)"
+        [attr.aria-expanded]="profileMenuOpen()"
+        [title]="'COMMON.ACCOUNT' | translate"
+      >
+        <div class="profile-avatar">
+          <span class="avatar-initial">{{
+            (profileEmail() || "?")!.charAt(0).toUpperCase()
+          }}</span>
+        </div>
+        <div class="profile-info">
+          <div class="profile-name">
+            {{ profileEmail() || ("COMMON.GUEST" | translate) }}
+          </div>
+          @if (isAuthenticated()) {
+            <div class="profile-role">
+              <span
+                class="role-badge"
+                [ngClass]="{ 'role-admin': profileRole() === 'admin' }"
               >
                 {{
                   profileRole() === "admin"
@@ -42,144 +94,176 @@
         </div>
       </button>
     </div>
-  } @else {
-    <div class="space-y-2">
-      @if (showBackHome) {
-        <a routerLink="/home" class="btn btn-primary w-full">
-          <mat-icon fontIcon="home"></mat-icon>
-          <span class="ml-2">{{ "NOT_FOUND.BACK_HOME" | translate }}</span>
-        </a>
-      }
-      <a routerLink="/chat" class="btn btn-primary w-full">
-        <mat-icon fontIcon="chat"></mat-icon>
-        <span class="ml-2">{{ "COMMON.BACK_TO_CHAT" | translate }}</span>
-      </a>
-      <div class="text-xs">
-        <button
-          class="flex items-center gap-3 w-full text-left px-4 py-3 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)] text-base"
-          (click)="toggleProfileMenu($event)"
-          [title]="'COMMON.ACCOUNT' | translate"
-        >
-          <div
-            class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg"
-          >
-            {{ (profileEmail() || "?")!.charAt(0).toUpperCase() }}
-          </div>
-          <div class="leading-tight">
-            <div
-              class="font-medium text-base-content/90 truncate max-w-[12rem] text-lg"
-            >
-              {{ profileEmail() || ("COMMON.GUEST" | translate) }}
-            </div>
-            @if (isAuthenticated()) {
-              <div class="opacity-70">
-                <span
-                  class="badge badge-outline text-sm px-3 py-1"
-                  [ngClass]="{ 'badge-primary': profileRole() === 'admin' }"
-                >
-                  {{
-                    profileRole() === "admin"
-                      ? ("COMMON.ADMIN" | translate)
-                      : ("COMMON.USER" | translate)
-                  }}
-                </span>
-              </div>
-            }
-          </div>
-        </button>
-      </div>
-    </div>
   }
 
   @if (profileMenuOpen()) {
-    <div
-      class="absolute right-0 bottom-12 w-56 rounded-xl profile-menu-surface p-3 shadow-lg animate-in fade-in zoom-in text-base-content z-50"
-      style="animation-duration: 120ms"
-    >
-      <div class="profile-menu-header mb-2">
-        {{ "COMMON.ACCOUNT" | translate }}
+    <div class="profile-dropdown">
+      <div class="dropdown-header">
+        <mat-icon fontIcon="account_circle" class="header-icon"></mat-icon>
+        <span>{{ "COMMON.ACCOUNT" | translate }}</span>
       </div>
+
       @if (profileLoading()) {
-        <div class="text-sm flex items-center gap-2">
-          <span class="loading loading-dots loading-xs"></span>
-          {{ "COMMON.LOADING" | translate }}
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          <span>{{ "COMMON.LOADING" | translate }}</span>
         </div>
       }
+
       @if (!isAuthenticated()) {
         <button
+          class="menu-button primary"
           (click)="toggleProfileMenu(); navigateToLogin()"
-          class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)] bg-[hsl(var(--card)_/_0.2)]"
         >
-          {{ "COMMON.LOGIN" | translate }}
+          <mat-icon fontIcon="login"></mat-icon>
+          <span>{{ "COMMON.LOGIN" | translate }}</span>
         </button>
       }
+
       @if (isAuthenticated()) {
-        <button
-          (click)="logout($event)"
-          class="w-full text-left text-sm px-3 py-2 rounded-lg hover:bg-[hsl(var(--card)_/_0.5)] bg-[hsl(var(--card)_/_0.2)] flex items-center gap-2 text-error"
-        >
-          <mat-icon fontIcon="logout" class="!text-base"></mat-icon>
-          {{ "COMMON.LOGOUT" | translate }}
+        <button class="menu-button danger" (click)="logout($event)">
+          <mat-icon fontIcon="logout"></mat-icon>
+          <span>{{ "COMMON.LOGOUT" | translate }}</span>
         </button>
       }
-      <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
-        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">
-          {{ "COMMON.LANGUAGE" | translate }}
+
+      <div class="menu-section">
+        <div class="section-header">
+          <mat-icon fontIcon="language" class="section-icon"></mat-icon>
+          <span>{{ "COMMON.LANGUAGE" | translate }}</span>
         </div>
-        <div class="flex gap-2 flex-wrap">
-          <button class="btn btn-xs" (click)="switchLang('es')">
-            {{ "COMMON.SPANISH" | translate }}
+        <div class="button-group">
+          <button
+            class="toggle-button"
+            [class.active]="lang.current() === 'es'"
+            (click)="switchLang('es')"
+          >
+            <span class="flag">🇪🇸</span>
+            <span>{{ "COMMON.SPANISH" | translate }}</span>
           </button>
-          <button class="btn btn-xs" (click)="switchLang('en')">
-            {{ "COMMON.ENGLISH" | translate }}
-          </button>
-        </div>
-      </div>
-      <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
-        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">
-          {{ "COMMON.THEME" | translate }}
-        </div>
-        <div class="flex gap-2 flex-wrap">
-          <button class="btn btn-xs" (click)="setTheme('light')">
-            {{ "COMMON.THEME_LIGHT" | translate }}
-          </button>
-          <button class="btn btn-xs" (click)="setTheme('dark')">
-            {{ "COMMON.THEME_DARK" | translate }}
-          </button>
-          <button class="btn btn-xs" (click)="setTheme('system')">
-            {{ "COMMON.THEME_SYSTEM" | translate }}
+          <button
+            class="toggle-button"
+            [class.active]="lang.current() === 'en'"
+            (click)="switchLang('en')"
+          >
+            <span class="flag">🇺🇸</span>
+            <span>{{ "COMMON.ENGLISH" | translate }}</span>
           </button>
         </div>
       </div>
-      <div class="mt-2 pt-2 profile-menu-divider profile-menu-section p-2">
-        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">
-          Background
+
+      <div class="menu-section">
+        <div class="section-header">
+          <mat-icon fontIcon="palette" class="section-icon"></mat-icon>
+          <span>{{ "COMMON.THEME" | translate }}</span>
         </div>
-        <div class="flex gap-2 flex-wrap mb-2">
-          <button class="btn btn-xs" (click)="setBg('minimal')">Minimal</button>
-          <button class="btn btn-xs" (click)="setBg('aurora')">Aurora</button>
-          <button class="btn btn-xs" (click)="setBg('bokeh')">Bokeh</button>
+        <div class="button-group">
+          <button
+            class="toggle-button"
+            [class.active]="theme.theme() === 'light'"
+            (click)="setTheme('light')"
+          >
+            <mat-icon fontIcon="light_mode"></mat-icon>
+            <span>{{ "COMMON.THEME_LIGHT" | translate }}</span>
+          </button>
+          <button
+            class="toggle-button"
+            [class.active]="theme.theme() === 'dark'"
+            (click)="setTheme('dark')"
+          >
+            <mat-icon fontIcon="dark_mode"></mat-icon>
+            <span>{{ "COMMON.THEME_DARK" | translate }}</span>
+          </button>
+          <button
+            class="toggle-button"
+            [class.active]="theme.theme() === 'system'"
+            (click)="setTheme('system')"
+          >
+            <mat-icon fontIcon="settings_system_daydream"></mat-icon>
+            <span>{{ "COMMON.THEME_SYSTEM" | translate }}</span>
+          </button>
         </div>
-        <div class="text-xs uppercase tracking-wide opacity-60 mb-1">
-          Palette
+      </div>
+
+      <div class="menu-section">
+        <div class="section-header">
+          <mat-icon fontIcon="wallpaper" class="section-icon"></mat-icon>
+          <span>Background</span>
         </div>
-        <div class="flex gap-2 flex-wrap mb-2">
-          <button class="btn btn-xs" (click)="setPalette('default')">
-            Default
+        <div class="button-group">
+          <button
+            class="toggle-button"
+            [class.active]="bg.bg() === 'minimal'"
+            (click)="setBg('minimal')"
+          >
+            <span>Minimal</span>
           </button>
-          <button class="btn btn-xs" (click)="setPalette('vaporwave')">
-            Vaporwave
+          <button
+            class="toggle-button"
+            [class.active]="bg.bg() === 'aurora'"
+            (click)="setBg('aurora')"
+          >
+            <span>Aurora</span>
           </button>
-          <button class="btn btn-xs" (click)="setPalette('cyber')">
-            Cyber
+          <button
+            class="toggle-button"
+            [class.active]="bg.bg() === 'bokeh'"
+            (click)="setBg('bokeh')"
+          >
+            <span>Bokeh</span>
           </button>
         </div>
-        <div class="flex items-center justify-between gap-2 text-sm">
-          <button class="btn btn-xs" (click)="toggleNeonEdges()">
-            Neon edges
+
+        <div class="section-header">
+          <mat-icon fontIcon="color_lens" class="section-icon"></mat-icon>
+          <span>Palette</span>
+        </div>
+        <div class="button-group">
+          <button
+            class="toggle-button"
+            [class.active]="bg.palette() === 'default'"
+            (click)="setPalette('default')"
+          >
+            <span>Default</span>
           </button>
-          <button class="btn btn-xs" (click)="toggleParallax()">
-            Parallax
+          <button
+            class="toggle-button"
+            [class.active]="bg.palette() === 'vaporwave'"
+            (click)="setPalette('vaporwave')"
+          >
+            <span>Vaporwave</span>
+          </button>
+          <button
+            class="toggle-button"
+            [class.active]="bg.palette() === 'cyber'"
+            (click)="setPalette('cyber')"
+          >
+            <span>Cyber</span>
+          </button>
+        </div>
+
+        <div class="toggle-group">
+          <button
+            class="toggle-switch"
+            [class.active]="bg.neon()"
+            (click)="toggleNeonEdges()"
+          >
+            <mat-icon fontIcon="highlight" class="toggle-icon"></mat-icon>
+            <span>Neon edges</span>
+            <div class="switch-track">
+              <div class="switch-thumb"></div>
+            </div>
+          </button>
+          <button
+            class="toggle-switch"
+            [class.active]="bg.parallax()"
+            (click)="toggleParallax()"
+          >
+            <mat-icon fontIcon="view_in_ar" class="toggle-icon"></mat-icon>
+            <span>Parallax</span>
+            <div class="switch-track">
+              <div class="switch-thumb"></div>
+            </div>
           </button>
         </div>
       </div>

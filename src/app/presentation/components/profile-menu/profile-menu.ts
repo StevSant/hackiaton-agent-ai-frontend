@@ -37,7 +37,7 @@ export class ProfileMenuComponent {
   private readonly router = inject(Router);
   private readonly token = inject(TokenStorageService);
   private readonly getProfileUC = inject(GetProfileUseCase);
-  private readonly lang = inject(LanguageService);
+  protected readonly lang = inject(LanguageService);
   protected readonly theme = inject(ThemeService);
   protected readonly bg = inject(BackgroundService);
 
