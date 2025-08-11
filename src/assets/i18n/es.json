@@ -40,8 +40,7 @@
   "MESSAGES": "Mensajes",
   "USERS": "Usuarios",
   "COMPANIES": "Compañías",
-  "APP_INFO": "App Info",
-  "RISK_WEIGHTS": "Ponderaciones"
+  "APP_INFO": "App Info"
   },
   "CHAT": {
     "TITLE": "Chat con Agente",
@@ -97,7 +96,7 @@
       "FILES": "Archivos",
       "MESSAGES": "Mensajes",
       "APP_INFO": "App Info",
-      "RISK_WEIGHTS": "Ponderaciones",
+      
       "COMPANIES": "Empresas"
     },
     "DASHBOARD": {
@@ -117,8 +116,7 @@
       "MESSAGES_DESC": "Ver mensajes por sesión",
       "APP_INFO_TITLE": "App Info",
       "APP_INFO_DESC": "Ver y editar información",
-      "RISK_WEIGHTS_TITLE": "Ponderaciones",
-      "RISK_WEIGHTS_DESC": "Configurar pesos",
+      
       "COMPANIES_TITLE": "Compañías",
       "COMPANIES_DESC": "Explorar compañías"
     },
@@ -182,12 +180,6 @@
       "SAVE": "Guardar",
       "SAVED": "Guardado",
       "UPLOAD": "Subir"
-    },
-    "RISK_WEIGHTS": {
-      "TITLE": "Ponderaciones de Riesgo",
-      "VERSION": "Versión",
-      "ADD_FACTOR": "Agregar factor",
-      "SAVE": "Guardar"
     }
   },
   "LOGIN": {

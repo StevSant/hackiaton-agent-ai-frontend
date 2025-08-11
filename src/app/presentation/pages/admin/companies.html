@@ -72,17 +72,38 @@
 
   <!-- Inline modal for company dashboard -->
   @if (isDashboardOpen()) {
-    <dialog class="modal modal-open" (cancel)="closeDashboard()" (click)="closeDashboard()" (keydown.escape)="closeDashboard()">
-      <div class="modal-box glass-card w-full max-w-3xl max-h-[80vh] overflow-auto relative" (click)="$event.stopPropagation()" (keydown.escape)="closeDashboard()">
+    <dialog open class="modal modal-open" (cancel)="closeDashboard()" (click)="closeDashboard()" (keydown.escape)="closeDashboard()">
+      <div class="modal-box glass-card w-[96vw] sm:w-[92vw] md:w-[88vw] lg:w-[75vw] xl:w-[70vw] max-w-none max-h-[85vh] md:max-h-[80vh] overflow-auto relative" (click)="$event.stopPropagation()" (keydown.escape)="closeDashboard()">
         <div class="flex items-center justify-between gap-2 sticky top-0 bg-base-100/80 backdrop-blur p-3 border-b">
           <h3 class="text-lg font-semibold">{{ 'ADMIN.COMPANIES.DASHBOARD_TITLE' | translate }} — {{ selectedTaxId() }}</h3>
           <button class="btn btn-ghost btn-sm" (click)="closeDashboard()">✕</button>
         </div>
         <div class="p-4 space-y-3">
           @if (companyLoading()) {
-            <div class="skeleton h-6 w-32"></div>
-            <div class="skeleton h-4 w-full"></div>
-            <div class="skeleton h-4 w-2/3"></div>
+            <!-- Enhanced skeleton while loading -->
+            <div class="skeleton h-6 w-40 mb-2"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="space-y-2">
+                <div class="skeleton h-4 w-24"></div>
+                <div class="skeleton h-6 w-36"></div>
+              </div>
+              <div class="space-y-2">
+                <div class="skeleton h-4 w-20"></div>
+                <div class="skeleton h-6 w-48"></div>
+              </div>
+              <div class="space-y-2">
+                <div class="skeleton h-4 w-20"></div>
+                <div class="skeleton h-6 w-28"></div>
+              </div>
+            </div>
+            <div class="mt-4 space-y-2">
+              <div class="skeleton h-4 w-64"></div>
+              <div class="skeleton h-4 w-full"></div>
+              <div class="skeleton h-4 w-5/6"></div>
+            </div>
+            <div class="mt-4">
+              <div class="skeleton h-48 w-full"></div>
+            </div>
           } @else if (companyError()) {
             <div class="alert alert-error">{{ companyError() }}</div>
           } @else if (company()) {
@@ -139,9 +160,79 @@
               </div>
             }
             @if (company()!.llm_insights) {
-              <div>
+              <div class="space-y-2">
                 <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.LLM_INSIGHTS' | translate }}</h4>
-                <pre class="whitespace-pre-wrap text-xs bg-base-200 p-2 rounded">{{ (company()!.llm_insights | json) }}</pre>
+                <ng-container *ngIf="company()!.llm_insights as ins">
+                  <!-- Narrative / summary -->
+                  @if (ins.narrative) {
+                    <div class="prose max-w-none p-3 rounded border bg-base-200/50">
+                      <p class="m-0">{{ ins.narrative }}</p>
+                    </div>
+                  }
+
+                  <!-- Key badges -->
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    @if (ins.risk_summary) { <span class="badge badge-outline">{{ ins.risk_summary }}</span> }
+                    @if (ins.reputation) { <span class="badge badge-outline">{{ ins.reputation }}</span> }
+                    @if (ins.credit_recommendation) { <span class="badge badge-outline">{{ ins.credit_recommendation }}</span> }
+                  </div>
+
+                  <!-- Lists / arrays rendered nicely -->
+          @if (ins.key_factors?.length) {
+                    <div>
+            <div class="text-sm font-medium opacity-80 mb-1">Factores clave</div>
+                      <ul class="list-disc pl-5 space-y-1">
+                        @for (k of ins.key_factors; track k) { <li>{{ k }}</li> }
+                      </ul>
+                    </div>
+                  }
+                  @if (ins.warnings?.length) {
+                    <div>
+            <div class="text-sm font-medium text-warning mb-1">Advertencias</div>
+                      <ul class="list-disc pl-5 space-y-1">
+                        @for (w of ins.warnings; track w) { <li>{{ w }}</li> }
+                      </ul>
+                    </div>
+                  }
+                  @if (ins.suggested_actions?.length) {
+                    <div>
+            <div class="text-sm font-medium opacity-80 mb-1">Acciones sugeridas</div>
+                      <ul class="list-disc pl-5 space-y-1">
+                        @for (a of ins.suggested_actions; track a) { <li>{{ a }}</li> }
+                      </ul>
+                    </div>
+                  }
+                  @if (ins.opportunity_zones?.length) {
+                    <div>
+            <div class="text-sm font-medium opacity-80 mb-1">Zonas de oportunidad</div>
+                      <div class="flex flex-wrap gap-2">
+                        @for (o of ins.opportunity_zones; track o) { <span class="badge badge-ghost">{{ o }}</span> }
+                      </div>
+                    </div>
+                  }
+                  @if (ins.early_alerts?.length) {
+                    <div>
+            <div class="text-sm font-medium opacity-80 mb-1">Alertas tempranas</div>
+                      <div class="flex flex-wrap gap-2">
+                        @for (e of ins.early_alerts; track e) { <span class="badge badge-ghost">{{ e }}</span> }
+                      </div>
+                    </div>
+                  }
+                  @if (ins.data_quality_flags?.length) {
+                    <div>
+            <div class="text-sm font-medium opacity-80 mb-1">Banderas de calidad de datos</div>
+                      <ul class="list-disc pl-5 space-y-1">
+                        @for (f of ins.data_quality_flags; track f) { <li>{{ f }}</li> }
+                      </ul>
+                    </div>
+                  }
+
+                  <!-- Raw JSON fallback inside collapsible -->
+                  <details class="mt-2">
+                    <summary class="cursor-pointer text-sm opacity-70">Ver JSON crudo</summary>
+                    <pre class="whitespace-pre-wrap text-xs bg-base-200 p-2 rounded mt-2">{{ (ins | json) }}</pre>
+                  </details>
+                </ng-container>
               </div>
             }
           } @else {

@@ -40,8 +40,7 @@
   "MESSAGES": "Messages",
   "USERS": "Users",
   "COMPANIES": "Companies",
-  "APP_INFO": "App Info",
-  "RISK_WEIGHTS": "Risk Weights"
+  "APP_INFO": "App Info"
   },
   "CHAT": {
     "TITLE": "Chat with Agent",
@@ -94,8 +93,7 @@
       "USERS": "Users",
       "FILES": "Files",
       "MESSAGES": "Messages",
-      "APP_INFO": "App Info",
-      "RISK_WEIGHTS": "Risk Weights",
+  "APP_INFO": "App Info",
       "COMPANIES": "Companies"
     },
     "DASHBOARD": {
@@ -114,9 +112,7 @@
       "MESSAGES_TITLE": "Messages",
       "MESSAGES_DESC": "View messages by session",
       "APP_INFO_TITLE": "App Info",
-      "APP_INFO_DESC": "View and edit information",
-      "RISK_WEIGHTS_TITLE": "Risk Weights",
-      "RISK_WEIGHTS_DESC": "Configure weights",
+  "APP_INFO_DESC": "View and edit information",
       "COMPANIES_TITLE": "Companies",
       "COMPANIES_DESC": "Explore companies"
     },
@@ -180,13 +176,7 @@
       "SAVE": "Save",
       "SAVED": "Saved",
       "UPLOAD": "Upload"
-    },
-    "RISK_WEIGHTS": {
-      "TITLE": "Risk Weights",
-      "VERSION": "Version",
-      "ADD_FACTOR": "Add factor",
-      "SAVE": "Save"
-    }
+  }
   },
   "LOGIN": {
     "TITLE": "Welcome",
