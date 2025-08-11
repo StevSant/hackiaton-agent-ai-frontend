@@ -2,46 +2,7 @@
 .menu-enter {
   animation: menuEnter .18s cubic-bezier(.2, .8, .2, 1);
 }
-
 @keyframes menuEnter {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scale(.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Spinner minimalista */
-.loading-spinner {
-  border: 2px solid rgba(0, 0, 0, .15);
-  border-top-color: transparent;
-  border-radius: 9999px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Switch (track + thumb) */
-.switch-track {
-  @apply relative inline-flex h-5 w-10 items-center rounded-full bg-neutral-300 transition;
-}
-
-.switch-track .switch-thumb {
-  @apply absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition;
-}
-
-.switch-on {
-  @apply bg-blue-600;
-}
-
-.switch-on .switch-thumb {
-  transform: translateX(20px);
+  from { opacity: 0; transform: translateY(6px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0)  scale(1); }
 }
