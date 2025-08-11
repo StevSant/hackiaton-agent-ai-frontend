@@ -176,4 +176,10 @@ export class HomePage implements OnInit {
   get today() {
     return new Date();
   }
+
+  teamMembers = [
+    'Bryan Steven Menoscal Santana',
+    'Leopoldo Miquel Muñiz Rivas',
+    'Gonzalo Delgado',
+  ];
 }

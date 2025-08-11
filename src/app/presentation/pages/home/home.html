@@ -198,93 +198,29 @@
         </div>
       </dl>
     </section>
-
-    <!-- Gráficos -->
-    <section
-      class="mt-8 md:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6"
-    >
-      <figure
-        class="glass-card p-4 lg:col-span-2 min-h-[260px] rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
-      >
-        <div class="flex items-center justify-between">
-          <h3 class="font-medium" id="speedChartTitle">
-            {{ "HOME.MKT.SPEED_TITLE" | translate }}
-          </h3>
-          <mat-icon
-            fontIcon="show_chart"
-            class="opacity-80 transition-colors duration-300 hover:text-primary"
-            aria-hidden="true"
-          ></mat-icon>
-        </div>
-        <p class="mt-3 text-xs opacity-70" id="speedChartDesc">
-          {{ "HOME.MKT.SPEED_DESC" | translate }}
-        </p>
-        <app-lazy-chart
-          class="mt-3"
-          [chartType]="'line'"
-          [data]="speedChartData()"
-          [options]="{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom' } },
-            scales: {
-              x: { grid: { display: false } },
-              y: {
-                beginAtZero: true,
-                grid: { color: 'rgba(255,255,255,0.08)' },
-              },
-            },
-          }"
-          [ariaLabelledby]="'speedChartTitle speedChartDesc'"
-        ></app-lazy-chart>
-        <figcaption class="sr-only">
-          {{ "HOME.MKT.SPEED_DESC" | translate }}
-        </figcaption>
-      </figure>
-
-      <figure
-        class="glass-card p-4 min-h-[260px] rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1"
-      >
-        <div class="flex items-center justify-between">
-          <h3 class="font-medium" id="resultsChartTitle">
-            {{ "HOME.MKT.RESULTS_TITLE" | translate }}
-          </h3>
-          <mat-icon
-            fontIcon="donut_small"
-            class="opacity-80 transition-colors duration-300 hover:text-primary"
-            aria-hidden="true"
-          ></mat-icon>
-        </div>
-        <p class="mt-3 text-xs opacity-70" id="resultsChartDesc">
-          {{ "HOME.MKT.RESULTS_DESC" | translate }}
-        </p>
-        <app-lazy-chart
-          class="mt-3"
-          [chartType]="'doughnut'"
-          [data]="approvalsChartData()"
-          [options]="{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom' } },
-          }"
-          [ariaLabelledby]="'resultsChartTitle resultsChartDesc'"
-        ></app-lazy-chart>
-        <figcaption class="sr-only">
-          {{ "HOME.MKT.RESULTS_DESC" | translate }}
-        </figcaption>
-      </figure>
-    </section>
   </main>
 
   <!-- Footer -->
   <footer class="mt-10 border-t border-base-200">
     <div
-      class="mx-auto max-w-7xl px-5 py-6 text-xs opacity-70 flex flex-wrap items-center justify-between gap-2"
+      class="mx-auto max-w-7xl px-5 py-6 text-xs md:text-sm text-center opacity-80"
     >
-      <span
-        >© {{ info()?.site_name || ("SHELL.APP_TITLE" | translate) }} ·
-        {{ today | date: "yyyy" }}</span
+      <p class="mb-2">
+        © {{ info()?.site_name || ("SHELL.APP_TITLE" | translate) }} ·
+        {{ today | date: "yyyy" }}
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 font-semibold"
       >
+        @for (member of teamMembers; track $index) {
+          <span
+            class="px-3 py-1 rounded-full bg-gradient-to-r from-primary via-secondary to-primary text-white shadow-lg ring-2 ring-primary/70 hover:scale-110 hover:ring-secondary/80 transition-all duration-200 border border-white/10"
+          >
+            {{ member }}
+          </span>
+        }
+      </div>
     </div>
   </footer>
 
