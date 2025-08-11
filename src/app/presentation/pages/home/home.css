@@ -1,8 +1,13 @@
 /* Home page styles: reuse glass and background motifs, but standalone (no Shell). */
 :root {
   --glass-bg: color-mix(in oklab,
-      var(--surface, rgba(255, 255, 255, 0.6)) 62%,
+      var(--surface, rgba(255, 255, 255, 0.08)) 85%,
       transparent);
+  --glass-border: color-mix(in oklab, white 12%, transparent);
+  --text-primary: #f5f5f5;
+  --text-secondary: #e5e5e5;
+  --text-tertiary: #d5d5d5;
+  --text-quaternary: #c5c5c5;
 }
 
 .bg-home {
@@ -10,41 +15,66 @@
 }
 
 .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(14px) saturate(120%);
-  border: 1px solid color-mix(in oklab, white 8%, transparent);
-  border-radius: 14px;
+  background: hsl(var(--card) / 0.9);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid hsl(var(--border) / 0.8);
+  border-radius: 16px;
+  box-shadow: 
+    0 10px 28px hsl(var(--primary) / 0.12),
+    inset 0 1px 0 hsl(0 0% 100% / 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 0 0 1px hsl(var(--primary) / 0.18),
+    inset 0 1px 0 hsl(0 0% 100% / 0.15);
 }
 
 .k-gradient-title {
-  background: linear-gradient(90deg, #a78bfa, #22d3ee, #60a5fa);
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 25%, hsl(var(--accent)) 50%, hsl(var(--secondary)) 75%, hsl(var(--primary)) 100%);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: gradient-shift 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px hsl(var(--primary) / 0.3));
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .bg-stripes {
   background-image: repeating-linear-gradient(-45deg,
-      color-mix(in oklab, #7dd3fc 12%, transparent),
-      color-mix(in oklab, #7dd3fc 12%, transparent) 8px,
+      color-mix(in oklab, #7dd3fc 8%, transparent),
+      color-mix(in oklab, #7dd3fc 8%, transparent) 8px,
       transparent 8px,
       transparent 16px);
 }
 
 .bg-grid {
   background-image:
-    linear-gradient(color-mix(in oklab, #22d3ee 20%, transparent) 1px,
+    linear-gradient(color-mix(in oklab, #22d3ee 15%, transparent) 1px,
       transparent 1px),
     linear-gradient(90deg,
-      color-mix(in oklab, #a78bfa 20%, transparent) 1px,
+      color-mix(in oklab, #a78bfa 15%, transparent) 1px,
       transparent 1px);
-  background-size: 16px 16px;
+  background-size: 20px 20px;
 }
 
 .chart-container {
   position: relative;
-  height: 220px;
-  min-height: 220px;
+  height: 240px;
+  min-height: 240px;
 }
 
 .chart-container canvas {
@@ -52,3 +82,252 @@
   width: 100% !important;
   height: 100% !important;
 }
+
+/* Typography scale */
+.text-hero {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.text-section-title {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.text-body-large {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.text-body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.text-small {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Improved focus states */
+.focus-ring:focus-within {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.5);
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 139, 250, 0.5);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: 12px;
+  }
+  
+  .k-gradient-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+}
+
+/* Theme-specific improvements */
+body:not(.dark) .glass-card {
+  background: hsl(var(--card) / 0.95);
+  border: 1px solid hsl(var(--border) / 0.9);
+  box-shadow: 
+    0 10px 28px hsl(var(--primary) / 0.08),
+    inset 0 1px 0 hsl(0 0% 100% / 0.2);
+}
+
+body:not(.dark) .glass-card:hover {
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.05),
+    0 10px 10px -5px rgba(0, 0, 0, 0.02),
+    0 0 0 1px hsl(var(--primary) / 0.15),
+    inset 0 1px 0 hsl(0 0% 100% / 0.3);
+}
+
+/* Ensure title is visible in all themes */
+.k-gradient-title {
+  /* Fallback for browsers that don't support background-clip */
+  color: hsl(var(--foreground));
+}
+
+/* Ensure gradient title works properly */
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .k-gradient-title {
+    color: transparent;
+  }
+}
+
+/* Ensure text colors are properly contrasted */
+.text-hero,
+.text-section-title,
+.text-body-large,
+.text-body,
+.text-small {
+  color: hsl(var(--foreground));
+}
+
+/* Additional text color improvements for better contrast */
+dt {
+  color: hsl(var(--muted-foreground));
+}
+
+dd {
+  color: hsl(var(--foreground));
+}
+
+p {
+  color: hsl(var(--foreground));
+}
+
+/* Footer text */
+footer {
+  color: hsl(var(--muted-foreground));
+}
+
+/* List items */
+li {
+  color: hsl(var(--foreground));
+}
+
+/* Ensure proper contrast for small text */
+.text-xs {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Background for info boxes */
+.bg-primary\/10 {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--foreground));
+}
+
+/* Footer styles with theme support */
+.footer-section {
+  margin-top: 4rem;
+  border-top: 1px solid hsl(var(--border) / 0.3);
+  background: hsl(var(--card) / 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.footer-content {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .footer-content {
+    font-size: 1rem;
+  }
+}
+
+.footer-copyright {
+  margin-bottom: 1rem;
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+}
+
+.team-members {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .team-members {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+.team-member-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background: hsl(var(--primary));
+  color: white;
+  box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.team-member-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+  background: hsl(var(--primary-focus));
+}
+
+/* Theme-specific footer improvements */
+body:not(.dark) .footer-section {
+  background: hsl(var(--card) / 0.5);
+  border-top-color: hsl(var(--border) / 0.4);
+}
+
+body:not(.dark) .team-member-badge {
+  box-shadow: 0 2px 6px hsl(var(--primary) / 0.15);
+}
+
+body:not(.dark) .team-member-badge:hover {
+  box-shadow: 0 3px 10px hsl(var(--primary) / 0.25);
+}
+
+/* Animation for page load */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Stagger animation for cards */
+.stagger-animation > * {
+  opacity: 0;
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }

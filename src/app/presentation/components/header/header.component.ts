@@ -4,11 +4,13 @@ import {
   Input,
   Output,
   EventEmitter,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
+import { BackgroundService } from '@infrastructure/services/background.service';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +26,13 @@ export class HeaderComponent {
   @Input() isOpen: boolean = false;
   @Input() isAdmin: boolean = false;
   @Output() isOpenChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  private readonly bg = inject(BackgroundService);
+
+  ngOnInit() {
+    // Initialize background service
+    this.bg.init();
+  }
 
   get backend_repository() {
     return 'https://github.com/SteveSant26/hackiaton-agent-ai-backend';

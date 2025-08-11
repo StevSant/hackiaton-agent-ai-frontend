@@ -98,11 +98,44 @@
 
   @if (profileMenuOpen()) {
     <div class="profile-dropdown">
-      <div class="dropdown-header">
-        <mat-icon fontIcon="account_circle" class="header-icon"></mat-icon>
-        <span>{{ "COMMON.ACCOUNT" | translate }}</span>
+      <!-- User Profile Section -->
+      <div class="user-profile-section">
+        <div class="user-avatar-large">
+          @if (profileEmail()) {
+            <span class="avatar-initial-large">{{
+              profileEmail()!.charAt(0).toUpperCase()
+            }}</span>
+          } @else {
+            <mat-icon fontIcon="person" class="avatar-icon-large"></mat-icon>
+          }
+          @if (isAuthenticated()) {
+            <div class="avatar-status-indicator-large"></div>
+          }
+        </div>
+        <div class="user-info">
+          <h3 class="user-name">
+            {{ profileEmail() || ("COMMON.GUEST" | translate) }}
+          </h3>
+          @if (isAuthenticated()) {
+            <p class="user-email">{{ profileEmail() }}</p>
+            <div class="user-role">
+              <span
+                class="role-badge-large"
+                [ngClass]="{ 'role-admin-large': profileRole() === 'admin' }"
+              >
+                <mat-icon fontIcon="verified" class="role-icon"></mat-icon>
+                {{
+                  profileRole() === "admin"
+                    ? ("COMMON.ADMIN" | translate)
+                    : ("COMMON.USER" | translate)
+                }}
+              </span>
+            </div>
+          }
+        </div>
       </div>
 
+      <!-- Authentication Section -->
       @if (profileLoading()) {
         <div class="loading-state">
           <div class="loading-spinner"></div>
@@ -111,25 +144,30 @@
       }
 
       @if (!isAuthenticated()) {
-        <button
-          class="menu-button primary"
-          (click)="toggleProfileMenu(); navigateToLogin()"
-        >
-          <mat-icon fontIcon="login"></mat-icon>
-          <span>{{ "COMMON.LOGIN" | translate }}</span>
-        </button>
+        <div class="menu-section">
+          <button
+            class="menu-button primary"
+            (click)="toggleProfileMenu(); navigateToLogin()"
+          >
+            <mat-icon fontIcon="login"></mat-icon>
+            <span>{{ "COMMON.LOGIN" | translate }}</span>
+          </button>
+        </div>
       }
 
       @if (isAuthenticated()) {
-        <button class="menu-button danger" (click)="logout($event)">
-          <mat-icon fontIcon="logout"></mat-icon>
-          <span>{{ "COMMON.LOGOUT" | translate }}</span>
-        </button>
+        <div class="menu-section">
+          <button class="menu-button danger" (click)="logout($event)">
+            <mat-icon fontIcon="logout"></mat-icon>
+            <span>{{ "COMMON.LOGOUT" | translate }}</span>
+          </button>
+        </div>
       }
 
+      <!-- Language Section -->
       <div class="menu-section">
         <div class="section-header">
-          <mat-icon fontIcon="language" class="section-icon"></mat-icon>
+          <mat-icon fontIcon="translate" class="section-icon"></mat-icon>
           <span>{{ "COMMON.LANGUAGE" | translate }}</span>
         </div>
         <div class="button-group">
@@ -152,6 +190,7 @@
         </div>
       </div>
 
+      <!-- Theme Section -->
       <div class="menu-section">
         <div class="section-header">
           <mat-icon fontIcon="palette" class="section-icon"></mat-icon>
@@ -185,6 +224,7 @@
         </div>
       </div>
 
+      <!-- Background Section -->
       <div class="menu-section">
         <div class="section-header">
           <mat-icon fontIcon="wallpaper" class="section-icon"></mat-icon>
@@ -196,6 +236,7 @@
             [class.active]="bg.bg() === 'minimal'"
             (click)="setBg('minimal')"
           >
+            <mat-icon fontIcon="crop_square"></mat-icon>
             <span>Minimal</span>
           </button>
           <button
@@ -203,6 +244,7 @@
             [class.active]="bg.bg() === 'aurora'"
             (click)="setBg('aurora')"
           >
+            <mat-icon fontIcon="gradient"></mat-icon>
             <span>Aurora</span>
           </button>
           <button
@@ -210,10 +252,14 @@
             [class.active]="bg.bg() === 'bokeh'"
             (click)="setBg('bokeh')"
           >
+            <mat-icon fontIcon="blur_on"></mat-icon>
             <span>Bokeh</span>
           </button>
         </div>
+      </div>
 
+      <!-- Palette Section -->
+      <div class="menu-section">
         <div class="section-header">
           <mat-icon fontIcon="color_lens" class="section-icon"></mat-icon>
           <span>Palette</span>
@@ -224,6 +270,7 @@
             [class.active]="bg.palette() === 'default'"
             (click)="setPalette('default')"
           >
+            <mat-icon fontIcon="palette"></mat-icon>
             <span>Default</span>
           </button>
           <button
@@ -231,6 +278,7 @@
             [class.active]="bg.palette() === 'vaporwave'"
             (click)="setPalette('vaporwave')"
           >
+            <mat-icon fontIcon="style"></mat-icon>
             <span>Vaporwave</span>
           </button>
           <button
@@ -238,10 +286,18 @@
             [class.active]="bg.palette() === 'cyber'"
             (click)="setPalette('cyber')"
           >
+            <mat-icon fontIcon="memory"></mat-icon>
             <span>Cyber</span>
           </button>
         </div>
+      </div>
 
+      <!-- Advanced Options Section -->
+      <div class="menu-section">
+        <div class="section-header">
+          <mat-icon fontIcon="tune" class="section-icon"></mat-icon>
+          <span>Advanced Options</span>
+        </div>
         <div class="toggle-group">
           <button
             class="toggle-switch"
@@ -267,6 +323,7 @@
           </button>
         </div>
       </div>
+
     </div>
   }
 </div>

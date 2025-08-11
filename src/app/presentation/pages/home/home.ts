@@ -14,6 +14,7 @@ import { ProfileMenuComponent } from '@presentation/components/profile-menu/prof
 import { LazyChartComponent } from '@presentation/components/lazy-chart/lazy-chart.component';
 import { HeaderComponent } from '@presentation/components/header';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
+import { BackgroundService } from '@infrastructure/services/background.service';
 import { GetProfileUseCase, GetKpisUseCase } from '@core/use-cases';
 import { GetAppInfoUseCase } from '@core/use-cases/get-app-info.usecase';
 import type { AppInfo } from '@core/models/app-info';
@@ -40,6 +41,7 @@ export class HomePage implements OnInit {
   private readonly getProfileUC = inject(GetProfileUseCase);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly getInfo = inject(GetAppInfoUseCase);
+  private readonly bg = inject(BackgroundService);
 
   // KPIs
   private readonly getKpis = inject(GetKpisUseCase);
@@ -132,6 +134,57 @@ export class HomePage implements OnInit {
     ],
   }));
 
+  chartOptions = computed<any>(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        titleColor: '#f5f5f5',
+        bodyColor: '#e5e5e5',
+        borderColor: 'rgba(167, 139, 250, 0.3)',
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: false,
+        callbacks: {
+          label: (context: any) => {
+            return context.parsed.y + ' minutos';
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.08)',
+          drawBorder: false
+        },
+        ticks: {
+          color: '#e5e5e5',
+          font: {
+            size: 12
+          },
+          callback: (value: any) => {
+            return value + 'm';
+          }
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          color: '#e5e5e5',
+          font: {
+            size: 12
+          }
+        }
+      }
+    }
+  }));
+
   constructor() {
     const cached = this.token.getRole();
     if (cached) this.role.set(cached);
@@ -145,6 +198,9 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
+    // Initialize background service
+    this.bg.init();
+
     // Brand / info pública
     this.getInfo
       .execute()

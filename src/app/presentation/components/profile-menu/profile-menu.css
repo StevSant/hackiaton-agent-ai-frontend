@@ -2,6 +2,7 @@
 .profile-menu-container {
   position: relative;
   font-size: 0.875rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Profile Trigger Wrapper */
@@ -19,20 +20,23 @@
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  background: transparent;
-  border: none;
+  background: hsl(var(--card) / 0.05);
+  border: 1px solid hsl(var(--border) / 0.1);
   border-radius: 0.75rem;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: hsl(var(--foreground));
   text-decoration: none;
   width: 100%;
   text-align: left;
+  backdrop-filter: blur(10px);
 }
 
 .profile-trigger:hover {
   background: hsl(var(--accent) / 0.1);
-  transform: translateY(-1px);
+  border-color: hsl(var(--border) / 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px hsl(var(--brand-primary) / 0.15);
 }
 
 .profile-trigger:active {
@@ -47,23 +51,24 @@
 /* Profile Avatar */
 .profile-avatar {
   position: relative;
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 100%);
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--accent)) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-weight: 600;
-  font-size: 1.125rem;
+  font-weight: 700;
+  font-size: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+  box-shadow: 0 4px 15px hsl(var(--primary) / 0.3);
+  flex-shrink: 0;
 }
 
 .profile-trigger:hover .profile-avatar {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px hsl(var(--primary) / 0.4);
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px hsl(var(--primary) / 0.4);
 }
 
 .avatar-initial {
@@ -72,9 +77,9 @@
 }
 
 .avatar-icon {
-  font-size: 1.25rem !important;
-  width: 1.25rem !important;
-  height: 1.25rem !important;
+  font-size: 1.125rem !important;
+  width: 1.125rem !important;
+  height: 1.125rem !important;
 }
 
 /* Avatar Status Indicator */
@@ -84,10 +89,10 @@
   right: 0;
   width: 0.75rem;
   height: 0.75rem;
-  background: hsl(var(--success));
-  border: 2px solid hsl(var(--background));
+  background: hsl(var(--su));
+  border: 2px solid hsl(var(--b1));
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Profile Info */
@@ -98,18 +103,18 @@
 }
 
 .profile-name {
-  font-weight: 500;
-  color: hsl(var(--foreground) / 0.9);
-  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 12rem;
+  max-width: 10rem;
 }
 
 .profile-role {
-  margin-top: 0.25rem;
-  opacity: 0.7;
+  margin-top: 0.125rem;
+  opacity: 0.8;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -119,10 +124,10 @@
 .role-badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  border-radius: 1rem;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
   background: hsl(var(--muted));
   color: hsl(var(--muted-foreground));
   border: 1px solid hsl(var(--border));
@@ -130,18 +135,20 @@
 }
 
 .role-admin {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  color: white;
   border-color: hsl(var(--primary));
+  box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
 }
 
 /* Expand Icon */
 .expand-icon {
-  font-size: 1.25rem !important;
-  width: 1.25rem !important;
-  height: 1.25rem !important;
+  font-size: 1.125rem !important;
+  width: 1.125rem !important;
+  height: 1.125rem !important;
   color: hsl(var(--muted-foreground));
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
 }
 
 .expand-icon.expanded {
@@ -162,21 +169,23 @@
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
   border: none;
   cursor: pointer;
   font-size: 0.875rem;
 }
 
 .nav-button.primary {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  color: white;
+  box-shadow: 0 4px 15px hsl(var(--primary) / 0.3);
 }
 
 .nav-button.primary:hover {
-  background: hsl(var(--primary) / 0.9);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, hsl(var(--primary-focus)), hsl(var(--secondary-focus)));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px hsl(var(--primary) / 0.4);
 }
 
 /* Profile Dropdown */
@@ -185,18 +194,17 @@
   right: 0;
   bottom: 100%;
   width: 18rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   border-radius: 1rem;
   background: hsl(var(--card) / 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid hsl(var(--border) / 0.3);
   box-shadow: 
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
     0 0 0 1px hsl(var(--border) / 0.1);
   z-index: 50;
-  animation: dropdownEnter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: dropdownEnter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
@@ -211,31 +219,117 @@
   }
 }
 
-/* Dropdown Header */
-.dropdown-header {
+/* User Profile Section */
+.user-profile-section {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 1.25rem 0.75rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: hsl(var(--foreground));
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
   border-bottom: 1px solid hsl(var(--border) / 0.2);
 }
 
-.header-icon {
-  font-size: 1rem !important;
-  width: 1rem !important;
-  height: 1rem !important;
-  color: hsl(var(--primary));
+.user-avatar-large {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--accent)) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.5rem;
+  box-shadow: 0 8px 25px hsl(var(--primary) / 0.3);
+  flex-shrink: 0;
+}
+
+.avatar-initial-large {
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-icon-large {
+  font-size: 1.75rem !important;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+}
+
+.avatar-status-indicator-large {
+  position: absolute;
+  bottom: 0.25rem;
+  right: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  background: hsl(var(--su));
+  border: 3px solid hsl(var(--b1));
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin: 0 0 0.25rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-email {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 0.5rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  display: flex;
+  align-items: center;
+}
+
+.role-badge-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+  transition: all 0.2s ease;
+}
+
+.role-admin-large {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  color: white;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+}
+
+.role-icon {
+  font-size: 0.875rem !important;
+  width: 0.875rem !important;
+  height: 0.875rem !important;
 }
 
 /* Loading State */
 .loading-state {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 1.25rem;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
   color: hsl(var(--muted-foreground));
   font-size: 0.875rem;
 }
@@ -258,39 +352,46 @@
 .menu-button {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   width: 100%;
-  padding: 0.75rem 1.25rem;
+  padding: 0.875rem 1.5rem;
   border: none;
   background: transparent;
   color: hsl(var(--foreground));
   font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+  border-radius: 0.5rem;
 }
 
 .menu-button:hover {
   background: hsl(var(--accent) / 0.1);
+  transform: translateX(4px);
 }
 
 .menu-button.primary {
   color: hsl(var(--primary));
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.menu-button.primary:hover {
+  background: hsl(var(--primary) / 0.1);
 }
 
 .menu-button.danger {
-  color: hsl(var(--destructive));
-  font-weight: 500;
+  color: hsl(var(--er));
+  font-weight: 600;
 }
 
 .menu-button.danger:hover {
-  background: hsl(var(--destructive) / 0.1);
+  background: hsl(var(--er) / 0.1);
 }
 
 /* Menu Sections */
 .menu-section {
-  padding: 0.75rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   border-bottom: 1px solid hsl(var(--border) / 0.1);
 }
 
@@ -304,7 +405,7 @@
   gap: 0.5rem;
   margin-bottom: 0.75rem;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: hsl(var(--muted-foreground));
@@ -314,6 +415,7 @@
   font-size: 0.875rem !important;
   width: 0.875rem !important;
   height: 0.875rem !important;
+  color: hsl(var(--primary));
 }
 
 /* Button Groups */
@@ -339,17 +441,20 @@
   min-width: 0;
   flex: 1;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .toggle-button:hover {
   background: hsl(var(--accent) / 0.1);
   border-color: hsl(var(--accent));
+  transform: translateY(-1px);
 }
 
 .toggle-button.active {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  color: white;
   border-color: hsl(var(--primary));
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
 }
 
 .toggle-button .flag {
@@ -366,20 +471,23 @@
 .toggle-switch {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   padding: 0.5rem 0;
   border: none;
   background: transparent;
   color: hsl(var(--foreground));
   font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
   text-align: left;
+  border-radius: 0.5rem;
 }
 
 .toggle-switch:hover {
   color: hsl(var(--primary));
+  background: hsl(var(--accent) / 0.1);
 }
 
 .toggle-icon {
@@ -394,13 +502,13 @@
   width: 2.5rem;
   height: 1.25rem;
   background: hsl(var(--muted));
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   margin-left: auto;
-  transition: background 0.2s ease;
+  transition: background 0.3s ease;
 }
 
 .toggle-switch.active .switch-track {
-  background: hsl(var(--primary));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
 }
 
 .switch-thumb {
@@ -411,12 +519,49 @@
   height: 1rem;
   background: white;
   border-radius: 50%;
-  transition: transform 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .toggle-switch.active .switch-thumb {
   transform: translateX(1.25rem);
+}
+
+/* App Info Footer */
+.app-info-footer {
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.05), hsl(var(--secondary) / 0.05));
+  border-top: 1px solid hsl(var(--border) / 0.1);
+  text-align: center;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.brand-icon {
+  font-size: 1.25rem !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  color: hsl(var(--primary));
+}
+
+.brand-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  letter-spacing: 0.025em;
+}
+
+.app-version {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0;
+  font-weight: 500;
 }
 
 /* Responsive Design */
@@ -437,16 +582,21 @@
   .toggle-button {
     flex: none;
   }
-}
 
-/* Dark mode adjustments */
-@media (prefers-color-scheme: dark) {
-  .profile-dropdown {
-    background: hsl(var(--card) / 0.98);
-    box-shadow: 
-      0 20px 25px -5px rgba(0, 0, 0, 0.3),
-      0 10px 10px -5px rgba(0, 0, 0, 0.2),
-      0 0 0 1px hsl(var(--border) / 0.2);
+  .user-profile-section {
+    padding: 1rem;
+  }
+
+  .user-avatar-large {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+  }
+
+  .avatar-icon-large {
+    font-size: 1.5rem !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
   }
 }
 
@@ -455,8 +605,39 @@
 .menu-button:focus-visible,
 .toggle-button:focus-visible,
 .toggle-switch:focus-visible {
-  outline: 2px solid hsl(var(--ring));
+  outline: 2px solid hsl(var(--primary));
   outline-offset: 2px;
+}
+
+/* Theme-specific improvements for better contrast */
+body:not(.dark) .toggle-button {
+  background: hsl(var(--card) / 0.8);
+  border: 1px solid hsl(var(--border) / 0.6);
+  color: hsl(var(--foreground));
+}
+
+body:not(.dark) .toggle-button:hover {
+  background: hsl(var(--accent) / 0.15);
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+body:not(.dark) .toggle-button.active {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  color: white;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.25);
+}
+
+body:not(.dark) .profile-avatar {
+  box-shadow: 0 4px 15px hsl(var(--primary) / 0.2);
+}
+
+body:not(.dark) .profile-trigger:hover .profile-avatar {
+  box-shadow: 0 8px 25px hsl(var(--primary) / 0.3);
+}
+
+body:not(.dark) .user-avatar-large {
+  box-shadow: 0 8px 25px hsl(var(--primary) / 0.2);
 }
 
 /* Reduced motion support */
