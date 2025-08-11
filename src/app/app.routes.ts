@@ -121,8 +121,8 @@ export const routes: Routes = [
         path: 'companies/:taxId',
         data: { preload: false },
         loadComponent: () =>
-          import('./presentation/pages/admin/companies').then(
-            (m) => m.AdminCompaniesPage,
+          import('./presentation/pages/admin/company').then(
+            (m) => m.AdminCompanyPage,
           ),
       },
     ],

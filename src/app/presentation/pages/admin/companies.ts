@@ -2,34 +2,26 @@ import {
   Component,
   ChangeDetectionStrategy,
   computed,
-  effect,
   inject,
   signal,
-  ViewChild,
-  ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 // Using facade types; no direct item type import needed here
 import { AdminCompaniesFacade } from '@app/application/admin/admin-companies.facade';
-import { AdminStatsFacade } from '@app/application/admin/admin-stats.facade';
-import { ActivatedRoute, Router } from '@angular/router';
-import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-admin-companies',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule],
   templateUrl: './companies.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminCompaniesPage {
   private readonly facade = inject(AdminCompaniesFacade);
   private readonly fb = inject(FormBuilder);
-  private readonly stats = inject(AdminStatsFacade);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
 
   items = this.facade.items;
   // UI-only filters derived from current items
@@ -56,59 +48,8 @@ export class AdminCompaniesPage {
   loading = this.facade.loading;
   form = this.fb.group({ search: [''] });
 
-  // Dashboard state
-  readonly selectedTaxId = signal<string | null>(null);
-  readonly company = this.stats.company;
-  readonly companyLoading = this.stats.companyLoading;
-  readonly companyError = this.stats.companyError;
-  readonly isDashboardOpen = computed(() => !!this.selectedTaxId());
-  readonly metricKeys = computed(() => {
-    const m = this.company()?.metrics || null;
-    return m ? Object.keys(m) : [];
-  });
-
-  @ViewChild('metricsChart', { static: false })
-  metricsChartRef?: ElementRef<HTMLCanvasElement>;
-  private chart?: Chart;
-
-  // React to modal open + metrics ready to render/destroy chart
-  private readonly metricsEffect = effect(() => {
-    const open = this.isDashboardOpen();
-    const keys = this.metricKeys();
-    if (open && keys.length) {
-      // Defer to next macrotask to ensure view updated and canvas exists
-      setTimeout(() => this.renderChart());
-    } else {
-      this.destroyChart();
-    }
-  });
-
   async ngOnInit() {
     await this.refresh();
-    // Deep link: react to taxId param or query changes
-    this.route.paramMap.subscribe((pm) => {
-      const tax = pm.get('taxId');
-      if (tax) {
-        // Only load if changed
-        if (this.selectedTaxId() !== tax) {
-          this.selectedTaxId.set(tax);
-          void this.stats.loadCompany(tax);
-        }
-      } else {
-        if (this.selectedTaxId()) {
-          this.closeDashboard();
-        }
-      }
-    });
-    this.route.queryParamMap.subscribe((qp) => {
-      const tax = qp.get('taxId');
-      if (tax && !this.route.snapshot.paramMap.get('taxId')) {
-        // Support legacy query deep link
-        this.selectedTaxId.set(tax);
-        void this.stats.loadCompany(tax);
-        void this.router.navigate(['/admin/companies', tax]);
-      }
-    });
   }
 
   async refresh() {
@@ -144,75 +85,6 @@ export class AdminCompaniesPage {
       }
     } catch {
       /* noop */
-    }
-  }
-
-  async openDashboard(taxId: string) {
-    if (!taxId) return;
-    this.selectedTaxId.set(taxId);
-    await this.stats.loadCompany(taxId);
-    // Navigate to clean deep link path
-    const currentParam = this.route.snapshot.paramMap.get('taxId');
-    if (currentParam !== taxId) {
-      void this.router.navigate(['/admin/companies', taxId]);
-    }
-  }
-
-  closeDashboard() {
-    this.selectedTaxId.set(null);
-    // Clear current company data to avoid stale display next time
-    this.stats.company.set(null);
-    this.stats.companyError.set(null);
-    this.destroyChart();
-    // Always navigate back to companies list
-    void this.router.navigate(['/admin/companies']);
-  }
-
-  copyText = async (text?: string | null) => {
-    if (!text) return;
-    try {
-      await navigator.clipboard?.writeText(text);
-    } catch {
-      /* noop */
-    }
-  };
-
-  private renderChart() {
-    const el = this.metricsChartRef?.nativeElement;
-    const data = this.company()?.metrics || {};
-    if (!el || !Object.keys(data).length) return;
-    this.destroyChart();
-    const labels = Object.keys(data);
-    const values = labels.map((k) => Number(data[k] as any) || 0);
-    this.chart = new Chart(el, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: 'Metrics',
-            data: values,
-            backgroundColor: 'rgba(59,130,246,0.4)',
-            borderColor: 'rgba(59,130,246,1)',
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } },
-      },
-    });
-  }
-
-  private destroyChart() {
-    try {
-      this.chart?.destroy();
-    } catch {
-      /* noop */
-    } finally {
-      this.chart = undefined;
     }
   }
 }
