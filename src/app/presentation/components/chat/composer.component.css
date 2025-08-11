@@ -1,27 +1,234 @@
+/* ============================================
+   MODERN CHAT COMPOSER - GLASSMORPHISM DESIGN
+   ============================================ */
+
 .composer-surface {
   position: relative;
   bottom: auto;
   z-index: 10;
-  background-color: hsl(var(--card) / 0.08);
-  backdrop-filter: blur(8px) saturate(110%);
-  -webkit-backdrop-filter: blur(8px) saturate(110%);
-  border-top: 1px solid hsl(var(--border) / 0.38);
-  transition:
-    box-shadow 180ms ease,
-    filter 180ms ease;
-}
-.composer-surface textarea {
-  min-height: 2.5rem;
-}
-.composer-surface .btn {
-  min-width: 2.5rem;
-}
-.drop-active {
-  border-color: hsl(var(--primary) / 0.6) !important;
-  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.15) inset;
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.4) 0%, 
+    hsl(var(--card) / 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1.5rem;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 5px 20px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  transition: all 0.3s ease;
+  margin: 1rem;
+  overflow: hidden;
 }
 
-/* Full overlay when dragging files */
+.composer-surface:hover {
+  border-color: hsl(var(--primary) / 0.4);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 8px 30px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 hsl(var(--foreground) / 0.08);
+  transform: translateY(-2px);
+}
+
+.composer-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.3) 50%, 
+    transparent 100%);
+}
+
+/* ============================================
+   TEXTAREA STYLING
+   ============================================ */
+
+.composer-surface textarea {
+  min-height: 3rem;
+  max-height: 8rem;
+  background: transparent;
+  color: hsl(var(--foreground));
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.composer-surface textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 0.7;
+}
+
+.composer-surface textarea:focus::placeholder {
+  opacity: 0.5;
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   INPUT CONTAINER
+   ============================================ */
+
+.composer-surface .rounded-xl {
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.8) 0%, 
+    hsl(var(--background) / 0.4) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.composer-surface .rounded-xl::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.2) 50%, 
+    transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.composer-surface .rounded-xl:focus-within::before {
+  opacity: 1;
+}
+
+.composer-surface .rounded-xl:focus-within {
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: 
+    0 0 0 3px hsl(var(--primary) / 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.9) 0%, 
+    hsl(var(--background) / 0.6) 100%);
+}
+
+/* ============================================
+   BUTTONS STYLING
+   ============================================ */
+
+.composer-surface .btn {
+  min-width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.composer-surface .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.1) 50%, 
+    transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.composer-surface .btn:hover::before {
+  left: 100%;
+}
+
+.composer-surface .btn:hover {
+  border-color: hsl(var(--primary) / 0.4);
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.composer-surface .btn-primary {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.8) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+  color: hsl(var(--primary-foreground));
+  box-shadow: 
+    0 4px 16px hsl(var(--primary) / 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.composer-surface .btn-primary:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.9) 0%, 
+    hsl(var(--primary) / 0.7) 100%);
+  box-shadow: 
+    0 6px 24px hsl(var(--primary) / 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.composer-surface .btn:disabled {
+  opacity: 0.5;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.composer-surface .btn:disabled:hover {
+  transform: none;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+}
+
+/* ============================================
+   DRAG AND DROP STATES
+   ============================================ */
+
+.drop-active {
+  border-color: hsl(var(--primary) / 0.6) !important;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--primary) / 0.05) 100%);
+  box-shadow: 
+    0 0 0 3px hsl(var(--primary) / 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 3px hsl(var(--primary) / 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 6px hsl(var(--primary) / 0.1),
+      0 6px 24px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* ============================================
+   DROP OVERLAY
+   ============================================ */
+
 .drop-overlay {
   position: absolute;
   inset: 0;
@@ -29,14 +236,29 @@
   align-items: center;
   justify-content: center;
   border: 2px dashed hsl(var(--primary) / 0.6);
-  background: hsl(var(--base-100) / 0.75);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  border-radius: 0.75rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 1.5rem;
   color: hsl(var(--primary));
   pointer-events: none;
-  transition: opacity 0.12s ease;
+  transition: all 0.3s ease;
+  animation: dropOverlayPulse 2s infinite;
 }
+
+@keyframes dropOverlayPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
 .drop-overlay__content {
   display: flex;
   flex-direction: column;
@@ -44,27 +266,155 @@
   justify-content: center;
   text-align: center;
   padding: 2rem;
-}
-.drop-overlay mat-icon {
-  font-size: 3.25rem;
-  height: 3.25rem;
-  width: 3.25rem;
+  animation: bounceIn 0.5s ease-out;
 }
 
-/* Upload disabled info banner */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.drop-overlay mat-icon {
+  font-size: 4rem;
+  height: 4rem;
+  width: 4rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* ============================================
+   UPLOAD DISABLED BANNER
+   ============================================ */
+
 .upload-disabled-banner {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0.25rem 0 0.25rem 0;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  background: hsl(var(--warning) / 0.12);
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--warning) / 0.15) 0%, 
+    hsl(var(--warning) / 0.08) 100%);
   color: hsl(var(--warning));
-  border: 1px solid hsl(var(--warning) / 0.35);
+  border: 1px solid hsl(var(--warning) / 0.3);
+  backdrop-filter: blur(10px);
+  animation: slideDown 0.3s ease-out;
 }
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .upload-disabled-banner mat-icon {
-  font-size: 1rem;
-  height: 1rem;
-  width: 1rem;
+  font-size: 1.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+/* ============================================
+   FILE BADGES
+   ============================================ */
+
+.badge {
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+  transform: translateY(-1px);
+}
+
+.badge-info {
+  background: linear-gradient(135deg, 
+    hsl(var(--info) / 0.15) 0%, 
+    hsl(var(--info) / 0.08) 100%);
+  border-color: hsl(var(--info) / 0.3);
+  color: hsl(var(--info));
+}
+
+.badge-warning {
+  background: linear-gradient(135deg, 
+    hsl(var(--warning) / 0.15) 0%, 
+    hsl(var(--warning) / 0.08) 100%);
+  border-color: hsl(var(--warning) / 0.3);
+  color: hsl(var(--warning));
+}
+
+/* ============================================
+   LOADING INDICATORS
+   ============================================ */
+
+.loading-spinner {
+  filter: hue-rotate(180deg) brightness(1.2);
+}
+
+.loading-dots {
+  background: linear-gradient(90deg, 
+    hsl(var(--info)) 25%, 
+    hsl(var(--info) / 0.5) 50%, 
+    hsl(var(--info)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .composer-surface {
+    margin: 0.5rem;
+    border-radius: 1rem;
+  }
+  
+  .composer-surface .btn {
+    min-width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .composer-surface textarea {
+    font-size: 0.95rem;
+  }
+  
+  .drop-overlay__content {
+    padding: 1.5rem;
+  }
+  
+  .drop-overlay mat-icon {
+    font-size: 3rem;
+    height: 3rem;
+    width: 3rem;
+  }
 }
