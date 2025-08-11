@@ -50,8 +50,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     return {
       labels,
       datasets: [
-        { label: 'Tradicional', data: [20, 30, 40, 25, 35], borderColor: '#94a3b8', backgroundColor: '#94a3b8', tension: 0.25, pointRadius: 2, fill: false },
-        { label: 'Con IA', data: [8, 12, 15, 9, 10], borderColor: '#34d399', backgroundColor: '#34d399', tension: 0.25, pointRadius: 2, fill: false },
+  { label: 'Tradicional', data: [20, 30, 40, 25, 35], borderColor: '#a8b3c2', backgroundColor: 'rgba(148,163,184,0.18)', borderWidth: 3, tension: 0.25, pointRadius: 3, fill: false },
+  { label: 'Con IA', data: [8, 12, 15, 9, 10], borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.18)', borderWidth: 3, tension: 0.25, pointRadius: 3, fill: false },
       ],
     };
   });
@@ -99,6 +99,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.speedChart?.update();
       this.approvalsChart?.update();
       this.totalTimeChart?.update();
+      // Try to initialize charts imperatively too
+      this.tryInitCharts(0);
     }, 150);
     // Recalculate on window resize
     this.resizeHandler = () => {
@@ -110,7 +112,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     };
     window.addEventListener('resize', this.resizeHandler);
     // Also on window load (post-hydration layout)
-    window.addEventListener('load', this.resizeHandler);
+    window.addEventListener('load', () => { this.resizeHandler?.(); this.tryInitCharts(0); });
   }
   }
 
@@ -130,15 +132,19 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     void this.tick();
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.speedCanvas?.nativeElement; if (!canvas) return;
+    // quick fallback paint while waiting
+    if (!this.speedChart) this.drawFallback(canvas, 'line');
     const data = this.speedChartData();
     this.ensureChartLib().then(() => {
-      if (!this.ChartCtor) return;
+      if (!this.ChartCtor) { this.drawFallback(canvas, 'line'); return; }
       const Ctor: any = this.ChartCtor;
       requestAnimationFrame(() => {
         const sized = this.prepareCanvas(canvas);
         if (!sized) { setTimeout(() => this.tick.update(v => v + 1), 200); return; }
         this.ensureResizeObserver(canvas, 'speed');
-        if (!this.speedChart) { this.speedChart = new Ctor(canvas, { type: 'line', data, options: this.activityOptions });
+        if (!this.speedChart) { try {
+            this.speedChart = new Ctor(canvas, { type: 'line', data, options: this.activityOptions });
+          } catch (err) { try { console.error('[Home] speed chart error', err); } catch {} this.drawFallback(canvas, 'line'); return; }
           try { (window as any).__homeCharts = { ...(window as any).__homeCharts, speed: this.speedChart }; } catch {}
           try { console.debug('[Home] speed chart created'); } catch {}
         }
@@ -151,15 +157,18 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     void this.tick();
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.approvalsCanvas?.nativeElement; if (!canvas) return;
+    if (!this.approvalsChart) this.drawFallback(canvas, 'doughnut');
     const data = this.approvalsChartData();
     this.ensureChartLib().then(() => {
-      if (!this.ChartCtor) return;
+      if (!this.ChartCtor) { this.drawFallback(canvas, 'doughnut'); return; }
       const Ctor: any = this.ChartCtor;
       requestAnimationFrame(() => {
         const sized = this.prepareCanvas(canvas);
         if (!sized) { setTimeout(() => this.tick.update(v => v + 1), 200); return; }
         this.ensureResizeObserver(canvas, 'approvals');
-  if (!this.approvalsChart) { this.approvalsChart = new Ctor(canvas, { type: 'doughnut', data, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+  if (!this.approvalsChart) { try {
+            this.approvalsChart = new Ctor(canvas, { type: 'doughnut', data, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+          } catch (err) { try { console.error('[Home] approvals chart error', err); } catch {} this.drawFallback(canvas, 'doughnut'); return; }
           try { (window as any).__homeCharts = { ...(window as any).__homeCharts, approvals: this.approvalsChart }; } catch {}
           try { console.debug('[Home] approvals chart created'); } catch {}
         }
@@ -172,15 +181,18 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     void this.tick();
     if (!this.isBrowser() || !this.viewReady()) return;
     const canvas = this.totalTimeCanvas?.nativeElement; if (!canvas) return;
+    if (!this.totalTimeChart) this.drawFallback(canvas, 'bar');
     const data = this.totalTimeChartData();
     this.ensureChartLib().then(() => {
-      if (!this.ChartCtor) return;
+      if (!this.ChartCtor) { this.drawFallback(canvas, 'bar'); return; }
       const Ctor: any = this.ChartCtor;
       requestAnimationFrame(() => {
         const sized = this.prepareCanvas(canvas);
         if (!sized) { setTimeout(() => this.tick.update(v => v + 1), 200); return; }
         this.ensureResizeObserver(canvas, 'total');
-  if (!this.totalTimeChart) { this.totalTimeChart = new Ctor(canvas, { type: 'bar', data, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+  if (!this.totalTimeChart) { try {
+            this.totalTimeChart = new Ctor(canvas, { type: 'bar', data, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+          } catch (err) { try { console.error('[Home] total chart error', err); } catch {} this.drawFallback(canvas, 'bar'); return; }
           try { (window as any).__homeCharts = { ...(window as any).__homeCharts, total: this.totalTimeChart }; } catch {}
           try { console.debug('[Home] total time chart created'); } catch {}
         }
@@ -200,8 +212,14 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isBrowser() || this.ChartCtor || this.chartLibLoading) return;
     this.chartLibLoading = true;
     try {
-      const mod: any = await import('chart.js/auto');
-      this.ChartCtor = mod.default ?? mod.Chart ?? mod;
+      // Use core build and register elements/controllers explicitly for reliability
+      const mod: any = await import('chart.js');
+      const Chart = mod.Chart ?? mod.default;
+      const registerables = mod.registerables ?? [];
+      if (Chart && Array.isArray(registerables) && registerables.length) {
+        try { Chart.register(...registerables); } catch {}
+      }
+      this.ChartCtor = Chart ?? mod;
     } finally {
       this.chartLibLoading = false;
     }
@@ -234,5 +252,82 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (key === 'speed') this.speedRO = ro;
     if (key === 'approvals') this.approvalsRO = ro;
     if (key === 'total') this.totalTimeRO = ro;
+  }
+
+  private tryInitCharts(attempt: number) {
+    if (!this.isBrowser()) return;
+    const MAX = 10;
+    const backoff = Math.min(800, 100 + attempt * 100);
+    const ChartCtor = this.ChartCtor;
+    const canvases: Array<[HTMLCanvasElement | undefined, 'speed'|'approvals'|'total']> = [
+      [this.speedCanvas?.nativeElement, 'speed'],
+      [this.approvalsCanvas?.nativeElement, 'approvals'],
+      [this.totalTimeCanvas?.nativeElement, 'total'],
+    ];
+    const pending = canvases.some(([c]) => !!c);
+    if (!pending) return;
+    if (!ChartCtor) { this.ensureChartLib().then(()=> setTimeout(()=> this.tryInitCharts(attempt+1), backoff)); return; }
+    // Create each if not created yet
+    canvases.forEach(([canvas, kind]) => {
+      if (!canvas) return;
+      const ok = this.prepareCanvas(canvas);
+      if (!ok) { setTimeout(()=> this.tryInitCharts(attempt+1), backoff); return; }
+      if (kind === 'speed' && !this.speedChart) {
+        try { this.speedChart = new (ChartCtor as any)(canvas, { type: 'line', data: this.speedChartData(), options: this.activityOptions }); }
+        catch { this.drawFallback(canvas, 'line'); }
+      }
+      if (kind === 'approvals' && !this.approvalsChart) {
+        try { this.approvalsChart = new (ChartCtor as any)(canvas, { type: 'doughnut', data: this.approvalsChartData(), options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } }); }
+        catch { this.drawFallback(canvas, 'doughnut'); }
+      }
+      if (kind === 'total' && !this.totalTimeChart) {
+        try { this.totalTimeChart = new (ChartCtor as any)(canvas, { type: 'bar', data: this.totalTimeChartData(), options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } }); }
+        catch { this.drawFallback(canvas, 'bar'); }
+      }
+    });
+    if (attempt < MAX && (!this.speedChart || !this.approvalsChart || !this.totalTimeChart)) {
+      setTimeout(() => this.tryInitCharts(attempt + 1), backoff);
+    }
+  }
+
+  private drawFallback(canvas: HTMLCanvasElement, kind: 'line' | 'doughnut' | 'bar') {
+    const ctx = canvas.getContext('2d'); if (!ctx) return;
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    // subtle background
+    ctx.fillStyle = 'rgba(255,255,255,0.02)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#22d3ee';
+    ctx.lineWidth = 3;
+    if (kind === 'line') {
+      ctx.beginPath();
+      const pts = [0.1,0.3,0.6,0.4,0.8].map((x,i)=>({x: 40 + i*(w-80)/4, y: h-40 - [30,70,100,80,120][i]}));
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.stroke();
+    } else if (kind === 'bar') {
+      const bars = [0.6, 0.25];
+      const bw = (w-80)/(bars.length*2);
+      bars.forEach((v,i)=>{
+        const x = 40 + i*2*bw;
+        const bh = (h-80)*v;
+        ctx.fillStyle = i===0 ? '#94a3b8' : '#34d399';
+        ctx.fillRect(x, h-40-bh, bw, bh);
+      });
+    } else if (kind === 'doughnut') {
+      const cx = w/2, cy = h/2, r = Math.min(w,h)/3;
+      const parts = [0.65, 0.2, 0.15];
+      const colors = ['#60a5fa','#fbbf24','#f87171'];
+      let start = -Math.PI/2;
+      parts.forEach((p,i)=>{
+        const end = start + p*2*Math.PI;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, start, end);
+        ctx.lineWidth = r*0.5;
+        ctx.strokeStyle = colors[i];
+        ctx.stroke();
+        start = end;
+      });
+    }
   }
 }
