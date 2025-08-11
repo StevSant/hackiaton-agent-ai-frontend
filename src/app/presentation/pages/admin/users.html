@@ -125,39 +125,55 @@
     </div>
   }
 
-  <div class="overflow-x-auto modern-card p-2">
+  <div class="overflow-x-auto modern-card p-6">
+    <div class="mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">
+        <mat-icon>people</mat-icon>
+        {{ "ADMIN.USERS.USER_LIST" | translate }}
+      </h3>
+      <div class="text-sm opacity-70">{{ "ADMIN.USERS.LIST_DESCRIPTION" | translate }}</div>
+    </div>
     <table class="users-table text-sm">
       <thead>
         <tr>
           <th>
             <button class="btn btn-ghost btn-xs" (click)="setSort('username')">
+              <mat-icon class="text-sm mr-1">person</mat-icon>
               {{ "ADMIN.USERS.USERNAME" | translate }}
-              <span *ngIf="sortBy() === 'username'">{{
+              <span *ngIf="sortBy() === 'username'" class="ml-1">{{
                 sortOrder() === "asc" ? "▲" : "▼"
               }}</span>
             </button>
           </th>
           <th>
             <button class="btn btn-ghost btn-xs" (click)="setSort('email')">
+              <mat-icon class="text-sm mr-1">email</mat-icon>
               {{ "ADMIN.USERS.EMAIL" | translate }}
-              <span *ngIf="sortBy() === 'email'">{{
+              <span *ngIf="sortBy() === 'email'" class="ml-1">{{
                 sortOrder() === "asc" ? "▲" : "▼"
               }}</span>
             </button>
           </th>
-          <th>{{ "ADMIN.USERS.ROLE" | translate }}</th>
+          <th>
+            <mat-icon class="text-sm mr-1">badge</mat-icon>
+            {{ "ADMIN.USERS.ROLE" | translate }}
+          </th>
           <th>
             <button
               class="btn btn-ghost btn-xs"
               (click)="setSort('created_at')"
             >
+              <mat-icon class="text-sm mr-1">schedule</mat-icon>
               {{ "ADMIN.USERS.CREATED" | translate }}
-              <span *ngIf="sortBy() === 'created_at'">{{
+              <span *ngIf="sortBy() === 'created_at'" class="ml-1">{{
                 sortOrder() === "asc" ? "▲" : "▼"
               }}</span>
             </button>
           </th>
-          <th></th>
+          <th>
+            <mat-icon class="text-sm mr-1">settings</mat-icon>
+            {{ "ADMIN.USERS.ACTIONS" | translate }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -174,13 +190,15 @@
               </td>
               <td>{{ u.created_at || "-" }}</td>
               <td class="actions">
-                <button class="btn btn-ghost btn-xs" (click)="startEdit(u)">
+                <button class="btn btn-ghost btn-xs mr-2" (click)="startEdit(u)">
+                  <mat-icon class="text-sm mr-1">edit</mat-icon>
                   {{ "ADMIN.USERS.EDIT" | translate }}
                 </button>
                 <button
                   class="btn btn-ghost btn-xs text-error"
                   (click)="confirmDelete(u)"
                 >
+                  <mat-icon class="text-sm mr-1">delete</mat-icon>
                   {{ "ADMIN.USERS.DELETE" | translate }}
                 </button>
               </td>
@@ -223,12 +241,14 @@
               </td>
               <td class="actions">
                 <button
-                  class="btn btn-gradient-blue btn-xs"
+                  class="btn btn-gradient-blue btn-xs mr-2"
                   (click)="saveEdit()"
                 >
+                  <mat-icon class="text-sm mr-1">save</mat-icon>
                   {{ "ADMIN.USERS.SAVE" | translate }}
                 </button>
                 <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">
+                  <mat-icon class="text-sm mr-1">close</mat-icon>
                   {{ "ADMIN.USERS.CANCEL" | translate }}
                 </button>
               </td>
