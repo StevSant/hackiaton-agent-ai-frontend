@@ -176,12 +176,13 @@ export class ChatMessagesListComponent
     expanded: boolean;
   } {
     const id = message.id || `${message.timestamp}-${Math.random()}`;
-    const content = message.displayedContent ?? message.content ?? '';
+  const raw = message.displayedContent ?? message.content ?? '';
+  const content = this.chatUtils.cleanForMarkdown(raw);
     const cached = this.processed.get(id);
     if (!cached || cached.last !== content) {
       const { main, thinks } = this.extractThinkBlocks(content);
       const expanded = cached?.expanded ?? false; // keep user toggle if same message id
-      const entry = { main, thinks, expanded, last: content };
+  const entry = { main, thinks, expanded, last: content };
       this.processed.set(id, entry);
       return entry;
     }
@@ -200,11 +201,14 @@ export class ChatMessagesListComponent
     } else {
       // initialize from current content
       const cur = this.getProcessed(message);
+      const lastSanitized = this.chatUtils.cleanForMarkdown(
+        message.displayedContent ?? message.content ?? ''
+      );
       this.processed.set(id, {
-        main: cur.main,
-        thinks: cur.thinks,
+        main: this.chatUtils.cleanForMarkdown(cur.main),
+        thinks: cur.thinks.map((t) => this.chatUtils.cleanForMarkdown(t)),
         expanded: !cur.expanded,
-        last: message.displayedContent ?? message.content ?? '',
+        last: lastSanitized,
       });
     }
   }

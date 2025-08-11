@@ -59,11 +59,21 @@
           {{ "ADMIN.MESSAGES.SELECT_SESSION" | translate }}
         </div>
       } @else {
-        <div class="mb-2 text-xs opacity-70">
+        <div class="mb-2 text-xs opacity-70 flex items-center justify-between gap-2">
           User:
           <span class="font-mono" [attr.title]="userLabel(selectedOwnerId())">{{
             getCachedUserLabel(selectedOwnerId()) || selectedOwnerId()
           }}</span>
+          <div class="flex items-center gap-2">
+            <button class="btn btn-ghost btn-xs" type="button" (click)="showFilesModal = true">
+              <mat-icon fontIcon="attach_file" class="mr-1"></mat-icon>
+              {{ 'CHAT.ATTACHMENTS_VIEW' | translate }}
+            </button>
+            <button class="btn btn-ghost btn-xs" type="button" (click)="showCompaniesModal = true">
+              <mat-icon fontIcon="apartment" class="mr-1"></mat-icon>
+              {{ 'COMMON.COMPANIES' | translate }}
+            </button>
+          </div>
         </div>
         @for (m of messages(); track m.id) {
           <div class="mb-3">
@@ -121,4 +131,11 @@
       }
     </div>
   </div>
+
+  @if (showFilesModal && selected()) {
+    <app-session-files-modal [sessionId]="selected()!" (closed)="showFilesModal = false"></app-session-files-modal>
+  }
+  @if (showCompaniesModal && selected()) {
+    <app-session-companies-modal [sessionId]="selected()!" (closed)="showCompaniesModal = false"></app-session-companies-modal>
+  }
 </div>
