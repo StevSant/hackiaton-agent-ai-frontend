@@ -1,0 +1,70 @@
+<div class="modal-backdrop" (click)="onBackdropClick()" (keydown)="$event.stopPropagation()">
+  <div #modalRoot class="modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h3>{{ 'CHAT.COMPANIES_ANALYSIS_TITLE' | translate }}</h3>
+      <button #closeBtn type="button" class="btn btn-ghost btn-sm" (click)="closed.emit()" [attr.aria-label]="'COMPOSER.CANCEL' | translate">
+        <mat-icon fontIcon="close"></mat-icon>
+      </button>
+    </header>
+
+    <section class="modal-body" *ngIf="!loading(); else loadingTpl">
+      <div *ngIf="error()" class="error">{{ error() }}</div>
+      <ng-container *ngIf="data() as d">
+        <div *ngIf="!d || d.company_count === 0" class="empty">{{ 'CHAT.COMPANIES_ANALYSIS_EMPTY' | translate }}</div>
+        <div *ngIf="d && d.company_count > 0" class="content">
+          <h4>{{ 'CHAT.COMPANIES_ANALYSIS_COMPANIES' | translate }}</h4>
+          <ul class="companies">
+            <li *ngFor="let c of d.companies; trackBy: trackByTaxId" class="card">
+              <div class="row">
+                <div class="col key">RUC</div>
+                <div class="col val">{{ c.tax_id }}</div>
+              </div>
+              <div class="row" *ngIf="c.dashboard as dash">
+                <div class="col key">{{ 'CHAT.COMPANY_SCORE' | translate }}</div>
+                <div class="col val">
+                  <span *ngIf="dash?.score as s">{{ s?.score ?? '—' }} ({{ s?.risk_class || 'N/D' }})</span>
+                  <span *ngIf="!dash?.score">—</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="c.insights as ins">
+                <div class="col key">{{ 'CHAT.INSIGHTS' | translate }}</div>
+                <div class="col val">
+                  <div class="ins-item" *ngIf="ins?.credit_recommendation">{{ ins.credit_recommendation }}</div>
+                  <div class="ins-item" *ngIf="ins?.risk_summary">{{ ins.risk_summary }}</div>
+                  <div class="ins-pills">
+                    <span class="pill" *ngFor="let k of (ins?.key_factors || []).slice(0,4)">{{ k }}</span>
+                    <span class="pill warn" *ngFor="let w of (ins?.warnings || []).slice(0,3)">{{ w }}</span>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="c.error" class="row error">{{ c.error }}</div>
+            </li>
+          </ul>
+
+          <div class="aggregate" *ngIf="d.aggregate_insights as agg">
+            <h4>{{ 'CHAT.AGGREGATE_SUMMARY' | translate }}</h4>
+            <p class="mb-2" *ngIf="agg?.overview">{{ agg.overview }}</p>
+            <div class="ranking" *ngIf="agg?.ranking?.length">
+              <div class="row head">
+                <div>#</div>
+                <div>RUC</div>
+                <div>{{ 'CHAT.COMPANY_SCORE' | translate }}</div>
+                <div>{{ 'COMMON.RISK' | translate }}</div>
+              </div>
+              <div class="row" *ngFor="let r of agg.ranking">
+                <div>{{ r.position ?? '—' }}</div>
+                <div>{{ r.tax_id }}</div>
+                <div>{{ r.score ?? '—' }}</div>
+                <div>{{ r.risk_class || '—' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </section>
+
+    <ng-template #loadingTpl>
+      <div class="loading">{{ 'COMMON.LOADING' | translate }}…</div>
+    </ng-template>
+  </div>
+</div>

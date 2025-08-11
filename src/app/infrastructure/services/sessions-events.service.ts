@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 export class SessionsEventsService {
   private readonly refresh$ = new Subject<void>();
   private readonly filesModal$ = new Subject<{ open: boolean; sessionId?: string | null }>();
+  private readonly companiesModal$ = new Subject<{ open: boolean; sessionId?: string | null }>();
 
   onRefresh() {
     return this.refresh$.asObservable();
@@ -27,5 +28,17 @@ export class SessionsEventsService {
 
   closeFilesModal() {
     this.filesModal$.next({ open: false });
+  }
+
+  onCompaniesModal() {
+    return this.companiesModal$.asObservable();
+  }
+
+  openCompaniesModal(sessionId?: string | null) {
+    this.companiesModal$.next({ open: true, sessionId });
+  }
+
+  closeCompaniesModal() {
+    this.companiesModal$.next({ open: false });
   }
 }

@@ -5,6 +5,7 @@ import { Observable, map, catchError, of, switchMap } from 'rxjs';
 import { environment } from '@environments/environment';
 import type { SessionEntry, ChatEntry } from '@core/models';
 import type { SessionsPort } from '@core/ports';
+import type { SessionCompaniesAnalysis } from '@core/models/session-analysis';
 
 @Injectable({ providedIn: 'root' })
 export class SessionsService implements SessionsPort {
@@ -140,6 +141,11 @@ export class SessionsService implements SessionsPort {
   deleteSession(agentId: string, sessionId: string): Observable<void> {
     const url = `${this.base}/agent/sessions/${sessionId}`;
     return this.http.delete<void>(url);
+  }
+
+  analyzeCompanies(agentId: string, sessionId: string) {
+    const url = `${this.base}/agent/sessions/${sessionId}/companies/analysis`;
+    return this.http.get<SessionCompaniesAnalysis>(url);
   }
 
   // ---- Internal helpers ----
