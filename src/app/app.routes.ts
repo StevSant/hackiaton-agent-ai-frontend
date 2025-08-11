@@ -110,14 +110,6 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'risk-weights',
-    data: { preload: false },
-        loadComponent: () =>
-          import('./presentation/pages/admin/risk-weights').then(
-            (m) => m.AdminRiskWeightsPage
-          ),
-      },
-      {
         path: 'companies',
     data: { preload: false },
         loadComponent: () =>

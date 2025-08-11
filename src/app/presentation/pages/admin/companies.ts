@@ -73,13 +73,30 @@ export class AdminCompaniesPage {
 
   async ngOnInit() {
     await this.refresh();
-    // Deep link: open dashboard when taxId query param is present
-    const qTax = this.route.snapshot.queryParamMap.get('taxId');
-    const pTax = this.route.snapshot.paramMap.get('taxId');
-    const toOpen = pTax || qTax;
-    if (toOpen) {
-      this.openDashboard(toOpen);
-    }
+    // Deep link: react to taxId param or query changes
+    this.route.paramMap.subscribe(pm => {
+      const tax = pm.get('taxId');
+      if (tax) {
+        // Only load if changed
+        if (this.selectedTaxId() !== tax) {
+          this.selectedTaxId.set(tax);
+          void this.stats.loadCompany(tax);
+        }
+      } else {
+        if (this.selectedTaxId()) {
+          this.closeDashboard();
+        }
+      }
+    });
+    this.route.queryParamMap.subscribe(qp => {
+      const tax = qp.get('taxId');
+      if (tax && !this.route.snapshot.paramMap.get('taxId')) {
+        // Support legacy query deep link
+        this.selectedTaxId.set(tax);
+        void this.stats.loadCompany(tax);
+        void this.router.navigate(['/admin/companies', tax]);
+      }
+    });
   }
 
   async refresh() { await this.facade.refresh(); }
@@ -110,13 +127,10 @@ export class AdminCompaniesPage {
     if (!taxId) return;
     this.selectedTaxId.set(taxId);
     await this.stats.loadCompany(taxId);
-    // update URL query param for deep link
-    if (this.route.snapshot.routeConfig?.path?.includes('companies/:taxId')) {
-      // Already on the parameterized route; just replace taxId
-      void this.router.navigate(['../', taxId], { relativeTo: this.route, replaceUrl: true });
-    } else {
-      // Navigate to param route for a clean deep-link
-      void this.router.navigate(['../companies', taxId], { relativeTo: this.route });
+    // Navigate to clean deep link path
+    const currentParam = this.route.snapshot.paramMap.get('taxId');
+    if (currentParam !== taxId) {
+      void this.router.navigate(['/admin/companies', taxId]);
     }
   }
 
@@ -126,15 +140,8 @@ export class AdminCompaniesPage {
     this.stats.company.set(null);
     this.stats.companyError.set(null);
     this.destroyChart();
-    // remove taxId from query params
-    // If we're on /admin/companies/:taxId navigate back to /admin/companies
-    if (this.route.snapshot.paramMap.get('taxId')) {
-      void this.router.navigate(['../'], { relativeTo: this.route });
-    } else {
-      const qp = { ...this.route.snapshot.queryParams } as any;
-      if (qp.taxId) { delete qp.taxId; }
-      void this.router.navigate([], { relativeTo: this.route, queryParams: qp });
-    }
+  // Always navigate back to companies list
+  void this.router.navigate(['/admin/companies']);
   }
 
   copyText = async (text?: string | null) => {
