@@ -10,7 +10,6 @@ import {
   provideRouter,
   withViewTransitions,
   PreloadingStrategy,
-  withHashLocation,
 } from '@angular/router';
 import {
   provideHttpClient,
