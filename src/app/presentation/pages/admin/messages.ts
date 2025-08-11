@@ -11,17 +11,28 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AdminMessagesFacade } from '@app/application/admin/admin-messages.facade';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatIconModule } from '@angular/material/icon';
+import { ChatUtilsService } from '@infrastructure/services/chat-utils.service';
 // Types are implied via facade signals; no direct import needed here
+import { SessionFilesModalComponent } from '../../components/files/session-files-modal.component';
+import { SessionCompaniesModalComponent } from '../../components/companies/session-companies-modal.component';
 
 @Component({
   selector: 'app-admin-messages',
   standalone: true,
-  imports: [CommonModule, TranslateModule, MarkdownModule, MatIconModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MarkdownModule,
+    MatIconModule,
+    SessionFilesModalComponent,
+    SessionCompaniesModalComponent,
+  ],
   templateUrl: './messages.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminMessagesPage {
   private readonly facade = inject(AdminMessagesFacade);
+  protected readonly chatUtils = inject(ChatUtilsService);
 
   sessions = this.facade.sessions;
   selected = this.facade.selected;
@@ -41,6 +52,10 @@ export class AdminMessagesPage {
   limit = this.facade.limit;
   total = this.facade.total;
   msgTotal = this.facade.msgTotal;
+
+  // session extras
+  showFilesModal = false;
+  showCompaniesModal = false;
 
   async ngOnInit() {
     await this.facade.loadSessions();
@@ -174,12 +189,17 @@ export class AdminMessagesPage {
     const id =
       message.id ||
       `${message.content?.slice(0, 16) ?? 'msg'}-${Math.random()}`;
-    const content = message.content ?? '';
+  const content = this.chatUtils.cleanForMarkdown(message.content ?? '');
     const cached = this.processed.get(id);
     if (!cached || cached.last !== content) {
       const { main, thinks } = this.extractThinkBlocks(content);
       const expanded = cached?.expanded ?? false; // preserve toggle state
-      const entry = { main, thinks, expanded, last: content };
+      const entry = {
+        main: this.chatUtils.cleanForMarkdown(main),
+        thinks: thinks.map((t) => this.chatUtils.cleanForMarkdown(t)),
+        expanded,
+        last: content,
+      };
       this.processed.set(id, entry);
       return entry;
     }

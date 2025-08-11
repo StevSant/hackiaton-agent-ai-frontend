@@ -20,7 +20,8 @@
     "THEME": "Tema",
     "THEME_LIGHT": "Claro",
     "THEME_DARK": "Oscuro",
-    "THEME_SYSTEM": "Sistema"
+  "THEME_SYSTEM": "Sistema",
+  "BACK": "Atrás"
   },
   "CHAT": {
     "TITLE": "Chat con Agente",
