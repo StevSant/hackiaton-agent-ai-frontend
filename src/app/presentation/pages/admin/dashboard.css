@@ -1,4 +1,172 @@
-.grid {
-  display: grid;
-  gap: 1rem;
+/* --- FORMULARIOS Y ELEMENTOS ADMIN --- */
+
+.admin-form, form.modern-card, .modern-form {
+  background: hsl(var(--card) / 0.22);
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(0,0,0,0.13),
+    0 1.5px 8px 0 rgba(96,165,250,0.08);
+  border: 1px solid hsl(var(--border) / 0.18);
+  -webkit-backdrop-filter: blur(14px) saturate(120%) contrast(1.04);
+  backdrop-filter: blur(14px) saturate(120%) contrast(1.04);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.admin-form input,
+.modern-form input,
+input.input,
+input.input-bordered {
+  background: hsl(var(--card) / 0.38);
+  color: hsl(var(--card-foreground));
+  border: 1.5px solid hsl(var(--border) / 0.22);
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+  padding: 0.6em 1em;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.admin-form input:focus,
+.modern-form input:focus,
+input.input:focus,
+input.input-bordered:focus {
+  border: 1.5px solid hsl(var(--primary));
+  box-shadow: 0 4px 16px 0 rgba(96,165,250,0.13);
+  background: hsl(var(--card) / 0.48);
+}
+
+.admin-form button,
+.modern-form button,
+button.btn,
+button.btn-primary {
+  background: linear-gradient(90deg, hsl(var(--primary) / 0.92), hsl(var(--primary) / 0.82));
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 8px 0 rgba(96,165,250,0.13);
+  padding: 0.6em 1.2em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.admin-form button:hover,
+.modern-form button:hover,
+button.btn:hover,
+button.btn-primary:hover {
+  background: linear-gradient(90deg, hsl(var(--primary) / 1), hsl(var(--primary) / 0.92));
+  box-shadow: 0 4px 16px 0 rgba(96,165,250,0.18);
+  transform: scale(1.03);
+}
+
+/* Paginación admin */
+.admin-pagination, .modern-card.admin-pagination {
+  background: hsl(var(--card) / 0.22);
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.10);
+  border: 1px solid hsl(var(--border) / 0.18);
+  padding: 0.5em 1em;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+/* Sidebar background fix for theme switching */
+/* Sidebar admin: usa solo variables CSS globales para fondo y color, igual que toda la app */
+.admin-sidebar {
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-right: 1px solid hsl(var(--border));
+  transition: background 0.3s, color 0.3s;
+}
+/* Fondo degradado para el contenedor de los gráficos */
+/* Efecto glass y transparencia igual que las tarjetas principales */
+/* Fondo glass igual que las tarjetas del dashboard, con soporte para tema claro/oscuro */
+
+.modern-card {
+  background: hsl(var(--card) / 0.28);
+  color: hsl(var(--card-foreground));
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(0,0,0,0.18),
+    0 1.5px 8px 0 rgba(96,165,250,0.10);
+  border: 1px solid hsl(var(--border) / 0.25);
+  -webkit-backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+/* Se elimina media query para light mode en .modern-card, solo se usa la lógica de clase .dark */
+/* Fondo degradado para tarjetas de navegación */
+.nav-card {
+  background: hsl(var(--card) / 0.28);
+  color: hsl(var(--card-foreground));
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(0,0,0,0.18),
+    0 1.5px 8px 0 rgba(96,165,250,0.10);
+  border: 1px solid hsl(var(--border) / 0.25);
+  -webkit-backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+/* Se elimina media query para light mode en .nav-card, solo se usa la lógica de clase .dark */
+/* Fondo degradado para tarjetas de métricas */
+/* Card métricas admin: solo variables globales y blur */
+.metric-card {
+  background: hsl(var(--card) / 0.28);
+  color: hsl(var(--card-foreground));
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(0,0,0,0.18),
+    0 1.5px 8px 0 rgba(96,165,250,0.10);
+  border: 1px solid hsl(var(--border) / 0.25);
+  -webkit-backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+/* Se elimina media query para light mode en .metric-card, solo se usa la lógica de clase .dark */
+
+/* Fondo degradado para toda la página del dashboard */
+
+/* Fondo de página admin: solo variable global */
+.vt-page {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Se elimina media query para light mode en .vt-page, solo se usa la lógica de clase .dark */
+
+/* Mejorar visualización de los gráficos */
+canvas {
+  background: transparent;
+  border-radius: 1rem;
+}
+
+/* Tarjetas y botones (por si no usas Tailwind) */
+.glass-card {
+  background: hsl(var(--card) / 0.28);
+  color: hsl(var(--card-foreground));
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(0,0,0,0.18),
+    0 1.5px 8px 0 rgba(96,165,250,0.10);
+  border: 1px solid hsl(var(--border) / 0.25);
+  -webkit-backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  backdrop-filter: blur(18px) saturate(120%) contrast(1.05);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.glass-card:hover {
+  box-shadow:
+    0 12px 40px 0 rgba(0,0,0,0.22),
+    0 2px 12px 0 rgba(96,165,250,0.16);
+  border: 1.5px solid hsl(var(--primary));
+  transform: scale(1.02);
+}
+
+/* Se elimina media query para light mode en .glass-card, solo se usa la lógica de clase .dark */
+
+/* Botones activos */
+.btn.bg-primary, .btn.active {
+  background: #60a5fa !important;
+  color: #fff !important;
 }

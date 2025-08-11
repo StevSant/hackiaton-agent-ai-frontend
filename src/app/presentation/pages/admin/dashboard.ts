@@ -195,12 +195,7 @@ export class AdminDashboardPage implements OnInit, OnDestroy, AfterViewInit {
       route: '/admin/app-info',
       desc: 'ADMIN.DASHBOARD.APP_INFO_DESC',
     },
-    {
-      title: 'ADMIN.DASHBOARD.RISK_WEIGHTS_TITLE',
-      icon: 'science',
-      route: '/admin/risk-weights',
-      desc: 'ADMIN.DASHBOARD.RISK_WEIGHTS_DESC',
-    },
+
     {
       title: 'ADMIN.DASHBOARD.COMPANIES_TITLE',
       icon: 'business',

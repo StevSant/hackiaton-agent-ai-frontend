@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="./app-info.css">
 <div class="p-6 space-y-4 vt-page">
   <h2
     class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
@@ -7,7 +8,7 @@
   @if (error()) {
     <div class="alert alert-error">{{ error() }}</div>
   }
-  <div class="glass-card">
+  <div class="modern-card">
     <form
       [formGroup]="form"
       (ngSubmit)="save()"
