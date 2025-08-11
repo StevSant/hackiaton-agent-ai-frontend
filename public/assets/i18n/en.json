@@ -20,7 +20,8 @@
     "THEME": "Theme",
     "THEME_LIGHT": "Light",
     "THEME_DARK": "Dark",
-    "THEME_SYSTEM": "System"
+  "THEME_SYSTEM": "System",
+  "BACK": "Back"
   },
   "CHAT": {
     "TITLE": "Chat with Agent",

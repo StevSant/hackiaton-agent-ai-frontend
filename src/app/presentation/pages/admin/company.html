@@ -1,37 +1,46 @@
-<div class="p-4 space-y-4">
+<div class="p-4 space-y-4 vt-page">
+  <nav class="text-sm breadcrumbs">
+    <ul>
+      <li><a [routerLink]="['/admin']">Admin</a></li>
+      <li><a [routerLink]="['/admin/companies']">{{ 'ADMIN.COMPANIES.TITLE' | translate }}</a></li>
+      <li>{{ taxId() }}</li>
+    </ul>
+  </nav>
   <div class="flex items-center justify-between gap-2">
     <h2 class="text-xl font-semibold">{{ 'ADMIN.COMPANIES.DASHBOARD_TITLE' | translate }} — {{ taxId() }}</h2>
-    <button class="btn btn-ghost btn-sm" (click)="back()">← {{ 'COMMON.BACK' | translate }}</button>
+    <a class="btn btn-ghost btn-sm" [routerLink]="['/admin/companies']">← {{ 'COMMON.BACK' | translate }}</a>
   </div>
 
   @if (companyLoading()) {
-    <div class="skeleton h-6 w-40 mb-2"></div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <div class="space-y-2">
-        <div class="skeleton h-4 w-24"></div>
-        <div class="skeleton h-6 w-36"></div>
+    <div class="glass-card p-3 animate-pulse">
+      <div class="skeleton bg-base-300 h-6 w-40 mb-2"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="space-y-2">
+          <div class="skeleton bg-base-300 h-4 w-24"></div>
+          <div class="skeleton bg-base-300 h-6 w-36"></div>
+        </div>
+        <div class="space-y-2">
+          <div class="skeleton bg-base-300 h-4 w-20"></div>
+          <div class="skeleton bg-base-300 h-6 w-48"></div>
+        </div>
+        <div class="space-y-2">
+          <div class="skeleton bg-base-300 h-4 w-20"></div>
+          <div class="skeleton bg-base-300 h-6 w-28"></div>
+        </div>
       </div>
-      <div class="space-y-2">
-        <div class="skeleton h-4 w-20"></div>
-        <div class="skeleton h-6 w-48"></div>
+      <div class="mt-4 space-y-2">
+        <div class="skeleton bg-base-300 h-4 w-64"></div>
+        <div class="skeleton bg-base-300 h-4 w-full"></div>
+        <div class="skeleton bg-base-300 h-4 w-5/6"></div>
       </div>
-      <div class="space-y-2">
-        <div class="skeleton h-4 w-20"></div>
-        <div class="skeleton h-6 w-28"></div>
+      <div class="mt-4">
+        <div class="skeleton bg-base-300 h-48 w-full"></div>
       </div>
-    </div>
-    <div class="mt-4 space-y-2">
-      <div class="skeleton h-4 w-64"></div>
-      <div class="skeleton h-4 w-full"></div>
-      <div class="skeleton h-4 w-5/6"></div>
-    </div>
-    <div class="mt-4">
-      <div class="skeleton h-48 w-full"></div>
     </div>
   } @else if (companyError()) {
     <div class="alert alert-error">{{ companyError() }}</div>
   } @else if (company()) {
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 glass-card p-3">
       <div>
         <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.TAX_ID' | translate }}</div>
         <div class="font-mono flex items-center gap-2">
@@ -90,7 +99,7 @@
       }
     </div>
 
-    <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 glass-card p-3">
       @if (company()!.score !== undefined && company()!.score !== null) {
         <div>
           <div class="text-sm opacity-70">Score</div>
@@ -112,7 +121,7 @@
       <div class="alert alert-warning mt-2 text-sm">{{ company()!.imputation!.error }}</div>
     }
     @if (company()!.missing_data?.length) {
-      <div class="mt-2">
+  <div class="mt-2 glass-card p-3">
         <div class="text-sm font-medium opacity-80 mb-1">Datos faltantes</div>
         <div class="flex flex-wrap gap-2">
           @for (m of company()!.missing_data!; track m) { <span class="badge badge-ghost">{{ m }}</span> }
@@ -121,7 +130,7 @@
     }
 
     @if (company()!.company?.additional) {
-      <div class="mt-2">
+  <div class="mt-2 glass-card p-3">
         <div class="text-sm font-medium opacity-80 mb-1">Atributos adicionales</div>
         <div class="flex flex-wrap gap-2">
           @if (company()!.company!.additional!.is_state_supplier !== undefined) {
@@ -154,7 +163,7 @@
     }
 
     @if (company()!.metrics) {
-      <div>
+  <div class="glass-card p-3">
         <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.METRICS' | translate }}</h4>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
           @for (k of metricKeys(); track k) {
@@ -171,7 +180,7 @@
     }
 
     @if (company()!.signals?.length) {
-      <div>
+  <div class="glass-card p-3">
         <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.SIGNALS' | translate }}</h4>
         <ul class="list-disc pl-5 space-y-1">
           @for (s of company()!.signals!; track s.key) {

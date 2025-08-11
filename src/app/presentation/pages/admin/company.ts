@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, computed, effect, inject, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Chart from 'chart.js/auto';
@@ -8,7 +9,7 @@ import { AdminStatsFacade } from '@app/application/admin/admin-stats.facade';
 @Component({
   selector: 'app-admin-company',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, RouterModule],
   templateUrl: './company.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
