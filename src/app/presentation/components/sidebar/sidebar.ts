@@ -66,6 +66,21 @@ export class SidebarComponent {
   @ViewChild('scrollContainer', { static: false }) scrollContainer?: ElementRef<HTMLDivElement>;
   private io?: IntersectionObserver;
 
+  // Helpers to sanitize and sort sessions
+  private sanitizeTitle(title?: string | null): string {
+    const t = title || '';
+    return t.replace(/<think[^>]*>[\s\S]*?<\/think>/gi, '').trim();
+  }
+  private tsOf(s: SessionEntry): number {
+    const u: any = (s as any).updated_at ?? s.updated_at ?? (s as any).updatedAt;
+    const c: any = (s as any).created_at ?? s.created_at ?? (s as any).createdAt;
+    const parse = (v: any) => typeof v === 'number' ? v : (typeof v === 'string' ? Date.parse(v) || 0 : 0);
+    return parse(u) || parse(c) || 0;
+  }
+  private sortSessionsDesc(list: SessionEntry[]): SessionEntry[] {
+    return [...list].sort((a, b) => this.tsOf(b) - this.tsOf(a));
+  }
+
   ngOnInit() {
     this.tryLoad();
   this.loadProfileIfAuthenticated();
@@ -80,11 +95,12 @@ export class SidebarComponent {
     // agentId is ignored by backend; pass a placeholder
   this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
       next: (list) => {
-    // sanitize titles: remove any <think> blocks entirely
-    this.sessions = (list || []).map(s => ({
+    // sanitize titles and sort newest first
+    const sanitized = (list || []).map(s => ({
       ...s,
-      title: (s.title || '').replace(/<think[^>]*>[\s\S]*?<\/think>/gi, '').trim() || s.title
+      title: this.sanitizeTitle(s.title) || s.title
     }));
+    this.sessions = this.sortSessionsDesc(sanitized);
     // total could come in a separate response in the future; fallback keeps hasMore true until we reach an empty page
     this.hasMore = (list?.length || 0) === this.limit;
         this.cdr.markForCheck();
@@ -108,10 +124,14 @@ export class SidebarComponent {
     this.isLoading = true; this.cdr.markForCheck();
     this.chatFacade.listSessions({ page: this.page, limit: this.limit }).subscribe({
       next: (list) => {
-        const map = new Map<string, SessionEntry>();
-        for (const s of this.sessions) map.set(s.session_id, s);
-        for (const s of (list || [])) map.set(s.session_id, s);
-        this.sessions = Array.from(map.values());
+          const map = new Map<string, SessionEntry>();
+          for (const s of this.sessions) map.set(s.session_id, s);
+          for (const s of (list || [])) map.set(s.session_id, s);
+          const merged = Array.from(map.values()).map(s => ({
+            ...s,
+            title: this.sanitizeTitle(s.title) || s.title
+          }));
+          this.sessions = this.sortSessionsDesc(merged);
         this.hasMore = (list?.length || 0) === this.limit;
         this.cdr.markForCheck();
       },
