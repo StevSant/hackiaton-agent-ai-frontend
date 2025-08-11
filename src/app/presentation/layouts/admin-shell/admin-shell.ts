@@ -1,6 +1,12 @@
-import { Component, ChangeDetectionStrategy, HostListener, inject, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  HostListener,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet, NavigationEnd} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { TokenStorageService } from '@infrastructure/services/token-storage.service';
@@ -8,12 +14,18 @@ import { GetProfileUseCase } from '@core/use-cases';
 import { LanguageService } from '@infrastructure/services/language.service';
 import { ThemeService } from '@infrastructure/services/theme.service';
 import { ProfileMenuComponent } from '../../components/profile-menu/profile-menu';
-import { NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-admin-shell',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, MatIconModule, TranslateModule, ProfileMenuComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterOutlet,
+    MatIconModule,
+    TranslateModule,
+    ProfileMenuComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-shell.html',
   styleUrl: './admin-shell.css',
@@ -37,23 +49,30 @@ export class AdminShellLayout {
     this.loadProfileIfAuthenticated();
     // Restore sidebar collapsed state from localStorage (desktop), but default-collapsed on mobile
     try {
-      const saved = (typeof window !== 'undefined') ? window.localStorage.getItem('adminSidebarCollapsed') : null;
+      const saved =
+        typeof window !== 'undefined'
+          ? window.localStorage.getItem('adminSidebarCollapsed')
+          : null;
       if (this.isMobile()) {
         this.sidebarCollapsed.set(true);
       } else if (saved != null) {
         this.sidebarCollapsed.set(saved === '1');
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
 
     // Collapse on route change for mobile to avoid sticky open menu
-    this.router.events.subscribe(ev => {
+    this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
         if (this.isMobile()) this.sidebarCollapsed.set(true);
       }
     });
   }
 
-  isAuthenticated() { return this.token.isAuthenticated(); }
+  isAuthenticated() {
+    return this.token.isAuthenticated();
+  }
 
   private async loadProfileIfAuthenticated() {
     if (!this.token.isAuthenticated() || this.profileEmail()) return;
@@ -80,22 +99,30 @@ export class AdminShellLayout {
     if (!this.profileEmail() && !this.profileLoading()) {
       this.loadProfileIfAuthenticated();
     }
-    this.profileMenuOpen.update(v => !v);
+    this.profileMenuOpen.update((v) => !v);
   }
 
   toggleSidebar(event?: Event) {
     event?.stopPropagation();
-    this.sidebarCollapsed.update(v => !v);
+    this.sidebarCollapsed.update((v) => !v);
     // Persist state
     try {
-      (typeof window !== 'undefined') && window.localStorage.setItem('adminSidebarCollapsed', this.sidebarCollapsed() ? '1' : '0');
-    } catch { /* ignore */ }
+      typeof window !== 'undefined' &&
+        window.localStorage.setItem(
+          'adminSidebarCollapsed',
+          this.sidebarCollapsed() ? '1' : '0'
+        );
+    } catch {
+      /* ignore */
+    }
   }
 
   private isMobile(): boolean {
     try {
-      return (typeof window !== 'undefined') && window.innerWidth < 768; // md breakpoint
-    } catch { return false; }
+      return typeof window !== 'undefined' && window.innerWidth < 768; // md breakpoint
+    } catch {
+      return false;
+    }
   }
 
   logout(event?: Event) {
@@ -107,10 +134,16 @@ export class AdminShellLayout {
     this.router.navigateByUrl('/login');
   }
 
-  navigateToLogin() { this.router.navigateByUrl('/login'); }
+  navigateToLogin() {
+    this.router.navigateByUrl('/login');
+  }
 
-  switchLang(lang: 'es' | 'en') { this.lang.switch(lang); }
-  setTheme(value: 'light' | 'dark' | 'system') { this.theme.setTheme(value); }
+  switchLang(lang: 'es' | 'en') {
+    this.lang.switch(lang);
+  }
+  setTheme(value: 'light' | 'dark' | 'system') {
+    this.theme.setTheme(value);
+  }
 
   @HostListener('document:click')
   closeOnOutsideClick() {
@@ -125,10 +158,16 @@ export class AdminShellLayout {
     const mobile = this.isMobile();
     if (mobile && !this.sidebarCollapsed()) {
       this.sidebarCollapsed.set(true);
-      try { (typeof window !== 'undefined') && window.localStorage.setItem('adminSidebarCollapsed', '1'); } catch {}
+      try {
+        typeof window !== 'undefined' &&
+          window.localStorage.setItem('adminSidebarCollapsed', '1');
+      } catch {}
     } else if (!mobile && this.sidebarCollapsed()) {
       this.sidebarCollapsed.set(false);
-      try { (typeof window !== 'undefined') && window.localStorage.setItem('adminSidebarCollapsed', '0'); } catch {}
+      try {
+        typeof window !== 'undefined' &&
+          window.localStorage.setItem('adminSidebarCollapsed', '0');
+      } catch {}
     }
   }
 }

@@ -21,9 +21,13 @@ export class AdminAppInfoPage {
   uploadingIcon = this.facade.uploadingIcon;
   uploadingLogo = this.facade.uploadingLogo;
 
-  async ngOnInit() { await this.facade.load(); }
+  async ngOnInit() {
+    await this.facade.load();
+  }
 
-  async save() { await this.facade.save(); }
+  async save() {
+    await this.facade.save();
+  }
 
   async onPickIcon(evt: Event) {
     const input = evt.target as HTMLInputElement;
