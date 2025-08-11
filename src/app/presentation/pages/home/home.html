@@ -3,8 +3,8 @@
     <!-- Top bar with brand and quick actions -->
     <header class="flex items-center justify-between px-6 py-4">
         <div class="flex items-center gap-2">
-            <img src="/assets/favicon.ico" alt="Logo" class="w-6 h-6 opacity-80" />
-            <span class="font-semibold tracking-wide opacity-80">{{ 'SHELL.APP_TITLE' | translate }}</span>
+            <img [src]="(info()?.site_icon || info()?.site_logo) ?? '/assets/favicon.ico'" alt="Logo" class="w-7 h-7 opacity-90 rounded object-cover" />
+            <span class="font-semibold tracking-wide opacity-90">{{ info()?.site_name || ('SHELL.APP_TITLE' | translate) }}</span>
         </div>
         <div class="flex items-center gap-2">
             <a *ngIf="isAdmin()" routerLink="/admin" class="btn btn-primary btn-sm">
@@ -26,9 +26,16 @@
         <p class="mt-3 md:mt-4 max-w-2xl text-sm md:text-base opacity-80">
             {{ 'HOME.SUBTITLE' | translate }}
         </p>
+        <div class="mt-4 glass-card inline-flex items-center gap-3 px-3 py-2" *ngIf="info() as i">
+            <img [src]="i.site_logo || i.site_icon" alt="Brand" class="w-6 h-6 rounded object-cover" *ngIf="i.site_logo || i.site_icon"/>
+            <div class="text-xs opacity-80">
+                <div class="font-medium">{{ i.site_name }}</div>
+                <div class="opacity-70" *ngIf="i.created_at">{{ 'HOME.CREATED_AT' | translate }}: {{ i.created_at | date:'mediumDate' }}</div>
+            </div>
+        </div>
     </section>
 
-    <!-- KPIs / Cards -->
+    <!-- KPIs / Cards (marketing) -->
     <section class="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-4 md:mt-6">
         <div class="glass-card p-4">
             <div class="flex items-center justify-between">
@@ -64,27 +71,69 @@
         </div>
     </section>
 
-    <!-- Dashboard preview grid -->
+    <!-- Marketing charts -->
     <section class="px-6 mt-6 md:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-        <div class="glass-card p-4 lg:col-span-2 min-h-[220px]">
+        <div class="glass-card p-4 lg:col-span-2 min-h-[260px]">
             <div class="flex items-center justify-between">
-                <h3 class="font-medium">{{ 'HOME.CARD_SCORING' | translate }}</h3>
-                <mat-icon fontIcon="bar_chart"></mat-icon>
+                <h3 class="font-medium">{{ 'HOME.MKT.SPEED_TITLE' | translate }}</h3>
+                <mat-icon fontIcon="show_chart"></mat-icon>
             </div>
-            <div class="mt-3 text-xs opacity-70">
-                {{ 'HOME.CARD_SCORING_DESC' | translate }}
-            </div>
-            <div class="mt-3 h-28 bg-stripes rounded"></div>
+            <div class="mt-3 text-xs opacity-70">{{ 'HOME.MKT.SPEED_DESC' | translate }}</div>
+            <div class="mt-3 chart-container"><canvas #speedCanvas width="800" height="220"></canvas></div>
         </div>
-        <div class="glass-card p-4 min-h-[220px]">
+        <div class="glass-card p-4 min-h-[260px]">
             <div class="flex items-center justify-between">
-                <h3 class="font-medium">{{ 'HOME.CARD_SIMULATIONS' | translate }}</h3>
-                <mat-icon fontIcon="timeline"></mat-icon>
+                <h3 class="font-medium">{{ 'HOME.MKT.RESULTS_TITLE' | translate }}</h3>
+                <mat-icon fontIcon="donut_small"></mat-icon>
             </div>
-            <div class="mt-3 text-xs opacity-70">
-                {{ 'HOME.CARD_SIMULATIONS_DESC' | translate }}
+            <div class="mt-3 text-xs opacity-70">{{ 'HOME.MKT.RESULTS_DESC' | translate }}</div>
+            <div class="mt-3 chart-container"><canvas #approvalsCanvas width="360" height="220"></canvas></div>
+        </div>
+    </section>
+
+    <section class="px-6 mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <div class="glass-card p-4 min-h-[260px] lg:col-span-1">
+            <div class="flex items-center justify-between">
+                <h3 class="font-medium">{{ 'HOME.MKT.TOTAL_TIME_TITLE' | translate }}</h3>
+                <mat-icon fontIcon="timer"></mat-icon>
             </div>
-            <div class="mt-3 h-28 bg-grid rounded"></div>
+            <div class="mt-3 text-xs opacity-70">{{ 'HOME.MKT.TOTAL_TIME_DESC' | translate }}</div>
+            <div class="mt-3 chart-container"><canvas #totalTimeCanvas width="600" height="220"></canvas></div>
+        </div>
+        <div class="glass-card p-4 lg:col-span-2">
+            <h3 class="font-medium">{{ 'HOME.MKT.RETO_TITLE' | translate }}</h3>
+            <div class="mt-3 space-y-3 text-sm opacity-90 leading-relaxed">
+                <p>{{ 'HOME.MKT.OBJETIVO_INTRO' | translate }}</p>
+                <p>{{ 'HOME.MKT.IMPORTA_INTRO' | translate }}</p>
+                <ul class="list-disc ml-5 opacity-80">
+                    <li>{{ 'HOME.MKT.BULLET1' | translate }}</li>
+                    <li>{{ 'HOME.MKT.BULLET2' | translate }}</li>
+                    <li>{{ 'HOME.MKT.BULLET3' | translate }}</li>
+                    <li>{{ 'HOME.MKT.BULLET4' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-6 mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+        <div class="glass-card p-4">
+            <h3 class="font-medium">{{ 'HOME.MKT.IA_TITLE' | translate }}</h3>
+            <div class="mt-3 text-sm opacity-90 leading-relaxed space-y-2">
+                <p>{{ 'HOME.MKT.IA_P1' | translate }}</p>
+                <p>{{ 'HOME.MKT.IA_P2' | translate }}</p>
+                <p>{{ 'HOME.MKT.IA_P3' | translate }}</p>
+                <p>{{ 'HOME.MKT.IA_P4' | translate }}</p>
+            </div>
+        </div>
+        <div class="glass-card p-4">
+            <h3 class="font-medium">{{ 'HOME.MKT.ENTREGABLES_TITLE' | translate }}</h3>
+            <ul class="mt-3 list-disc ml-5 text-sm opacity-90 space-y-1">
+                <li>{{ 'HOME.MKT.ENT_ITEM1' | translate }}</li>
+                <li>{{ 'HOME.MKT.ENT_ITEM2' | translate }}</li>
+                <li>{{ 'HOME.MKT.ENT_ITEM3' | translate }}</li>
+                <li>{{ 'HOME.MKT.ENT_ITEM4' | translate }}</li>
+            </ul>
+            <div class="mt-4 text-xs opacity-70">{{ 'HOME.MKT.DATOS_LABEL' | translate }}</div>
         </div>
     </section>
 

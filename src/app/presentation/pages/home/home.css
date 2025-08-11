@@ -37,3 +37,15 @@
     linear-gradient(90deg, color-mix(in oklab, #a78bfa 20%, transparent) 1px, transparent 1px);
   background-size: 16px 16px;
 }
+
+.chart-container {
+  position: relative;
+  height: 220px;
+  min-height: 220px;
+}
+
+.chart-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
