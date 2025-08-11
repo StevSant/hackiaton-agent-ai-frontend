@@ -259,16 +259,33 @@
     </table>
   </div>
 
-  <div class="flex items-center justify-end gap-2 pt-2 modern-card p-2">
-    <button class="btn btn-sm" (click)="prevPage()" [disabled]="page() <= 1">
-      {{ "COMMON.PREVIOUS" | translate }}
-    </button>
-    <button
-      class="btn btn-sm"
-      (click)="nextPage()"
-      [disabled]="page() * limit() >= total()"
-    >
-      {{ "COMMON.NEXT" | translate }}
-    </button>
+  <div class="pagination-card">
+    <div class="flex items-center justify-between gap-4">
+      <div class="text-sm opacity-70 flex items-center gap-2">
+        <mat-icon class="text-sm">info</mat-icon>
+        {{ "ADMIN.USERS.PAGINATION_INFO" | translate }}
+      </div>
+      <div class="flex items-center gap-3">
+        <button 
+          class="btn btn-ghost btn-sm" 
+          (click)="prevPage()" 
+          [disabled]="page() <= 1"
+        >
+          <mat-icon class="text-sm mr-1">chevron_left</mat-icon>
+          {{ "COMMON.PREVIOUS" | translate }}
+        </button>
+        <div class="text-sm font-medium px-3 py-1 bg-primary/10 rounded-lg">
+          {{ page() }}
+        </div>
+        <button
+          class="btn btn-ghost btn-sm"
+          (click)="nextPage()"
+          [disabled]="page() * limit() >= total()"
+        >
+          {{ "COMMON.NEXT" | translate }}
+          <mat-icon class="text-sm ml-1">chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
