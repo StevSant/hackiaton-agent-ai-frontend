@@ -15,6 +15,8 @@ export const serverRoutes: ServerRoute[] = [
 
   // Admin area and all children on client (RBAC/guards)
   { path: 'admin', renderMode: RenderMode.Client },
+  { path: 'admin/companies', renderMode: RenderMode.Client },
+  { path: 'admin/companies/:taxId', renderMode: RenderMode.Client },
   { path: 'admin/*', renderMode: RenderMode.Client },
 
   // Fallback

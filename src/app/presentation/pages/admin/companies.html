@@ -89,15 +89,24 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.TAX_ID' | translate }}</div>
-                <div class="font-mono">{{ company()!.tax_id }}</div>
+                <div class="font-mono flex items-center gap-2">
+                  {{ company()!.tax_id }}
+                  <button class="btn btn-ghost btn-xs" (click)="copyText(company()!.tax_id)" title="Copy">⧉</button>
+                </div>
               </div>
               <div>
                 <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.NAME' | translate }}</div>
-                <div>{{ company()!.name || '-' }}</div>
+                <div class="flex items-center gap-2">
+                  {{ company()!.name || '-' }}
+                  @if (company()!.name) { <button class="btn btn-ghost btn-xs" (click)="copyText(company()!.name!)" title="Copy">⧉</button> }
+                </div>
               </div>
               <div>
                 <div class="text-sm opacity-70">{{ 'ADMIN.COMPANIES.COLUMNS.SECTOR' | translate }}</div>
-                <div>{{ company()!.sector || '-' }}</div>
+                <div class="flex items-center gap-2">
+                  {{ company()!.sector || '-' }}
+                  @if (company()!.sector) { <button class="btn btn-ghost btn-xs" (click)="copyText(company()!.sector!)" title="Copy">⧉</button> }
+                </div>
               </div>
             </div>
             @if (company()!.overview) {
@@ -114,6 +123,9 @@
                     </div>
                   }
                 </div>
+                <div class="mt-3">
+                  <canvas #metricsChart></canvas>
+                </div>
               </div>
             }
             @if (company()!.signals?.length) {
@@ -129,7 +141,7 @@
             @if (company()!.llm_insights) {
               <div>
                 <h4 class="font-semibold mb-1">{{ 'ADMIN.COMPANIES.LLM_INSIGHTS' | translate }}</h4>
-                <pre class="whitespace-pre-wrap text-xs bg-base-200 p-2 rounded">{{ company()!.llm_insights | json }}</pre>
+                <pre class="whitespace-pre-wrap text-xs bg-base-200 p-2 rounded">{{ (company()!.llm_insights | json) }}</pre>
               </div>
             }
           } @else {
