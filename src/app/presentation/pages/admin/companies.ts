@@ -17,6 +17,7 @@ import { AdminCompaniesFacade } from '@app/application/admin/admin-companies.fac
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule],
   templateUrl: './companies.html',
+  styleUrls: ['./companies.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminCompaniesPage {

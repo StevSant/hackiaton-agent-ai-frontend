@@ -1,143 +1,242 @@
 <link rel="stylesheet" href="./companies.css">
-<div class="p-6 space-y-4 vt-page">
-  <h2
-    class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
-  >
-    {{ "ADMIN.COMPANIES.TITLE" | translate }}
-  </h2>
-  <form
-    [formGroup]="form"
-    (ngSubmit)="applySearch()"
-  class="modern-card p-3 flex flex-wrap gap-2 items-end"
-  >
-    <input
-      class="input input-bordered flex-1 min-w-[220px]"
-      formControlName="search"
-      [placeholder]="'ADMIN.COMPANIES.SEARCH_PLACEHOLDER' | translate"
-    />
-    <button class="btn btn-primary" type="submit">
-      {{ "ADMIN.COMPANIES.SEARCH_BUTTON" | translate }}
-    </button>
-    <div class="md:ml-auto flex items-center gap-2 w-full sm:w-auto">
-      <label class="text-xs" for="companies-limit">{{
-        "ADMIN.COMPANIES.LIMIT" | translate
-      }}</label>
-      <select
-        id="companies-limit"
-        class="select select-bordered select-sm w-full sm:w-auto"
-        [value]="limit()"
-        (change)="limit.set(+$any($event.target).value); applySearch()"
-      >
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-        <option [value]="50">50</option>
-      </select>
+<div class="companies-container vt-page">
+  <!-- Header Section -->
+  <div class="companies-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <i class="fas fa-building title-icon"></i>
+        {{ "ADMIN.COMPANIES.TITLE" | translate }}
+      </h1>
+      <p class="page-subtitle">
+        Explora y gestiona la información de empresas registradas
+      </p>
     </div>
-  </form>
-  <div class="modern-card p-2 flex flex-wrap gap-2 items-center">
-    <span class="text-xs opacity-70"
-      >{{ "ADMIN.COMPANIES.SECTOR" | translate }}:</span
-    >
-    <button
-      class="badge badge-outline badge-xs"
-      [class.badge-primary]="!selectedSector()"
-      (click)="selectSector('')"
-    >
-      {{ "COMMON.ALL" | translate }}
-    </button>
-    @for (s of sectors(); track s) {
-      <button
-        class="badge badge-outline badge-xs"
-        [class.badge-primary]="selectedSector() === s"
-        (click)="selectSector(s)"
-      >
-        {{ s }}
-      </button>
-    }
-  </div>
-  @if (error()) {
-    <div class="alert alert-error">{{ error() }}</div>
-  }
-  <div class="overflow-x-auto modern-card">
-    <table class="table table-sm users-table">
-      <thead>
-        <tr>
-          <th>
-            <button class="btn btn-ghost btn-xs" (click)="setSort('tax_id')">
-              {{ "ADMIN.COMPANIES.COLUMNS.TAX_ID" | translate }}
-              <span *ngIf="sortBy() === 'tax_id'">{{
-                sortOrder() === "asc" ? "▲" : "▼"
-              }}</span>
-            </button>
-          </th>
-          <th>
-            <button class="btn btn-ghost btn-xs" (click)="setSort('name')">
-              {{ "ADMIN.COMPANIES.COLUMNS.NAME" | translate }}
-              <span *ngIf="sortBy() === 'name'">{{
-                sortOrder() === "asc" ? "▲" : "▼"
-              }}</span>
-            </button>
-          </th>
-          <th>
-            <button class="btn btn-ghost btn-xs" (click)="setSort('sector')">
-              {{ "ADMIN.COMPANIES.COLUMNS.SECTOR" | translate }}
-              <span *ngIf="sortBy() === 'sector'">{{
-                sortOrder() === "asc" ? "▲" : "▼"
-              }}</span>
-            </button>
-          </th>
-          <th class="text-right">{{ "COMMON.DASHBOARD" | translate }}</th>
-        </tr>
-      </thead>
-      <tbody class="page-stagger">
-        @for (c of filteredItems(); track c.tax_id) {
-          <tr>
-            <td class="flex items-center gap-2">
-              <span class="badge badge-outline badge-xs">{{ c.tax_id }}</span>
-              <button
-                class="btn btn-ghost btn-xs"
-                (click)="copyTaxId(c.tax_id)"
-                title="Copy"
-              >
-                ⧉
-              </button>
-            </td>
-            <td>{{ c.name || "-" }}</td>
-            <td>
-              @if (c.sector) {
-                <span class="badge badge-ghost badge-xs">{{ c.sector }}</span>
-              } @else {
-                -
-              }
-            </td>
-            <td class="text-right">
-              <a class="btn btn-outline btn-xs" [routerLink]="['/admin/companies', c.tax_id]">
-                {{ 'ADMIN.COMPANIES.OPEN_DASHBOARD' | translate }}
-              </a>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <div class="flex flex-wrap items-center justify-end gap-2 modern-card p-2">
-    <button class="btn btn-sm" (click)="prevPage()" [disabled]="page() <= 1">
-      {{ "COMMON.PREVIOUS" | translate }}
-    </button>
-    <span class="text-sm opacity-70"
-      >{{ "COMMON.PAGE" | translate }} {{ page() }}</span
-    >
-    <span class="text-sm opacity-60"
-      >• {{ items().length || 0 }} / {{ total() || "∞" }}</span
-    >
-    <button
-      class="btn btn-sm"
-      (click)="nextPage()"
-      [disabled]="page() * limit() >= total()"
-    >
-      {{ "COMMON.NEXT" | translate }}
-    </button>
   </div>
 
-  
+  <!-- Search and Filters Section -->
+  <div class="search-section modern-card">
+    <form [formGroup]="form" (ngSubmit)="applySearch()" class="search-form">
+      <div class="search-input-group">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          class="search-input"
+          formControlName="search"
+          [placeholder]="'ADMIN.COMPANIES.SEARCH_PLACEHOLDER' | translate"
+        />
+        <button class="search-btn" type="submit">
+          <i class="fas fa-filter"></i>
+          <span>{{ "ADMIN.COMPANIES.SEARCH_BUTTON" | translate }}</span>
+        </button>
+      </div>
+      
+      <div class="filter-controls">
+        <div class="limit-control">
+          <label class="control-label" for="companies-limit">
+            <i class="fas fa-list-ol"></i>
+            {{ "ADMIN.COMPANIES.LIMIT" | translate }}
+          </label>
+          <select
+            id="companies-limit"
+            class="limit-select"
+            [value]="limit()"
+            (change)="limit.set(+$any($event.target).value); applySearch()"
+          >
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Sector Filter Section -->
+  <div class="sector-filter modern-card">
+    <div class="filter-header">
+      <i class="fas fa-industry"></i>
+      <span>{{ "ADMIN.COMPANIES.SECTOR" | translate }}</span>
+    </div>
+    <div class="sector-tags">
+      <button
+        class="sector-tag"
+        [class.active]="!selectedSector()"
+        (click)="selectSector('')"
+      >
+        <i class="fas fa-globe"></i>
+        <span>{{ "COMMON.ALL" | translate }}</span>
+      </button>
+      @for (s of sectors(); track s) {
+        <button
+          class="sector-tag"
+          [class.active]="selectedSector() === s"
+          (click)="selectSector(s)"
+        >
+          <i class="fas fa-tag"></i>
+          <span>{{ s }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  @if (error()) {
+    <div class="error-alert">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ error() }}</span>
+    </div>
+  }
+
+  <!-- Companies Table -->
+  <div class="table-container modern-card">
+    <div class="table-header">
+      <h3 class="table-title">
+        <i class="fas fa-table"></i>
+        Lista de Empresas
+      </h3>
+      <div class="table-stats">
+        <span class="stat-item">
+          <i class="fas fa-building"></i>
+          {{ items().length || 0 }} empresas
+        </span>
+        <span class="stat-separator">•</span>
+        <span class="stat-item">
+          <i class="fas fa-database"></i>
+          {{ total() || "∞" }} total
+        </span>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="companies-table">
+        <thead>
+          <tr>
+            <th>
+              <button class="sort-btn" (click)="setSort('tax_id')">
+                <i class="fas fa-hashtag"></i>
+                <span>{{ "ADMIN.COMPANIES.COLUMNS.TAX_ID" | translate }}</span>
+                @if (sortBy() === 'tax_id') {
+                  <i class="fas" [class]="sortOrder() === 'asc' ? 'fa-sort-up' : 'fa-sort-down'"></i>
+                } @else {
+                  <i class="fas fa-sort sort-inactive"></i>
+                }
+              </button>
+            </th>
+            <th>
+              <button class="sort-btn" (click)="setSort('name')">
+                <i class="fas fa-signature"></i>
+                <span>{{ "ADMIN.COMPANIES.COLUMNS.NAME" | translate }}</span>
+                @if (sortBy() === 'name') {
+                  <i class="fas" [class]="sortOrder() === 'asc' ? 'fa-sort-up' : 'fa-sort-down'"></i>
+                } @else {
+                  <i class="fas fa-sort sort-inactive"></i>
+                }
+              </button>
+            </th>
+            <th>
+              <button class="sort-btn" (click)="setSort('sector')">
+                <i class="fas fa-industry"></i>
+                <span>{{ "ADMIN.COMPANIES.COLUMNS.SECTOR" | translate }}</span>
+                @if (sortBy() === 'sector') {
+                  <i class="fas" [class]="sortOrder() === 'asc' ? 'fa-sort-up' : 'fa-sort-down'"></i>
+                } @else {
+                  <i class="fas fa-sort sort-inactive"></i>
+                }
+              </button>
+            </th>
+            <th class="actions-header">
+              <i class="fas fa-cog"></i>
+              <span>{{ "COMMON.DASHBOARD" | translate }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of filteredItems(); track c.tax_id) {
+            <tr class="company-row">
+              <td class="tax-id-cell">
+                <div class="tax-id-group">
+                  <span class="tax-id-badge">{{ c.tax_id }}</span>
+                  <button
+                    class="copy-btn"
+                    (click)="copyTaxId(c.tax_id)"
+                    title="Copiar Tax ID"
+                  >
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+              </td>
+              <td class="name-cell">
+                <div class="company-name">
+                  @if (c.name) {
+                    <i class="fas fa-building-user name-icon"></i>
+                    <span>{{ c.name }}</span>
+                  } @else {
+                    <span class="no-name">
+                      <i class="fas fa-question-circle"></i>
+                      Sin nombre
+                    </span>
+                  }
+                </div>
+              </td>
+              <td class="sector-cell">
+                @if (c.sector) {
+                  <span class="sector-badge">
+                    <i class="fas fa-tag"></i>
+                    {{ c.sector }}
+                  </span>
+                } @else {
+                  <span class="no-sector">
+                    <i class="fas fa-minus"></i>
+                    Sin sector
+                  </span>
+                }
+              </td>
+              <td class="actions-cell">
+                <a 
+                  class="dashboard-btn" 
+                  [routerLink]="['/admin/companies', c.tax_id]"
+                >
+                  <i class="fas fa-external-link-alt"></i>
+                  <span>{{ 'ADMIN.COMPANIES.OPEN_DASHBOARD' | translate }}</span>
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-section modern-card">
+    <div class="pagination-info">
+      <i class="fas fa-info-circle"></i>
+      <span>{{ "COMMON.PAGE" | translate }} {{ page() }}</span>
+      <span class="separator">•</span>
+      <span>{{ items().length || 0 }} / {{ total() || "∞" }}</span>
+    </div>
+    
+    <div class="pagination-controls">
+      <button 
+        class="nav-btn prev-btn" 
+        (click)="prevPage()" 
+        [disabled]="page() <= 1"
+      >
+        <i class="fas fa-chevron-left"></i>
+        <span>{{ "COMMON.PREVIOUS" | translate }}</span>
+      </button>
+      
+      <div class="page-indicator">
+        <span class="current-page">{{ page() }}</span>
+      </div>
+      
+      <button
+        class="nav-btn next-btn"
+        (click)="nextPage()"
+        [disabled]="page() * limit() >= total()"
+      >
+        <span>{{ "COMMON.NEXT" | translate }}</span>
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
 </div>

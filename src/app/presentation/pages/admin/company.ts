@@ -11,6 +11,7 @@ import { AdminStatsFacade } from '@app/application/admin/admin-stats.facade';
   standalone: true,
   imports: [CommonModule, TranslateModule, RouterModule],
   templateUrl: './company.html',
+  styleUrls: ['./company.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminCompanyPage {

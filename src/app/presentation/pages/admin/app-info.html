@@ -1,118 +1,206 @@
 <link rel="stylesheet" href="./app-info.css">
-<div class="p-6 space-y-4 vt-page">
-  <h2
-    class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"
-  >
-    {{ "ADMIN.SIDENAV.APP_INFO" | translate }}
-  </h2>
+<div class="app-info-container vt-page">
+  <!-- Header Section -->
+  <div class="app-info-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="page-title">
+          <i class="fas fa-cog title-icon"></i>
+          {{ "ADMIN.SIDENAV.APP_INFO" | translate }}
+        </h1>
+        <p class="page-subtitle">
+          Configura la información básica de tu aplicación
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
   @if (error()) {
-    <div class="alert alert-error">{{ error() }}</div>
+    <div class="error-alert">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ error() }}</span>
+    </div>
   }
-  <div class="modern-card">
-    <form
-      [formGroup]="form"
-      (ngSubmit)="save()"
-      class="grid grid-cols-1 md:grid-cols-2 gap-3"
-    >
-      <div>
-        <label class="text-xs" for="site_name">{{
-          "ADMIN.APP_INFO.FIELDS.SITE_NAME" | translate
-        }}</label>
-        <input
-          id="site_name"
-          class="input input-bordered w-full"
-          formControlName="site_name"
-        />
-      </div>
-      <div>
-        <label class="text-xs" for="site_icon">{{
-          "ADMIN.APP_INFO.FIELDS.SITE_ICON" | translate
-        }}</label>
-        <div class="flex items-center gap-2 flex-wrap">
-          <input
-            id="site_icon"
-            class="input input-bordered w-full md:flex-1"
-            formControlName="site_icon"
-          />
-          <label class="btn btn-sm w-full md:w-auto">
-            <input
-              type="file"
-              accept="image/*"
-              class="hidden"
-              (change)="onPickIcon($event)"
-            />
-            {{
-              uploadingIcon()
-                ? ("COMPOSER.UPLOADING" | translate)
-                : ("ADMIN.APP_INFO.UPLOAD" | translate)
-            }}
-          </label>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <form [formGroup]="form" (ngSubmit)="save()" class="app-info-form">
+      
+      <!-- Site Name Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h3 class="section-title">
+            <i class="fas fa-tag"></i>
+            Información General
+          </h3>
         </div>
-        @if (form.value.site_icon) {
-          <div class="mt-2">
-            <img
-              [src]="form.value.site_icon!"
-              alt="icon preview"
-              class="h-10 w-10 object-contain rounded border border-white/10"
-            />
-          </div>
-        }
-      </div>
-      <div>
-        <label class="text-xs" for="site_logo">{{
-          "ADMIN.APP_INFO.FIELDS.SITE_LOGO" | translate
-        }}</label>
-        <div class="flex items-center gap-2 flex-wrap">
-          <input
-            id="site_logo"
-            class="input input-bordered w-full md:flex-1"
-            formControlName="site_logo"
-          />
-          <label class="btn btn-sm w-full md:w-auto">
-            <input
-              type="file"
-              accept="image/*"
-              class="hidden"
-              (change)="onPickLogo($event)"
-            />
-            {{
-              uploadingLogo()
-                ? ("COMPOSER.UPLOADING" | translate)
-                : ("ADMIN.APP_INFO.UPLOAD" | translate)
-            }}
+        
+        <div class="input-group">
+          <label class="input-label" for="site_name">
+            <i class="fas fa-globe"></i>
+            {{ "ADMIN.APP_INFO.FIELDS.SITE_NAME" | translate }}
           </label>
+          <input
+            id="site_name"
+            class="modern-input"
+            formControlName="site_name"
+            placeholder="Nombre de tu sitio web"
+          />
         </div>
-        @if (form.value.site_logo) {
-          <div class="mt-2">
-            <img
-              [src]="form.value.site_logo!"
-              alt="logo preview"
-              class="h-16 object-contain rounded border border-white/10"
-            />
-          </div>
-        }
       </div>
-      <div class="md:col-span-2 flex items-center gap-2">
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="form.invalid || saving()"
-        >
-          {{
-            saving()
-              ? ("LOGIN.PROCESSING" | translate)
-              : ("ADMIN.APP_INFO.SAVE" | translate)
-          }}
-        </button>
-        @if (saved()) {
-          <span class="text-success text-sm">{{
-            "ADMIN.APP_INFO.SAVED" | translate
-          }}</span>
-        }
+
+      <!-- Visual Assets Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h3 class="section-title">
+            <i class="fas fa-image"></i>
+            Recursos Visuales
+          </h3>
+        </div>
+
+        <div class="assets-grid">
+          <!-- Site Icon -->
+          <div class="asset-card">
+            <div class="asset-header">
+              <h4 class="asset-title">
+                <i class="fas fa-star"></i>
+                {{ "ADMIN.APP_INFO.FIELDS.SITE_ICON" | translate }}
+              </h4>
+              <span class="asset-description">Ícono del sitio (32x32px recomendado)</span>
+            </div>
+            
+            <div class="asset-input-group">
+              <input
+                id="site_icon"
+                class="modern-input asset-input"
+                formControlName="site_icon"
+                placeholder="URL del ícono"
+              />
+              <label class="upload-btn icon-upload">
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="hidden"
+                  (change)="onPickIcon($event)"
+                />
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>
+                  {{
+                    uploadingIcon()
+                      ? ("COMPOSER.UPLOADING" | translate)
+                      : ("ADMIN.APP_INFO.UPLOAD" | translate)
+                  }}
+                </span>
+              </label>
+            </div>
+            
+            @if (form.value.site_icon) {
+              <div class="asset-preview">
+                <div class="preview-container icon-preview">
+                  <img
+                    [src]="form.value.site_icon!"
+                    alt="icon preview"
+                    class="preview-image"
+                  />
+                  <div class="preview-overlay">
+                    <i class="fas fa-eye"></i>
+                  </div>
+                </div>
+                <span class="preview-label">Vista previa del ícono</span>
+              </div>
+            }
+          </div>
+
+          <!-- Site Logo -->
+          <div class="asset-card">
+            <div class="asset-header">
+              <h4 class="asset-title">
+                <i class="fas fa-image"></i>
+                {{ "ADMIN.APP_INFO.FIELDS.SITE_LOGO" | translate }}
+              </h4>
+              <span class="asset-description">Logo principal (300x100px recomendado)</span>
+            </div>
+            
+            <div class="asset-input-group">
+              <input
+                id="site_logo"
+                class="modern-input asset-input"
+                formControlName="site_logo"
+                placeholder="URL del logo"
+              />
+              <label class="upload-btn logo-upload">
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="hidden"
+                  (change)="onPickLogo($event)"
+                />
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>
+                  {{
+                    uploadingLogo()
+                      ? ("COMPOSER.UPLOADING" | translate)
+                      : ("ADMIN.APP_INFO.UPLOAD" | translate)
+                  }}
+                </span>
+              </label>
+            </div>
+            
+            @if (form.value.site_logo) {
+              <div class="asset-preview">
+                <div class="preview-container logo-preview">
+                  <img
+                    [src]="form.value.site_logo!"
+                    alt="logo preview"
+                    class="preview-image"
+                  />
+                  <div class="preview-overlay">
+                    <i class="fas fa-eye"></i>
+                  </div>
+                </div>
+                <span class="preview-label">Vista previa del logo</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Section -->
+      <div class="action-section">
+        <div class="action-buttons">
+          <button
+            class="save-btn"
+            type="submit"
+            [disabled]="form.invalid || saving()"
+          >
+            @if (saving()) {
+              <i class="fas fa-spinner fa-spin"></i>
+              <span>{{ "LOGIN.PROCESSING" | translate }}</span>
+            } @else {
+              <i class="fas fa-save"></i>
+              <span>{{ "ADMIN.APP_INFO.SAVE" | translate }}</span>
+            }
+          </button>
+          
+          @if (saved()) {
+            <div class="success-message">
+              <i class="fas fa-check-circle"></i>
+              <span>{{ "ADMIN.APP_INFO.SAVED" | translate }}</span>
+            </div>
+          }
+        </div>
       </div>
     </form>
   </div>
+
+  <!-- Loading State -->
   @if (!loaded()) {
-    <div class="text-sm opacity-70">{{ "COMMON.LOADING" | translate }}</div>
+    <div class="loading-overlay">
+      <div class="loading-content">
+        <i class="fas fa-spinner fa-spin loading-spinner"></i>
+        <span>{{ "COMMON.LOADING" | translate }}</span>
+      </div>
+    </div>
   }
 </div>

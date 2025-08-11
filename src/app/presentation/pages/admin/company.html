@@ -1,15 +1,35 @@
 <link rel="stylesheet" href="./company.css">
-<div class="p-4 space-y-4 vt-page">
-  <nav class="text-sm breadcrumbs">
-    <ul>
-      <li><a [routerLink]="['/admin']">Admin</a></li>
-      <li><a [routerLink]="['/admin/companies']">{{ 'ADMIN.COMPANIES.TITLE' | translate }}</a></li>
-      <li>{{ taxId() }}</li>
-    </ul>
+<div class="company-container vt-page">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb-nav modern-card">
+    <div class="breadcrumb-list">
+      <a [routerLink]="['/admin']" class="breadcrumb-item">
+        <i class="fas fa-home"></i>
+        <span>Admin</span>
+      </a>
+      <i class="fas fa-chevron-right breadcrumb-separator"></i>
+      <a [routerLink]="['/admin/companies']" class="breadcrumb-item">
+        <i class="fas fa-building"></i>
+        <span>{{ 'ADMIN.COMPANIES.TITLE' | translate }}</span>
+      </a>
+      <i class="fas fa-chevron-right breadcrumb-separator"></i>
+      <span class="breadcrumb-current">{{ taxId() }}</span>
+    </div>
   </nav>
-  <div class="flex items-center justify-between gap-2">
-    <h2 class="text-xl font-semibold">{{ 'ADMIN.COMPANIES.DASHBOARD_TITLE' | translate }} — {{ taxId() }}</h2>
-    <a class="btn btn-ghost btn-sm" [routerLink]="['/admin/companies']">← {{ 'COMMON.BACK' | translate }}</a>
+
+  <!-- Header Section -->
+  <div class="company-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <i class="fas fa-building title-icon"></i>
+        {{ 'ADMIN.COMPANIES.DASHBOARD_TITLE' | translate }}
+        <span class="tax-id-badge">{{ taxId() }}</span>
+      </h1>
+      <a class="back-btn" [routerLink]="['/admin/companies']">
+        <i class="fas fa-arrow-left"></i>
+        <span>{{ 'COMMON.BACK' | translate }}</span>
+      </a>
+    </div>
   </div>
 
   @if (companyLoading()) {
