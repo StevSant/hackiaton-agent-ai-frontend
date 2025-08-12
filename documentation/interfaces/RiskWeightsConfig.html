@@ -122,7 +122,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/infrastructure/services/risk-weights.service.ts</code>
+            <code>src/app/core/ports/risk-weights.port.ts</code>
         </p>
 
 
@@ -273,41 +273,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, inject } from &#x27;@angular/core&#x27;;
-import { HttpClient } from &#x27;@angular/common/http&#x27;;
-import { environment } from &#x27;@environments/environment&#x27;;
-import { firstValueFrom } from &#x27;rxjs&#x27;;
-
-export interface RiskWeightsConfig {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface RiskWeightsConfig {
   id: string;
   version: number;
   weights: Record&lt;string, number&gt;;
 }
 
-@Injectable({ providedIn: &#x27;root&#x27; })
-export class RiskWeightsService {
-  private readonly http &#x3D; inject(HttpClient);
-  private readonly base &#x3D; environment.baseUrl;
-
-  async getActive(): Promise&lt;
-    RiskWeightsConfig | { message: string; weights: null }
-  &gt; {
-    const url &#x3D; &#x60;${this.base}/risk/weights/active&#x60;;
-    return firstValueFrom(this.http.get&lt;any&gt;(url));
-  }
-
-  async upsert(
+export interface RiskWeightsPort {
+  getActive(): Promise&lt;RiskWeightsConfig | { message: string; weights: null }&gt;;
+  upsert(
     version: number,
     weights: Record&lt;string, number&gt;,
-  ): Promise&lt;{ status: string; weights: RiskWeightsConfig }&gt; {
-    const url &#x3D; &#x60;${this.base}/risk/weights/upsert&#x60;;
-    return firstValueFrom(
-      this.http.post&lt;{ status: string; weights: RiskWeightsConfig }&gt;(url, {
-        version,
-        weights,
-      }),
-    );
-  }
+  ): Promise&lt;{ status: string; weights: RiskWeightsConfig }&gt;;
 }
 </code></pre>
     </div>
