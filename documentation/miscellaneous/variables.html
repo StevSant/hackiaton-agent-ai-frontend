@@ -1,0 +1,1230 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#ADMIN_MESSAGES_PORT" title="src/app/core/tokens.ts" ><b>ADMIN_MESSAGES_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ADMIN_USERS_PORT" title="src/app/core/tokens.ts" ><b>ADMIN_USERS_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#angularApp" title="src/server.ts" ><b>angularApp</b>&nbsp;&nbsp;&nbsp;(src/.../server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#app" title="src/server.ts" ><b>app</b>&nbsp;&nbsp;&nbsp;(src/.../server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_INFO_PORT" title="src/app/core/tokens.ts" ><b>APP_INFO_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#appConfig" title="src/app/app.config.ts" ><b>appConfig</b>&nbsp;&nbsp;&nbsp;(src/.../app.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AUTH_PORT" title="src/app/core/tokens.ts" ><b>AUTH_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AuthGuard" title="src/app/infrastructure/guards/auth.guard.ts" ><b>AuthGuard</b>&nbsp;&nbsp;&nbsp;(src/.../auth.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#authInterceptorFn" title="src/app/infrastructure/interceptors/auth.interceptor.ts" ><b>authInterceptorFn</b>&nbsp;&nbsp;&nbsp;(src/.../auth.interceptor.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#bootstrap" title="src/main.server.ts" ><b>bootstrap</b>&nbsp;&nbsp;&nbsp;(src/.../main.server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#browserDistFolder" title="src/server.ts" ><b>browserDistFolder</b>&nbsp;&nbsp;&nbsp;(src/.../server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CHAT_STREAM_PORT" title="src/app/core/tokens.ts" ><b>CHAT_STREAM_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#COMPANIES_PORT" title="src/app/core/tokens.ts" ><b>COMPANIES_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#config" title="src/app/app.config.server.ts" ><b>config</b>&nbsp;&nbsp;&nbsp;(src/.../app.config.server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="src/environments/environment.development.ts" ><b>environment</b>&nbsp;&nbsp;&nbsp;(src/.../environment.development.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="src/environments/environment.ts" ><b>environment</b>&nbsp;&nbsp;&nbsp;(src/.../environment.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#FILES_PORT" title="src/app/core/tokens.ts" ><b>FILES_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#GuestGuard" title="src/app/infrastructure/guards/guest.guard.ts" ><b>GuestGuard</b>&nbsp;&nbsp;&nbsp;(src/.../guest.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#KEY" title="src/app/infrastructure/services/token-storage.service.ts" ><b>KEY</b>&nbsp;&nbsp;&nbsp;(src/.../token-storage.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#KEY_ROLE" title="src/app/infrastructure/services/token-storage.service.ts" ><b>KEY_ROLE</b>&nbsp;&nbsp;&nbsp;(src/.../token-storage.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#KPIS_PORT" title="src/app/core/tokens.ts" ><b>KPIS_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#reqHandler" title="src/server.ts" ><b>reqHandler</b>&nbsp;&nbsp;&nbsp;(src/.../server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RISK_WEIGHTS_PORT" title="src/app/core/tokens.ts" ><b>RISK_WEIGHTS_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RoleGuard" title="src/app/infrastructure/guards/role.guard.ts" ><b>RoleGuard</b>&nbsp;&nbsp;&nbsp;(src/.../role.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#serverConfig" title="src/app/app.config.server.ts" ><b>serverConfig</b>&nbsp;&nbsp;&nbsp;(src/.../app.config.server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#serverRoutes" title="src/app/app.routes.server.ts" ><b>serverRoutes</b>&nbsp;&nbsp;&nbsp;(src/.../app.routes.server.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SESSIONS_PORT" title="src/app/core/tokens.ts" ><b>SESSIONS_PORT</b>&nbsp;&nbsp;&nbsp;(src/.../tokens.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STORAGE_BG" title="src/app/infrastructure/services/background.service.ts" ><b>STORAGE_BG</b>&nbsp;&nbsp;&nbsp;(src/.../background.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STORAGE_KEY" title="src/app/infrastructure/services/language.service.ts" ><b>STORAGE_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../language.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STORAGE_KEY" title="src/app/infrastructure/services/theme.service.ts" ><b>STORAGE_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../theme.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STORAGE_NEON" title="src/app/infrastructure/services/background.service.ts" ><b>STORAGE_NEON</b>&nbsp;&nbsp;&nbsp;(src/.../background.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STORAGE_PAL" title="src/app/infrastructure/services/background.service.ts" ><b>STORAGE_PAL</b>&nbsp;&nbsp;&nbsp;(src/.../background.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#STORAGE_PRLX" title="src/app/infrastructure/services/background.service.ts" ><b>STORAGE_PRLX</b>&nbsp;&nbsp;&nbsp;(src/.../background.service.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/app/core/tokens.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ADMIN_MESSAGES_PORT"></a>
+                    <span class="name">
+                        <span ><b>ADMIN_MESSAGES_PORT</b></span>
+                        <a href="#ADMIN_MESSAGES_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;AdminMessagesPort&gt;(
+  &#x27;ADMIN_MESSAGES_PORT&#x27;,
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ADMIN_USERS_PORT"></a>
+                    <span class="name">
+                        <span ><b>ADMIN_USERS_PORT</b></span>
+                        <a href="#ADMIN_USERS_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;AdminUsersPort&gt;(
+  &#x27;ADMIN_USERS_PORT&#x27;,
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_INFO_PORT"></a>
+                    <span class="name">
+                        <span ><b>APP_INFO_PORT</b></span>
+                        <a href="#APP_INFO_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;AppInfoPort&gt;(&#x27;APP_INFO_PORT&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AUTH_PORT"></a>
+                    <span class="name">
+                        <span ><b>AUTH_PORT</b></span>
+                        <a href="#AUTH_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;AuthPort&gt;(&#x27;AUTH_PORT&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CHAT_STREAM_PORT"></a>
+                    <span class="name">
+                        <span ><b>CHAT_STREAM_PORT</b></span>
+                        <a href="#CHAT_STREAM_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;ChatStreamPort&gt;(
+  &#x27;CHAT_STREAM_PORT&#x27;,
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="COMPANIES_PORT"></a>
+                    <span class="name">
+                        <span ><b>COMPANIES_PORT</b></span>
+                        <a href="#COMPANIES_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;CompaniesPort&gt;(
+  &#x27;COMPANIES_PORT&#x27;,
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FILES_PORT"></a>
+                    <span class="name">
+                        <span ><b>FILES_PORT</b></span>
+                        <a href="#FILES_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;FilesPort&gt;(&#x27;FILES_PORT&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="KPIS_PORT"></a>
+                    <span class="name">
+                        <span ><b>KPIS_PORT</b></span>
+                        <a href="#KPIS_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;KpisPort&gt;(&#x27;KPIS_PORT&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RISK_WEIGHTS_PORT"></a>
+                    <span class="name">
+                        <span ><b>RISK_WEIGHTS_PORT</b></span>
+                        <a href="#RISK_WEIGHTS_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;RiskWeightsPort&gt;(
+  &#x27;RISK_WEIGHTS_PORT&#x27;,
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SESSIONS_PORT"></a>
+                    <span class="name">
+                        <span ><b>SESSIONS_PORT</b></span>
+                        <a href="#SESSIONS_PORT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;SessionsPort&gt;(&#x27;SESSIONS_PORT&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/server.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="angularApp"></a>
+                    <span class="name">
+                        <span ><b>angularApp</b></span>
+                        <a href="#angularApp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new AngularNodeAppEngine()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="app"></a>
+                    <span class="name">
+                        <span ><b>app</b></span>
+                        <a href="#app"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>express()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="browserDistFolder"></a>
+                    <span class="name">
+                        <span ><b>browserDistFolder</b></span>
+                        <a href="#browserDistFolder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>join(import.meta.dirname, &#x27;../browser&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reqHandler"></a>
+                    <span class="name">
+                        <span ><b>reqHandler</b></span>
+                        <a href="#reqHandler"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>createNodeRequestHandler(app)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/app.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appConfig"></a>
+                    <span class="name">
+                        <span ><b>appConfig</b></span>
+                        <a href="#appConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/App.html" target="_self" >ApplicationConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  providers: [
+    provideMarkdown(),
+    provideBrowserGlobalErrorListeners(),
+    provideZonelessChangeDetection(),
+
+    // Skip the very first view transition to avoid bootstrap-time InvalidStateError
+    provideRouter(routes, withViewTransitions({ skipInitialTransition: true })),
+    { provide: PreloadingStrategy, useClass: CustomPreloadStrategy },
+
+    provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptorFn])),
+
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+        },
+        fallbackLang: &#x27;es&#x27;,
+      }),
+    ),
+
+    // Initializer 1: language init
+    provideAppInitializer(() &#x3D;&gt; {
+      const langService &#x3D; inject(LanguageService);
+      return langService.initApp(); // can return void or Promise&lt;void&gt;
+    }),
+
+    // Initializer 2: refresh role from token (client only)
+    provideAppInitializer(() &#x3D;&gt; {
+      const token &#x3D; inject(TokenStorageService);
+      const getProfile &#x3D; inject(GetProfileUseCase);
+
+      const t &#x3D; token.getToken();
+      if (!t) return; // nothing to do
+
+      return getProfile
+        .execute(t)
+        .then((profile) &#x3D;&gt; {
+          if (profile?.role) token.setRole(profile.role);
+        })
+        .catch(() &#x3D;&gt; {
+          // swallow bootstrap errors
+        });
+    }),
+
+    // Initializer 3: performance-lite toggling for mobile/low-end
+    provideAppInitializer(() &#x3D;&gt; {
+      const perf &#x3D; inject(PerformanceService);
+      perf.init();
+    }),
+
+    { provide: CHAT_STREAM_PORT, useExisting: SseService },
+    { provide: SESSIONS_PORT, useExisting: SessionsService },
+    { provide: AUTH_PORT, useExisting: AuthService },
+    { provide: APP_INFO_PORT, useExisting: AppInfoService },
+    { provide: FILES_PORT, useExisting: FilesService },
+    { provide: ADMIN_USERS_PORT, useExisting: AdminUsersService },
+    { provide: COMPANIES_PORT, useExisting: CompaniesService },
+    { provide: RISK_WEIGHTS_PORT, useExisting: RiskWeightsService },
+    { provide: ADMIN_MESSAGES_PORT, useExisting: AdminMessagesService },
+
+    // KPIS_PORT: feature flag para mock/api
+    {
+      provide: KPIS_PORT,
+      useClass: environment.mockKpis ? KpisMockService : KpisApiService,
+    },
+  ],
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/guards/auth.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AuthGuard"></a>
+                    <span class="name">
+                        <span ><b>AuthGuard</b></span>
+                        <a href="#AuthGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CanActivateFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {
+  return inject(AuthGuardService).canActivate();
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/interceptors/auth.interceptor.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authInterceptorFn"></a>
+                    <span class="name">
+                        <span ><b>authInterceptorFn</b></span>
+                        <a href="#authInterceptorFn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HttpInterceptorFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  const token &#x3D; inject(TokenStorageService).getToken();
+  if (token) {
+    req &#x3D; req.clone({ setHeaders: { Authorization: &#x60;Bearer ${token}&#x60; } });
+  }
+  return next(req);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/main.server.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bootstrap"></a>
+                    <span class="name">
+                        <span ><b>bootstrap</b></span>
+                        <a href="#bootstrap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; bootstrapApplication(App, config)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/app.config.server.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="config"></a>
+                    <span class="name">
+                        <span ><b>config</b></span>
+                        <a href="#config"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>mergeApplicationConfig(appConfig, serverConfig)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="serverConfig"></a>
+                    <span class="name">
+                        <span ><b>serverConfig</b></span>
+                        <a href="#serverConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/App.html" target="_self" >ApplicationConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  providers: [provideServerRendering(withRoutes(serverRoutes))],
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/environments/environment.development.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="environment"></a>
+                    <span class="name">
+                        <span ><b>environment</b></span>
+                        <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  baseUrl: &#x27;http://127.0.0.1:8080&#x27;,
+  mockKpis: true, // en dev usamos mock por defecto
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/environments/environment.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="environment"></a>
+                    <span class="name">
+                        <span ><b>environment</b></span>
+                        <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  baseUrl:
+    &#x27;https://hackiaton-agent-ai-backend-346683647039.southamerica-east1.run.app&#x27;,
+  mockKpis: true, // feature flag para elegir adapter de KPIs
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/guards/guest.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GuestGuard"></a>
+                    <span class="name">
+                        <span ><b>GuestGuard</b></span>
+                        <a href="#GuestGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CanActivateFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {
+  return inject(GuestGuardService).canActivate();
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/services/token-storage.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="KEY"></a>
+                    <span class="name">
+                        <span ><b>KEY</b></span>
+                        <a href="#KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;auth_token&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="KEY_ROLE"></a>
+                    <span class="name">
+                        <span ><b>KEY_ROLE</b></span>
+                        <a href="#KEY_ROLE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;auth_role&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/guards/role.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RoleGuard"></a>
+                    <span class="name">
+                        <span ><b>RoleGuard</b></span>
+                        <a href="#RoleGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CanActivateFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(route: ActivatedRouteSnapshot) &#x3D;&gt; {
+  return inject(RoleGuardService).canActivate(route);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/app.routes.server.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="serverRoutes"></a>
+                    <span class="name">
+                        <span ><b>serverRoutes</b></span>
+                        <a href="#serverRoutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ServerRoute[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  // Public/guest pages can be prerendered
+  { path: &#x27;login&#x27;, renderMode: RenderMode.Prerender },
+  { path: &#x27;register&#x27;, renderMode: RenderMode.Prerender },
+  { path: &#x27;home&#x27;, renderMode: RenderMode.Prerender },
+  { path: &#x27;forbidden&#x27;, renderMode: RenderMode.Prerender },
+
+  // Authenticated app pages: render on client to avoid running guards on server
+  { path: &#x27;chat&#x27;, renderMode: RenderMode.Client },
+  { path: &#x27;chat/session/:sessionId&#x27;, renderMode: RenderMode.Client },
+  // Admin-only routes are handled under &#x27;admin/*&#x27;
+
+  // Admin area and all children on client (RBAC/guards)
+  { path: &#x27;admin&#x27;, renderMode: RenderMode.Client },
+  { path: &#x27;admin/companies&#x27;, renderMode: RenderMode.Client },
+  { path: &#x27;admin/companies/:taxId&#x27;, renderMode: RenderMode.Client },
+  { path: &#x27;admin/*&#x27;, renderMode: RenderMode.Client },
+
+  // Fallback
+  { path: &#x27;**&#x27;, renderMode: RenderMode.Prerender },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/services/background.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_BG"></a>
+                    <span class="name">
+                        <span ><b>STORAGE_BG</b></span>
+                        <a href="#STORAGE_BG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;ui_bg_style&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_NEON"></a>
+                    <span class="name">
+                        <span ><b>STORAGE_NEON</b></span>
+                        <a href="#STORAGE_NEON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;ui_neon_edges&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_PAL"></a>
+                    <span class="name">
+                        <span ><b>STORAGE_PAL</b></span>
+                        <a href="#STORAGE_PAL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;ui_palette&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_PRLX"></a>
+                    <span class="name">
+                        <span ><b>STORAGE_PRLX</b></span>
+                        <a href="#STORAGE_PRLX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;ui_bg_parallax&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/services/language.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_KEY"></a>
+                    <span class="name">
+                        <span ><b>STORAGE_KEY</b></span>
+                        <a href="#STORAGE_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;app_lang&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infrastructure/services/theme.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_KEY"></a>
+                    <span class="name">
+                        <span ><b>STORAGE_KEY</b></span>
+                        <a href="#STORAGE_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;app_theme&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

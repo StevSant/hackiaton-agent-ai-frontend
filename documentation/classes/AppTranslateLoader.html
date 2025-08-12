@@ -1,0 +1,479 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >AppTranslateLoader</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/app.config.ts</code>
+        </p>
+
+
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                        <code>TranslateLoader</code>
+            </p>
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getTranslation" >getTranslation</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTranslation"></a>
+                    <span class="name">
+                        <span ><b>getTranslation</b></span>
+                        <a href="#getTranslation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTranslation(lang: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">src/app/app.config.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>lang</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+  importProvidersFrom,
+  provideAppInitializer,
+  inject, // &lt;-- use inject for deps inside initializers
+} from &#x27;@angular/core&#x27;;
+import {
+  provideRouter,
+  withViewTransitions,
+  PreloadingStrategy,
+} from &#x27;@angular/router&#x27;;
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+  HttpClient,
+} from &#x27;@angular/common/http&#x27;;
+
+import { routes } from &#x27;./app.routes&#x27;;
+import {
+  provideClientHydration,
+  withEventReplay,
+} from &#x27;@angular/platform-browser&#x27;;
+import { provideMarkdown } from &#x27;ngx-markdown&#x27;;
+import {
+  CHAT_STREAM_PORT,
+  SESSIONS_PORT,
+  AUTH_PORT,
+  APP_INFO_PORT,
+  FILES_PORT,
+  ADMIN_USERS_PORT,
+  COMPANIES_PORT,
+  RISK_WEIGHTS_PORT,
+  ADMIN_MESSAGES_PORT,
+  KPIS_PORT,
+} from &#x27;@core/tokens&#x27;;
+import { SseService } from &#x27;@infrastructure/services/sse-service&#x27;;
+import { SessionsService } from &#x27;@infrastructure/services/sessions.service&#x27;;
+import { AuthService } from &#x27;@infrastructure/services/auth.service&#x27;;
+import { authInterceptorFn } from &#x27;@infrastructure/interceptors/auth.interceptor&#x27;;
+import { AppInfoService } from &#x27;@infrastructure/services/app-info.service&#x27;;
+import { FilesService } from &#x27;@infrastructure/services/files.service&#x27;;
+import {
+  TranslateLoader,
+  TranslateModule,
+  type TranslationObject,
+} from &#x27;@ngx-translate/core&#x27;;
+import es from &#x27;../assets/i18n/es.json&#x27;;
+import en from &#x27;../assets/i18n/en.json&#x27;;
+import { of } from &#x27;rxjs&#x27;;
+import { AdminUsersService } from &#x27;@infrastructure/services/admin-users.service&#x27;;
+import { CompaniesService } from &#x27;@infrastructure/services/companies.service&#x27;;
+import { RiskWeightsService } from &#x27;@infrastructure/services/risk-weights.service&#x27;;
+import { AdminMessagesService } from &#x27;@infrastructure/services/admin-messages.service&#x27;;
+import { LanguageService } from &#x27;@infrastructure/services/language.service&#x27;;
+import { TokenStorageService } from &#x27;@infrastructure/services/token-storage.service&#x27;;
+import { GetProfileUseCase } from &#x27;@core/use-cases&#x27;;
+import { PerformanceService } from &#x27;@infrastructure/services/performance.service&#x27;;
+import { CustomPreloadStrategy } from &#x27;@infrastructure/strategies/custom-preload.strategy&#x27;;
+import { KpisApiService, KpisMockService } from &#x27;@infrastructure/services&#x27;;
+import { environment } from &#x27;@environments/environment&#x27;;
+
+class AppTranslateLoader implements TranslateLoader {
+  getTranslation(lang: string) {
+    const map: Record&lt;string, TranslationObject&gt; &#x3D; {
+      es: es as TranslationObject,
+      en: en as TranslationObject,
+    };
+    return of(map[lang] || map[&#x27;es&#x27;]);
+  }
+}
+
+export function HttpLoaderFactory(_http: HttpClient) {
+  return new AppTranslateLoader();
+}
+
+export const appConfig: ApplicationConfig &#x3D; {
+  providers: [
+    provideMarkdown(),
+    provideBrowserGlobalErrorListeners(),
+    provideZonelessChangeDetection(),
+
+    // Skip the very first view transition to avoid bootstrap-time InvalidStateError
+    provideRouter(routes, withViewTransitions({ skipInitialTransition: true })),
+    { provide: PreloadingStrategy, useClass: CustomPreloadStrategy },
+
+    provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptorFn])),
+
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+        },
+        fallbackLang: &#x27;es&#x27;,
+      }),
+    ),
+
+    // Initializer 1: language init
+    provideAppInitializer(() &#x3D;&gt; {
+      const langService &#x3D; inject(LanguageService);
+      return langService.initApp(); // can return void or Promise&lt;void&gt;
+    }),
+
+    // Initializer 2: refresh role from token (client only)
+    provideAppInitializer(() &#x3D;&gt; {
+      const token &#x3D; inject(TokenStorageService);
+      const getProfile &#x3D; inject(GetProfileUseCase);
+
+      const t &#x3D; token.getToken();
+      if (!t) return; // nothing to do
+
+      return getProfile
+        .execute(t)
+        .then((profile) &#x3D;&gt; {
+          if (profile?.role) token.setRole(profile.role);
+        })
+        .catch(() &#x3D;&gt; {
+          // swallow bootstrap errors
+        });
+    }),
+
+    // Initializer 3: performance-lite toggling for mobile/low-end
+    provideAppInitializer(() &#x3D;&gt; {
+      const perf &#x3D; inject(PerformanceService);
+      perf.init();
+    }),
+
+    { provide: CHAT_STREAM_PORT, useExisting: SseService },
+    { provide: SESSIONS_PORT, useExisting: SessionsService },
+    { provide: AUTH_PORT, useExisting: AuthService },
+    { provide: APP_INFO_PORT, useExisting: AppInfoService },
+    { provide: FILES_PORT, useExisting: FilesService },
+    { provide: ADMIN_USERS_PORT, useExisting: AdminUsersService },
+    { provide: COMPANIES_PORT, useExisting: CompaniesService },
+    { provide: RISK_WEIGHTS_PORT, useExisting: RiskWeightsService },
+    { provide: ADMIN_MESSAGES_PORT, useExisting: AdminMessagesService },
+
+    // KPIS_PORT: feature flag para mock/api
+    {
+      provide: KPIS_PORT,
+      useClass: environment.mockKpis ? KpisMockService : KpisApiService,
+    },
+  ],
+};
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'AppTranslateLoader.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

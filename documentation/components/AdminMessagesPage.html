@@ -1,0 +1,2205 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdminMessagesPage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/pages/admin/messages.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin-messages</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>TranslateModule</code>
+                            <code>MarkdownModule</code>
+                            <code>MatIconModule</code>
+                                <code><a href="../components/SessionFilesModalComponent.html" target="_self" >SessionFilesModalComponent</a></code>
+                                <code><a href="../components/SessionCompaniesModalComponent.html" target="_self" >SessionCompaniesModalComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./messages.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#chatUtils" >chatUtils</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#facade" >facade</a>
+                            </li>
+                            <li>
+                                <a href="#getCachedUserLabel" >getCachedUserLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#io" >io</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#ioSessions" >ioSessions</a>
+                            </li>
+                            <li>
+                                <a href="#limit" >limit</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                <a href="#messages" >messages</a>
+                            </li>
+                            <li>
+                                <a href="#msgTotal" >msgTotal</a>
+                            </li>
+                            <li>
+                                <a href="#page" >page</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processed" >processed</a>
+                            </li>
+                            <li>
+                                <a href="#selected" >selected</a>
+                            </li>
+                            <li>
+                                <a href="#selectedOwnerId" >selectedOwnerId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#sentinel" >sentinel</a>
+                            </li>
+                            <li>
+                                <a href="#sessions" >sessions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#sessionsContainer" >sessionsContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#sessionsSentinel" >sessionsSentinel</a>
+                            </li>
+                            <li>
+                                <a href="#showCompaniesModal" >showCompaniesModal</a>
+                            </li>
+                            <li>
+                                <a href="#showFilesModal" >showFilesModal</a>
+                            </li>
+                            <li>
+                                <a href="#total" >total</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#applySessionsSearch" >applySessionsSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#extractThinkBlocks" >extractThinkBlocks</a>
+                            </li>
+                            <li>
+                                <a href="#getProcessed" >getProcessed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#nextSessionsPage" >nextSessionsPage</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#open" >open</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#prevSessionsPage" >prevSessionsPage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupIO" >setupIO</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupIOSessions" >setupIOSessions</a>
+                            </li>
+                            <li>
+                                <a href="#toggleThink" >toggleThink</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#userLabel" >userLabel</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applySessionsSearch"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>applySessionsSearch</b></span>
+                        <a href="#applySessionsSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applySessionsSearch(q: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="84"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>q</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extractThinkBlocks"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>extractThinkBlocks</b></span>
+                        <a href="#extractThinkBlocks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>extractThinkBlocks(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProcessed"></a>
+                    <span class="name">
+                        <span ><b>getProcessed</b></span>
+                        <a href="#getProcessed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProcessed(message: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="184"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:184</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nextSessionsPage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>nextSessionsPage</b></span>
+                        <a href="#nextSessionsPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>nextSessionsPage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="open"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>open</b></span>
+                        <a href="#open"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>open(sessionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="64"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sessionId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prevSessionsPage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>prevSessionsPage</b></span>
+                        <a href="#prevSessionsPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>prevSessionsPage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupIO"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setupIO</b></span>
+                        <a href="#setupIO"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupIO()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupIOSessions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setupIOSessions</b></span>
+                        <a href="#setupIOSessions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupIOSessions()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="141"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:141</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleThink"></a>
+                    <span class="name">
+                        <span ><b>toggleThink</b></span>
+                        <a href="#toggleThink"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleThink(message: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="213"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:213</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userLabel"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>userLabel</b></span>
+                        <a href="#userLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>userLabel(userId: string | null | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">src/app/presentation/pages/admin/messages.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                        <code>string | null | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chatUtils"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>chatUtils</b></span>
+                        <a href="#chatUtils"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChatUtilsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.error</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="facade"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>facade</b></span>
+                        <a href="#facade"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AdminMessagesFacade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCachedUserLabel"></a>
+                    <span class="name">
+                        <span ><b>getCachedUserLabel</b></span>
+                        <a href="#getCachedUserLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.getCachedUserLabel.bind(this.facade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="io"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>io</b></span>
+                        <a href="#io"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>IntersectionObserver</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ioSessions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>ioSessions</b></span>
+                        <a href="#ioSessions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>IntersectionObserver</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="limit"></a>
+                    <span class="name">
+                        <span ><b>limit</b></span>
+                        <a href="#limit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.limit</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.loading</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messages"></a>
+                    <span class="name">
+                        <span ><b>messages</b></span>
+                        <a href="#messages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.messages</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="msgTotal"></a>
+                    <span class="name">
+                        <span ><b>msgTotal</b></span>
+                        <a href="#msgTotal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.msgTotal</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="page"></a>
+                    <span class="name">
+                        <span ><b>page</b></span>
+                        <a href="#page"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.page</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processed"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>processed</b></span>
+                        <a href="#processed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;
+    string,
+    { main: string; thinks: string[]; expanded: boolean; last: string }
+  &gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selected"></a>
+                    <span class="name">
+                        <span ><b>selected</b></span>
+                        <a href="#selected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.selected</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedOwnerId"></a>
+                    <span class="name">
+                        <span ><b>selectedOwnerId</b></span>
+                        <a href="#selectedOwnerId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const id &#x3D; this.selected();
+    if (!id) return null;
+    const list &#x3D; this.sessions() || [];
+    const found &#x3D; list.find((s) &#x3D;&gt; s.session_id &#x3D;&#x3D;&#x3D; id);
+    return found?.user_id || null;
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sentinel"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>sentinel</b></span>
+                        <a href="#sentinel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;sentinel&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessions"></a>
+                    <span class="name">
+                        <span ><b>sessions</b></span>
+                        <a href="#sessions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.sessions</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessionsContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>sessionsContainer</b></span>
+                        <a href="#sessionsContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;sessionsContainer&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessionsSentinel"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>sessionsSentinel</b></span>
+                        <a href="#sessionsSentinel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;sessionsSentinel&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:92</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCompaniesModal"></a>
+                    <span class="name">
+                        <span ><b>showCompaniesModal</b></span>
+                        <a href="#showCompaniesModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showFilesModal"></a>
+                    <span class="name">
+                        <span ><b>showFilesModal</b></span>
+                        <a href="#showFilesModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="total"></a>
+                    <span class="name">
+                        <span ><b>total</b></span>
+                        <a href="#total"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.total</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/presentation/pages/admin/messages.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ChangeDetectionStrategy,
+  ElementRef,
+  ViewChild,
+  inject,
+  computed,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { AdminMessagesFacade } from &#x27;@app/application/admin/admin-messages.facade&#x27;;
+import { MarkdownModule } from &#x27;ngx-markdown&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { ChatUtilsService } from &#x27;@infrastructure/services/chat-utils.service&#x27;;
+// Types are implied via facade signals; no direct import needed here
+import { SessionFilesModalComponent } from &#x27;../../components/files/session-files-modal.component&#x27;;
+import { SessionCompaniesModalComponent } from &#x27;../../components/companies/session-companies-modal.component&#x27;;
+
+@Component({
+  selector: &#x27;app-admin-messages&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MarkdownModule,
+    MatIconModule,
+    SessionFilesModalComponent,
+    SessionCompaniesModalComponent,
+  ],
+  templateUrl: &#x27;./messages.html&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AdminMessagesPage {
+  private readonly facade &#x3D; inject(AdminMessagesFacade);
+  protected readonly chatUtils &#x3D; inject(ChatUtilsService);
+
+  sessions &#x3D; this.facade.sessions;
+  selected &#x3D; this.facade.selected;
+  getCachedUserLabel &#x3D; this.facade.getCachedUserLabel.bind(this.facade);
+  selectedOwnerId &#x3D; computed(() &#x3D;&gt; {
+    const id &#x3D; this.selected();
+    if (!id) return null;
+    const list &#x3D; this.sessions() || [];
+    const found &#x3D; list.find((s) &#x3D;&gt; s.session_id &#x3D;&#x3D;&#x3D; id);
+    return found?.user_id || null;
+  });
+  messages &#x3D; this.facade.messages;
+  loading &#x3D; this.facade.loading;
+  error &#x3D; this.facade.error;
+  // pagination and filters
+  page &#x3D; this.facade.page;
+  limit &#x3D; this.facade.limit;
+  total &#x3D; this.facade.total;
+  msgTotal &#x3D; this.facade.msgTotal;
+
+  // session extras
+  showFilesModal &#x3D; false;
+  showCompaniesModal &#x3D; false;
+
+  async ngOnInit() {
+    await this.facade.loadSessions();
+  }
+
+  async open(sessionId: string) {
+    await this.facade.open(sessionId);
+  }
+
+  // Resolve user details for display (email/name) with caching
+  async userLabel(userId: string | null | undefined): Promise&lt;string&gt; {
+    if (!userId) return &#x27;&#x27;;
+    const u &#x3D; await this.facade.resolveUser(userId);
+    if (!u) return userId;
+    if (u.username &amp;&amp; u.email) return &#x60;${u.username} &lt;${u.email}&gt;&#x60;;
+    return u.email || u.username || userId;
+  }
+
+  // sessions controls
+  async nextSessionsPage() {
+    await this.facade.nextSessionsPage();
+  }
+  async prevSessionsPage() {
+    await this.facade.prevSessionsPage();
+  }
+  async applySessionsSearch(q: string) {
+    await this.facade.applySessionsSearch(q);
+  }
+  // messages infinite scroll
+  @ViewChild(&#x27;sentinel&#x27;, { static: false })
+  sentinel?: ElementRef&lt;HTMLDivElement&gt;;
+  private io?: IntersectionObserver;
+  @ViewChild(&#x27;sessionsSentinel&#x27;, { static: false })
+  sessionsSentinel?: ElementRef&lt;HTMLDivElement&gt;;
+  @ViewChild(&#x27;sessionsContainer&#x27;, { static: false })
+  sessionsContainer?: ElementRef&lt;HTMLDivElement&gt;;
+  private ioSessions?: IntersectionObserver;
+
+  // Cache for processed message content (main without &lt;think&gt; and extracted think blocks)
+  private processed &#x3D; new Map&lt;
+    string,
+    { main: string; thinks: string[]; expanded: boolean; last: string }
+  &gt;();
+
+  ngAfterViewInit() {
+    // set up intersection observer when sentinel is available
+    queueMicrotask(() &#x3D;&gt; this.setupIO());
+    queueMicrotask(() &#x3D;&gt; this.setupIOSessions());
+  }
+
+  private setupIO() {
+    if (this.io) {
+      this.io.disconnect();
+      this.io &#x3D; undefined;
+    }
+    if (!this.sentinel) return;
+    this.io &#x3D; new IntersectionObserver(
+      (entries) &#x3D;&gt; {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            const count &#x3D; this.messages()?.length || 0;
+            const total &#x3D; this.msgTotal();
+            if (count &lt; total) {
+              this.facade.nextMsgPage();
+            }
+          }
+        }
+      },
+      {
+        root:
+          (this.sentinel.nativeElement.parentElement as HTMLElement) || null,
+        rootMargin: &#x27;0px 0px 200px 0px&#x27;,
+        threshold: 0.1,
+      },
+    );
+    this.io.observe(this.sentinel.nativeElement);
+  }
+
+  ngOnDestroy() {
+    if (this.io) this.io.disconnect();
+  }
+
+  private setupIOSessions() {
+    if (!this.sessionsSentinel || !this.sessionsContainer) return;
+    if (this.ioSessions) return;
+    this.ioSessions &#x3D; new IntersectionObserver(
+      (entries) &#x3D;&gt; {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            const count &#x3D; this.sessions()?.length || 0;
+            const total &#x3D; this.total();
+            if (!total || count &lt; total) {
+              this.facade.nextSessionsInfinite();
+            }
+          }
+        }
+      },
+      {
+        root: this.sessionsContainer.nativeElement,
+        rootMargin: &#x27;0px 0px 200px 0px&#x27;,
+        threshold: 0.1,
+      },
+    );
+    this.ioSessions.observe(this.sessionsSentinel.nativeElement);
+  }
+
+  // Extract visible content and hidden &lt;think&gt; blocks from a markdown string
+  private extractThinkBlocks(content: string): {
+    main: string;
+    thinks: string[];
+  } {
+    if (!content) return { main: &#x27;&#x27;, thinks: [] };
+    const thinks: string[] &#x3D; [];
+    const re &#x3D; /&lt;think[^&gt;]*&gt;([\s\S]*?)&lt;\/think&gt;/gi;
+    let main &#x3D; content;
+    let m: RegExpExecArray | null;
+    while ((m &#x3D; re.exec(content)) !&#x3D;&#x3D; null) {
+      const inner &#x3D; (m[1] || &#x27;&#x27;).trim();
+      if (inner) thinks.push(inner);
+    }
+    main &#x3D; main.replace(re, &#x27;&#x27;).trim();
+    return { main, thinks };
+  }
+
+  // Get or (re)build processed view for a message, updating cache when content changes
+  getProcessed(message: { id?: string; content?: string }): {
+    main: string;
+    thinks: string[];
+    expanded: boolean;
+  } {
+    const id &#x3D;
+      message.id ||
+      &#x60;${message.content?.slice(0, 16) ?? &#x27;msg&#x27;}-${Math.random()}&#x60;;
+  const content &#x3D; this.chatUtils.cleanForMarkdown(message.content ?? &#x27;&#x27;);
+    const cached &#x3D; this.processed.get(id);
+    if (!cached || cached.last !&#x3D;&#x3D; content) {
+      const { main, thinks } &#x3D; this.extractThinkBlocks(content);
+      const expanded &#x3D; cached?.expanded ?? false; // preserve toggle state
+      const entry &#x3D; {
+        main: this.chatUtils.cleanForMarkdown(main),
+        thinks: thinks.map((t) &#x3D;&gt; this.chatUtils.cleanForMarkdown(t)),
+        expanded,
+        last: content,
+      };
+      this.processed.set(id, entry);
+      return entry;
+    }
+    return {
+      main: cached.main,
+      thinks: cached.thinks,
+      expanded: cached.expanded,
+    };
+  }
+
+  toggleThink(message: { id?: string; content?: string }) {
+    const id &#x3D; message.id || &#x60;${message.content?.slice(0, 16) ?? &#x27;msg&#x27;}&#x60;;
+    const p &#x3D; this.processed.get(id);
+    if (p) {
+      p.expanded &#x3D; !p.expanded;
+    } else {
+      const cur &#x3D; this.getProcessed(message);
+      this.processed.set(id, {
+        main: cur.main,
+        thinks: cur.thinks,
+        expanded: !cur.expanded,
+        last: message.content ?? &#x27;&#x27;,
+      });
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;./messages.css&quot;&gt;
+&lt;div class&#x3D;&quot;messages-container vt-page&quot;&gt;
+  &lt;!-- Header Section --&gt;
+  &lt;div class&#x3D;&quot;messages-header&quot;&gt;
+    &lt;div class&#x3D;&quot;header-content&quot;&gt;
+      &lt;h1 class&#x3D;&quot;page-title&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-comments title-icon&quot;&gt;&lt;/i&gt;
+        {{ &quot;ADMIN.MESSAGES.TITLE&quot; | translate }}
+      &lt;/h1&gt;
+      &lt;p class&#x3D;&quot;page-subtitle&quot;&gt;
+        Gestiona y revisa las conversaciones del sistema
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Main Content Grid --&gt;
+  &lt;div class&#x3D;&quot;messages-grid&quot;&gt;
+    &lt;!-- Sessions Panel --&gt;
+    &lt;div class&#x3D;&quot;sessions-panel modern-card&quot;&gt;
+      &lt;div class&#x3D;&quot;panel-header&quot;&gt;
+        &lt;h3 class&#x3D;&quot;panel-title&quot;&gt;
+          &lt;i class&#x3D;&quot;fas fa-list&quot;&gt;&lt;/i&gt;
+          Sesiones de Chat
+        &lt;/h3&gt;
+      &lt;/div&gt;
+      
+      &lt;!-- Search Section --&gt;
+      &lt;div class&#x3D;&quot;search-section&quot;&gt;
+        &lt;div class&#x3D;&quot;search-input-group&quot;&gt;
+          &lt;i class&#x3D;&quot;fas fa-search search-icon&quot;&gt;&lt;/i&gt;
+          &lt;input
+            class&#x3D;&quot;search-input&quot;
+            [placeholder]&#x3D;&quot;&#x27;ADMIN.MESSAGES.SEARCH_PLACEHOLDER&#x27; | translate&quot;
+            #q
+            (keyup.enter)&#x3D;&quot;applySessionsSearch(q.value)&quot;
+          /&gt;
+          &lt;button class&#x3D;&quot;search-btn&quot; (click)&#x3D;&quot;applySessionsSearch(q.value)&quot;&gt;
+            &lt;i class&#x3D;&quot;fas fa-filter&quot;&gt;&lt;/i&gt;
+            &lt;span&gt;{{ &quot;ADMIN.MESSAGES.FILTER&quot; | translate }}&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Sessions List --&gt;
+      &lt;div class&#x3D;&quot;sessions-list&quot; #sessionsContainer&gt;
+        @for (s of sessions(); track s.session_id) {
+          &lt;button
+            class&#x3D;&quot;session-item&quot;
+            (click)&#x3D;&quot;open(s.session_id)&quot;
+            [class.active]&#x3D;&quot;selected() &#x3D;&#x3D;&#x3D; s.session_id&quot;
+          &gt;
+            &lt;div class&#x3D;&quot;session-main&quot;&gt;
+              &lt;div class&#x3D;&quot;session-title&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-comment-dots session-icon&quot;&gt;&lt;/i&gt;
+                &lt;span&gt;{{ s.title || s.session_id }}&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class&#x3D;&quot;session-meta&quot;&gt;
+                &lt;div class&#x3D;&quot;meta-item&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-clock&quot;&gt;&lt;/i&gt;
+                  &lt;span&gt;{{ s.updated_at }}&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;meta-separator&quot;&gt;•&lt;/div&gt;
+                &lt;div class&#x3D;&quot;meta-item&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-user&quot;&gt;&lt;/i&gt;
+                  &lt;span class&#x3D;&quot;user-id&quot; [attr.title]&#x3D;&quot;userLabel(s.user_id)&quot;&gt;{{
+                    getCachedUserLabel(s.user_id) || s.user_id
+                  }}&lt;/span&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;session-indicator&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-chevron-right&quot;&gt;&lt;/i&gt;
+            &lt;/div&gt;
+          &lt;/button&gt;
+        }
+        
+        &lt;!-- Loading Indicator --&gt;
+        &lt;div class&#x3D;&quot;loading-section&quot; #sessionsSentinel&gt;
+          @if (loading()) {
+            &lt;div class&#x3D;&quot;loading-item&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-spinner fa-spin&quot;&gt;&lt;/i&gt;
+              &lt;span&gt;{{ &quot;COMMON.LOADING&quot; | translate }}&lt;/span&gt;
+            &lt;/div&gt;
+          }
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Sessions Footer --&gt;
+      &lt;div class&#x3D;&quot;sessions-footer&quot;&gt;
+        &lt;div class&#x3D;&quot;sessions-count&quot;&gt;
+          &lt;i class&#x3D;&quot;fas fa-info-circle&quot;&gt;&lt;/i&gt;
+          &lt;span&gt;{{ sessions().length }} / {{ total() || &quot;∞&quot; }}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Messages Panel --&gt;
+    &lt;div class&#x3D;&quot;messages-panel modern-card&quot;&gt;
+      @if (!selected()) {
+        &lt;div class&#x3D;&quot;empty-state&quot;&gt;
+          &lt;div class&#x3D;&quot;empty-icon&quot;&gt;
+            &lt;i class&#x3D;&quot;fas fa-message&quot;&gt;&lt;/i&gt;
+          &lt;/div&gt;
+          &lt;h3 class&#x3D;&quot;empty-title&quot;&gt;{{ &quot;ADMIN.MESSAGES.SELECT_SESSION&quot; | translate }}&lt;/h3&gt;
+          &lt;p class&#x3D;&quot;empty-description&quot;&gt;
+            Selecciona una sesión de la lista para ver los mensajes
+          &lt;/p&gt;
+        &lt;/div&gt;
+      } @else {
+        &lt;!-- Messages Header --&gt;
+        &lt;div class&#x3D;&quot;messages-header-bar&quot;&gt;
+          &lt;div class&#x3D;&quot;session-info&quot;&gt;
+            &lt;div class&#x3D;&quot;session-user&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-user-circle&quot;&gt;&lt;/i&gt;
+              &lt;span class&#x3D;&quot;user-label&quot; [attr.title]&#x3D;&quot;userLabel(selectedOwnerId())&quot;&gt;{{
+                getCachedUserLabel(selectedOwnerId()) || selectedOwnerId()
+              }}&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          
+          &lt;div class&#x3D;&quot;header-actions&quot;&gt;
+            &lt;button class&#x3D;&quot;action-btn files-btn&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;showFilesModal &#x3D; true&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-paperclip&quot;&gt;&lt;/i&gt;
+              &lt;span&gt;{{ &#x27;CHAT.ATTACHMENTS_VIEW&#x27; | translate }}&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;button class&#x3D;&quot;action-btn companies-btn&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;showCompaniesModal &#x3D; true&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-building&quot;&gt;&lt;/i&gt;
+              &lt;span&gt;{{ &#x27;COMMON.COMPANIES&#x27; | translate }}&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Messages List --&gt;
+        &lt;div class&#x3D;&quot;messages-list&quot;&gt;
+          @for (m of messages(); track m.id) {
+            &lt;div class&#x3D;&quot;message-item&quot; [class]&#x3D;&quot;&#x27;message-&#x27; + m.role&quot;&gt;
+              &lt;div class&#x3D;&quot;message-header&quot;&gt;
+                &lt;div class&#x3D;&quot;message-role&quot;&gt;
+                  @if (m.role &#x3D;&#x3D;&#x3D; &#x27;user&#x27;) {
+                    &lt;i class&#x3D;&quot;fas fa-user&quot;&gt;&lt;/i&gt;
+                  } @else if (m.role &#x3D;&#x3D;&#x3D; &#x27;agent&#x27;) {
+                    &lt;i class&#x3D;&quot;fas fa-robot&quot;&gt;&lt;/i&gt;
+                  } @else {
+                    &lt;i class&#x3D;&quot;fas fa-cog&quot;&gt;&lt;/i&gt;
+                  }
+                  &lt;span class&#x3D;&quot;role-badge&quot;&gt;{{ m.role }}&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;message-time&quot;&gt;
+                  &lt;i class&#x3D;&quot;fas fa-clock&quot;&gt;&lt;/i&gt;
+                  &lt;span&gt;{{ m.created_at }}&lt;/span&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              
+              @let view &#x3D; getProcessed(m);
+              &lt;div class&#x3D;&quot;message-content&quot;&gt;
+                @if (view.main.length) {
+                  &lt;div class&#x3D;&quot;message-main&quot;&gt;
+                    &lt;markdown [data]&#x3D;&quot;view.main&quot;&gt;&lt;/markdown&gt;
+                  &lt;/div&gt;
+                }
+                
+                @if (view.thinks.length) {
+                  &lt;div class&#x3D;&quot;think-section&quot;&gt;
+                    &lt;button
+                      class&#x3D;&quot;think-toggle&quot;
+                      type&#x3D;&quot;button&quot;
+                      (click)&#x3D;&quot;toggleThink(m)&quot;
+                    &gt;
+                      &lt;i class&#x3D;&quot;fas&quot; [class]&#x3D;&quot;view.expanded ? &#x27;fa-eye-slash&#x27; : &#x27;fa-eye&#x27;&quot;&gt;&lt;/i&gt;
+                      &lt;span&gt;
+                        {{
+                          view.expanded
+                            ? (&quot;CHAT.HIDE_THINK&quot; | translate)
+                            : (&quot;CHAT.SHOW_THINK&quot; | translate)
+                        }}
+                      &lt;/span&gt;
+                    &lt;/button&gt;
+                    
+                    @if (view.expanded) {
+                      &lt;div class&#x3D;&quot;think-content&quot;&gt;
+                        &lt;div class&#x3D;&quot;think-header&quot;&gt;
+                          &lt;i class&#x3D;&quot;fas fa-brain&quot;&gt;&lt;/i&gt;
+                          &lt;span&gt;&amp;lt;think&amp;gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        @for (t of view.thinks; track t) {
+                          &lt;div class&#x3D;&quot;think-item&quot;&gt;
+                            &lt;markdown [data]&#x3D;&quot;t&quot;&gt;&lt;/markdown&gt;
+                          &lt;/div&gt;
+                        }
+                      &lt;/div&gt;
+                    }
+                  &lt;/div&gt;
+                }
+              &lt;/div&gt;
+            &lt;/div&gt;
+          }
+          
+          &lt;!-- Load More Indicator --&gt;
+          &lt;div class&#x3D;&quot;load-more-section&quot; #sentinel&gt;
+            @if ((messages()?.length || 0) &lt; msgTotal()) {
+              &lt;div class&#x3D;&quot;loading-more&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-spinner fa-spin&quot;&gt;&lt;/i&gt;
+                &lt;span&gt;{{ &quot;ADMIN.MESSAGES.LOADING_MORE&quot; | translate }}&lt;/span&gt;
+              &lt;/div&gt;
+            }
+          &lt;/div&gt;
+        &lt;/div&gt;
+      }
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Modals --&gt;
+  @if (showFilesModal &amp;&amp; selected()) {
+    &lt;app-session-files-modal [sessionId]&#x3D;&quot;selected()!&quot; (closed)&#x3D;&quot;showFilesModal &#x3D; false&quot;&gt;&lt;/app-session-files-modal&gt;
+  }
+  @if (showCompaniesModal &amp;&amp; selected()) {
+    &lt;app-session-companies-modal [sessionId]&#x3D;&quot;selected()!&quot; (closed)&#x3D;&quot;showCompaniesModal &#x3D; false&quot;&gt;&lt;/app-session-companies-modal&gt;
+  }
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><link rel="stylesheet" href="./messages.css"><div class="messages-container vt-page">  <!-- Header Section -->  <div class="messages-header">    <div class="header-content">      <h1 class="page-title">        <i class="fas fa-comments title-icon"></i>        {{ "ADMIN.MESSAGES.TITLE" | translate }}      </h1>      <p class="page-subtitle">        Gestiona y revisa las conversaciones del sistema      </p>    </div>  </div>  <!-- Main Content Grid -->  <div class="messages-grid">    <!-- Sessions Panel -->    <div class="sessions-panel modern-card">      <div class="panel-header">        <h3 class="panel-title">          <i class="fas fa-list"></i>          Sesiones de Chat        </h3>      </div>            <!-- Search Section -->      <div class="search-section">        <div class="search-input-group">          <i class="fas fa-search search-icon"></i>          <input            class="search-input"            [placeholder]="\'ADMIN.MESSAGES.SEARCH_PLACEHOLDER\' | translate"            #q            (keyup.enter)="applySessionsSearch(q.value)"          />          <button class="search-btn" (click)="applySessionsSearch(q.value)">            <i class="fas fa-filter"></i>            <span>{{ "ADMIN.MESSAGES.FILTER" | translate }}</span>          </button>        </div>      </div>      <!-- Sessions List -->      <div class="sessions-list" #sessionsContainer>        @for (s of sessions(); track s.session_id) {          <button            class="session-item"            (click)="open(s.session_id)"            [class.active]="selected() === s.session_id"          >            <div class="session-main">              <div class="session-title">                <i class="fas fa-comment-dots session-icon"></i>                <span>{{ s.title || s.session_id }}</span>              </div>              <div class="session-meta">                <div class="meta-item">                  <i class="fas fa-clock"></i>                  <span>{{ s.updated_at }}</span>                </div>                <div class="meta-separator">•</div>                <div class="meta-item">                  <i class="fas fa-user"></i>                  <span class="user-id" [attr.title]="userLabel(s.user_id)">{{                    getCachedUserLabel(s.user_id) || s.user_id                  }}</span>                </div>              </div>            </div>            <div class="session-indicator">              <i class="fas fa-chevron-right"></i>            </div>          </button>        }                <!-- Loading Indicator -->        <div class="loading-section" #sessionsSentinel>          @if (loading()) {            <div class="loading-item">              <i class="fas fa-spinner fa-spin"></i>              <span>{{ "COMMON.LOADING" | translate }}</span>            </div>          }        </div>      </div>      <!-- Sessions Footer -->      <div class="sessions-footer">        <div class="sessions-count">          <i class="fas fa-info-circle"></i>          <span>{{ sessions().length }} / {{ total() || "∞" }}</span>        </div>      </div>    </div>    <!-- Messages Panel -->    <div class="messages-panel modern-card">      @if (!selected()) {        <div class="empty-state">          <div class="empty-icon">            <i class="fas fa-message"></i>          </div>          <h3 class="empty-title">{{ "ADMIN.MESSAGES.SELECT_SESSION" | translate }}</h3>          <p class="empty-description">            Selecciona una sesión de la lista para ver los mensajes          </p>        </div>      } @else {        <!-- Messages Header -->        <div class="messages-header-bar">          <div class="session-info">            <div class="session-user">              <i class="fas fa-user-circle"></i>              <span class="user-label" [attr.title]="userLabel(selectedOwnerId())">{{                getCachedUserLabel(selectedOwnerId()) || selectedOwnerId()              }}</span>            </div>          </div>                    <div class="header-actions">            <button class="action-btn files-btn" type="button" (click)="showFilesModal = true">              <i class="fas fa-paperclip"></i>              <span>{{ \'CHAT.ATTACHMENTS_VIEW\' | translate }}</span>            </button>            <button class="action-btn companies-btn" type="button" (click)="showCompaniesModal = true">              <i class="fas fa-building"></i>              <span>{{ \'COMMON.COMPANIES\' | translate }}</span>            </button>          </div>        </div>        <!-- Messages List -->        <div class="messages-list">          @for (m of messages(); track m.id) {            <div class="message-item" [class]="\'message-\' + m.role">              <div class="message-header">                <div class="message-role">                  @if (m.role === \'user\') {                    <i class="fas fa-user"></i>                  } @else if (m.role === \'agent\') {                    <i class="fas fa-robot"></i>                  } @else {                    <i class="fas fa-cog"></i>                  }                  <span class="role-badge">{{ m.role }}</span>                </div>                <div class="message-time">                  <i class="fas fa-clock"></i>                  <span>{{ m.created_at }}</span>                </div>              </div>                            @let view = getProcessed(m);              <div class="message-content">                @if (view.main.length) {                  <div class="message-main">                    <markdown [data]="view.main"></markdown>                  </div>                }                                @if (view.thinks.length) {                  <div class="think-section">                    <button                      class="think-toggle"                      type="button"                      (click)="toggleThink(m)"                    >                      <i class="fas" [class]="view.expanded ? \'fa-eye-slash\' : \'fa-eye\'"></i>                      <span>                        {{                          view.expanded                            ? ("CHAT.HIDE_THINK" | translate)                            : ("CHAT.SHOW_THINK" | translate)                        }}                      </span>                    </button>                                        @if (view.expanded) {                      <div class="think-content">                        <div class="think-header">                          <i class="fas fa-brain"></i>                          <span>&lt;think&gt;</span>                        </div>                        @for (t of view.thinks; track t) {                          <div class="think-item">                            <markdown [data]="t"></markdown>                          </div>                        }                      </div>                    }                  </div>                }              </div>            </div>          }                    <!-- Load More Indicator -->          <div class="load-more-section" #sentinel>            @if ((messages()?.length || 0) < msgTotal()) {              <div class="loading-more">                <i class="fas fa-spinner fa-spin"></i>                <span>{{ "ADMIN.MESSAGES.LOADING_MORE" | translate }}</span>              </div>            }          </div>        </div>      }    </div>  </div>  <!-- Modals -->  @if (showFilesModal && selected()) {    <app-session-files-modal [sessionId]="selected()!" (closed)="showFilesModal = false"></app-session-files-modal>  }  @if (showCompaniesModal && selected()) {    <app-session-companies-modal [sessionId]="selected()!" (closed)="showCompaniesModal = false"></app-session-companies-modal>  }</div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AdminMessagesPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminMessagesPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

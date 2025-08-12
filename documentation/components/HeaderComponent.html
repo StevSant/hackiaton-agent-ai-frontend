@@ -1,0 +1,1234 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  HeaderComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/components/header/header.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-header</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                            <code>RouterLink</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./header.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./header.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#bg" >bg</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#closeRepos" >closeRepos</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#onDocClick" >onDocClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#onEsc" >onEsc</a>
+                            </li>
+                            <li>
+                                <a href="#toggleMenu" >toggleMenu</a>
+                            </li>
+                            <li>
+                                <a href="#toggleRepos" >toggleRepos</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#info" >info</a>
+                            </li>
+                            <li>
+                                <a href="#isAdmin" >isAdmin</a>
+                            </li>
+                            <li>
+                                <a href="#isOpen" >isOpen</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isOpenChange" >isOpenChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:click" >document:click</a>
+                            </li>
+                            <li>
+                                <a href="#document:keydown.escape" >document:keydown.escape</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#backend_repository" >backend_repository</a>
+                                </li>
+                                <li>
+                                    <a href="#frontend_repository" >frontend_repository</a>
+                                </li>
+                                <li>
+                                    <a href="#youtube_video" >youtube_video</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="info"></a>
+                        <b>info</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/presentation/components/header/header.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isAdmin"></a>
+                        <b>isAdmin</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/presentation/components/header/header.component.ts:27</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isOpen"></a>
+                        <b>isOpen</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/presentation/components/header/header.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isOpenChange"></a>
+                        <b>isOpenChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/presentation/components/header/header.component.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-methods">
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:click"></a>
+                    <span class="name">
+                        <span ><b>document:click</b></span>
+                        <a href="#document:click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:click()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:keydown.escape"></a>
+                    <span class="name">
+                        <span ><b>document:keydown.escape</b></span>
+                        <a href="#document:keydown.escape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:keydown.escape()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeRepos"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>closeRepos</b></span>
+                        <a href="#closeRepos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closeRepos()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="32"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDocClick"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>onDocClick</b></span>
+                        <a href="#onDocClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDocClick()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:click&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEsc"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>onEsc</b></span>
+                        <a href="#onEsc"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onEsc()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:keydown.escape&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleMenu"></a>
+                    <span class="name">
+                        <span ><b>toggleMenu</b></span>
+                        <a href="#toggleMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleMenu()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleRepos"></a>
+                    <span class="name">
+                        <span ><b>toggleRepos</b></span>
+                        <a href="#toggleRepos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleRepos(ev?: MouseEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="55"
+                                    class="link-to-prism">src/app/presentation/components/header/header.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ev</td>
+                                            <td>
+                                                        <code>MouseEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bg"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>bg</b></span>
+                        <a href="#bg"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(BackgroundService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/presentation/components/header/header.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="backend_repository"></a>
+                        <span class="name"><b>backend_repository</b><a href="#backend_repository"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>backend_repository()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/presentation/components/header/header.component.ts:37</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="frontend_repository"></a>
+                        <span class="name"><b>frontend_repository</b><a href="#frontend_repository"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>frontend_repository()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/presentation/components/header/header.component.ts:41</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="youtube_video"></a>
+                        <span class="name"><b>youtube_video</b><a href="#youtube_video"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>youtube_video()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/presentation/components/header/header.component.ts:45</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  HostListener,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { RouterLink } from &#x27;@angular/router&#x27;;
+import { BackgroundService } from &#x27;@infrastructure/services/background.service&#x27;;
+
+@Component({
+  selector: &#x27;app-header&#x27;,
+  standalone: true,
+  imports: [CommonModule, MatIconModule, TranslateModule, RouterLink],
+  templateUrl: &#x27;./header.component.html&#x27;,
+  styleUrls: [&#x27;./header.component.css&#x27;],
+})
+export class HeaderComponent {
+  // Inputs/Outputs for compatibility with two-way binding
+
+  @Input() info: any;
+  @Input() isOpen: boolean &#x3D; false;
+  @Input() isAdmin: boolean &#x3D; false;
+  @Output() isOpenChange: EventEmitter&lt;boolean&gt; &#x3D; new EventEmitter&lt;boolean&gt;();
+
+  private readonly bg &#x3D; inject(BackgroundService);
+
+  ngOnInit() {
+    // Initialize background service
+    this.bg.init();
+  }
+
+  get backend_repository() {
+    return &#x27;https://github.com/SteveSant26/hackiaton-agent-ai-backend&#x27;;
+  }
+
+  get frontend_repository() {
+    return &#x27;https://github.com/SteveSant26/hackiaton-agent-ai-frontend&#x27;;
+  }
+
+  get youtube_video() {
+    return &#x27;https://www.youtube.com/watch?v&#x3D;dQw4w9WgXcQ&#x27;;
+  }
+
+  // si ya tienes lógica para el menú lateral o similar
+  toggleMenu() {
+    // tu lógica existente
+  }
+
+  // toggle correcto del dropdown usando input/output
+  toggleRepos(ev?: MouseEvent) {
+    ev?.stopPropagation();
+    this.isOpenChange.emit(!this.isOpen);
+  }
+
+  // util para cerrar
+  private closeRepos() {
+    if (this.isOpen) this.isOpenChange.emit(false);
+  }
+
+  // cierre por click-fuera
+  @HostListener(&#x27;document:click&#x27;)
+  onDocClick() {
+    this.closeRepos();
+  }
+
+  // cierre por Esc
+  @HostListener(&#x27;document:keydown.escape&#x27;)
+  onEsc() {
+    this.closeRepos();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;header class&#x3D;&quot;sticky top-0 z-40&quot;&gt;
+  &lt;div class&#x3D;&quot;mx-auto max-w-7xl px-5 py-3 flex items-center justify-between&quot;&gt;
+    &lt;!-- Botón menú --&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/&quot;
+      class&#x3D;&quot;flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-primary rounded&quot;
+    &gt;
+      &lt;img
+        [src]&#x3D;&quot;(info?.site_icon || info?.site_logo) ?? &#x27;/assets/favicon.ico&#x27;&quot;
+        [alt]&#x3D;&quot;info?.site_name || (&#x27;SHELL.APP_TITLE&#x27; | translate)&quot;
+        class&#x3D;&quot;w-12 h-12 rounded object-cover&quot;
+      /&gt;
+      &lt;span class&#x3D;&quot;font-bold tracking-tight text-xl md:text-2xl&quot;&gt;
+        {{ info?.site_name || (&quot;SHELL.APP_TITLE&quot; | translate) }}
+      &lt;/span&gt;
+    &lt;/a&gt;
+
+    &lt;!-- Nav --&gt;
+    &lt;nav class&#x3D;&quot;flex items-center gap-2&quot; aria-label&#x3D;&quot;Primary&quot;&gt;
+      &lt;!-- Dropdown Repositorios --&gt;
+      &lt;div
+        class&#x3D;&quot;relative&quot;
+        (click)&#x3D;&quot;$event.stopPropagation()&quot;
+        (keydown)&#x3D;&quot;$event.stopPropagation()&quot;
+      &gt;
+        &lt;button
+          type&#x3D;&quot;button&quot;
+          (click)&#x3D;&quot;toggleRepos($event)&quot;
+          class&#x3D;&quot;btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary flex items-center gap-1&quot;
+          aria-haspopup&#x3D;&quot;menu&quot;
+          [attr.aria-expanded]&#x3D;&quot;isOpen&quot;
+        &gt;
+          &lt;mat-icon
+            fontIcon&#x3D;&quot;folder&quot;
+            class&#x3D;&quot;opacity-80&quot;
+            aria-hidden&#x3D;&quot;true&quot;
+          &gt;&lt;/mat-icon&gt;
+          &lt;span class&#x3D;&quot;hidden sm:inline&quot;&gt;Info&lt;/span&gt;
+          &lt;svg
+            class&#x3D;&quot;w-3 h-3 ml-1&quot;
+            xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+            fill&#x3D;&quot;none&quot;
+            viewBox&#x3D;&quot;0 0 24 24&quot;
+            stroke&#x3D;&quot;currentColor&quot;
+          &gt;
+            &lt;path
+              stroke-linecap&#x3D;&quot;round&quot;
+              stroke-linejoin&#x3D;&quot;round&quot;
+              stroke-width&#x3D;&quot;2&quot;
+              d&#x3D;&quot;M19 9l-7 7-7-7&quot;
+            /&gt;
+          &lt;/svg&gt;
+        &lt;/button&gt;
+
+        &lt;!-- Menú --&gt;
+        @if (isOpen) {
+          &lt;div
+            class&#x3D;&quot;absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-base-100 ring-1 ring-black/10 z-50 isolate backdrop-blur-0&quot;
+            style&#x3D;&quot;--tw-bg-opacity: 1&quot;
+            role&#x3D;&quot;menu&quot;
+            aria-label&#x3D;&quot;Repositorios del proyecto&quot;
+          &gt;
+            &lt;div class&#x3D;&quot;py-1&quot;&gt;
+              &lt;a
+                [href]&#x3D;&quot;backend_repository&quot;
+                target&#x3D;&quot;_blank&quot;
+                rel&#x3D;&quot;noopener noreferrer&quot;
+                class&#x3D;&quot;flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary&quot;
+                role&#x3D;&quot;menuitem&quot;
+              &gt;
+                &lt;mat-icon
+                  fontIcon&#x3D;&quot;storage&quot;
+                  class&#x3D;&quot;opacity-80 mr-2&quot;
+                  aria-hidden&#x3D;&quot;true&quot;
+                &gt;&lt;/mat-icon&gt;
+                Backend
+              &lt;/a&gt;
+              &lt;a
+                [href]&#x3D;&quot;frontend_repository&quot;
+                target&#x3D;&quot;_blank&quot;
+                rel&#x3D;&quot;noopener noreferrer&quot;
+                class&#x3D;&quot;flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary&quot;
+                role&#x3D;&quot;menuitem&quot;
+              &gt;
+                &lt;mat-icon
+                  fontIcon&#x3D;&quot;web&quot;
+                  class&#x3D;&quot;opacity-80 mr-2&quot;
+                  aria-hidden&#x3D;&quot;true&quot;
+                &gt;&lt;/mat-icon&gt;
+                Frontend
+              &lt;/a&gt;
+              &lt;a
+                [href]&#x3D;&quot;youtube_video&quot;
+                target&#x3D;&quot;_blank&quot;
+                rel&#x3D;&quot;noopener noreferrer&quot;
+                class&#x3D;&quot;flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary&quot;
+                role&#x3D;&quot;menuitem&quot;
+              &gt;
+                &lt;mat-icon
+                  fontIcon&#x3D;&quot;youtube_activity&quot;
+                  class&#x3D;&quot;opacity-80 mr-2&quot;
+                  aria-hidden&#x3D;&quot;true&quot;
+                &gt;&lt;/mat-icon&gt;
+                YouTube Video
+              &lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        }
+      &lt;/div&gt;
+
+      &lt;!-- Otros botones --&gt;
+      @if (isAdmin) {
+        &lt;a
+          routerLink&#x3D;&quot;/admin&quot;
+          routerLinkActive&#x3D;&quot;btn-primary&quot;
+          class&#x3D;&quot;btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary hover:bg-primary/10&quot;
+          aria-label&#x3D;&quot;Admin&quot;
+        &gt;
+          &lt;mat-icon
+            fontIcon&#x3D;&quot;admin_panel_settings&quot;
+            class&#x3D;&quot;opacity-80&quot;
+            aria-hidden&#x3D;&quot;true&quot;
+          &gt;&lt;/mat-icon&gt;
+          &lt;span class&#x3D;&quot;ml-1&quot;&gt;{{ &quot;COMMON.ADMIN&quot; | translate }}&lt;/span&gt;
+        &lt;/a&gt;
+      }
+      &lt;a
+        routerLink&#x3D;&quot;/chat&quot;
+        routerLinkActive&#x3D;&quot;btn-primary&quot;
+        class&#x3D;&quot;btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary&quot;
+        aria-label&#x3D;&quot;Chat&quot;
+      &gt;
+        &lt;mat-icon
+          fontIcon&#x3D;&quot;chat&quot;
+          class&#x3D;&quot;opacity-80&quot;
+          aria-hidden&#x3D;&quot;true&quot;
+        &gt;&lt;/mat-icon&gt;
+        &lt;span class&#x3D;&quot;ml-1&quot;&gt;{{ &quot;COMMON.OPEN&quot; | translate }}&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./header.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">/* Header styles with theme support */
+header {
+  background: hsl(var(--card) / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid hsl(var(--border) / 0.6);
+}
+
+/* Neon edges support for header when enabled */
+body.neon-edges header {
+  box-shadow:
+    0 0 0 1px hsl(var(--brand-primary) / 0.18),
+    0 0 12px hsl(var(--brand-primary-glow) / 0.16);
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><header class="sticky top-0 z-40">  <div class="mx-auto max-w-7xl px-5 py-3 flex items-center justify-between">    <!-- Botón menú -->    <a      routerLink="/"      class="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-primary rounded"    >      <img        [src]="(info?.site_icon || info?.site_logo) ?? \'/assets/favicon.ico\'"        [alt]="info?.site_name || (\'SHELL.APP_TITLE\' | translate)"        class="w-12 h-12 rounded object-cover"      />      <span class="font-bold tracking-tight text-xl md:text-2xl">        {{ info?.site_name || ("SHELL.APP_TITLE" | translate) }}      </span>    </a>    <!-- Nav -->    <nav class="flex items-center gap-2" aria-label="Primary">      <!-- Dropdown Repositorios -->      <div        class="relative"        (click)="$event.stopPropagation()"        (keydown)="$event.stopPropagation()"      >        <button          type="button"          (click)="toggleRepos($event)"          class="btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary flex items-center gap-1"          aria-haspopup="menu"          [attr.aria-expanded]="isOpen"        >          <mat-icon            fontIcon="folder"            class="opacity-80"            aria-hidden="true"          ></mat-icon>          <span class="hidden sm:inline">Info</span>          <svg            class="w-3 h-3 ml-1"            xmlns="http://www.w3.org/2000/svg"            fill="none"            viewBox="0 0 24 24"            stroke="currentColor"          >            <path              stroke-linecap="round"              stroke-linejoin="round"              stroke-width="2"              d="M19 9l-7 7-7-7"            />          </svg>        </button>        <!-- Menú -->        @if (isOpen) {          <div            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-base-100 ring-1 ring-black/10 z-50 isolate backdrop-blur-0"            style="--tw-bg-opacity: 1"            role="menu"            aria-label="Repositorios del proyecto"          >            <div class="py-1">              <a                [href]="backend_repository"                target="_blank"                rel="noopener noreferrer"                class="flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary"                role="menuitem"              >                <mat-icon                  fontIcon="storage"                  class="opacity-80 mr-2"                  aria-hidden="true"                ></mat-icon>                Backend              </a>              <a                [href]="frontend_repository"                target="_blank"                rel="noopener noreferrer"                class="flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary"                role="menuitem"              >                <mat-icon                  fontIcon="web"                  class="opacity-80 mr-2"                  aria-hidden="true"                ></mat-icon>                Frontend              </a>              <a                [href]="youtube_video"                target="_blank"                rel="noopener noreferrer"                class="flex items-center px-4 py-2 text-sm transition-colors duration-150 hover:bg-primary/10 hover:text-primary"                role="menuitem"              >                <mat-icon                  fontIcon="youtube_activity"                  class="opacity-80 mr-2"                  aria-hidden="true"                ></mat-icon>                YouTube Video              </a>            </div>          </div>        }      </div>      <!-- Otros botones -->      @if (isAdmin) {        <a          routerLink="/admin"          routerLinkActive="btn-primary"          class="btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary hover:bg-primary/10"          aria-label="Admin"        >          <mat-icon            fontIcon="admin_panel_settings"            class="opacity-80"            aria-hidden="true"          ></mat-icon>          <span class="ml-1">{{ "COMMON.ADMIN" | translate }}</span>        </a>      }      <a        routerLink="/chat"        routerLinkActive="btn-primary"        class="btn btn-sm btn-ghost focus:outline-none focus:ring-2 focus:ring-primary"        aria-label="Chat"      >        <mat-icon          fontIcon="chat"          class="opacity-80"          aria-hidden="true"        ></mat-icon>        <span class="ml-1">{{ "COMMON.OPEN" | translate }}</span>      </a>    </nav>  </div></header></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'HeaderComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'HeaderComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

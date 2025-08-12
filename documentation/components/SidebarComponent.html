@@ -1,0 +1,3285 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  SidebarComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/components/sidebar/sidebar.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-sidebar</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>RouterLink</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                                <code><a href="../components/ProfileMenuComponent.html" target="_self" >ProfileMenuComponent</a></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./sidebar.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./sidebar.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#cdr" >cdr</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#chatFacade" >chatFacade</a>
+                            </li>
+                            <li>
+                                <a href="#confirmOpen" >confirmOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#getProfileUC" >getProfileUC</a>
+                            </li>
+                            <li>
+                                <a href="#hasMore" >hasMore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#io" >io</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#lang" >lang</a>
+                            </li>
+                            <li>
+                                <a href="#limit" >limit</a>
+                            </li>
+                            <li>
+                                <a href="#page" >page</a>
+                            </li>
+                            <li>
+                                <a href="#profileEmail" >profileEmail</a>
+                            </li>
+                            <li>
+                                <a href="#profileLoading" >profileLoading</a>
+                            </li>
+                            <li>
+                                <a href="#profileMenuOpen" >profileMenuOpen</a>
+                            </li>
+                            <li>
+                                <a href="#profileRole" >profileRole</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#scrollContainer" >scrollContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#sentinel" >sentinel</a>
+                            </li>
+                            <li>
+                                <a href="#sessions" >sessions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#sessionsEvents" >sessionsEvents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#siteRoutesConfig" >siteRoutesConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#theme" >theme</a>
+                            </li>
+                            <li>
+                                <a href="#toDelete" >toDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#token" >token</a>
+                            </li>
+                            <li>
+                                <a href="#total" >total</a>
+                            </li>
+                            <li>
+                                <a href="#trackByIndex" >trackByIndex</a>
+                            </li>
+                            <li>
+                                <a href="#trackBySessionId" >trackBySessionId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelDelete" >cancelDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#closeOnOutsideClick" >closeOnOutsideClick</a>
+                            </li>
+                            <li>
+                                <a href="#confirmDelete" >confirmDelete</a>
+                            </li>
+                            <li>
+                                <a href="#isAuthenticated" >isAuthenticated</a>
+                            </li>
+                            <li>
+                                <a href="#loadMore" >loadMore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadProfileIfAuthenticated" >loadProfileIfAuthenticated</a>
+                            </li>
+                            <li>
+                                <a href="#logout" >logout</a>
+                            </li>
+                            <li>
+                                <a href="#newChat" >newChat</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openDeleteModal" >openDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#openSession" >openSession</a>
+                            </li>
+                            <li>
+                                <a href="#sanitizeTitle" >sanitizeTitle</a>
+                            </li>
+                            <li>
+                                <a href="#setTheme" >setTheme</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupIO" >setupIO</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sortSessionsDesc" >sortSessionsDesc</a>
+                            </li>
+                            <li>
+                                <a href="#switchLang" >switchLang</a>
+                            </li>
+                            <li>
+                                <a href="#toggleProfileMenu" >toggleProfileMenu</a>
+                            </li>
+                            <li>
+                                <a href="#tryLoad" >tryLoad</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#tsOf" >tsOf</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isOpen" >isOpen</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closed" >closed</a>
+                            </li>
+                            <li>
+                                <a href="#deleteCancelled" >deleteCancelled</a>
+                            </li>
+                            <li>
+                                <a href="#deleteConfirmed" >deleteConfirmed</a>
+                            </li>
+                            <li>
+                                <a href="#deleteRequested" >deleteRequested</a>
+                            </li>
+                            <li>
+                                <a href="#opened" >opened</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:click" >document:click</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isOpen"></a>
+                        <b>isOpen</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="closed"></a>
+                        <b>closed</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deleteCancelled"></a>
+                        <b>deleteCancelled</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:75</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deleteConfirmed"></a>
+                        <b>deleteConfirmed</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:76</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deleteRequested"></a>
+                        <b>deleteRequested</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:74</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="opened"></a>
+                        <b>opened</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:45</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-methods">
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:click"></a>
+                    <span class="name">
+                        <span ><b>document:click</b></span>
+                        <a href="#document:click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:click()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="320"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:320</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelDelete"></a>
+                    <span class="name">
+                        <span ><b>cancelDelete</b></span>
+                        <a href="#cancelDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelDelete()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="269"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:269</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeOnOutsideClick"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>closeOnOutsideClick</b></span>
+                        <a href="#closeOnOutsideClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closeOnOutsideClick()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:click&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="320"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:320</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmDelete"></a>
+                    <span class="name">
+                        <span ><b>confirmDelete</b></span>
+                        <a href="#confirmDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmDelete()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="239"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:239</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAuthenticated"></a>
+                    <span class="name">
+                        <span ><b>isAuthenticated</b></span>
+                        <a href="#isAuthenticated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isAuthenticated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:275</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadMore"></a>
+                    <span class="name">
+                        <span ><b>loadMore</b></span>
+                        <a href="#loadMore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadMore()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadProfileIfAuthenticated"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>loadProfileIfAuthenticated</b></span>
+                        <a href="#loadProfileIfAuthenticated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadProfileIfAuthenticated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="280"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:280</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logout"></a>
+                    <span class="name">
+                        <span ><b>logout</b></span>
+                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>logout(event?: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="302"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:302</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newChat"></a>
+                    <span class="name">
+                        <span ><b>newChat</b></span>
+                        <a href="#newChat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newChat()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="226"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:226</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="215"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:215</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="118"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:118</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>openDeleteModal</b></span>
+                        <a href="#openDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDeleteModal(session: <a href="../interfaces/SessionEntry.html" target="_self">SessionEntry</a>, event?: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="232"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:232</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>session</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openSession"></a>
+                    <span class="name">
+                        <span ><b>openSession</b></span>
+                        <a href="#openSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openSession(session: <a href="../interfaces/SessionEntry.html" target="_self">SessionEntry</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="219"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:219</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>session</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sanitizeTitle"></a>
+                    <span class="name">
+                        <span ><b>sanitizeTitle</b></span>
+                        <a href="#sanitizeTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sanitizeTitle(title?: string | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>title</td>
+                                            <td>
+                                                        <code>string | null</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTheme"></a>
+                    <span class="name">
+                        <span ><b>setTheme</b></span>
+                        <a href="#setTheme"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setTheme(value: "light" | "dark" | "system")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="315"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:315</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>&quot;light&quot; | &quot;dark&quot; | &quot;system&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupIO"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setupIO</b></span>
+                        <a href="#setupIO"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupIO()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortSessionsDesc"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>sortSessionsDesc</b></span>
+                        <a href="#sortSessionsDesc"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sortSessionsDesc(list: <a href="../interfaces/SessionEntry.html" target="_self">SessionEntry[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>list</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="switchLang"></a>
+                    <span class="name">
+                        <span ><b>switchLang</b></span>
+                        <a href="#switchLang"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>switchLang(lang: "es" | "en")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="311"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:311</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>lang</td>
+                                            <td>
+                                                        <code>&quot;es&quot; | &quot;en&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleProfileMenu"></a>
+                    <span class="name">
+                        <span ><b>toggleProfileMenu</b></span>
+                        <a href="#toggleProfileMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleProfileMenu(event?: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:298</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tryLoad"></a>
+                    <span class="name">
+                        <span ><b>tryLoad</b></span>
+                        <a href="#tryLoad"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>tryLoad()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:125</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tsOf"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>tsOf</b></span>
+                        <a href="#tsOf"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>tsOf(s: <a href="../interfaces/SessionEntry.html" target="_self">SessionEntry</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>s</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cdr"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>cdr</b></span>
+                        <a href="#cdr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChangeDetectorRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chatFacade"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>chatFacade</b></span>
+                        <a href="#chatFacade"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChatFacade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmOpen"></a>
+                    <span class="name">
+                        <span ><b>confirmOpen</b></span>
+                        <a href="#confirmOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProfileUC"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>getProfileUC</b></span>
+                        <a href="#getProfileUC"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GetProfileUseCase)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasMore"></a>
+                    <span class="name">
+                        <span ><b>hasMore</b></span>
+                        <a href="#hasMore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="io"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>io</b></span>
+                        <a href="#io"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>IntersectionObserver</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lang"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>lang</b></span>
+                        <a href="#lang"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(LanguageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="limit"></a>
+                    <span class="name">
+                        <span ><b>limit</b></span>
+                        <a href="#limit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>20</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="page"></a>
+                    <span class="name">
+                        <span ><b>page</b></span>
+                        <a href="#page"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>1</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileEmail"></a>
+                    <span class="name">
+                        <span ><b>profileEmail</b></span>
+                        <a href="#profileEmail"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileLoading"></a>
+                    <span class="name">
+                        <span ><b>profileLoading</b></span>
+                        <a href="#profileLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileMenuOpen"></a>
+                    <span class="name">
+                        <span ><b>profileMenuOpen</b></span>
+                        <a href="#profileMenuOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileRole"></a>
+                    <span class="name">
+                        <span ><b>profileRole</b></span>
+                        <a href="#profileRole"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>scrollContainer</b></span>
+                        <a href="#scrollContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;scrollContainer&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sentinel"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>sentinel</b></span>
+                        <a href="#sentinel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;sentinel&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessions"></a>
+                    <span class="name">
+                        <span ><b>sessions</b></span>
+                        <a href="#sessions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessionsEvents"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>sessionsEvents</b></span>
+                        <a href="#sessionsEvents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(SessionsEventsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="siteRoutesConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>siteRoutesConfig</b></span>
+                        <a href="#siteRoutesConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ base: { url: &#x27;/&#x27; } } as const</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="theme"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>theme</b></span>
+                        <a href="#theme"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ThemeService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toDelete"></a>
+                    <span class="name">
+                        <span ><b>toDelete</b></span>
+                        <a href="#toDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;SessionEntry | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="token"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>token</b></span>
+                        <a href="#token"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TokenStorageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="total"></a>
+                    <span class="name">
+                        <span ><b>total</b></span>
+                        <a href="#total"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trackByIndex"></a>
+                    <span class="name">
+                        <span ><b>trackByIndex</b></span>
+                        <a href="#trackByIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trackBySessionId"></a>
+                    <span class="name">
+                        <span ><b>trackBySessionId</b></span>
+                        <a href="#trackBySessionId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/presentation/components/sidebar/sidebar.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  inject,
+  signal,
+  HostListener,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+  Input,
+  ViewChild,
+  ElementRef,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Router, RouterLink } from &#x27;@angular/router&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import type { SessionEntry } from &#x27;@core/models&#x27;;
+import { ChatFacade } from &#x27;@app/application/chat/chat.facade&#x27;;
+import { TokenStorageService } from &#x27;@infrastructure/services/token-storage.service&#x27;;
+import { GetProfileUseCase } from &#x27;@core/use-cases&#x27;;
+import { SessionsEventsService } from &#x27;@infrastructure/services/sessions-events.service&#x27;;
+import { LanguageService } from &#x27;@infrastructure/services/language.service&#x27;;
+import { ThemeService } from &#x27;@infrastructure/services/theme.service&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { ProfileMenuComponent } from &#x27;../profile-menu/profile-menu&#x27;;
+// Simple route config for home navigation
+
+@Component({
+  selector: &#x27;app-sidebar&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatIconModule,
+    TranslateModule,
+    ProfileMenuComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: &#x27;./sidebar.html&#x27;,
+  styleUrls: [&#x27;./sidebar.css&#x27;],
+})
+export class SidebarComponent {
+  @Input() isOpen &#x3D; true;
+  @Output() closed &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() opened &#x3D; new EventEmitter&lt;void&gt;();
+  readonly siteRoutesConfig &#x3D; { base: { url: &#x27;/&#x27; } } as const;
+
+  // No agentId required anymore
+
+  private readonly chatFacade &#x3D; inject(ChatFacade);
+  readonly router &#x3D; inject(Router);
+  readonly token &#x3D; inject(TokenStorageService);
+  private readonly getProfileUC &#x3D; inject(GetProfileUseCase);
+  private readonly sessionsEvents &#x3D; inject(SessionsEventsService);
+  private readonly cdr &#x3D; inject(ChangeDetectorRef);
+  private readonly lang &#x3D; inject(LanguageService);
+  protected readonly theme &#x3D; inject(ThemeService);
+
+  // auth/profile state (kept to check admin visibility)
+  profileEmail &#x3D; signal&lt;string | null&gt;(null);
+  profileRole &#x3D; signal&lt;string | null&gt;(null);
+  profileLoading &#x3D; signal(false);
+  profileMenuOpen &#x3D; signal(false);
+
+  sessions: SessionEntry[] &#x3D; [];
+  isLoading &#x3D; false;
+  page &#x3D; 1;
+  limit &#x3D; 20;
+  total &#x3D; 0;
+  hasMore &#x3D; true;
+  // delete confirmation state (lifted to shell via outputs)
+  confirmOpen &#x3D; signal(false);
+  toDelete &#x3D; signal&lt;SessionEntry | null&gt;(null);
+  @Output() deleteRequested &#x3D; new EventEmitter&lt;SessionEntry&gt;();
+  @Output() deleteCancelled &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() deleteConfirmed &#x3D; new EventEmitter&lt;SessionEntry&gt;();
+
+  // trackBy helpers
+  trackBySessionId &#x3D; (_: number, s: SessionEntry) &#x3D;&gt; s.session_id;
+  trackByIndex &#x3D; (i: number) &#x3D;&gt; i;
+
+  @ViewChild(&#x27;sentinel&#x27;, { static: false })
+  sentinel?: ElementRef&lt;HTMLDivElement&gt;;
+  @ViewChild(&#x27;scrollContainer&#x27;, { static: false })
+  scrollContainer?: ElementRef&lt;HTMLDivElement&gt;;
+  private io?: IntersectionObserver;
+
+  // Helpers to sanitize and sort sessions
+  sanitizeTitle(title?: string | null): string {
+    const t &#x3D; title || &#x27;&#x27;;
+    // Strip &lt;think&gt; tags but keep inner text (even if closing tag is missing)
+    // Examples:
+    //   &quot;&lt;think&gt;My title&lt;/think&gt;&quot; -&gt; &quot;My title&quot;
+    //   &quot;&lt;think&gt;\nShort title i&quot; (no closing) -&gt; &quot;Short title i&quot;
+    //   &quot;Hello &lt;think&gt;note&lt;/think&gt; world&quot; -&gt; &quot;Hello note world&quot;
+    return t
+      .replace(/&lt;\/?think[^&gt;]*&gt;/gi, &#x27;&#x27;)
+      .replace(/[\s\u00A0]+/g, &#x27; &#x27;) // collapse whitespace
+      .trim();
+  }
+  private tsOf(s: SessionEntry): number {
+    const u: any &#x3D;
+      (s as any).updated_at ?? s.updated_at ?? (s as any).updatedAt;
+    const c: any &#x3D;
+      (s as any).created_at ?? s.created_at ?? (s as any).createdAt;
+    const parse &#x3D; (v: any) &#x3D;&gt;
+      typeof v &#x3D;&#x3D;&#x3D; &#x27;number&#x27;
+        ? v
+        : typeof v &#x3D;&#x3D;&#x3D; &#x27;string&#x27;
+          ? Date.parse(v) || 0
+          : 0;
+    return parse(u) || parse(c) || 0;
+  }
+  private sortSessionsDesc(list: SessionEntry[]): SessionEntry[] {
+    return [...list].sort((a, b) &#x3D;&gt; this.tsOf(b) - this.tsOf(a));
+  }
+
+  ngOnInit() {
+    this.tryLoad();
+    this.loadProfileIfAuthenticated();
+    // refresh when someone triggers a sessions update
+    this.sessionsEvents.onRefresh().subscribe(() &#x3D;&gt; this.tryLoad());
+  }
+
+  tryLoad() {
+    if (this.isLoading) return;
+    // Defer loading flag to avoid NG0100 when toggling quickly in same tick
+    setTimeout(() &#x3D;&gt; {
+      this.isLoading &#x3D; true;
+      this.cdr.markForCheck();
+    });
+    // agentId is ignored by backend; pass a placeholder
+    this.chatFacade
+      .listSessions({ page: this.page, limit: this.limit })
+      .subscribe({
+        next: (list) &#x3D;&gt; {
+          // sanitize titles and sort newest first
+          const sanitized &#x3D; (list || []).map((s) &#x3D;&gt; ({
+            ...s,
+            title: this.sanitizeTitle(s.title) || s.title,
+          }));
+          this.sessions &#x3D; this.sortSessionsDesc(sanitized);
+          // total could come in a separate response in the future; fallback keeps hasMore true until we reach an empty page
+          this.hasMore &#x3D; (list?.length || 0) &#x3D;&#x3D;&#x3D; this.limit;
+          this.cdr.markForCheck();
+          // setup IO after first paint
+          queueMicrotask(() &#x3D;&gt; this.setupIO());
+        },
+        error: () &#x3D;&gt; {
+          // ensure loading state is cleared so future refresh triggers work
+          this.isLoading &#x3D; false;
+          this.cdr.markForCheck();
+        },
+        complete: () &#x3D;&gt;
+          setTimeout(() &#x3D;&gt; {
+            this.isLoading &#x3D; false;
+            this.cdr.markForCheck();
+          }),
+      });
+  }
+
+  loadMore() {
+    if (this.isLoading) return;
+    if (!this.hasMore) return;
+    this.page +&#x3D; 1;
+    // For now, append by calling again (SessionsService isn’t paginated yet); dedupe by id
+    this.isLoading &#x3D; true;
+    this.cdr.markForCheck();
+    this.chatFacade
+      .listSessions({ page: this.page, limit: this.limit })
+      .subscribe({
+        next: (list) &#x3D;&gt; {
+          const map &#x3D; new Map&lt;string, SessionEntry&gt;();
+          for (const s of this.sessions) map.set(s.session_id, s);
+          for (const s of list || []) map.set(s.session_id, s);
+          const merged &#x3D; Array.from(map.values()).map((s) &#x3D;&gt; ({
+            ...s,
+            title: this.sanitizeTitle(s.title) || s.title,
+          }));
+          this.sessions &#x3D; this.sortSessionsDesc(merged);
+          this.hasMore &#x3D; (list?.length || 0) &#x3D;&#x3D;&#x3D; this.limit;
+          this.cdr.markForCheck();
+        },
+        complete: () &#x3D;&gt; {
+          this.isLoading &#x3D; false;
+          this.cdr.markForCheck();
+        },
+        error: () &#x3D;&gt; {
+          this.isLoading &#x3D; false;
+          this.cdr.markForCheck();
+        },
+      });
+  }
+
+  private setupIO() {
+    if (!this.sentinel || !this.scrollContainer) return;
+    if (this.io) return; // create once
+    this.io &#x3D; new IntersectionObserver(
+      (entries) &#x3D;&gt; {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            this.loadMore();
+          }
+        }
+      },
+      {
+        root: this.scrollContainer.nativeElement,
+        rootMargin: &#x27;0px 0px 200px 0px&#x27;,
+        threshold: 0.1,
+      },
+    );
+    this.io.observe(this.sentinel.nativeElement);
+  }
+
+  ngOnDestroy() {
+    if (this.io) this.io.disconnect();
+  }
+
+  openSession(session: SessionEntry) {
+    this.router.navigate([&#x27;/chat&#x27;, &#x27;session&#x27;, session.session_id]).then(() &#x3D;&gt; {
+      // tras navegar, refrescar lista para reflejar títulos/orden si el backend los cambia
+      setTimeout(() &#x3D;&gt; this.tryLoad());
+    });
+  }
+
+  newChat() {
+    this.router.navigate([&#x27;/chat&#x27;]).then(() &#x3D;&gt; {
+      setTimeout(() &#x3D;&gt; this.tryLoad());
+    });
+  }
+
+  openDeleteModal(session: SessionEntry, event?: Event) {
+    event?.stopPropagation();
+    this.toDelete.set(session);
+    this.confirmOpen.set(true);
+    this.deleteRequested.emit(session);
+  }
+
+  confirmDelete() {
+    const session &#x3D; this.toDelete();
+    if (!session) {
+      this.confirmOpen.set(false);
+      return;
+    }
+    this.chatFacade.deleteSession(session.session_id).subscribe({
+      next: () &#x3D;&gt; {
+        // remove locally
+        this.sessions &#x3D; this.sessions.filter(
+          (s) &#x3D;&gt; s.session_id !&#x3D;&#x3D; session.session_id,
+        );
+        this.cdr.markForCheck();
+        // redirect to new chat page
+        this.router
+          .navigate([&#x27;/chat&#x27;])
+          .then(() &#x3D;&gt; setTimeout(() &#x3D;&gt; this.tryLoad()));
+      },
+      complete: () &#x3D;&gt; {
+        this.confirmOpen.set(false);
+        this.deleteConfirmed.emit(session);
+        this.toDelete.set(null);
+      },
+      error: () &#x3D;&gt; {
+        this.confirmOpen.set(false);
+        this.toDelete.set(null);
+      },
+    });
+  }
+
+  cancelDelete() {
+    this.confirmOpen.set(false);
+    this.deleteCancelled.emit();
+    this.toDelete.set(null);
+  }
+
+  isAuthenticated() {
+    return this.token.isAuthenticated();
+  }
+
+  // --- Auth / Profile dropdown logic ---
+  private async loadProfileIfAuthenticated() {
+    if (!this.token.isAuthenticated() || this.profileEmail()) return;
+    const t &#x3D; this.token.getToken();
+    if (!t) return;
+    this.profileLoading.set(true);
+    try {
+      const profile &#x3D; await this.getProfileUC.execute(t);
+      this.profileEmail.set(profile.email || profile.username || null);
+      this.profileRole.set(profile.role || null);
+    } catch {
+      // si falla, limpiamos token para evitar estado inconsistente
+      // this.token.clear(); // opcional: comentar para no forzar logout automático
+    } finally {
+      this.profileLoading.set(false);
+    }
+  }
+
+  // toggleProfileMenu now handled inside ProfileMenuComponent when used in the template
+  toggleProfileMenu(event?: Event) {
+    /* deprecated in this view */
+  }
+
+  logout(event?: Event) {
+    event?.stopPropagation();
+    this.token.clear();
+    this.profileEmail.set(null);
+    this.profileRole.set(null);
+    this.profileMenuOpen.set(false);
+    this.router.navigateByUrl(&#x27;/login&#x27;);
+  }
+
+  switchLang(lang: &#x27;es&#x27; | &#x27;en&#x27;) {
+    this.lang.switch(lang);
+  }
+
+  setTheme(value: &#x27;light&#x27; | &#x27;dark&#x27; | &#x27;system&#x27;) {
+    this.theme.setTheme(value);
+  }
+
+  @HostListener(&#x27;document:click&#x27;)
+  closeOnOutsideClick() {
+    if (this.profileMenuOpen()) {
+      this.profileMenuOpen.set(false);
+    }
+    if (this.isOpen) {
+      this.closed.emit();
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;aside class&#x3D;&quot;h-screen w-72 p-4 flex flex-col border-r sticky top-0 vt-sidebar&quot;&gt;
+  &lt;div class&#x3D;&quot;flex flex-col h-full gap-3&quot;&gt;
+    &lt;div class&#x3D;&quot;flex items-center justify-between gap-2&quot;&gt;
+      &lt;div class&#x3D;&quot;flex items-center justify-center w-full gap-3&quot;&gt;
+        &lt;button
+          [routerLink]&#x3D;&quot;[&#x27;/&#x27;]&quot;
+          class&#x3D;&quot;flex items-center gap-2 rounded-xl bg-gradient-to-l from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 cursor-pointer py-2.5 px-4 text-white font-semibold shadow-lg hover:shadow-xl relative overflow-hidden&quot;
+        &gt;
+          &lt;mat-icon class&#x3D;&quot;text-lg&quot;&gt;home&lt;/mat-icon&gt;
+          {{ &quot;COMMON.HOME&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button
+          class&#x3D;&quot;flex items-center gap-2 text-sm rounded-lg px-3 py-2 bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-400/30 hover:to-gray-500/30 backdrop-filter backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300&quot;
+          (click)&#x3D;&quot;tryLoad()&quot;
+          [disabled]&#x3D;&quot;isLoading&quot;
+        &gt;
+          &lt;mat-icon fontIcon&#x3D;&quot;refresh&quot; class&#x3D;&quot;text-base&quot;&gt;&lt;/mat-icon&gt;
+          {{ &quot;COMMON.REFRESH&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;!-- Profile icon/menu moved to footer --&gt;
+    &lt;/div&gt;
+
+    &lt;button
+      class&#x3D;&quot;flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 cursor-pointer py-3 px-6 text-white font-semibold shadow-lg hover:shadow-xl relative overflow-hidden group&quot;
+      (click)&#x3D;&quot;newChat()&quot;
+    &gt;
+      &lt;mat-icon class&#x3D;&quot;text-lg group-hover:scale-110 transition-transform duration-300&quot;&gt;edit_square&lt;/mat-icon&gt; 
+      {{ &quot;COMMON.NEW_CHAT&quot; | translate }}
+    &lt;/button&gt;
+
+    &lt;div class&#x3D;&quot;flex-1 overflow-y-auto&quot; #scrollContainer&gt;
+      &lt;div class&#x3D;&quot;text-sm font-medium px-3 py-2 mb-3 rounded-lg bg-gradient-to-r from-gray-600/20 to-gray-700/20 backdrop-filter backdrop-blur-sm border border-white/10&quot;&gt;
+        {{ &quot;COMMON.HISTORY&quot; | translate }}
+      &lt;/div&gt;
+      &lt;ng-container&gt;
+        &lt;div *ngIf&#x3D;&quot;isLoading&quot; class&#x3D;&quot;px-2 py-2&quot;&gt;
+          &lt;div class&#x3D;&quot;space-y-2&quot;&gt;
+            &lt;div
+              class&#x3D;&quot;h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse&quot;
+            &gt;&lt;/div&gt;
+            &lt;div
+              class&#x3D;&quot;h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse&quot;
+            &gt;&lt;/div&gt;
+            &lt;div
+              class&#x3D;&quot;h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse&quot;
+            &gt;&lt;/div&gt;
+            &lt;div
+              class&#x3D;&quot;h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse&quot;
+            &gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div
+          *ngIf&#x3D;&quot;!isLoading &amp;&amp; sessions.length &#x3D;&#x3D;&#x3D; 0&quot;
+          class&#x3D;&quot;px-4 py-6 text-center&quot;
+        &gt;
+          &lt;div class&#x3D;&quot;rounded-xl bg-gradient-to-br from-gray-500/10 to-gray-600/10 backdrop-filter backdrop-blur-sm border border-white/5 p-4&quot;&gt;
+            &lt;mat-icon class&#x3D;&quot;text-3xl opacity-30 mb-2&quot;&gt;history&lt;/mat-icon&gt;
+            &lt;div class&#x3D;&quot;text-sm opacity-60&quot;&gt;{{ &quot;COMMON.NO_SESSIONS&quot; | translate }}&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;ul class&#x3D;&quot;space-y-2&quot;&gt;
+          &lt;li
+            *ngFor&#x3D;&quot;let s of sessions; trackBy: trackBySessionId&quot;
+            class&#x3D;&quot;group rounded-xl transition-all duration-300 hover:scale-[1.02]&quot;
+          &gt;
+            &lt;div class&#x3D;&quot;grid grid-cols-[1fr_auto] items-center px-3 py-3 gap-3&quot;&gt;
+              &lt;button class&#x3D;&quot;text-left flex-1 min-w-0 group-hover:translate-x-1 transition-transform duration-300&quot; (click)&#x3D;&quot;openSession(s)&quot;&gt;
+                &lt;div class&#x3D;&quot;text-sm font-medium min-w-0&quot;&gt;
+                  &lt;div
+                    class&#x3D;&quot;max-w-40 whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-blue-300 transition-colors duration-300&quot;
+                    [title]&#x3D;&quot;
+                      sanitizeTitle(s.title) ||
+                      (&#x27;CHAT.SESSION&#x27; | translate) +
+                        &#x27; &#x27; +
+                        s.session_id.slice(0, 6)
+                    &quot;
+                  &gt;
+                    {{
+                      sanitizeTitle(s.title) ||
+                        (&quot;CHAT.SESSION&quot; | translate) +
+                          &quot; &quot; +
+                          s.session_id.slice(0, 6)
+                    }}
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/button&gt;
+              &lt;button
+                class&#x3D;&quot;btn btn-ghost btn-xs text-error transition-all duration-300 hover:scale-110&quot;
+                (click)&#x3D;&quot;openDeleteModal(s, $event)&quot;
+                [title]&#x3D;&quot;&#x27;COMMON.DELETE&#x27; | translate&quot;
+              &gt;
+                &lt;mat-icon fontIcon&#x3D;&quot;delete&quot; class&#x3D;&quot;text-sm&quot;&gt;&lt;/mat-icon&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;div class&#x3D;&quot;py-2 flex justify-center text-xs opacity-60&quot; #sentinel&gt;
+          &lt;ng-container *ngIf&#x3D;&quot;isLoading&quot;&gt;{{
+            &quot;COMMON.LOADING&quot; | translate
+          }}&lt;/ng-container&gt;
+          &lt;ng-container *ngIf&#x3D;&quot;!isLoading&quot;&gt;&amp;nbsp;&lt;/ng-container&gt;
+        &lt;/div&gt;
+      &lt;/ng-container&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Footer: reusable profile menu + admin entry button --&gt;
+    &lt;div class&#x3D;&quot;mt-4 pt-4 border-t relative&quot; style&#x3D;&quot;border-color: hsl(var(--border))&quot;&gt;
+      &lt;button
+        *ngIf&#x3D;&quot;profileRole() &#x3D;&#x3D;&#x3D; &#x27;admin&#x27;&quot;
+        [routerLink]&#x3D;&quot;[&#x27;/admin&#x27;]&quot;
+        class&#x3D;&quot;w-full mb-3 py-2.5 px-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all duration-300 cursor-pointer text-white font-semibold shadow-lg hover:shadow-xl relative overflow-hidden group&quot;
+      &gt;
+        &lt;mat-icon fontIcon&#x3D;&quot;admin_panel_settings&quot; class&#x3D;&quot;text-lg group-hover:scale-110 transition-transform duration-300&quot;&gt;&lt;/mat-icon&gt;
+        {{ &quot;COMMON.ADMIN&quot; | translate }}
+      &lt;/button&gt;
+      &lt;app-profile-menu
+        [showBackToChat]&#x3D;&quot;false&quot;
+        [showBackHome]&#x3D;&quot;true&quot;
+        (closed)&#x3D;&quot;closed.emit()&quot;
+      &gt;
+      &lt;/app-profile-menu&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./sidebar.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.profile-menu-surface {
+  /* Solid, theme-aware surface so underlying content does not show */
+  background-color: rgb(var(--b1));
+  color: rgb(var(--bc));
+  border: 1px solid rgb(var(--bc) / 0.16);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  overflow: hidden; /* ensure rounded corners clip inner elements */
+}
+.profile-menu-divider {
+  border-top: 1px solid rgb(var(--bc) / 0.1);
+}
+
+.profile-menu-header {
+  background-color: rgb(var(--bc) / 0.08);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.profile-menu-section {
+  background-color: rgb(var(--bc) / 0.04);
+  border-radius: 10px;
+}
+
+/* --- Marquee title on hover --- */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 12rem; /* ensure title doesn’t push actions */
+}
+.marquee::before,
+.marquee::after {
+  content: &quot;&quot;;
+  position: absolute;
+  top: 0;
+  width: 16px;
+  height: 100%;
+  pointer-events: none;
+}
+.marquee::before {
+  left: 0;
+  background: linear-gradient(to right, hsl(var(--background)), transparent);
+}
+.marquee::after {
+  right: 0;
+  background: linear-gradient(to left, hsl(var(--background)), transparent);
+}
+
+.marquee__content {
+  display: inline-block;
+  padding-right: 2rem; /* gap between loops */
+  transform: translateX(0);
+  will-change: transform;
+}
+
+/* Only animate on hover of the list item for UX */
+li.group:hover .marquee__content {
+  animation: marquee-scroll 8s linear infinite;
+}
+
+/* When not animating, keep text single-line truncated */
+.marquee .marquee__content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   MODERN SIDEBAR - GLASSMORPHISM DESIGN
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.vt-sidebar {
+  background: linear-gradient(180deg, 
+    hsl(var(--card) / 0.4) 0%, 
+    hsl(var(--card) / 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid hsl(var(--border) / 0.3);
+  box-shadow: 
+    4px 0 20px rgba(0, 0, 0, 0.1),
+    inset -1px 0 0 hsl(var(--foreground) / 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   SUBTLE SCROLLBAR STYLING
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted) / 0.3) transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted) / 0.3);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted) / 0.5);
+}
+
+.vt-sidebar::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.3) 50%, 
+    transparent 100%);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   SESSION LIST IMPROVEMENTS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+li.group {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.3) 0%, 
+    hsl(var(--card) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.2);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+li.group::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.2) 50%, 
+    transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+li.group:hover::before {
+  opacity: 1;
+}
+
+li.group:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--primary) / 0.05) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+  transform: translateX(4px);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 hsl(var(--primary) / 0.2);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   BUTTON IMPROVEMENTS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+button[routerLink] {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+button[routerLink]::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    transparent 100%);
+  transition: left 0.5s ease;
+}
+
+button[routerLink]:hover::before {
+  left: 100%;
+}
+
+button[routerLink]:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   DELETE BUTTON
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.btn-ghost.btn-xs.text-error {
+  background: linear-gradient(135deg, 
+    hsl(var(--destructive) / 0.15) 0%, 
+    hsl(var(--destructive) / 0.08) 100%);
+  border: 1px solid hsl(var(--destructive) / 0.2);
+  color: hsl(var(--destructive));
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+li.group:hover .btn-ghost.btn-xs.text-error {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.btn-ghost.btn-xs.text-error:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--destructive) / 0.25) 0%, 
+    hsl(var(--destructive) / 0.15) 100%);
+  border-color: hsl(var(--destructive) / 0.4);
+  transform: scale(1.05);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   LOADING STATES
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.animate-pulse {
+  background: linear-gradient(90deg, 
+    hsl(var(--muted) / 0.2) 25%, 
+    hsl(var(--muted) / 0.4) 50%, 
+    hsl(var(--muted) / 0.2) 75%);
+  background-size: 200% 100%;
+  animation: shimmerLoad 1.5s infinite;
+}
+
+@keyframes shimmerLoad {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   FOOTER SECTION
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.border-t {
+  border-top: 1px solid hsl(var(--border) / 0.3);
+  position: relative;
+}
+
+.border-t::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.2) 50%, 
+    transparent 100%);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   RESPONSIVE IMPROVEMENTS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+@media (max-width: 768px) {
+  .vt-sidebar {
+    box-shadow: 
+      8px 0 32px rgba(0, 0, 0, 0.15),
+      inset -1px 0 0 hsl(var(--foreground) / 0.05);
+  }
+  
+  li.group {
+    margin-bottom: 0.375rem;
+  }
+  
+  button[routerLink] {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.875rem;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><aside class="h-screen w-72 p-4 flex flex-col border-r sticky top-0 vt-sidebar">  <div class="flex flex-col h-full gap-3">    <div class="flex items-center justify-between gap-2">      <div class="flex items-center justify-center w-full gap-3">        <button          [routerLink]="[\'/\']"          class="flex items-center gap-2 rounded-xl bg-gradient-to-l from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 cursor-pointer py-2.5 px-4 text-white font-semibold shadow-lg hover:shadow-xl relative overflow-hidden"        >          <mat-icon class="text-lg">home</mat-icon>          {{ "COMMON.HOME" | translate }}        </button>        <button          class="flex items-center gap-2 text-sm rounded-lg px-3 py-2 bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-400/30 hover:to-gray-500/30 backdrop-filter backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300"          (click)="tryLoad()"          [disabled]="isLoading"        >          <mat-icon fontIcon="refresh" class="text-base"></mat-icon>          {{ "COMMON.REFRESH" | translate }}        </button>      </div>      <!-- Profile icon/menu moved to footer -->    </div>    <button      class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 cursor-pointer py-3 px-6 text-white font-semibold shadow-lg hover:shadow-xl relative overflow-hidden group"      (click)="newChat()"    >      <mat-icon class="text-lg group-hover:scale-110 transition-transform duration-300">edit_square</mat-icon>       {{ "COMMON.NEW_CHAT" | translate }}    </button>    <div class="flex-1 overflow-y-auto" #scrollContainer>      <div class="text-sm font-medium px-3 py-2 mb-3 rounded-lg bg-gradient-to-r from-gray-600/20 to-gray-700/20 backdrop-filter backdrop-blur-sm border border-white/10">        {{ "COMMON.HISTORY" | translate }}      </div>      <ng-container>        <div *ngIf="isLoading" class="px-2 py-2">          <div class="space-y-2">            <div              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"            ></div>            <div              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"            ></div>            <div              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"            ></div>            <div              class="h-8 rounded-md bg-[hsl(var(--card)_/_0.55)] animate-pulse"            ></div>          </div>        </div>        <div          *ngIf="!isLoading && sessions.length === 0"          class="px-4 py-6 text-center"        >          <div class="rounded-xl bg-gradient-to-br from-gray-500/10 to-gray-600/10 backdrop-filter backdrop-blur-sm border border-white/5 p-4">            <mat-icon class="text-3xl opacity-30 mb-2">history</mat-icon>            <div class="text-sm opacity-60">{{ "COMMON.NO_SESSIONS" | translate }}</div>          </div>        </div>        <ul class="space-y-2">          <li            *ngFor="let s of sessions; trackBy: trackBySessionId"            class="group rounded-xl transition-all duration-300 hover:scale-[1.02]"          >            <div class="grid grid-cols-[1fr_auto] items-center px-3 py-3 gap-3">              <button class="text-left flex-1 min-w-0 group-hover:translate-x-1 transition-transform duration-300" (click)="openSession(s)">                <div class="text-sm font-medium min-w-0">                  <div                    class="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-blue-300 transition-colors duration-300"                    [title]="                      sanitizeTitle(s.title) ||                      (\'CHAT.SESSION\' | translate) +                        \' \' +                        s.session_id.slice(0, 6)                    "                  >                    {{                      sanitizeTitle(s.title) ||                        ("CHAT.SESSION" | translate) +                          " " +                          s.session_id.slice(0, 6)                    }}                  </div>                </div>              </button>              <button                class="btn btn-ghost btn-xs text-error transition-all duration-300 hover:scale-110"                (click)="openDeleteModal(s, $event)"                [title]="\'COMMON.DELETE\' | translate"              >                <mat-icon fontIcon="delete" class="text-sm"></mat-icon>              </button>            </div>          </li>        </ul>        <div class="py-2 flex justify-center text-xs opacity-60" #sentinel>          <ng-container *ngIf="isLoading">{{            "COMMON.LOADING" | translate          }}</ng-container>          <ng-container *ngIf="!isLoading">&nbsp;</ng-container>        </div>      </ng-container>    </div>    <!-- Footer: reusable profile menu + admin entry button -->    <div class="mt-4 pt-4 border-t relative" style="border-color: hsl(var(--border))">      <button        *ngIf="profileRole() === \'admin\'"        [routerLink]="[\'/admin\']"        class="w-full mb-3 py-2.5 px-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-l from-purple-600 to-fuchsia-500 hover:from-purple-500 hover:to-fuchsia-400 transition-all duration-300 cursor-pointer text-white font-semibold shadow-lg hover:shadow-xl relative overflow-hidden group"      >        <mat-icon fontIcon="admin_panel_settings" class="text-lg group-hover:scale-110 transition-transform duration-300"></mat-icon>        {{ "COMMON.ADMIN" | translate }}      </button>      <app-profile-menu        [showBackToChat]="false"        [showBackHome]="true"        (closed)="closed.emit()"      >      </app-profile-menu>    </div>  </div></aside></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'SidebarComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SidebarComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

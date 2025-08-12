@@ -1,0 +1,1683 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdminShellLayout</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/layouts/admin-shell/admin-shell.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin-shell</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>RouterLink</code>
+                            <code>RouterOutlet</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                                <code><a href="../components/ProfileMenuComponent.html" target="_self" >ProfileMenuComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./admin-shell.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./admin-shell.css</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#getProfileUC" >getProfileUC</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#lang" >lang</a>
+                            </li>
+                            <li>
+                                <a href="#profileEmail" >profileEmail</a>
+                            </li>
+                            <li>
+                                <a href="#profileLoading" >profileLoading</a>
+                            </li>
+                            <li>
+                                <a href="#profileMenuOpen" >profileMenuOpen</a>
+                            </li>
+                            <li>
+                                <a href="#profileRole" >profileRole</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <a href="#sidebarCollapsed" >sidebarCollapsed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#theme" >theme</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#token" >token</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#closeOnOutsideClick" >closeOnOutsideClick</a>
+                            </li>
+                            <li>
+                                <a href="#isAuthenticated" >isAuthenticated</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isMobile" >isMobile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadProfileIfAuthenticated" >loadProfileIfAuthenticated</a>
+                            </li>
+                            <li>
+                                <a href="#logout" >logout</a>
+                            </li>
+                            <li>
+                                <a href="#navigateToLogin" >navigateToLogin</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#onResize" >onResize</a>
+                            </li>
+                            <li>
+                                <a href="#setTheme" >setTheme</a>
+                            </li>
+                            <li>
+                                <a href="#switchLang" >switchLang</a>
+                            </li>
+                            <li>
+                                <a href="#toggleProfileMenu" >toggleProfileMenu</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSidebar" >toggleSidebar</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:click" >document:click</a>
+                            </li>
+                            <li>
+                                <a href="#window:resize" >window:resize</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:click"></a>
+                    <span class="name">
+                        <span ><b>document:click</b></span>
+                        <a href="#document:click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:click()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="window:resize"></a>
+                    <span class="name">
+                        <span ><b>window:resize</b></span>
+                        <a href="#window:resize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>window:resize()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeOnOutsideClick"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>closeOnOutsideClick</b></span>
+                        <a href="#closeOnOutsideClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closeOnOutsideClick()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:click&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAuthenticated"></a>
+                    <span class="name">
+                        <span ><b>isAuthenticated</b></span>
+                        <a href="#isAuthenticated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isAuthenticated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMobile"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isMobile</b></span>
+                        <a href="#isMobile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isMobile()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:125</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadProfileIfAuthenticated"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>loadProfileIfAuthenticated</b></span>
+                        <a href="#loadProfileIfAuthenticated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadProfileIfAuthenticated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logout"></a>
+                    <span class="name">
+                        <span ><b>logout</b></span>
+                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>logout(event?: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateToLogin"></a>
+                    <span class="name">
+                        <span ><b>navigateToLogin</b></span>
+                        <a href="#navigateToLogin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>navigateToLogin()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="53"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onResize"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>onResize</b></span>
+                        <a href="#onResize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onResize()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;window:resize&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTheme"></a>
+                    <span class="name">
+                        <span ><b>setTheme</b></span>
+                        <a href="#setTheme"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setTheme(value: "light" | "dark" | "system")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>&quot;light&quot; | &quot;dark&quot; | &quot;system&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="switchLang"></a>
+                    <span class="name">
+                        <span ><b>switchLang</b></span>
+                        <a href="#switchLang"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>switchLang(lang: "es" | "en")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="146"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:146</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>lang</td>
+                                            <td>
+                                                        <code>&quot;es&quot; | &quot;en&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleProfileMenu"></a>
+                    <span class="name">
+                        <span ><b>toggleProfileMenu</b></span>
+                        <a href="#toggleProfileMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleProfileMenu(event?: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="98"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSidebar"></a>
+                    <span class="name">
+                        <span ><b>toggleSidebar</b></span>
+                        <a href="#toggleSidebar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSidebar(event?: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProfileUC"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>getProfileUC</b></span>
+                        <a href="#getProfileUC"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GetProfileUseCase)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lang"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>lang</b></span>
+                        <a href="#lang"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(LanguageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileEmail"></a>
+                    <span class="name">
+                        <span ><b>profileEmail</b></span>
+                        <a href="#profileEmail"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileLoading"></a>
+                    <span class="name">
+                        <span ><b>profileLoading</b></span>
+                        <a href="#profileLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileMenuOpen"></a>
+                    <span class="name">
+                        <span ><b>profileMenuOpen</b></span>
+                        <a href="#profileMenuOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileRole"></a>
+                    <span class="name">
+                        <span ><b>profileRole</b></span>
+                        <a href="#profileRole"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sidebarCollapsed"></a>
+                    <span class="name">
+                        <span ><b>sidebarCollapsed</b></span>
+                        <a href="#sidebarCollapsed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="theme"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>theme</b></span>
+                        <a href="#theme"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ThemeService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="token"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>token</b></span>
+                        <a href="#token"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TokenStorageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/presentation/layouts/admin-shell/admin-shell.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ChangeDetectionStrategy,
+  HostListener,
+  inject,
+  signal,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import {
+  Router,
+  RouterLink,
+  RouterOutlet,
+  NavigationEnd,
+} from &#x27;@angular/router&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { TokenStorageService } from &#x27;@infrastructure/services/token-storage.service&#x27;;
+import { GetProfileUseCase } from &#x27;@core/use-cases&#x27;;
+import { LanguageService } from &#x27;@infrastructure/services/language.service&#x27;;
+import { ThemeService } from &#x27;@infrastructure/services/theme.service&#x27;;
+import { ProfileMenuComponent } from &#x27;../../components/profile-menu/profile-menu&#x27;;
+
+@Component({
+  selector: &#x27;app-admin-shell&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterOutlet,
+    MatIconModule,
+    TranslateModule,
+    ProfileMenuComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: &#x27;./admin-shell.html&#x27;,
+  styleUrl: &#x27;./admin-shell.css&#x27;,
+})
+export class AdminShellLayout {
+  private readonly router &#x3D; inject(Router);
+  private readonly token &#x3D; inject(TokenStorageService);
+  private readonly getProfileUC &#x3D; inject(GetProfileUseCase);
+  private readonly lang &#x3D; inject(LanguageService);
+  protected readonly theme &#x3D; inject(ThemeService);
+
+  // Profile state (mirrors SidebarComponent)
+  profileEmail &#x3D; signal&lt;string | null&gt;(null);
+  profileRole &#x3D; signal&lt;string | null&gt;(null);
+  profileLoading &#x3D; signal(false);
+  profileMenuOpen &#x3D; signal(false);
+  // Sidebar state
+  sidebarCollapsed &#x3D; signal(false);
+
+  ngOnInit() {
+    this.loadProfileIfAuthenticated();
+    // Restore sidebar collapsed state from localStorage (desktop), but default-collapsed on mobile
+    try {
+      const saved &#x3D;
+        typeof window !&#x3D;&#x3D; &#x27;undefined&#x27;
+          ? window.localStorage.getItem(&#x27;adminSidebarCollapsed&#x27;)
+          : null;
+      if (this.isMobile()) {
+        this.sidebarCollapsed.set(true);
+      } else if (saved !&#x3D; null) {
+        this.sidebarCollapsed.set(saved &#x3D;&#x3D;&#x3D; &#x27;1&#x27;);
+      }
+    } catch {
+      /* ignore */
+    }
+
+    // Collapse on route change for mobile to avoid sticky open menu
+    this.router.events.subscribe((ev) &#x3D;&gt; {
+      if (ev instanceof NavigationEnd) {
+        if (this.isMobile()) this.sidebarCollapsed.set(true);
+      }
+    });
+  }
+
+  isAuthenticated() {
+    return this.token.isAuthenticated();
+  }
+
+  private async loadProfileIfAuthenticated() {
+    if (!this.token.isAuthenticated() || this.profileEmail()) return;
+    const t &#x3D; this.token.getToken();
+    if (!t) return;
+    this.profileLoading.set(true);
+    try {
+      const profile &#x3D; await this.getProfileUC.execute(t);
+      this.profileEmail.set(profile.email || profile.username || null);
+      this.profileRole.set(profile.role || null);
+    } catch {
+      // optional: keep token, ignore errors
+    } finally {
+      this.profileLoading.set(false);
+    }
+  }
+
+  toggleProfileMenu(event?: Event) {
+    event?.stopPropagation();
+    if (!this.token.isAuthenticated()) {
+      this.router.navigateByUrl(&#x27;/login&#x27;);
+      return;
+    }
+    if (!this.profileEmail() &amp;&amp; !this.profileLoading()) {
+      this.loadProfileIfAuthenticated();
+    }
+    this.profileMenuOpen.update((v) &#x3D;&gt; !v);
+  }
+
+  toggleSidebar(event?: Event) {
+    event?.stopPropagation();
+    this.sidebarCollapsed.update((v) &#x3D;&gt; !v);
+    // Persist state
+    try {
+      typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
+        window.localStorage.setItem(
+          &#x27;adminSidebarCollapsed&#x27;,
+          this.sidebarCollapsed() ? &#x27;1&#x27; : &#x27;0&#x27;,
+        );
+    } catch {
+      /* ignore */
+    }
+  }
+
+  private isMobile(): boolean {
+    try {
+      return typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp; window.innerWidth &lt; 768; // md breakpoint
+    } catch {
+      return false;
+    }
+  }
+
+  logout(event?: Event) {
+    event?.stopPropagation();
+    this.token.clear();
+    this.profileEmail.set(null);
+    this.profileRole.set(null);
+    this.profileMenuOpen.set(false);
+    this.router.navigateByUrl(&#x27;/login&#x27;);
+  }
+
+  navigateToLogin() {
+    this.router.navigateByUrl(&#x27;/login&#x27;);
+  }
+
+  switchLang(lang: &#x27;es&#x27; | &#x27;en&#x27;) {
+    this.lang.switch(lang);
+  }
+  setTheme(value: &#x27;light&#x27; | &#x27;dark&#x27; | &#x27;system&#x27;) {
+    this.theme.setTheme(value);
+  }
+
+  @HostListener(&#x27;document:click&#x27;)
+  closeOnOutsideClick() {
+    if (this.profileMenuOpen()) {
+      this.profileMenuOpen.set(false);
+    }
+  }
+
+  // Ensure proper sidebar state when switching between mobile and desktop
+  @HostListener(&#x27;window:resize&#x27;)
+  onResize() {
+    const mobile &#x3D; this.isMobile();
+    if (mobile &amp;&amp; !this.sidebarCollapsed()) {
+      this.sidebarCollapsed.set(true);
+      try {
+        typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
+          window.localStorage.setItem(&#x27;adminSidebarCollapsed&#x27;, &#x27;1&#x27;);
+      } catch {}
+    } else if (!mobile &amp;&amp; this.sidebarCollapsed()) {
+      this.sidebarCollapsed.set(false);
+      try {
+        typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
+          window.localStorage.setItem(&#x27;adminSidebarCollapsed&#x27;, &#x27;0&#x27;);
+      } catch {}
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex min-h-screen&quot;&gt;
+  &lt;!-- Overlay for small screens when sidebar is open --&gt;
+  @if (!sidebarCollapsed()) {
+    &lt;button
+      class&#x3D;&quot;fixed inset-0 bg-black/50 backdrop-blur-md z-30 md:hidden sidebar-overlay&quot;
+      (click)&#x3D;&quot;toggleSidebar()&quot;
+      aria-label&#x3D;&quot;Close sidebar overlay&quot;
+    &gt;&lt;/button&gt;
+  }
+  &lt;aside
+    class&#x3D;&quot;admin-shell-sidebar p-6 flex flex-col&quot;
+    [class.-translate-x-full]&#x3D;&quot;sidebarCollapsed()&quot;
+    (click)&#x3D;&quot;$event.stopPropagation()&quot;
+    (keydown.escape)&#x3D;&quot;profileMenuOpen.set(false)&quot;
+  &gt;
+    &lt;div class&#x3D;&quot;flex-1 overflow-y-auto&quot;&gt;
+      &lt;div class&#x3D;&quot;admin-header&quot;&gt;
+        &lt;div class&#x3D;&quot;text-sm font-semibold text-center&quot;&gt;
+          &lt;mat-icon class&#x3D;&quot;text-lg mb-1&quot;&gt;admin_panel_settings&lt;/mat-icon&gt;
+          &lt;div&gt;{{ &quot;ADMIN.SIDENAV.HEADER&quot; | translate }}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;nav class&#x3D;&quot;flex flex-col gap-1 &quot;&gt;
+        &lt;a
+          [routerLink]&#x3D;&quot;[&#x27;/admin&#x27;]&quot;
+          routerLinkActive&#x3D;&quot;active&quot;
+          class&#x3D;&quot;btn btn-ghost btn-sm justify-start group&quot;
+          &gt;&lt;mat-icon fontIcon&#x3D;&quot;dashboard&quot; class&#x3D;&quot;text-lg&quot;&gt;&lt;/mat-icon
+          &gt;&lt;span class&#x3D;&quot;ml-3 font-medium&quot;&gt;{{
+            &quot;ADMIN.SIDENAV.DASHBOARD&quot; | translate
+          }}&lt;/span&gt;&lt;/a
+        &gt;
+        &lt;a
+          [routerLink]&#x3D;&quot;[&#x27;/admin/users&#x27;]&quot;
+          routerLinkActive&#x3D;&quot;active&quot;
+          class&#x3D;&quot;btn btn-ghost btn-sm justify-start group&quot;
+          &gt;&lt;mat-icon fontIcon&#x3D;&quot;group&quot; class&#x3D;&quot;text-lg&quot;&gt;&lt;/mat-icon
+          &gt;&lt;span class&#x3D;&quot;ml-3 font-medium&quot;&gt;{{ &quot;ADMIN.SIDENAV.USERS&quot; | translate }}&lt;/span&gt;&lt;/a
+        &gt;
+        &lt;a
+          [routerLink]&#x3D;&quot;[&#x27;/admin/files&#x27;]&quot;
+          routerLinkActive&#x3D;&quot;active&quot;
+          class&#x3D;&quot;btn btn-ghost btn-sm justify-start group&quot;
+          &gt;&lt;mat-icon fontIcon&#x3D;&quot;folder&quot; class&#x3D;&quot;text-lg&quot;&gt;&lt;/mat-icon
+          &gt;&lt;span class&#x3D;&quot;ml-3 font-medium&quot;&gt;{{ &quot;ADMIN.SIDENAV.FILES&quot; | translate }}&lt;/span&gt;&lt;/a
+        &gt;
+        &lt;a
+          [routerLink]&#x3D;&quot;[&#x27;/admin/messages&#x27;]&quot;
+          routerLinkActive&#x3D;&quot;active&quot;
+          class&#x3D;&quot;btn btn-ghost btn-sm justify-start group&quot;
+          &gt;&lt;mat-icon fontIcon&#x3D;&quot;sms&quot; class&#x3D;&quot;text-lg&quot;&gt;&lt;/mat-icon
+          &gt;&lt;span class&#x3D;&quot;ml-3 font-medium&quot;&gt;{{
+            &quot;ADMIN.SIDENAV.MESSAGES&quot; | translate
+          }}&lt;/span&gt;&lt;/a
+        &gt;
+        &lt;a
+          [routerLink]&#x3D;&quot;[&#x27;/admin/app-info&#x27;]&quot;
+          routerLinkActive&#x3D;&quot;active&quot;
+          class&#x3D;&quot;btn btn-ghost btn-sm justify-start group&quot;
+          &gt;&lt;mat-icon fontIcon&#x3D;&quot;info&quot; class&#x3D;&quot;text-lg&quot;&gt;&lt;/mat-icon
+          &gt;&lt;span class&#x3D;&quot;ml-3 font-medium&quot;&gt;{{
+            &quot;ADMIN.SIDENAV.APP_INFO&quot; | translate
+          }}&lt;/span&gt;&lt;/a
+        &gt;
+        &lt;a
+          [routerLink]&#x3D;&quot;[&#x27;/admin/companies&#x27;]&quot;
+          routerLinkActive&#x3D;&quot;active&quot;
+          class&#x3D;&quot;btn btn-ghost btn-sm justify-start group&quot;
+          &gt;&lt;mat-icon fontIcon&#x3D;&quot;business&quot; class&#x3D;&quot;text-lg&quot;&gt;&lt;/mat-icon
+          &gt;&lt;span class&#x3D;&quot;ml-3 font-medium&quot;&gt;{{
+            &quot;ADMIN.SIDENAV.COMPANIES&quot; | translate
+          }}&lt;/span&gt;&lt;/a
+        &gt;
+      &lt;/nav&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Footer: reusable profile menu with quick nav (Home + Back to Chat) --&gt;
+    &lt;div
+      class&#x3D;&quot;pt-4 border-t space-y-3 sidebar-footer&quot;
+      style&#x3D;&quot;border-color: hsl(var(--border))&quot;
+    &gt;
+      &lt;app-profile-menu
+        [showBackToChat]&#x3D;&quot;true&quot;
+        [showBackHome]&#x3D;&quot;true&quot;
+      &gt;&lt;/app-profile-menu&gt;
+    &lt;/div&gt;
+  &lt;/aside&gt;
+  &lt;main class&#x3D;&quot;flex-1&quot;&gt;
+    &lt;div class&#x3D;&quot;sticky top-0 z-10 p-3 md:hidden&quot;&gt;
+      &lt;button class&#x3D;&quot;btn btn-ghost btn-sm mobile-menu-btn&quot; (click)&#x3D;&quot;toggleSidebar($event)&quot;&gt;
+        &lt;mat-icon fontIcon&#x3D;&quot;menu&quot; class&#x3D;&quot;text-lg&quot;&gt;&lt;/mat-icon&gt;
+        &lt;span class&#x3D;&quot;ml-2 font-medium&quot;&gt;{{ &quot;COMMON.MENU&quot; | translate }}&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;router-outlet /&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex min-h-screen">  <!-- Overlay for small screens when sidebar is open -->  @if (!sidebarCollapsed()) {    <button      class="fixed inset-0 bg-black/50 backdrop-blur-md z-30 md:hidden sidebar-overlay"      (click)="toggleSidebar()"      aria-label="Close sidebar overlay"    ></button>  }  <aside    class="admin-shell-sidebar p-6 flex flex-col"    [class.-translate-x-full]="sidebarCollapsed()"    (click)="$event.stopPropagation()"    (keydown.escape)="profileMenuOpen.set(false)"  >    <div class="flex-1 overflow-y-auto">      <div class="admin-header">        <div class="text-sm font-semibold text-center">          <mat-icon class="text-lg mb-1">admin_panel_settings</mat-icon>          <div>{{ "ADMIN.SIDENAV.HEADER" | translate }}</div>        </div>      </div>      <nav class="flex flex-col gap-1 ">        <a          [routerLink]="[\'/admin\']"          routerLinkActive="active"          class="btn btn-ghost btn-sm justify-start group"          ><mat-icon fontIcon="dashboard" class="text-lg"></mat-icon          ><span class="ml-3 font-medium">{{            "ADMIN.SIDENAV.DASHBOARD" | translate          }}</span></a        >        <a          [routerLink]="[\'/admin/users\']"          routerLinkActive="active"          class="btn btn-ghost btn-sm justify-start group"          ><mat-icon fontIcon="group" class="text-lg"></mat-icon          ><span class="ml-3 font-medium">{{ "ADMIN.SIDENAV.USERS" | translate }}</span></a        >        <a          [routerLink]="[\'/admin/files\']"          routerLinkActive="active"          class="btn btn-ghost btn-sm justify-start group"          ><mat-icon fontIcon="folder" class="text-lg"></mat-icon          ><span class="ml-3 font-medium">{{ "ADMIN.SIDENAV.FILES" | translate }}</span></a        >        <a          [routerLink]="[\'/admin/messages\']"          routerLinkActive="active"          class="btn btn-ghost btn-sm justify-start group"          ><mat-icon fontIcon="sms" class="text-lg"></mat-icon          ><span class="ml-3 font-medium">{{            "ADMIN.SIDENAV.MESSAGES" | translate          }}</span></a        >        <a          [routerLink]="[\'/admin/app-info\']"          routerLinkActive="active"          class="btn btn-ghost btn-sm justify-start group"          ><mat-icon fontIcon="info" class="text-lg"></mat-icon          ><span class="ml-3 font-medium">{{            "ADMIN.SIDENAV.APP_INFO" | translate          }}</span></a        >        <a          [routerLink]="[\'/admin/companies\']"          routerLinkActive="active"          class="btn btn-ghost btn-sm justify-start group"          ><mat-icon fontIcon="business" class="text-lg"></mat-icon          ><span class="ml-3 font-medium">{{            "ADMIN.SIDENAV.COMPANIES" | translate          }}</span></a        >      </nav>    </div>    <!-- Footer: reusable profile menu with quick nav (Home + Back to Chat) -->    <div      class="pt-4 border-t space-y-3 sidebar-footer"      style="border-color: hsl(var(--border))"    >      <app-profile-menu        [showBackToChat]="true"        [showBackHome]="true"      ></app-profile-menu>    </div>  </aside>  <main class="flex-1">    <div class="sticky top-0 z-10 p-3 md:hidden">      <button class="btn btn-ghost btn-sm mobile-menu-btn" (click)="toggleSidebar($event)">        <mat-icon fontIcon="menu" class="text-lg"></mat-icon>        <span class="ml-2 font-medium">{{ "COMMON.MENU" | translate }}</span>      </button>    </div>    <router-outlet />  </main></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AdminShellLayout'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminShellLayout.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

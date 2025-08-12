@@ -1,0 +1,2284 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ShellLayout</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/layouts/shell/shell.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-shell</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>RouterLink</code>
+                            <code>RouterOutlet</code>
+                                <code><a href="../components/SidebarComponent.html" target="_self" >SidebarComponent</a></code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./shell.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./shell.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#bg" >bg</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#cancelBtn" >cancelBtn</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#cdr" >cdr</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#chatFacade" >chatFacade</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#confirmBtn" >confirmBtn</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#deleteDialog" >deleteDialog</a>
+                            </li>
+                            <li>
+                                <a href="#isSidebarOpen" >isSidebarOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastFocused" >lastFocused</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#pendingDelete" >pendingDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <a href="#selectedSessionId" >selectedSessionId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#sessionsEvents" >sessionsEvents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sidebarStateBeforeModal" >sidebarStateBeforeModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closeDeleteModal" >closeDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeSidebar" >closeSidebar</a>
+                            </li>
+                            <li>
+                                <a href="#confirmDeleteFromShell" >confirmDeleteFromShell</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getSavedSidebarState" >getSavedSidebarState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isDesktop" >isDesktop</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onDialogKeydown" >onDialogKeydown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#onResize" >onResize</a>
+                            </li>
+                            <li>
+                                <a href="#openDeleteModal" >openDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#openSessionCompaniesFromShell" >openSessionCompaniesFromShell</a>
+                            </li>
+                            <li>
+                                <a href="#openSessionFilesFromShell" >openSessionFilesFromShell</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#persistSidebarState" >persistSidebarState</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSidebar" >toggleSidebar</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#window:resize" >window:resize</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="window:resize"></a>
+                    <span class="name">
+                        <span ><b>window:resize</b></span>
+                        <a href="#window:resize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>window:resize()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:187</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>closeDeleteModal</b></span>
+                        <a href="#closeDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeDeleteModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeSidebar"></a>
+                    <span class="name">
+                        <span ><b>closeSidebar</b></span>
+                        <a href="#closeSidebar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeSidebar()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmDeleteFromShell"></a>
+                    <span class="name">
+                        <span ><b>confirmDeleteFromShell</b></span>
+                        <a href="#confirmDeleteFromShell"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmDeleteFromShell()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSavedSidebarState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getSavedSidebarState</b></span>
+                        <a href="#getSavedSidebarState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSavedSidebarState()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>boolean | null</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDesktop"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isDesktop</b></span>
+                        <a href="#isDesktop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isDesktop()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="175"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:175</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDialogKeydown"></a>
+                    <span class="name">
+                        <span ><b>onDialogKeydown</b></span>
+                        <a href="#onDialogKeydown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDialogKeydown(e: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>KeyboardEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onResize"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>onResize</b></span>
+                        <a href="#onResize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onResize()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;window:resize&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:187</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>openDeleteModal</b></span>
+                        <a href="#openDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDeleteModal(session: <a href="../interfaces/SessionEntry.html" target="_self">SessionEntry</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>session</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openSessionCompaniesFromShell"></a>
+                    <span class="name">
+                        <span ><b>openSessionCompaniesFromShell</b></span>
+                        <a href="#openSessionCompaniesFromShell"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openSessionCompaniesFromShell()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="171"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:171</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openSessionFilesFromShell"></a>
+                    <span class="name">
+                        <span ><b>openSessionFilesFromShell</b></span>
+                        <a href="#openSessionFilesFromShell"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openSessionFilesFromShell()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="persistSidebarState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>persistSidebarState</b></span>
+                        <a href="#persistSidebarState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>persistSidebarState()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="209"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:209</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSidebar"></a>
+                    <span class="name">
+                        <span ><b>toggleSidebar</b></span>
+                        <a href="#toggleSidebar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSidebar()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="55"
+                                    class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bg"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>bg</b></span>
+                        <a href="#bg"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(BackgroundService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelBtn"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>cancelBtn</b></span>
+                        <a href="#cancelBtn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLButtonElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;cancelBtn&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cdr"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>cdr</b></span>
+                        <a href="#cdr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChangeDetectorRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chatFacade"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>chatFacade</b></span>
+                        <a href="#chatFacade"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChatFacade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmBtn"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>confirmBtn</b></span>
+                        <a href="#confirmBtn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLButtonElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;confirmBtn&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteDialog"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>deleteDialog</b></span>
+                        <a href="#deleteDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDialogElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;deleteDialog&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSidebarOpen"></a>
+                    <span class="name">
+                        <span ><b>isSidebarOpen</b></span>
+                        <a href="#isSidebarOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastFocused"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastFocused</b></span>
+                        <a href="#lastFocused"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HTMLElement | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pendingDelete"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>pendingDelete</b></span>
+                        <a href="#pendingDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/SessionEntry.html" target="_self" >SessionEntry</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedSessionId"></a>
+                    <span class="name">
+                        <span ><b>selectedSessionId</b></span>
+                        <a href="#selectedSessionId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessionsEvents"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>sessionsEvents</b></span>
+                        <a href="#sessionsEvents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(SessionsEventsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sidebarStateBeforeModal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>sidebarStateBeforeModal</b></span>
+                        <a href="#sidebarStateBeforeModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/presentation/layouts/shell/shell.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  inject,
+  ElementRef,
+  ViewChild,
+  HostListener,
+  ChangeDetectorRef,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { RouterLink, RouterOutlet, Router, NavigationEnd } from &#x27;@angular/router&#x27;;
+import { SidebarComponent } from &#x27;../../components/sidebar/sidebar&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { SessionsEventsService } from &#x27;@infrastructure/services/sessions-events.service&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import type { SessionEntry } from &#x27;@core/models&#x27;;
+import { ChatFacade } from &#x27;@app/application/chat/chat.facade&#x27;;
+import { BackgroundService } from &#x27;@infrastructure/services/background.service&#x27;;
+
+@Component({
+  selector: &#x27;app-shell&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterOutlet,
+    SidebarComponent,
+    MatIconModule,
+    TranslateModule,
+  ],
+  templateUrl: &#x27;./shell.html&#x27;,
+  styleUrls: [&#x27;./shell.css&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ShellLayout implements OnInit {
+  // Mobile sidebar state
+  isSidebarOpen &#x3D; false;
+  private sidebarStateBeforeModal &#x3D; false; // Recordar estado anterior
+  private readonly router &#x3D; inject(Router);
+  private readonly sessionsEvents &#x3D; inject(SessionsEventsService);
+  private readonly chatFacade &#x3D; inject(ChatFacade);
+  private readonly bg &#x3D; inject(BackgroundService);
+  private readonly cdr &#x3D; inject(ChangeDetectorRef);
+  private lastFocused: HTMLElement | null &#x3D; null;
+  // Current session id propagated by chat page via route; optional
+  selectedSessionId: string | null &#x3D; null;
+
+  // Global delete modal state
+  pendingDelete?: SessionEntry;
+  @ViewChild(&#x27;deleteDialog&#x27;) deleteDialog?: ElementRef&lt;HTMLDialogElement&gt;;
+  @ViewChild(&#x27;cancelBtn&#x27;) cancelBtn?: ElementRef&lt;HTMLButtonElement&gt;;
+  @ViewChild(&#x27;confirmBtn&#x27;) confirmBtn?: ElementRef&lt;HTMLButtonElement&gt;;
+
+  toggleSidebar() {
+    this.isSidebarOpen &#x3D; !this.isSidebarOpen;
+    // Persist preference (desktop)
+    this.persistSidebarState();
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen &#x3D; false;
+    // Do not persist on mobile close via overlay; but safe to persist anyway
+    this.persistSidebarState();
+  }
+
+  ngOnInit() {
+    // Open by default on desktop, closed on mobile
+    try {
+      const isDesktop &#x3D;
+        typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
+        window.matchMedia(&#x27;(min-width: 768px)&#x27;).matches;
+      if (isDesktop) {
+        const saved &#x3D; this.getSavedSidebarState();
+        this.isSidebarOpen &#x3D; saved ?? true;
+      } else {
+        this.isSidebarOpen &#x3D; false;
+      }
+    } catch {}
+    
+    // Initialize background defaults early
+    queueMicrotask(() &#x3D;&gt; this.bg.init());
+    // Ensure sessions list tries to load at app start (helps after F5 on deep links)
+    queueMicrotask(() &#x3D;&gt; this.sessionsEvents.triggerRefresh());
+
+    // Close overlay on navigation when on mobile
+    this.router.events.subscribe((ev) &#x3D;&gt; {
+      if (ev instanceof NavigationEnd) {
+        if (!this.isDesktop()) this.isSidebarOpen &#x3D; false;
+      }
+    });
+
+    // Manejar eventos de control del sidebar desde modales
+    this.sessionsEvents.onSidebarControl().subscribe((event) &#x3D;&gt; {
+      if (event.action &#x3D;&#x3D;&#x3D; &#x27;hide&#x27;) {
+        // Guardar estado actual antes de ocultar
+        this.sidebarStateBeforeModal &#x3D; this.isSidebarOpen;
+        this.isSidebarOpen &#x3D; false;
+        this.cdr.markForCheck(); // Forzar detección de cambios
+      } else if (event.action &#x3D;&#x3D;&#x3D; &#x27;restore&#x27;) {
+        // Restaurar estado anterior
+        this.isSidebarOpen &#x3D; this.sidebarStateBeforeModal;
+        this.cdr.markForCheck(); // Forzar detección de cambios
+      }
+    });
+  }
+
+  // Handle confirm at layout level to ensure modal is centered globally
+  confirmDeleteFromShell() {
+    const s &#x3D; this.pendingDelete;
+    if (!s) return;
+    this.chatFacade.deleteSession(s.session_id).subscribe({
+      next: () &#x3D;&gt; {
+        // refresh sessions list globally
+        this.sessionsEvents.triggerRefresh();
+      },
+      complete: () &#x3D;&gt; {
+        this.closeDeleteModal();
+      },
+      error: () &#x3D;&gt; {
+        this.closeDeleteModal();
+      },
+    });
+  }
+
+  openDeleteModal(session: SessionEntry) {
+    this.pendingDelete &#x3D; session;
+    // remember the element that opened the modal to restore focus on close
+    try {
+      this.lastFocused &#x3D; (document.activeElement as HTMLElement) ?? null;
+    } catch {
+      this.lastFocused &#x3D; null;
+    }
+    // queue focus to cancel button for accessibility
+    queueMicrotask(() &#x3D;&gt; this.cancelBtn?.nativeElement?.focus());
+  }
+
+  closeDeleteModal() {
+    this.pendingDelete &#x3D; undefined;
+    // restore focus to the trigger element
+    queueMicrotask(() &#x3D;&gt; {
+      try {
+        this.lastFocused?.focus?.();
+      } catch {}
+      this.lastFocused &#x3D; null;
+    });
+  }
+
+  onDialogKeydown(e: KeyboardEvent) {
+    if (e.key !&#x3D;&#x3D; &#x27;Tab&#x27;) return;
+    const cancel &#x3D; this.cancelBtn?.nativeElement;
+    const confirm &#x3D; this.confirmBtn?.nativeElement;
+    if (!cancel || !confirm) return;
+    const active &#x3D; document.activeElement as HTMLElement | null;
+    const shift &#x3D; e.shiftKey;
+    if (!shift &amp;&amp; active &#x3D;&#x3D;&#x3D; confirm) {
+      e.preventDefault();
+      cancel.focus();
+    } else if (shift &amp;&amp; active &#x3D;&#x3D;&#x3D; cancel) {
+      e.preventDefault();
+      confirm.focus();
+    }
+  }
+
+  // Header button: open files modal via event bus
+  openSessionFilesFromShell() {
+    this.sessionsEvents.openFilesModal(this.selectedSessionId);
+  }
+
+  // Header button: open companies analysis modal via event bus
+  openSessionCompaniesFromShell() {
+    this.sessionsEvents.openCompaniesModal(this.selectedSessionId);
+  }
+
+  private isDesktop(): boolean {
+    try {
+      return (
+        typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
+        window.matchMedia(&#x27;(min-width: 768px)&#x27;).matches
+      );
+    } catch {
+      return true;
+    }
+  }
+
+  @HostListener(&#x27;window:resize&#x27;)
+  onResize() {
+    if (this.isDesktop()) {
+      const saved &#x3D; this.getSavedSidebarState();
+      this.isSidebarOpen &#x3D; saved ?? true;
+    } else {
+      this.isSidebarOpen &#x3D; false;
+    }
+  }
+
+  private getSavedSidebarState(): boolean | null {
+    try {
+      const v &#x3D;
+        typeof window !&#x3D;&#x3D; &#x27;undefined&#x27;
+          ? window.localStorage.getItem(&#x27;chatSidebarOpen&#x27;)
+          : null;
+      if (v &#x3D;&#x3D; null) return null;
+      return v &#x3D;&#x3D;&#x3D; &#x27;1&#x27;;
+    } catch {
+      return null;
+    }
+  }
+
+  private persistSidebarState() {
+    try {
+      typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
+        window.localStorage.setItem(
+          &#x27;chatSidebarOpen&#x27;,
+          this.isSidebarOpen ? &#x27;1&#x27; : &#x27;0&#x27;,
+        );
+    } catch {
+      /* ignore */
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex h-screen&quot;&gt;
+  &lt;!-- Desktop sidebar (does not overlap) --&gt;
+  &lt;div class&#x3D;&quot;desktop-sidebar&quot; [class.hidden]&#x3D;&quot;!isSidebarOpen&quot;&gt;
+    &lt;div class&#x3D;&quot;sidebar-surface surface-clear&quot;&gt;
+      &lt;app-sidebar (deleteRequested)&#x3D;&quot;openDeleteModal($event)&quot; (deleteCancelled)&#x3D;&quot;pendingDelete &#x3D; undefined&quot;
+        (deleteConfirmed)&#x3D;&quot;pendingDelete &#x3D; undefined&quot;&gt;&lt;/app-sidebar&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Mobile overlay sidebar --&gt;
+  &lt;div class&#x3D;&quot;mobile-overlay&quot; [class.hidden]&#x3D;&quot;!isSidebarOpen&quot;&gt;
+    &lt;button class&#x3D;&quot;fixed inset-0 overlay-backdrop z-40&quot; (click)&#x3D;&quot;closeSidebar()&quot;
+      [attr.aria-label]&#x3D;&quot;&#x27;SHELL.CLOSE_MENU&#x27; | translate&quot;&gt;&lt;/button&gt;
+    &lt;div
+      class&#x3D;&quot;fixed inset-y-0 left-0 w-72 z-50 sidebar-surface surface-clear transition-transform duration-200 ease-in-out&quot;
+      [class.-translate-x-full]&#x3D;&quot;!isSidebarOpen&quot;&gt;
+      &lt;app-sidebar (deleteRequested)&#x3D;&quot;openDeleteModal($event)&quot; (deleteCancelled)&#x3D;&quot;pendingDelete &#x3D; undefined&quot;
+        (deleteConfirmed)&#x3D;&quot;pendingDelete &#x3D; undefined&quot;&gt;&lt;/app-sidebar&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;main class&#x3D;&quot;flex-1 min-h-0 overflow-hidden flex flex-col vt-page&quot;&gt;
+    &lt;!-- Mobile Topbar --&gt;
+    &lt;div class&#x3D;&quot;sticky top-0 z-30 topbar-surface surface-clear&quot;&gt;
+      &lt;div class&#x3D;&quot;flex items-center justify-between px-3 py-2&quot;&gt;
+        &lt;button class&#x3D;&quot;btn btn-ghost btn-sm&quot; (click)&#x3D;&quot;toggleSidebar()&quot; [title]&#x3D;&quot;&#x27;SHELL.MENU&#x27; | translate&quot;&gt;
+          &lt;mat-icon fontIcon&#x3D;&quot;menu&quot;&gt;&lt;/mat-icon&gt;
+        &lt;/button&gt;
+        &lt;div class&#x3D;&quot;flex items-center gap-2&quot;&gt;
+          &lt;a routerLink&#x3D;&quot;/home&quot; class&#x3D;&quot;btn btn-ghost btn-xs&quot; [title]&#x3D;&quot;&#x27;NOT_FOUND.BACK_HOME&#x27; | translate&quot;&gt;
+            &lt;mat-icon fontIcon&#x3D;&quot;home&quot;&gt;&lt;/mat-icon&gt;
+            &lt;span class&#x3D;&quot;ml-1 text-xs hidden sm:inline&quot;&gt;{{ &quot;COMMON.HOME&quot; | translate }}&lt;/span&gt;
+          &lt;/a&gt;
+          &lt;button class&#x3D;&quot;btn btn-ghost btn-xs&quot; (click)&#x3D;&quot;openSessionFilesFromShell()&quot;
+            [title]&#x3D;&quot;&#x27;CHAT.ATTACHMENTS_INFO&#x27; | translate&quot; [attr.aria-label]&#x3D;&quot;&#x27;CHAT.ATTACHMENTS_VIEW&#x27; | translate&quot;
+            [attr.aria-description]&#x3D;&quot;&#x27;CHAT.ATTACHMENTS_INFO&#x27; | translate&quot;&gt;
+            &lt;mat-icon fontIcon&#x3D;&quot;attach_file&quot; style&#x3D;&quot;transform: rotate(45deg)&quot;&gt;&lt;/mat-icon&gt;
+            &lt;span class&#x3D;&quot;ml-1 text-xs hidden sm:inline&quot;&gt;{{
+              &quot;CHAT.ATTACHMENTS_VIEW&quot; | translate
+              }}&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;button class&#x3D;&quot;btn btn-ghost btn-xs&quot; (click)&#x3D;&quot;openSessionCompaniesFromShell()&quot;
+            [title]&#x3D;&quot;&#x27;CHAT.COMPANIES_ANALYSIS_TITLE&#x27; | translate&quot;
+            [attr.aria-label]&#x3D;&quot;&#x27;CHAT.COMPANIES_ANALYSIS_TITLE&#x27; | translate&quot;&gt;
+            &lt;mat-icon fontIcon&#x3D;&quot;apartment&quot;&gt;&lt;/mat-icon&gt;
+            &lt;span class&#x3D;&quot;ml-1 text-xs hidden sm:inline&quot;&gt;{{
+              &quot;COMMON.COMPANIES&quot; | translate
+              }}&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;w-8 hidden md:block&quot;&gt;
+          &lt;button class&#x3D;&quot;btn btn-ghost btn-sm&quot; (click)&#x3D;&quot;toggleSidebar()&quot; [title]&#x3D;&quot;&#x27;SHELL.TOGGLE_PANEL&#x27; | translate&quot;&gt;
+            &lt;mat-icon fontIcon&#x3D;&quot;chevron_left&quot; *ngIf&#x3D;&quot;isSidebarOpen&quot;&gt;&lt;/mat-icon&gt;
+            &lt;mat-icon fontIcon&#x3D;&quot;chevron_right&quot; *ngIf&#x3D;&quot;!isSidebarOpen&quot;&gt;&lt;/mat-icon&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Page content area: hidden here; pages manage their own scroll (chat uses internal messages scroll) --&gt;
+    &lt;div class&#x3D;&quot;flex-1 min-h-0 overflow-hidden flex flex-col&quot;&gt;
+      &lt;router-outlet /&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+
+  &lt;!-- Global delete confirmation modal (centered) --&gt;
+  &lt;div class&#x3D;&quot;modal-backdrop&quot; *ngIf&#x3D;&quot;pendingDelete&quot; (click)&#x3D;&quot;closeDeleteModal()&quot; (keydown.escape)&#x3D;&quot;closeDeleteModal()&quot;&gt;
+    &lt;dialog #deleteDialog open class&#x3D;&quot;modal&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot; (keydown)&#x3D;&quot;onDialogKeydown($event)&quot;&gt;
+      &lt;header class&#x3D;&quot;modal-header&quot;&gt;
+        &lt;h3&gt;{{ &quot;SIDEBAR.DELETE_TITLE&quot; | translate }}&lt;/h3&gt;
+        &lt;button #cancelBtn type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-gradient-blue&quot; (click)&#x3D;&quot;closeDeleteModal()&quot;
+          [attr.aria-label]&#x3D;&quot;&#x27;SIDEBAR.CANCEL&#x27; | translate&quot;&gt;
+          &lt;mat-icon fontIcon&#x3D;&quot;close&quot; class&#x3D;&quot;text-xl&quot;&gt;&lt;/mat-icon&gt;
+        &lt;/button&gt;
+      &lt;/header&gt;
+      &lt;section class&#x3D;&quot;modal-body&quot;&gt;
+        &lt;p&gt;
+          &lt;mat-icon class&#x3D;&quot;inline mr-2 text-amber-500&quot;&gt;warning&lt;/mat-icon&gt;
+          {{ &quot;SIDEBAR.DELETE_TEXT&quot; | translate }}
+        &lt;/p&gt;
+      &lt;/section&gt;
+      &lt;footer class&#x3D;&quot;modal-actions&quot;&gt;
+        &lt;button class&#x3D;&quot;btn btn-gradient-blue&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;closeDeleteModal()&quot;&gt;
+          &lt;mat-icon class&#x3D;&quot;mr-1 text-sm&quot;&gt;close&lt;/mat-icon&gt;
+          {{ &quot;SIDEBAR.CANCEL&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button #confirmBtn class&#x3D;&quot;btn btn-error btn-outline&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;confirmDeleteFromShell()&quot;&gt;
+          &lt;mat-icon class&#x3D;&quot;mr-1 text-sm&quot;&gt;delete&lt;/mat-icon&gt;
+          {{ &quot;SIDEBAR.CONFIRM&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/footer&gt;
+    &lt;/dialog&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./shell.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.flex {
+  display: flex;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+/* Responsive helpers for sidebar transitions (tailwind-like classes subset) */
+.fixed {
+  position: fixed;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.z-40 {
+  z-index: 40;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.transform {
+  transform: translateX(0);
+}
+
+.transition-transform {
+  transition: transform 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.duration-200 {
+  transition-duration: 0.2s;
+}
+
+.-translate-x-full {
+  transform: translateX(-100%);
+}
+
+.translate-x-0 {
+  transform: translateX(0);
+}
+
+.md\:hidden {
+  display: none;
+}
+
+.md\:w-72 {
+  width: 18rem;
+}
+
+.md\:relative {
+  position: relative;
+}
+
+.w-0 {
+  width: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.inset-y-0 {
+  top: 0;
+  bottom: 0;
+}
+
+.sticky {
+  position: sticky;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Sidebar responsive visibility to avoid class purge issues */
+.desktop-sidebar {
+  display: none;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
+  width: 18rem; /* w-72 equivalent */
+  min-width: 0; /* Allow shrinking to 0 */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.desktop-sidebar.hidden {
+  width: 0 !important;
+  min-width: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mobile-overlay {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .desktop-sidebar {
+    display: block;
+  }
+
+  .mobile-overlay {
+    display: none;
+  }
+}
+
+/* Main content smooth transition when sidebar toggles */
+main.flex-1 {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0; /* Allow shrinking */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Page content area styling */
+.flex-1.min-h-0.overflow-hidden {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Utility */
+.hidden {
+  display: none !important;
+}
+
+/* Frosted surfaces */
+.sidebar-surface {
+  height: 100vh;
+  width: 18rem; /* Fixed width to maintain structure */
+  min-width: 18rem;
+  /* Blur-only: transparent to let global background show through */
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid hsl(var(--border) / 0.5);
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.desktop-sidebar.hidden .sidebar-surface {
+  width: 0;
+  min-width: 0;
+  border-right: none;
+  opacity: 0;
+}
+
+.overlay-backdrop {
+  background-color: hsl(var(--background) / 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.topbar-surface {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.9) 0%,
+    hsl(var(--background) / 0.7) 50%,
+    hsl(var(--background) / 0.8) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+  box-shadow: 
+    0 4px 32px hsl(var(--primary) / 0.1),
+    inset 0 1px 0 hsl(var(--foreground) / 0.1);
+}
+
+.topbar-surface::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.3) 20%,
+    hsl(var(--primary) / 0.5) 50%,
+    hsl(var(--primary) / 0.3) 80%,
+    transparent 100%
+  );
+}
+
+/* Topbar buttons styling */
+.topbar-surface .btn {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.6) 0%,
+    hsl(var(--background) / 0.3) 100%
+  );
+  border: 1px solid hsl(var(--border) / 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.topbar-surface .btn::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.1) 50%,
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.topbar-surface .btn:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.15) 0%,
+    hsl(var(--primary) / 0.05) 100%
+  );
+  border-color: hsl(var(--primary) / 0.4);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 25px hsl(var(--primary) / 0.15),
+    inset 0 1px 0 hsl(var(--foreground) / 0.1);
+}
+
+.topbar-surface .btn:hover::before {
+  left: 100%;
+}
+
+.topbar-surface .btn:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 8px hsl(var(--primary) / 0.2),
+    inset 0 1px 2px hsl(var(--foreground) / 0.1);
+}
+
+.topbar-surface .btn mat-icon {
+  transition: all 0.3s ease;
+}
+
+.topbar-surface .btn:hover mat-icon {
+  color: hsl(var(--primary));
+  filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.3));
+}
+
+/* Modal styling with glassmorphism */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  background: linear-gradient(
+    45deg,
+    hsl(var(--background) / 0.4) 0%,
+    hsl(var(--background) / 0.7) 50%,
+    hsl(var(--background) / 0.4) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: modalBackdropIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalBackdropIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(12px);
+  }
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1rem;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.95) 0%,
+    hsl(var(--background) / 0.85) 50%,
+    hsl(var(--background) / 0.9) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    0 25px 50px hsl(var(--foreground) / 0.15),
+    inset 0 1px 0 hsl(var(--foreground) / 0.1),
+    0 0 0 1px hsl(var(--primary) / 0.1);
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.5) 50%,
+    transparent 100%
+  );
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  position: relative;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-header h3::before {
+  content: &#x27;🗑️&#x27;;
+  font-size: 1.1rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  color: hsl(var(--foreground) / 0.8);
+  line-height: 1.6;
+}
+
+.modal-body p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  justify-content: flex-end;
+}
+
+.modal-actions .btn {
+  position: relative;
+  min-width: 5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.modal-actions .btn::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.modal-actions .btn:hover::before {
+  left: 100%;
+}
+
+.modal-actions .btn-gradient-blue {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.9) 0%,
+    hsl(var(--primary) / 0.7) 100%
+  );
+  color: hsl(var(--primary-foreground));
+  border: 1px solid hsl(var(--primary) / 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-actions .btn-gradient-blue:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--primary) / 0.8) 100%
+  );
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 25px hsl(var(--primary) / 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.modal-actions .btn-error {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--destructive) / 0.9) 0%,
+    hsl(var(--destructive) / 0.7) 100%
+  );
+  color: hsl(var(--destructive-foreground));
+  border: 1px solid hsl(var(--destructive) / 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-actions .btn-error:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--destructive)) 0%,
+    hsl(var(--destructive) / 0.8) 100%
+  );
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 25px hsl(var(--destructive) / 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.modal-actions .btn:active {
+  transform: translateY(0);
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex h-screen">  <!-- Desktop sidebar (does not overlap) -->  <div class="desktop-sidebar" [class.hidden]="!isSidebarOpen">    <div class="sidebar-surface surface-clear">      <app-sidebar (deleteRequested)="openDeleteModal($event)" (deleteCancelled)="pendingDelete = undefined"        (deleteConfirmed)="pendingDelete = undefined"></app-sidebar>    </div>  </div>  <!-- Mobile overlay sidebar -->  <div class="mobile-overlay" [class.hidden]="!isSidebarOpen">    <button class="fixed inset-0 overlay-backdrop z-40" (click)="closeSidebar()"      [attr.aria-label]="\'SHELL.CLOSE_MENU\' | translate"></button>    <div      class="fixed inset-y-0 left-0 w-72 z-50 sidebar-surface surface-clear transition-transform duration-200 ease-in-out"      [class.-translate-x-full]="!isSidebarOpen">      <app-sidebar (deleteRequested)="openDeleteModal($event)" (deleteCancelled)="pendingDelete = undefined"        (deleteConfirmed)="pendingDelete = undefined"></app-sidebar>    </div>  </div>  <main class="flex-1 min-h-0 overflow-hidden flex flex-col vt-page">    <!-- Mobile Topbar -->    <div class="sticky top-0 z-30 topbar-surface surface-clear">      <div class="flex items-center justify-between px-3 py-2">        <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" [title]="\'SHELL.MENU\' | translate">          <mat-icon fontIcon="menu"></mat-icon>        </button>        <div class="flex items-center gap-2">          <a routerLink="/home" class="btn btn-ghost btn-xs" [title]="\'NOT_FOUND.BACK_HOME\' | translate">            <mat-icon fontIcon="home"></mat-icon>            <span class="ml-1 text-xs hidden sm:inline">{{ "COMMON.HOME" | translate }}</span>          </a>          <button class="btn btn-ghost btn-xs" (click)="openSessionFilesFromShell()"            [title]="\'CHAT.ATTACHMENTS_INFO\' | translate" [attr.aria-label]="\'CHAT.ATTACHMENTS_VIEW\' | translate"            [attr.aria-description]="\'CHAT.ATTACHMENTS_INFO\' | translate">            <mat-icon fontIcon="attach_file" style="transform: rotate(45deg)"></mat-icon>            <span class="ml-1 text-xs hidden sm:inline">{{              "CHAT.ATTACHMENTS_VIEW" | translate              }}</span>          </button>          <button class="btn btn-ghost btn-xs" (click)="openSessionCompaniesFromShell()"            [title]="\'CHAT.COMPANIES_ANALYSIS_TITLE\' | translate"            [attr.aria-label]="\'CHAT.COMPANIES_ANALYSIS_TITLE\' | translate">            <mat-icon fontIcon="apartment"></mat-icon>            <span class="ml-1 text-xs hidden sm:inline">{{              "COMMON.COMPANIES" | translate              }}</span>          </button>        </div>        <div class="w-8 hidden md:block">          <button class="btn btn-ghost btn-sm" (click)="toggleSidebar()" [title]="\'SHELL.TOGGLE_PANEL\' | translate">            <mat-icon fontIcon="chevron_left" *ngIf="isSidebarOpen"></mat-icon>            <mat-icon fontIcon="chevron_right" *ngIf="!isSidebarOpen"></mat-icon>          </button>        </div>      </div>    </div>    <!-- Page content area: hidden here; pages manage their own scroll (chat uses internal messages scroll) -->    <div class="flex-1 min-h-0 overflow-hidden flex flex-col">      <router-outlet />    </div>  </main>  <!-- Global delete confirmation modal (centered) -->  <div class="modal-backdrop" *ngIf="pendingDelete" (click)="closeDeleteModal()" (keydown.escape)="closeDeleteModal()">    <dialog #deleteDialog open class="modal" (click)="$event.stopPropagation()" (keydown)="onDialogKeydown($event)">      <header class="modal-header">        <h3>{{ "SIDEBAR.DELETE_TITLE" | translate }}</h3>        <button #cancelBtn type="button" class="btn btn-gradient-blue" (click)="closeDeleteModal()"          [attr.aria-label]="\'SIDEBAR.CANCEL\' | translate">          <mat-icon fontIcon="close" class="text-xl"></mat-icon>        </button>      </header>      <section class="modal-body">        <p>          <mat-icon class="inline mr-2 text-amber-500">warning</mat-icon>          {{ "SIDEBAR.DELETE_TEXT" | translate }}        </p>      </section>      <footer class="modal-actions">        <button class="btn btn-gradient-blue" type="button" (click)="closeDeleteModal()">          <mat-icon class="mr-1 text-sm">close</mat-icon>          {{ "SIDEBAR.CANCEL" | translate }}        </button>        <button #confirmBtn class="btn btn-error btn-outline" type="button" (click)="confirmDeleteFromShell()">          <mat-icon class="mr-1 text-sm">delete</mat-icon>          {{ "SIDEBAR.CONFIRM" | translate }}        </button>      </footer>    </dialog>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ShellLayout'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ShellLayout.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

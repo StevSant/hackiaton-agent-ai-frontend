@@ -1,0 +1,2427 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdminUsersPage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/pages/admin/users.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin-users</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./users.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./users.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#creating" >creating</a>
+                            </li>
+                            <li>
+                                <a href="#editForm" >editForm</a>
+                            </li>
+                            <li>
+                                <a href="#editingId" >editingId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#end" >end</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#facade" >facade</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#i18n" >i18n</a>
+                            </li>
+                            <li>
+                                <a href="#limit" >limit</a>
+                            </li>
+                            <li>
+                                <a href="#page" >page</a>
+                            </li>
+                            <li>
+                                <a href="#search" >search</a>
+                            </li>
+                            <li>
+                                <a href="#sortBy" >sortBy</a>
+                            </li>
+                            <li>
+                                <a href="#sortOrder" >sortOrder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#start" >start</a>
+                            </li>
+                            <li>
+                                <a href="#total" >total</a>
+                            </li>
+                            <li>
+                                <a href="#users" >users</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#applySearch" >applySearch</a>
+                            </li>
+                            <li>
+                                <a href="#cancelEdit" >cancelEdit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#confirmDelete" >confirmDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#create" >create</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#nextPage" >nextPage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#prevPage" >prevPage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#refresh" >refresh</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#saveEdit" >saveEdit</a>
+                            </li>
+                            <li>
+                                <a href="#setSort" >setSort</a>
+                            </li>
+                            <li>
+                                <a href="#startEdit" >startEdit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applySearch"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>applySearch</b></span>
+                        <a href="#applySearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applySearch(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelEdit"></a>
+                    <span class="name">
+                        <span ><b>cancelEdit</b></span>
+                        <a href="#cancelEdit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelEdit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmDelete"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>confirmDelete</b></span>
+                        <a href="#confirmDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>confirmDelete(u: <a href="../interfaces/AdminUserItem.html" target="_self">AdminUserItem</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:132</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>u</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AdminUserItem.html" target="_self" >AdminUserItem</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="create"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>create</b></span>
+                        <a href="#create"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>create()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nextPage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>nextPage</b></span>
+                        <a href="#nextPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>nextPage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="62"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prevPage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>prevPage</b></span>
+                        <a href="#prevPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>prevPage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refresh"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>refresh</b></span>
+                        <a href="#refresh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refresh()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveEdit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>saveEdit</b></span>
+                        <a href="#saveEdit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveEdit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:105</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSort"></a>
+                    <span class="name">
+                        <span ><b>setSort</b></span>
+                        <a href="#setSort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setSort(field: "email" | "username" | "created_at")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="74"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>field</td>
+                                            <td>
+                                                        <code>&quot;email&quot; | &quot;username&quot; | &quot;created_at&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startEdit"></a>
+                    <span class="name">
+                        <span ><b>startEdit</b></span>
+                        <a href="#startEdit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>startEdit(u: <a href="../interfaces/AdminUserItem.html" target="_self">AdminUserItem</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">src/app/presentation/pages/admin/users.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>u</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AdminUserItem.html" target="_self" >AdminUserItem</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="creating"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>creating</b></span>
+                        <a href="#creating"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.creating</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/presentation/pages/admin/users.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editForm"></a>
+                    <span class="name">
+                        <span ><b>editForm</b></span>
+                        <a href="#editForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.fb.group({
+    username: [&#x27;&#x27;],
+    email: [&#x27;&#x27;],
+    role: [&#x27;user&#x27; as &#x27;admin&#x27; | &#x27;user&#x27;],
+    password: [&#x27;&#x27;],
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/presentation/pages/admin/users.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editingId"></a>
+                    <span class="name">
+                        <span ><b>editingId</b></span>
+                        <a href="#editingId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/presentation/pages/admin/users.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="end"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>end</b></span>
+                        <a href="#end"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.end</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/presentation/pages/admin/users.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.error</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/presentation/pages/admin/users.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="facade"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>facade</b></span>
+                        <a href="#facade"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AdminUsersFacade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/presentation/pages/admin/users.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/presentation/pages/admin/users.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.fb.group({
+    username: [&#x27;&#x27;, [Validators.required, Validators.minLength(3)]],
+    email: [&#x27;&#x27;, [Validators.required, Validators.email]],
+    password: [&#x27;&#x27;, [Validators.required, Validators.minLength(6)]],
+    role: [&#x27;user&#x27; as &#x27;admin&#x27; | &#x27;user&#x27;],
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/presentation/pages/admin/users.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="i18n"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>i18n</b></span>
+                        <a href="#i18n"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TranslateService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/presentation/pages/admin/users.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="limit"></a>
+                    <span class="name">
+                        <span ><b>limit</b></span>
+                        <a href="#limit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.limit</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/presentation/pages/admin/users.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="page"></a>
+                    <span class="name">
+                        <span ><b>page</b></span>
+                        <a href="#page"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.page</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/presentation/pages/admin/users.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="search"></a>
+                    <span class="name">
+                        <span ><b>search</b></span>
+                        <a href="#search"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.search</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/presentation/pages/admin/users.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortBy"></a>
+                    <span class="name">
+                        <span ><b>sortBy</b></span>
+                        <a href="#sortBy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.sortBy</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/presentation/pages/admin/users.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortOrder"></a>
+                    <span class="name">
+                        <span ><b>sortOrder</b></span>
+                        <a href="#sortOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.sortOrder</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/presentation/pages/admin/users.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="start"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>start</b></span>
+                        <a href="#start"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.start</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/presentation/pages/admin/users.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="total"></a>
+                    <span class="name">
+                        <span ><b>total</b></span>
+                        <a href="#total"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.total</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/presentation/pages/admin/users.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="users"></a>
+                    <span class="name">
+                        <span ><b>users</b></span>
+                        <a href="#users"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.users</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/presentation/pages/admin/users.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  signal,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ReactiveFormsModule, FormBuilder, Validators } from &#x27;@angular/forms&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { TranslateModule, TranslateService } from &#x27;@ngx-translate/core&#x27;;
+import type { AdminUserItem } from &#x27;@core/ports&#x27;;
+import { AdminUsersFacade } from &#x27;@app/application/admin/admin-users.facade&#x27;;
+
+@Component({
+  selector: &#x27;app-admin-users&#x27;,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, TranslateModule],
+  templateUrl: &#x27;./users.html&#x27;,
+  styleUrls: [&#x27;./users.css&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AdminUsersPage {
+  private readonly facade &#x3D; inject(AdminUsersFacade);
+  private readonly fb &#x3D; inject(FormBuilder);
+  private readonly i18n &#x3D; inject(TranslateService);
+
+  readonly creating &#x3D; this.facade.creating;
+  readonly error &#x3D; this.facade.error;
+  users &#x3D; this.facade.users;
+  page &#x3D; this.facade.page;
+  limit &#x3D; this.facade.limit;
+  total &#x3D; this.facade.total;
+  search &#x3D; this.facade.search;
+  readonly start &#x3D; this.facade.start;
+  readonly end &#x3D; this.facade.end;
+  sortBy &#x3D; this.facade.sortBy;
+  sortOrder &#x3D; this.facade.sortOrder;
+
+  editingId &#x3D; signal&lt;string | null&gt;(null);
+  editForm &#x3D; this.fb.group({
+    username: [&#x27;&#x27;],
+    email: [&#x27;&#x27;],
+    role: [&#x27;user&#x27; as &#x27;admin&#x27; | &#x27;user&#x27;],
+    password: [&#x27;&#x27;],
+  });
+
+  form &#x3D; this.fb.group({
+    username: [&#x27;&#x27;, [Validators.required, Validators.minLength(3)]],
+    email: [&#x27;&#x27;, [Validators.required, Validators.email]],
+    password: [&#x27;&#x27;, [Validators.required, Validators.minLength(6)]],
+    role: [&#x27;user&#x27; as &#x27;admin&#x27; | &#x27;user&#x27;],
+  });
+
+  async ngOnInit() {
+    await this.refresh();
+  }
+
+  async refresh() {
+    await this.facade.refresh();
+  }
+
+  async nextPage() {
+    await this.facade.nextPage();
+  }
+
+  async prevPage() {
+    await this.facade.prevPage();
+  }
+
+  async applySearch(value: string) {
+    await this.facade.applySearch(value);
+  }
+
+  setSort(field: &#x27;email&#x27; | &#x27;username&#x27; | &#x27;created_at&#x27;) {
+    this.facade.setSort(field);
+  }
+
+  async create() {
+    if (this.form.invalid || this.creating()) return;
+    const { username, email, password, role } &#x3D; this.form.value;
+    await this.facade.create({
+      username: username!,
+      email: email!,
+      password: password!,
+      role: role!,
+    });
+    this.form.reset({ role: &#x27;user&#x27; });
+  }
+
+  startEdit(u: AdminUserItem) {
+    this.editingId.set(u.user_id);
+    this.editForm.setValue({
+      username: u.username || &#x27;&#x27;,
+      email: u.email || &#x27;&#x27;,
+      role: (u.role as any) || &#x27;user&#x27;,
+      password: &#x27;&#x27;,
+    });
+  }
+
+  cancelEdit() {
+    this.editingId.set(null);
+    this.editForm.reset({ role: &#x27;user&#x27; });
+  }
+
+  async saveEdit() {
+    const id &#x3D; this.editingId();
+    if (!id) return;
+    const formValue &#x3D; this.editForm.value;
+
+    // Filter out empty fields to avoid validation errors
+    const payload: any &#x3D; {};
+    const trimmedUsername &#x3D; formValue.username?.trim();
+    if (trimmedUsername) {
+      payload.username &#x3D; trimmedUsername;
+    }
+    const trimmedEmail &#x3D; formValue.email?.trim();
+    if (trimmedEmail) {
+      payload.email &#x3D; trimmedEmail;
+    }
+    if (formValue.role) {
+      payload.role &#x3D; formValue.role;
+    }
+    const trimmedPassword &#x3D; formValue.password?.trim();
+    if (trimmedPassword) {
+      payload.password &#x3D; formValue.password;
+    }
+
+    await this.facade.update(id, payload);
+    this.cancelEdit();
+  }
+
+  async confirmDelete(u: AdminUserItem) {
+    const msg &#x3D; this.i18n.instant(&#x27;ADMIN.USERS.CONFIRM_DELETE&#x27;, {
+      email: u.email,
+    });
+    if (confirm(msg)) {
+      await this.facade.delete(u.user_id);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;p-6 space-y-6 vt-page&quot;&gt;
+  &lt;h2
+    class&#x3D;&quot;text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2&quot;
+  &gt;
+    {{ &quot;ADMIN.USERS.TITLE&quot; | translate }}
+  &lt;/h2&gt;
+
+  &lt;div class&#x3D;&quot;search-section&quot;&gt;
+    &lt;div class&#x3D;&quot;flex items-end justify-between gap-4 flex-wrap&quot;&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-3 flex-wrap&quot;&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label for&#x3D;&quot;userSearch&quot; class&#x3D;&quot;form-label&quot;&gt;
+            &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;search&lt;/mat-icon&gt;
+            {{ &quot;ADMIN.USERS.SEARCH_LABEL&quot; | translate }}
+          &lt;/label&gt;
+          &lt;input
+            #userSearch
+            id&#x3D;&quot;userSearch&quot;
+            class&#x3D;&quot;input input-bordered input-sm w-full sm:w-72&quot;
+            (keyup.enter)&#x3D;&quot;applySearch(userSearch.value)&quot;
+            [placeholder]&#x3D;&quot;&#x27;ADMIN.USERS.SEARCH_PLACEHOLDER&#x27; | translate&quot;
+          /&gt;
+        &lt;/div&gt;
+        &lt;button
+          class&#x3D;&quot;btn btn-gradient-blue btn-sm mt-6&quot;
+          (click)&#x3D;&quot;applySearch(userSearch.value)&quot;
+          type&#x3D;&quot;button&quot;
+        &gt;
+          &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;search&lt;/mat-icon&gt;
+          {{ &quot;ADMIN.USERS.SEARCH_BUTTON&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;stats-text&quot;&gt;
+        &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;people&lt;/mat-icon&gt;
+        {{ start() }}–{{ end() }} de {{ total() }}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;modern-card users-card p-6&quot;&gt;
+    &lt;div class&#x3D;&quot;mb-4&quot;&gt;
+      &lt;h3 class&#x3D;&quot;text-lg font-semibold mb-2 flex items-center gap-2&quot;&gt;
+        &lt;mat-icon&gt;person_add&lt;/mat-icon&gt;
+        {{ &quot;ADMIN.USERS.CREATE_NEW&quot; | translate }}
+      &lt;/h3&gt;
+      &lt;div class&#x3D;&quot;text-sm opacity-70&quot;&gt;{{ &quot;ADMIN.USERS.CREATE_DESCRIPTION&quot; | translate }}&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;form
+      [formGroup]&#x3D;&quot;form&quot;
+      (ngSubmit)&#x3D;&quot;create()&quot;
+      class&#x3D;&quot;create-form grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;form-group&quot;&gt;
+        &lt;label class&#x3D;&quot;form-label&quot; for&#x3D;&quot;username&quot;&gt;
+          &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;person&lt;/mat-icon&gt;
+          {{ &quot;ADMIN.USERS.USERNAME&quot; | translate }}
+        &lt;/label&gt;
+        &lt;input
+          id&#x3D;&quot;username&quot;
+          class&#x3D;&quot;input input-bordered w-full&quot;
+          formControlName&#x3D;&quot;username&quot;
+          [placeholder]&#x3D;&quot;&#x27;ADMIN.USERS.USERNAME_PLACEHOLDER&#x27; | translate&quot;
+        /&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;form-group&quot;&gt;
+        &lt;label class&#x3D;&quot;form-label&quot; for&#x3D;&quot;email&quot;&gt;
+          &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;email&lt;/mat-icon&gt;
+          {{ &quot;ADMIN.USERS.EMAIL&quot; | translate }}
+        &lt;/label&gt;
+        &lt;input
+          id&#x3D;&quot;email&quot;
+          class&#x3D;&quot;input input-bordered w-full&quot;
+          formControlName&#x3D;&quot;email&quot;
+          [placeholder]&#x3D;&quot;&#x27;ADMIN.USERS.EMAIL_PLACEHOLDER&#x27; | translate&quot;
+          type&#x3D;&quot;email&quot;
+        /&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;form-group md:col-span-2&quot;&gt;
+        &lt;label class&#x3D;&quot;form-label&quot; for&#x3D;&quot;password&quot;&gt;
+          &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;lock&lt;/mat-icon&gt;
+          {{ &quot;ADMIN.USERS.PASSWORD&quot; | translate }}
+        &lt;/label&gt;
+        &lt;input
+          id&#x3D;&quot;password&quot;
+          class&#x3D;&quot;input input-bordered w-full&quot;
+          formControlName&#x3D;&quot;password&quot;
+          [placeholder]&#x3D;&quot;&#x27;ADMIN.USERS.PASSWORD_PLACEHOLDER&#x27; | translate&quot;
+          type&#x3D;&quot;password&quot;
+        /&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;form-group&quot;&gt;
+        &lt;label class&#x3D;&quot;form-label&quot; for&#x3D;&quot;role&quot;&gt;
+          &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;badge&lt;/mat-icon&gt;
+          {{ &quot;ADMIN.USERS.ROLE&quot; | translate }}
+        &lt;/label&gt;
+        &lt;select
+          id&#x3D;&quot;role&quot;
+          class&#x3D;&quot;select select-bordered w-full&quot;
+          formControlName&#x3D;&quot;role&quot;
+        &gt;
+          &lt;option [ngValue]&#x3D;&quot;&#x27;user&#x27;&quot;&gt;{{ &quot;COMMON.USER&quot; | translate }}&lt;/option&gt;
+          &lt;option [ngValue]&#x3D;&quot;&#x27;admin&#x27;&quot;&gt;{{ &quot;COMMON.ADMIN&quot; | translate }}&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;flex items-end&quot;&gt;
+        &lt;button
+          class&#x3D;&quot;btn btn-gradient-blue w-full&quot;
+          [disabled]&#x3D;&quot;form.invalid || creating()&quot;
+          type&#x3D;&quot;submit&quot;
+        &gt;
+          &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;add&lt;/mat-icon&gt;
+          {{ &quot;ADMIN.USERS.CREATE&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+
+  @if (error()) {
+    &lt;div class&#x3D;&quot;modern-card p-4 border-l-4 border-destructive bg-gradient-to-r from-destructive/10 to-destructive/5&quot;&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-2&quot;&gt;
+        &lt;mat-icon class&#x3D;&quot;text-destructive&quot;&gt;error&lt;/mat-icon&gt;
+        &lt;span class&#x3D;&quot;font-medium text-destructive&quot;&gt;Error&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;mt-2 text-sm&quot;&gt;{{ error() }}&lt;/div&gt;
+    &lt;/div&gt;
+  }
+
+  &lt;div class&#x3D;&quot;overflow-x-auto modern-card p-6&quot;&gt;
+    &lt;div class&#x3D;&quot;mb-4&quot;&gt;
+      &lt;h3 class&#x3D;&quot;text-lg font-semibold flex items-center gap-2&quot;&gt;
+        &lt;mat-icon&gt;people&lt;/mat-icon&gt;
+        {{ &quot;ADMIN.USERS.USER_LIST&quot; | translate }}
+      &lt;/h3&gt;
+      &lt;div class&#x3D;&quot;text-sm opacity-70&quot;&gt;{{ &quot;ADMIN.USERS.LIST_DESCRIPTION&quot; | translate }}&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;table class&#x3D;&quot;users-table text-sm&quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;
+            &lt;button class&#x3D;&quot;btn btn-ghost btn-xs&quot; (click)&#x3D;&quot;setSort(&#x27;username&#x27;)&quot;&gt;
+              &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;person&lt;/mat-icon&gt;
+              {{ &quot;ADMIN.USERS.USERNAME&quot; | translate }}
+              &lt;span *ngIf&#x3D;&quot;sortBy() &#x3D;&#x3D;&#x3D; &#x27;username&#x27;&quot; class&#x3D;&quot;ml-1&quot;&gt;{{
+                sortOrder() &#x3D;&#x3D;&#x3D; &quot;asc&quot; ? &quot;▲&quot; : &quot;▼&quot;
+              }}&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/th&gt;
+          &lt;th&gt;
+            &lt;button class&#x3D;&quot;btn btn-ghost btn-xs&quot; (click)&#x3D;&quot;setSort(&#x27;email&#x27;)&quot;&gt;
+              &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;email&lt;/mat-icon&gt;
+              {{ &quot;ADMIN.USERS.EMAIL&quot; | translate }}
+              &lt;span *ngIf&#x3D;&quot;sortBy() &#x3D;&#x3D;&#x3D; &#x27;email&#x27;&quot; class&#x3D;&quot;ml-1&quot;&gt;{{
+                sortOrder() &#x3D;&#x3D;&#x3D; &quot;asc&quot; ? &quot;▲&quot; : &quot;▼&quot;
+              }}&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/th&gt;
+          &lt;th&gt;
+            &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;badge&lt;/mat-icon&gt;
+            {{ &quot;ADMIN.USERS.ROLE&quot; | translate }}
+          &lt;/th&gt;
+          &lt;th&gt;
+            &lt;button
+              class&#x3D;&quot;btn btn-ghost btn-xs&quot;
+              (click)&#x3D;&quot;setSort(&#x27;created_at&#x27;)&quot;
+            &gt;
+              &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;schedule&lt;/mat-icon&gt;
+              {{ &quot;ADMIN.USERS.CREATED&quot; | translate }}
+              &lt;span *ngIf&#x3D;&quot;sortBy() &#x3D;&#x3D;&#x3D; &#x27;created_at&#x27;&quot; class&#x3D;&quot;ml-1&quot;&gt;{{
+                sortOrder() &#x3D;&#x3D;&#x3D; &quot;asc&quot; ? &quot;▲&quot; : &quot;▼&quot;
+              }}&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/th&gt;
+          &lt;th&gt;
+            &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;settings&lt;/mat-icon&gt;
+            {{ &quot;ADMIN.USERS.ACTIONS&quot; | translate }}
+          &lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        @for (u of users(); track u.user_id) {
+          @if (editingId() !&#x3D;&#x3D; u.user_id) {
+            &lt;tr&gt;
+              &lt;td&gt;{{ u.username }}&lt;/td&gt;
+              &lt;td&gt;{{ u.email }}&lt;/td&gt;
+              &lt;td&gt;
+                &lt;span class&#x3D;&quot;role-badge role-{{ u.role }}&quot;&gt;
+                  &lt;span class&#x3D;&quot;dot&quot;&gt;&lt;/span&gt;
+                  {{ u.role }}
+                &lt;/span&gt;
+              &lt;/td&gt;
+              &lt;td&gt;{{ u.created_at || &quot;-&quot; }}&lt;/td&gt;
+              &lt;td class&#x3D;&quot;actions&quot;&gt;
+                &lt;button class&#x3D;&quot;btn btn-ghost btn-xs mr-2&quot; (click)&#x3D;&quot;startEdit(u)&quot;&gt;
+                  &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;edit&lt;/mat-icon&gt;
+                  {{ &quot;ADMIN.USERS.EDIT&quot; | translate }}
+                &lt;/button&gt;
+                &lt;button
+                  class&#x3D;&quot;btn btn-ghost btn-xs text-error&quot;
+                  (click)&#x3D;&quot;confirmDelete(u)&quot;
+                &gt;
+                  &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;delete&lt;/mat-icon&gt;
+                  {{ &quot;ADMIN.USERS.DELETE&quot; | translate }}
+                &lt;/button&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+          } @else {
+            &lt;tr&gt;
+              &lt;td&gt;
+                &lt;input
+                  class&#x3D;&quot;input input-bordered w-full&quot;
+                  [formControl]&#x3D;&quot;editForm.controls.username&quot;
+                /&gt;
+              &lt;/td&gt;
+              &lt;td&gt;
+                &lt;input
+                  class&#x3D;&quot;input input-bordered w-full&quot;
+                  [formControl]&#x3D;&quot;editForm.controls.email&quot;
+                /&gt;
+              &lt;/td&gt;
+              &lt;td&gt;
+                &lt;select
+                  class&#x3D;&quot;select select-bordered w-full&quot;
+                  [formControl]&#x3D;&quot;editForm.controls.role&quot;
+                &gt;
+                  &lt;option [ngValue]&#x3D;&quot;&#x27;user&#x27;&quot;&gt;
+                    {{ &quot;COMMON.USER&quot; | translate }}
+                  &lt;/option&gt;
+                  &lt;option [ngValue]&#x3D;&quot;&#x27;admin&#x27;&quot;&gt;
+                    {{ &quot;COMMON.ADMIN&quot; | translate }}
+                  &lt;/option&gt;
+                &lt;/select&gt;
+              &lt;/td&gt;
+              &lt;td&gt;
+                &lt;input
+                  class&#x3D;&quot;input input-bordered w-full&quot;
+                  [formControl]&#x3D;&quot;editForm.controls.password&quot;
+                  [placeholder]&#x3D;&quot;
+                    &#x27;ADMIN.USERS.NEW_PASSWORD_OPTIONAL&#x27; | translate
+                  &quot;
+                /&gt;
+              &lt;/td&gt;
+              &lt;td class&#x3D;&quot;actions&quot;&gt;
+                &lt;button
+                  class&#x3D;&quot;btn btn-gradient-blue btn-xs mr-2&quot;
+                  (click)&#x3D;&quot;saveEdit()&quot;
+                &gt;
+                  &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;save&lt;/mat-icon&gt;
+                  {{ &quot;ADMIN.USERS.SAVE&quot; | translate }}
+                &lt;/button&gt;
+                &lt;button class&#x3D;&quot;btn btn-ghost btn-xs&quot; (click)&#x3D;&quot;cancelEdit()&quot;&gt;
+                  &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;close&lt;/mat-icon&gt;
+                  {{ &quot;ADMIN.USERS.CANCEL&quot; | translate }}
+                &lt;/button&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+          }
+        }
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;pagination-card&quot;&gt;
+    &lt;div class&#x3D;&quot;flex items-center justify-between gap-4&quot;&gt;
+      &lt;div class&#x3D;&quot;text-sm opacity-70 flex items-center gap-2&quot;&gt;
+        &lt;mat-icon class&#x3D;&quot;text-sm&quot;&gt;info&lt;/mat-icon&gt;
+        {{ &quot;ADMIN.USERS.PAGINATION_INFO&quot; | translate }}
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+        &lt;button 
+          class&#x3D;&quot;btn btn-ghost btn-sm&quot; 
+          (click)&#x3D;&quot;prevPage()&quot; 
+          [disabled]&#x3D;&quot;page() &lt;&#x3D; 1&quot;
+        &gt;
+          &lt;mat-icon class&#x3D;&quot;text-sm mr-1&quot;&gt;chevron_left&lt;/mat-icon&gt;
+          {{ &quot;COMMON.PREVIOUS&quot; | translate }}
+        &lt;/button&gt;
+        &lt;div class&#x3D;&quot;text-sm font-medium px-3 py-1 bg-primary/10 rounded-lg&quot;&gt;
+          {{ page() }}
+        &lt;/div&gt;
+        &lt;button
+          class&#x3D;&quot;btn btn-ghost btn-sm&quot;
+          (click)&#x3D;&quot;nextPage()&quot;
+          [disabled]&#x3D;&quot;page() * limit() &gt;&#x3D; total()&quot;
+        &gt;
+          {{ &quot;COMMON.NEXT&quot; | translate }}
+          &lt;mat-icon class&#x3D;&quot;text-sm ml-1&quot;&gt;chevron_right&lt;/mat-icon&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./users.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   MODERN USERS PAGE - GLASSMORPHISM DESIGN
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.vt-page {
+  background: linear-gradient(135deg, 
+    hsl(var(--background)) 0%, 
+    hsl(var(--primary) / 0.03) 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.vt-page::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, hsl(var(--primary) / 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, hsl(var(--primary) / 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   PAGE TITLE
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.vt-page h2 {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.8) 0%, 
+    hsl(var(--card) / 0.6) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.vt-page h2::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.3) 50%, 
+    transparent 100%);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   SEARCH SECTION
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.search-section {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.4) 0%, 
+    hsl(var(--card) / 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.search-section::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.2) 50%, 
+    transparent 100%);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   MODERN CARDS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.users-card, .modern-card, .glass-card {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.4) 0%, 
+    hsl(var(--card) / 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1rem;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.users-card::before, .modern-card::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.2) 50%, 
+    transparent 100%);
+}
+
+.users-card:hover, .modern-card:hover {
+  border-color: hsl(var(--primary) / 0.4);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    0 4px 16px hsl(var(--primary) / 0.1);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   FORM IMPROVEMENTS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.create-form {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.3) 0%, 
+    hsl(var(--card) / 0.1) 100%);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border: 1px solid hsl(var(--border) / 0.2);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--foreground) / 0.8);
+  margin-bottom: 0.25rem;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   INPUT IMPROVEMENTS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.users-card input,
+.users-card select,
+.modern-card input,
+.modern-card select,
+.input {
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.8) 0%, 
+    hsl(var(--background) / 0.6) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.users-card input:focus,
+.users-card select:focus,
+.modern-card input:focus,
+.modern-card select:focus,
+.input:focus {
+  outline: none;
+  border-color: hsl(var(--primary) / 0.5);
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.9) 0%, 
+    hsl(var(--background) / 0.7) 100%);
+  box-shadow: 
+    0 0 0 3px hsl(var(--primary) / 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   BUTTON IMPROVEMENTS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.btn-gradient-blue,
+.users-card button,
+.modern-card button {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.8) 100%);
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 16px hsl(var(--primary) / 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-gradient-blue::before,
+.users-card button::before,
+.modern-card button::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.btn-gradient-blue:hover::before,
+.users-card button:hover::before,
+.modern-card button:hover::before {
+  left: 100%;
+}
+
+.btn-gradient-blue:hover,
+.users-card button:hover,
+.modern-card button:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 1.1) 0%, 
+    hsl(var(--primary)) 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px hsl(var(--primary) / 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-gradient-blue:disabled,
+.users-card button:disabled,
+.modern-card button:disabled {
+  opacity: 0.6;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   TABLE IMPROVEMENTS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+}
+
+.users-table thead th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.9) 0%, 
+    hsl(var(--card) / 0.7) 100%);
+  backdrop-filter: blur(15px);
+  z-index: 10;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+  color: hsl(var(--foreground) / 0.9);
+}
+
+.users-table thead th:first-child {
+  border-top-left-radius: 0.75rem;
+}
+
+.users-table thead th:last-child {
+  border-top-right-radius: 0.75rem;
+}
+
+.users-table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid hsl(var(--border) / 0.1);
+}
+
+.users-table tbody tr:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.05) 0%, 
+    hsl(var(--primary) / 0.02) 100%);
+  transform: translateX(4px);
+}
+
+.users-table td {
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  color: hsl(var(--foreground) / 0.8);
+  border-bottom: 1px solid hsl(var(--border) / 0.1);
+}
+
+.users-table .actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   SORT BUTTONS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.users-table thead th button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.users-table thead th button:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--primary) / 0.05) 100%);
+  color: hsl(var(--primary));
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   ROLE BADGES
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 2rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid;
+  transition: all 0.3s ease;
+}
+
+.role-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.role-admin {
+  background: linear-gradient(135deg, 
+    hsl(var(--destructive) / 0.1) 0%, 
+    hsl(var(--destructive) / 0.05) 100%);
+  border-color: hsl(var(--destructive) / 0.3);
+  color: hsl(var(--destructive));
+}
+
+.role-admin .dot {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+.role-user {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--primary) / 0.05) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+  color: hsl(var(--primary));
+}
+
+.role-user .dot {
+  background: linear-gradient(135deg, #06b6d4, #2563eb);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   ACTION BUTTONS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.btn-ghost {
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.2);
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.4) 0%, 
+    hsl(var(--muted) / 0.2) 100%);
+  transform: translateY(-1px);
+}
+
+.btn-ghost.text-error {
+  color: hsl(var(--destructive));
+  border-color: hsl(var(--destructive) / 0.2);
+}
+
+.btn-ghost.text-error:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--destructive) / 0.1) 0%, 
+    hsl(var(--destructive) / 0.05) 100%);
+  border-color: hsl(var(--destructive) / 0.3);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   PAGINATION
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.pagination-card {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.4) 0%, 
+    hsl(var(--card) / 0.2) 100%);
+  backdrop-filter: blur(15px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   STATISTICS BAR
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.stats-text {
+  font-size: 0.875rem;
+  color: hsl(var(--foreground) / 0.7);
+  font-weight: 500;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border) / 0.2);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   ANIMATIONS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.vt-page &gt; * {
+  animation: slideInUp 0.5s ease-out;
+}
+
+.vt-page &gt; *:nth-child(1) { animation-delay: 0.1s; }
+.vt-page &gt; *:nth-child(2) { animation-delay: 0.2s; }
+.vt-page &gt; *:nth-child(3) { animation-delay: 0.3s; }
+.vt-page &gt; *:nth-child(4) { animation-delay: 0.4s; }
+.vt-page &gt; *:nth-child(5) { animation-delay: 0.5s; }
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   RESPONSIVE DESIGN
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+@media (max-width: 768px) {
+  .vt-page {
+    padding: 1rem;
+  }
+  
+  .users-table {
+    font-size: 0.75rem;
+  }
+  
+  .users-table td,
+  .users-table th {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .modern-card {
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vt-page &gt; * {
+    animation: none !important;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="p-6 space-y-6 vt-page">  <h2    class="text-xl font-semibold sticky top-0 z-20 bg-card/70 backdrop-blur rounded-md p-2"  >    {{ "ADMIN.USERS.TITLE" | translate }}  </h2>  <div class="search-section">    <div class="flex items-end justify-between gap-4 flex-wrap">      <div class="flex items-center gap-3 flex-wrap">        <div class="form-group">          <label for="userSearch" class="form-label">            <mat-icon class="text-sm mr-1">search</mat-icon>            {{ "ADMIN.USERS.SEARCH_LABEL" | translate }}          </label>          <input            #userSearch            id="userSearch"            class="input input-bordered input-sm w-full sm:w-72"            (keyup.enter)="applySearch(userSearch.value)"            [placeholder]="\'ADMIN.USERS.SEARCH_PLACEHOLDER\' | translate"          />        </div>        <button          class="btn btn-gradient-blue btn-sm mt-6"          (click)="applySearch(userSearch.value)"          type="button"        >          <mat-icon class="text-sm mr-1">search</mat-icon>          {{ "ADMIN.USERS.SEARCH_BUTTON" | translate }}        </button>      </div>      <div class="stats-text">        <mat-icon class="text-sm mr-1">people</mat-icon>        {{ start() }}–{{ end() }} de {{ total() }}      </div>    </div>  </div>  <div class="modern-card users-card p-6">    <div class="mb-4">      <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">        <mat-icon>person_add</mat-icon>        {{ "ADMIN.USERS.CREATE_NEW" | translate }}      </h3>      <div class="text-sm opacity-70">{{ "ADMIN.USERS.CREATE_DESCRIPTION" | translate }}</div>    </div>    <form      [formGroup]="form"      (ngSubmit)="create()"      class="create-form grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end"    >      <div class="form-group">        <label class="form-label" for="username">          <mat-icon class="text-sm mr-1">person</mat-icon>          {{ "ADMIN.USERS.USERNAME" | translate }}        </label>        <input          id="username"          class="input input-bordered w-full"          formControlName="username"          [placeholder]="\'ADMIN.USERS.USERNAME_PLACEHOLDER\' | translate"        />      </div>      <div class="form-group">        <label class="form-label" for="email">          <mat-icon class="text-sm mr-1">email</mat-icon>          {{ "ADMIN.USERS.EMAIL" | translate }}        </label>        <input          id="email"          class="input input-bordered w-full"          formControlName="email"          [placeholder]="\'ADMIN.USERS.EMAIL_PLACEHOLDER\' | translate"          type="email"        />      </div>      <div class="form-group md:col-span-2">        <label class="form-label" for="password">          <mat-icon class="text-sm mr-1">lock</mat-icon>          {{ "ADMIN.USERS.PASSWORD" | translate }}        </label>        <input          id="password"          class="input input-bordered w-full"          formControlName="password"          [placeholder]="\'ADMIN.USERS.PASSWORD_PLACEHOLDER\' | translate"          type="password"        />      </div>      <div class="form-group">        <label class="form-label" for="role">          <mat-icon class="text-sm mr-1">badge</mat-icon>          {{ "ADMIN.USERS.ROLE" | translate }}        </label>        <select          id="role"          class="select select-bordered w-full"          formControlName="role"        >          <option [ngValue]="\'user\'">{{ "COMMON.USER" | translate }}</option>          <option [ngValue]="\'admin\'">{{ "COMMON.ADMIN" | translate }}</option>        </select>      </div>      <div class="flex items-end">        <button          class="btn btn-gradient-blue w-full"          [disabled]="form.invalid || creating()"          type="submit"        >          <mat-icon class="text-sm mr-1">add</mat-icon>          {{ "ADMIN.USERS.CREATE" | translate }}        </button>      </div>    </form>  </div>  @if (error()) {    <div class="modern-card p-4 border-l-4 border-destructive bg-gradient-to-r from-destructive/10 to-destructive/5">      <div class="flex items-center gap-2">        <mat-icon class="text-destructive">error</mat-icon>        <span class="font-medium text-destructive">Error</span>      </div>      <div class="mt-2 text-sm">{{ error() }}</div>    </div>  }  <div class="overflow-x-auto modern-card p-6">    <div class="mb-4">      <h3 class="text-lg font-semibold flex items-center gap-2">        <mat-icon>people</mat-icon>        {{ "ADMIN.USERS.USER_LIST" | translate }}      </h3>      <div class="text-sm opacity-70">{{ "ADMIN.USERS.LIST_DESCRIPTION" | translate }}</div>    </div>    <table class="users-table text-sm">      <thead>        <tr>          <th>            <button class="btn btn-ghost btn-xs" (click)="setSort(\'username\')">              <mat-icon class="text-sm mr-1">person</mat-icon>              {{ "ADMIN.USERS.USERNAME" | translate }}              <span *ngIf="sortBy() === \'username\'" class="ml-1">{{                sortOrder() === "asc" ? "▲" : "▼"              }}</span>            </button>          </th>          <th>            <button class="btn btn-ghost btn-xs" (click)="setSort(\'email\')">              <mat-icon class="text-sm mr-1">email</mat-icon>              {{ "ADMIN.USERS.EMAIL" | translate }}              <span *ngIf="sortBy() === \'email\'" class="ml-1">{{                sortOrder() === "asc" ? "▲" : "▼"              }}</span>            </button>          </th>          <th>            <mat-icon class="text-sm mr-1">badge</mat-icon>            {{ "ADMIN.USERS.ROLE" | translate }}          </th>          <th>            <button              class="btn btn-ghost btn-xs"              (click)="setSort(\'created_at\')"            >              <mat-icon class="text-sm mr-1">schedule</mat-icon>              {{ "ADMIN.USERS.CREATED" | translate }}              <span *ngIf="sortBy() === \'created_at\'" class="ml-1">{{                sortOrder() === "asc" ? "▲" : "▼"              }}</span>            </button>          </th>          <th>            <mat-icon class="text-sm mr-1">settings</mat-icon>            {{ "ADMIN.USERS.ACTIONS" | translate }}          </th>        </tr>      </thead>      <tbody>        @for (u of users(); track u.user_id) {          @if (editingId() !== u.user_id) {            <tr>              <td>{{ u.username }}</td>              <td>{{ u.email }}</td>              <td>                <span class="role-badge role-{{ u.role }}">                  <span class="dot"></span>                  {{ u.role }}                </span>              </td>              <td>{{ u.created_at || "-" }}</td>              <td class="actions">                <button class="btn btn-ghost btn-xs mr-2" (click)="startEdit(u)">                  <mat-icon class="text-sm mr-1">edit</mat-icon>                  {{ "ADMIN.USERS.EDIT" | translate }}                </button>                <button                  class="btn btn-ghost btn-xs text-error"                  (click)="confirmDelete(u)"                >                  <mat-icon class="text-sm mr-1">delete</mat-icon>                  {{ "ADMIN.USERS.DELETE" | translate }}                </button>              </td>            </tr>          } @else {            <tr>              <td>                <input                  class="input input-bordered w-full"                  [formControl]="editForm.controls.username"                />              </td>              <td>                <input                  class="input input-bordered w-full"                  [formControl]="editForm.controls.email"                />              </td>              <td>                <select                  class="select select-bordered w-full"                  [formControl]="editForm.controls.role"                >                  <option [ngValue]="\'user\'">                    {{ "COMMON.USER" | translate }}                  </option>                  <option [ngValue]="\'admin\'">                    {{ "COMMON.ADMIN" | translate }}                  </option>                </select>              </td>              <td>                <input                  class="input input-bordered w-full"                  [formControl]="editForm.controls.password"                  [placeholder]="                    \'ADMIN.USERS.NEW_PASSWORD_OPTIONAL\' | translate                  "                />              </td>              <td class="actions">                <button                  class="btn btn-gradient-blue btn-xs mr-2"                  (click)="saveEdit()"                >                  <mat-icon class="text-sm mr-1">save</mat-icon>                  {{ "ADMIN.USERS.SAVE" | translate }}                </button>                <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">                  <mat-icon class="text-sm mr-1">close</mat-icon>                  {{ "ADMIN.USERS.CANCEL" | translate }}                </button>              </td>            </tr>          }        }      </tbody>    </table>  </div>  <div class="pagination-card">    <div class="flex items-center justify-between gap-4">      <div class="text-sm opacity-70 flex items-center gap-2">        <mat-icon class="text-sm">info</mat-icon>        {{ "ADMIN.USERS.PAGINATION_INFO" | translate }}      </div>      <div class="flex items-center gap-3">        <button           class="btn btn-ghost btn-sm"           (click)="prevPage()"           [disabled]="page() <= 1"        >          <mat-icon class="text-sm mr-1">chevron_left</mat-icon>          {{ "COMMON.PREVIOUS" | translate }}        </button>        <div class="text-sm font-medium px-3 py-1 bg-primary/10 rounded-lg">          {{ page() }}        </div>        <button          class="btn btn-ghost btn-sm"          (click)="nextPage()"          [disabled]="page() * limit() >= total()"        >          {{ "COMMON.NEXT" | translate }}          <mat-icon class="text-sm ml-1">chevron_right</mat-icon>        </button>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AdminUsersPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminUsersPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

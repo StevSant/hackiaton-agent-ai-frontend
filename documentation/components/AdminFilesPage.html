@@ -1,0 +1,1293 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdminFilesPage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/pages/admin/files.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin-files</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./files.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#files" >files</a>
+                            </li>
+                            <li>
+                                <a href="#getCachedUserLabel" >getCachedUserLabel</a>
+                            </li>
+                            <li>
+                                <a href="#items" >items</a>
+                            </li>
+                            <li>
+                                <a href="#limit" >limit</a>
+                            </li>
+                            <li>
+                                <a href="#offset" >offset</a>
+                            </li>
+                            <li>
+                                <a href="#subfolder" >subfolder</a>
+                            </li>
+                            <li>
+                                <a href="#total" >total</a>
+                            </li>
+                            <li>
+                                <a href="#type_file" >type_file</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#users" >users</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#applyFilters" >applyFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#list" >list</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#next" >next</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onTypeChange" >onTypeChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#prev" >prev</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#userLabel" >userLabel</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyFilters"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>applyFilters</b></span>
+                        <a href="#applyFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyFilters()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">src/app/presentation/pages/admin/files.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="list"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>list</b></span>
+                        <a href="#list"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>list()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/app/presentation/pages/admin/files.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="next"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>next</b></span>
+                        <a href="#next"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>next()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">src/app/presentation/pages/admin/files.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">src/app/presentation/pages/admin/files.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTypeChange"></a>
+                    <span class="name">
+                        <span ><b>onTypeChange</b></span>
+                        <a href="#onTypeChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTypeChange(val: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">src/app/presentation/pages/admin/files.ts:105</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>val</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prev"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>prev</b></span>
+                        <a href="#prev"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>prev()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="74"
+                                    class="link-to-prism">src/app/presentation/pages/admin/files.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userLabel"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>userLabel</b></span>
+                        <a href="#userLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>userLabel(userId: string | null | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/app/presentation/pages/admin/files.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                        <code>string | null | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="files"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>files</b></span>
+                        <a href="#files"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FilesFacade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/presentation/pages/admin/files.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCachedUserLabel"></a>
+                    <span class="name">
+                        <span ><b>getCachedUserLabel</b></span>
+                        <a href="#getCachedUserLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.users.getCachedUserLabel.bind(this.users)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/presentation/pages/admin/files.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="items"></a>
+                    <span class="name">
+                        <span ><b>items</b></span>
+                        <a href="#items"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;UploadedFileMeta[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/presentation/pages/admin/files.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="limit"></a>
+                    <span class="name">
+                        <span ><b>limit</b></span>
+                        <a href="#limit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(20)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/presentation/pages/admin/files.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="offset"></a>
+                    <span class="name">
+                        <span ><b>offset</b></span>
+                        <a href="#offset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/presentation/pages/admin/files.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subfolder"></a>
+                    <span class="name">
+                        <span ><b>subfolder</b></span>
+                        <a href="#subfolder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string&gt;(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/presentation/pages/admin/files.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="total"></a>
+                    <span class="name">
+                        <span ><b>total</b></span>
+                        <a href="#total"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/presentation/pages/admin/files.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="type_file"></a>
+                    <span class="name">
+                        <span ><b>type_file</b></span>
+                        <a href="#type_file"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;&#x27;image&#x27; | &#x27;pdf&#x27; | &#x27;document&#x27; | &#x27;&#x27;&gt;(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/presentation/pages/admin/files.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="users"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>users</b></span>
+                        <a href="#users"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AdminMessagesFacade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/presentation/pages/admin/files.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  signal,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import type { UploadedFileMeta } from &#x27;@core/ports&#x27;;
+import { FilesFacade } from &#x27;@app/application/files/files.facade&#x27;;
+import { AdminMessagesFacade } from &#x27;@app/application/admin/admin-messages.facade&#x27;;
+
+@Component({
+  selector: &#x27;app-admin-files&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule, TranslateModule],
+  templateUrl: &#x27;./files.html&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AdminFilesPage {
+  private readonly files &#x3D; inject(FilesFacade);
+  // Reuse AdminMessagesFacade to resolve user details and leverage its cache
+  private readonly users &#x3D; inject(AdminMessagesFacade);
+  items &#x3D; signal&lt;UploadedFileMeta[]&gt;([]);
+  total &#x3D; signal(0);
+  limit &#x3D; signal(20);
+  offset &#x3D; signal(0);
+  type_file &#x3D; signal&lt;&#x27;image&#x27; | &#x27;pdf&#x27; | &#x27;document&#x27; | &#x27;&#x27;&gt;(&#x27;&#x27;);
+  subfolder &#x3D; signal&lt;string&gt;(&#x27;&#x27;);
+  // Expose cached label getter for template
+  getCachedUserLabel &#x3D; this.users.getCachedUserLabel.bind(this.users);
+
+  async ngOnInit() {
+    const res &#x3D; await this.list();
+    this.items.set(res.items || []);
+    this.total.set(res.total || 0);
+    // Warm up user cache for listed files
+    const ids &#x3D; Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) &#x3D;&gt; f.owner_id)
+          .filter((v): v is string &#x3D;&gt; !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) &#x3D;&gt; this.users.resolveUser(id)));
+  }
+
+  private list() {
+    return this.files.list({
+      limit: this.limit(),
+      offset: this.offset(),
+      type_file: (this.type_file() || undefined) as any,
+      subfolder: this.subfolder() || undefined,
+    });
+  }
+
+  async next() {
+    if (this.offset() + this.limit() &gt;&#x3D; this.total()) return;
+    this.offset.update((o) &#x3D;&gt; o + this.limit());
+    const res &#x3D; await this.list();
+    this.items.set(res.items || []);
+    this.total.set(res.total || 0);
+    const ids &#x3D; Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) &#x3D;&gt; f.owner_id)
+          .filter((v): v is string &#x3D;&gt; !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) &#x3D;&gt; this.users.resolveUser(id)));
+  }
+
+  async prev() {
+    if (this.offset() &lt;&#x3D; 0) return;
+    this.offset.update((o) &#x3D;&gt; Math.max(0, o - this.limit()));
+    const res &#x3D; await this.list();
+    this.items.set(res.items || []);
+    this.total.set(res.total || 0);
+    const ids &#x3D; Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) &#x3D;&gt; f.owner_id)
+          .filter((v): v is string &#x3D;&gt; !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) &#x3D;&gt; this.users.resolveUser(id)));
+  }
+
+  async applyFilters() {
+    this.offset.set(0);
+    const res &#x3D; await this.list();
+    this.items.set(res.items || []);
+    this.total.set(res.total || 0);
+    const ids &#x3D; Array.from(
+      new Set(
+        (res.items || [])
+          .map((f) &#x3D;&gt; f.owner_id)
+          .filter((v): v is string &#x3D;&gt; !!v),
+      ),
+    );
+    await Promise.all(ids.map((id) &#x3D;&gt; this.users.resolveUser(id)));
+  }
+
+  onTypeChange(val: string) {
+    const v &#x3D; (val ?? &#x27;&#x27;).trim();
+    if (v &#x3D;&#x3D;&#x3D; &#x27;&#x27; || v &#x3D;&#x3D;&#x3D; &#x27;image&#x27; || v &#x3D;&#x3D;&#x3D; &#x27;pdf&#x27; || v &#x3D;&#x3D;&#x3D; &#x27;document&#x27;) {
+      this.type_file.set(v as any);
+      this.applyFilters();
+    }
+  }
+
+  // Resolve user details for display (email/name) with caching, similar to Admin Messages
+  async userLabel(userId: string | null | undefined): Promise&lt;string&gt; {
+    if (!userId) return &#x27;&#x27;;
+    const u &#x3D; await this.users.resolveUser(userId);
+    if (!u) return userId;
+    if (u.username &amp;&amp; u.email) return &#x60;${u.username} &lt;${u.email}&gt;&#x60;;
+    return u.email || u.username || userId;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;./files.css&quot;&gt;
+&lt;div class&#x3D;&quot;files-container vt-page&quot;&gt;
+  &lt;!-- Header Section --&gt;
+  &lt;div class&#x3D;&quot;files-header&quot;&gt;
+    &lt;div class&#x3D;&quot;header-content&quot;&gt;
+      &lt;h1 class&#x3D;&quot;page-title&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-folder-open title-icon&quot;&gt;&lt;/i&gt;
+        {{ &quot;ADMIN.FILES.TITLE&quot; | translate }}
+        &lt;span class&#x3D;&quot;file-count&quot;&gt;({{ total() }})&lt;/span&gt;
+      &lt;/h1&gt;
+      &lt;p class&#x3D;&quot;page-subtitle&quot;&gt;
+        Gestiona y explora todos los archivos subidos al sistema
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Filters and Controls Section --&gt;
+  &lt;div class&#x3D;&quot;filters-section modern-card&quot;&gt;
+    &lt;div class&#x3D;&quot;filters-header&quot;&gt;
+      &lt;h3 class&#x3D;&quot;section-title&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-filter&quot;&gt;&lt;/i&gt;
+        Filtros y Controles
+      &lt;/h3&gt;
+    &lt;/div&gt;
+    
+    &lt;div class&#x3D;&quot;filters-grid&quot;&gt;
+      &lt;!-- Type Filter --&gt;
+      &lt;div class&#x3D;&quot;filter-group&quot;&gt;
+        &lt;label class&#x3D;&quot;filter-label&quot; for&#x3D;&quot;type-filter&quot;&gt;
+          &lt;i class&#x3D;&quot;fas fa-file-alt&quot;&gt;&lt;/i&gt;
+          Tipo de Archivo
+        &lt;/label&gt;
+        &lt;select #t id&#x3D;&quot;type-filter&quot; class&#x3D;&quot;filter-select&quot; (change)&#x3D;&quot;onTypeChange(t.value)&quot;&gt;
+          &lt;option value&#x3D;&quot;&quot;&gt;{{ &quot;ADMIN.FILES.TYPE_ALL&quot; | translate }}&lt;/option&gt;
+          &lt;option value&#x3D;&quot;image&quot;&gt;Imágenes&lt;/option&gt;
+          &lt;option value&#x3D;&quot;pdf&quot;&gt;PDFs&lt;/option&gt;
+          &lt;option value&#x3D;&quot;document&quot;&gt;Documentos&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Subfolder Filter --&gt;
+      &lt;div class&#x3D;&quot;filter-group&quot;&gt;
+        &lt;label class&#x3D;&quot;filter-label&quot; for&#x3D;&quot;subfolder-filter&quot;&gt;
+          &lt;i class&#x3D;&quot;fas fa-folder&quot;&gt;&lt;/i&gt;
+          Subcarpeta
+        &lt;/label&gt;
+        &lt;input
+          #sf
+          id&#x3D;&quot;subfolder-filter&quot;
+          class&#x3D;&quot;filter-input&quot;
+          [value]&#x3D;&quot;subfolder()&quot;
+          (change)&#x3D;&quot;subfolder.set(sf.value); applyFilters()&quot;
+          [placeholder]&#x3D;&quot;&#x27;ADMIN.FILES.SUBFOLDER&#x27; | translate&quot;
+        /&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Pagination Controls --&gt;
+      &lt;div class&#x3D;&quot;pagination-controls&quot;&gt;
+        &lt;button 
+          class&#x3D;&quot;nav-btn prev-btn&quot; 
+          (click)&#x3D;&quot;prev()&quot; 
+          [disabled]&#x3D;&quot;offset() &lt;&#x3D; 0&quot;
+        &gt;
+          &lt;i class&#x3D;&quot;fas fa-chevron-left&quot;&gt;&lt;/i&gt;
+          &lt;span&gt;{{ &quot;COMMON.PREVIOUS&quot; | translate }}&lt;/span&gt;
+        &lt;/button&gt;
+        
+        &lt;div class&#x3D;&quot;page-info&quot;&gt;
+          &lt;span class&#x3D;&quot;page-text&quot;&gt;Mostrando&lt;/span&gt;
+          &lt;span class&#x3D;&quot;page-number&quot;&gt;{{ items().length }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;page-text&quot;&gt;archivos&lt;/span&gt;
+        &lt;/div&gt;
+        
+        &lt;button
+          class&#x3D;&quot;nav-btn next-btn&quot;
+          (click)&#x3D;&quot;next()&quot;
+          [disabled]&#x3D;&quot;offset() + limit() &gt;&#x3D; total()&quot;
+        &gt;
+          &lt;span&gt;{{ &quot;COMMON.NEXT&quot; | translate }}&lt;/span&gt;
+          &lt;i class&#x3D;&quot;fas fa-chevron-right&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Files Grid --&gt;
+  &lt;div class&#x3D;&quot;files-grid&quot;&gt;
+    @for (f of items(); track f.url) {
+      &lt;div class&#x3D;&quot;file-card modern-card&quot;&gt;
+        &lt;!-- File Preview --&gt;
+        &lt;div class&#x3D;&quot;file-preview&quot;&gt;
+          @if (f.content_type.startsWith(&#x27;image/&#x27;)) {
+            &lt;div class&#x3D;&quot;image-preview&quot;&gt;
+              &lt;img [src]&#x3D;&quot;f.url&quot; [alt]&#x3D;&quot;f.filename&quot; class&#x3D;&quot;preview-image&quot; /&gt;
+              &lt;div class&#x3D;&quot;preview-overlay&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-search-plus&quot;&gt;&lt;/i&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          } @else if (f.content_type &#x3D;&#x3D;&#x3D; &#x27;application/pdf&#x27;) {
+            &lt;div class&#x3D;&quot;pdf-preview&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-file-pdf&quot;&gt;&lt;/i&gt;
+              &lt;span&gt;PDF&lt;/span&gt;
+            &lt;/div&gt;
+          } @else {
+            &lt;div class&#x3D;&quot;document-preview&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-file-text&quot;&gt;&lt;/i&gt;
+              &lt;span&gt;{{ f.type_file || &#x27;DOC&#x27; }}&lt;/span&gt;
+            &lt;/div&gt;
+          }
+        &lt;/div&gt;
+
+        &lt;!-- File Info --&gt;
+        &lt;div class&#x3D;&quot;file-info&quot;&gt;
+          &lt;div class&#x3D;&quot;file-title&quot; [title]&#x3D;&quot;f.filename&quot;&gt;
+            &lt;i class&#x3D;&quot;fas fa-file file-icon&quot;&gt;&lt;/i&gt;
+            &lt;span&gt;{{ f.filename }}&lt;/span&gt;
+          &lt;/div&gt;
+          
+          &lt;div class&#x3D;&quot;file-meta&quot;&gt;
+            &lt;div class&#x3D;&quot;meta-item&quot;&gt;
+              &lt;i class&#x3D;&quot;fas fa-tags&quot;&gt;&lt;/i&gt;
+              &lt;span class&#x3D;&quot;content-type&quot;&gt;{{ f.content_type }}&lt;/span&gt;
+              &lt;span class&#x3D;&quot;separator&quot;&gt;•&lt;/span&gt;
+              &lt;span class&#x3D;&quot;file-type&quot;&gt;{{ f.type_file }}&lt;/span&gt;
+            &lt;/div&gt;
+            
+            @if (f.session_id) {
+              &lt;div class&#x3D;&quot;meta-item session-info&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-comments&quot;&gt;&lt;/i&gt;
+                &lt;span class&#x3D;&quot;label&quot;&gt;Sesión:&lt;/span&gt;
+                &lt;span class&#x3D;&quot;session-id&quot;&gt;{{ f.session_id }}&lt;/span&gt;
+              &lt;/div&gt;
+            }
+            
+            @if (f.owner_id) {
+              &lt;div class&#x3D;&quot;meta-item owner-info&quot;&gt;
+                &lt;i class&#x3D;&quot;fas fa-user&quot;&gt;&lt;/i&gt;
+                &lt;span class&#x3D;&quot;label&quot;&gt;Usuario:&lt;/span&gt;
+                &lt;span 
+                  class&#x3D;&quot;owner-id&quot; 
+                  [attr.title]&#x3D;&quot;userLabel(f.owner_id)&quot;
+                &gt;
+                  {{ getCachedUserLabel(f.owner_id) || f.owner_id }}
+                &lt;/span&gt;
+              &lt;/div&gt;
+            }
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- File Actions --&gt;
+        &lt;div class&#x3D;&quot;file-actions&quot;&gt;
+          &lt;a 
+            [href]&#x3D;&quot;f.url&quot; 
+            target&#x3D;&quot;_blank&quot; 
+            class&#x3D;&quot;open-btn&quot;
+            [title]&#x3D;&quot;&#x27;Abrir &#x27; + f.filename&quot;
+          &gt;
+            &lt;i class&#x3D;&quot;fas fa-external-link-alt&quot;&gt;&lt;/i&gt;
+            &lt;span&gt;{{ &quot;COMMON.OPEN&quot; | translate }}&lt;/span&gt;
+          &lt;/a&gt;
+          
+          &lt;button 
+            class&#x3D;&quot;copy-btn&quot;
+            [title]&#x3D;&quot;&#x27;Copiar enlace de &#x27; + f.filename&quot;
+          &gt;
+            &lt;i class&#x3D;&quot;fas fa-copy&quot;&gt;&lt;/i&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    }
+  &lt;/div&gt;
+
+  &lt;!-- Empty State --&gt;
+  @if (items().length &#x3D;&#x3D;&#x3D; 0) {
+    &lt;div class&#x3D;&quot;empty-state modern-card&quot;&gt;
+      &lt;div class&#x3D;&quot;empty-icon&quot;&gt;
+        &lt;i class&#x3D;&quot;fas fa-folder-open&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;h3 class&#x3D;&quot;empty-title&quot;&gt;No se encontraron archivos&lt;/h3&gt;
+      &lt;p class&#x3D;&quot;empty-description&quot;&gt;
+        No hay archivos que coincidan con los filtros seleccionados.
+      &lt;/p&gt;
+    &lt;/div&gt;
+  }
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><link rel="stylesheet" href="./files.css"><div class="files-container vt-page">  <!-- Header Section -->  <div class="files-header">    <div class="header-content">      <h1 class="page-title">        <i class="fas fa-folder-open title-icon"></i>        {{ "ADMIN.FILES.TITLE" | translate }}        <span class="file-count">({{ total() }})</span>      </h1>      <p class="page-subtitle">        Gestiona y explora todos los archivos subidos al sistema      </p>    </div>  </div>  <!-- Filters and Controls Section -->  <div class="filters-section modern-card">    <div class="filters-header">      <h3 class="section-title">        <i class="fas fa-filter"></i>        Filtros y Controles      </h3>    </div>        <div class="filters-grid">      <!-- Type Filter -->      <div class="filter-group">        <label class="filter-label" for="type-filter">          <i class="fas fa-file-alt"></i>          Tipo de Archivo        </label>        <select #t id="type-filter" class="filter-select" (change)="onTypeChange(t.value)">          <option value="">{{ "ADMIN.FILES.TYPE_ALL" | translate }}</option>          <option value="image">Imágenes</option>          <option value="pdf">PDFs</option>          <option value="document">Documentos</option>        </select>      </div>      <!-- Subfolder Filter -->      <div class="filter-group">        <label class="filter-label" for="subfolder-filter">          <i class="fas fa-folder"></i>          Subcarpeta        </label>        <input          #sf          id="subfolder-filter"          class="filter-input"          [value]="subfolder()"          (change)="subfolder.set(sf.value); applyFilters()"          [placeholder]="\'ADMIN.FILES.SUBFOLDER\' | translate"        />      </div>      <!-- Pagination Controls -->      <div class="pagination-controls">        <button           class="nav-btn prev-btn"           (click)="prev()"           [disabled]="offset() <= 0"        >          <i class="fas fa-chevron-left"></i>          <span>{{ "COMMON.PREVIOUS" | translate }}</span>        </button>                <div class="page-info">          <span class="page-text">Mostrando</span>          <span class="page-number">{{ items().length }}</span>          <span class="page-text">archivos</span>        </div>                <button          class="nav-btn next-btn"          (click)="next()"          [disabled]="offset() + limit() >= total()"        >          <span>{{ "COMMON.NEXT" | translate }}</span>          <i class="fas fa-chevron-right"></i>        </button>      </div>    </div>  </div>  <!-- Files Grid -->  <div class="files-grid">    @for (f of items(); track f.url) {      <div class="file-card modern-card">        <!-- File Preview -->        <div class="file-preview">          @if (f.content_type.startsWith(\'image/\')) {            <div class="image-preview">              <img [src]="f.url" [alt]="f.filename" class="preview-image" />              <div class="preview-overlay">                <i class="fas fa-search-plus"></i>              </div>            </div>          } @else if (f.content_type === \'application/pdf\') {            <div class="pdf-preview">              <i class="fas fa-file-pdf"></i>              <span>PDF</span>            </div>          } @else {            <div class="document-preview">              <i class="fas fa-file-text"></i>              <span>{{ f.type_file || \'DOC\' }}</span>            </div>          }        </div>        <!-- File Info -->        <div class="file-info">          <div class="file-title" [title]="f.filename">            <i class="fas fa-file file-icon"></i>            <span>{{ f.filename }}</span>          </div>                    <div class="file-meta">            <div class="meta-item">              <i class="fas fa-tags"></i>              <span class="content-type">{{ f.content_type }}</span>              <span class="separator">•</span>              <span class="file-type">{{ f.type_file }}</span>            </div>                        @if (f.session_id) {              <div class="meta-item session-info">                <i class="fas fa-comments"></i>                <span class="label">Sesión:</span>                <span class="session-id">{{ f.session_id }}</span>              </div>            }                        @if (f.owner_id) {              <div class="meta-item owner-info">                <i class="fas fa-user"></i>                <span class="label">Usuario:</span>                <span                   class="owner-id"                   [attr.title]="userLabel(f.owner_id)"                >                  {{ getCachedUserLabel(f.owner_id) || f.owner_id }}                </span>              </div>            }          </div>        </div>        <!-- File Actions -->        <div class="file-actions">          <a             [href]="f.url"             target="_blank"             class="open-btn"            [title]="\'Abrir \' + f.filename"          >            <i class="fas fa-external-link-alt"></i>            <span>{{ "COMMON.OPEN" | translate }}</span>          </a>                    <button             class="copy-btn"            [title]="\'Copiar enlace de \' + f.filename"          >            <i class="fas fa-copy"></i>          </button>        </div>      </div>    }  </div>  <!-- Empty State -->  @if (items().length === 0) {    <div class="empty-state modern-card">      <div class="empty-icon">        <i class="fas fa-folder-open"></i>      </div>      <h3 class="empty-title">No se encontraron archivos</h3>      <p class="empty-description">        No hay archivos que coincidan con los filtros seleccionados.      </p>    </div>  }</div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AdminFilesPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminFilesPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

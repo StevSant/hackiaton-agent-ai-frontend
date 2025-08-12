@@ -1,0 +1,930 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  RegisterPage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/pages/auth/register.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-register</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>ReactiveFormsModule</code>
+                            <code>CommonModule</code>
+                            <code>RouterLink</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./register.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#facade" >facade</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#showPassword" >showPassword</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#submitting" >submitting</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#submit" >submit</a>
+                            </li>
+                            <li>
+                                <a href="#toggleShowPassword" >toggleShowPassword</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>submit</b></span>
+                        <a href="#submit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>submit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/app/presentation/pages/auth/register.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleShowPassword"></a>
+                    <span class="name">
+                        <span ><b>toggleShowPassword</b></span>
+                        <a href="#toggleShowPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleShowPassword()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="64"
+                                    class="link-to-prism">src/app/presentation/pages/auth/register.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.error</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/presentation/pages/auth/register.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="facade"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>facade</b></span>
+                        <a href="#facade"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(RegisterFacade)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/presentation/pages/auth/register.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/presentation/pages/auth/register.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.fb.group({
+    username: [&#x27;&#x27;, [Validators.required, Validators.minLength(3)]],
+    email: [&#x27;&#x27;, [Validators.required, Validators.email]],
+    password: [&#x27;&#x27;, [Validators.required, passwordComplexityValidator]],
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/presentation/pages/auth/register.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/presentation/pages/auth/register.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showPassword"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>showPassword</b></span>
+                        <a href="#showPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/presentation/pages/auth/register.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitting"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>submitting</b></span>
+                        <a href="#submitting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.facade.loading</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/presentation/pages/auth/register.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  inject,
+  ChangeDetectionStrategy,
+  signal,
+} from &#x27;@angular/core&#x27;;
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Router, RouterLink } from &#x27;@angular/router&#x27;;
+import { RegisterFacade } from &#x27;@app/application/auth/register.facade&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+
+// Validator para complejidad de contraseña
+export function passwordComplexityValidator(
+  control: AbstractControl,
+): ValidationErrors | null {
+  const value: string &#x3D; control.value || &#x27;&#x27;;
+  if (!value) return null;
+
+  const failures: string[] &#x3D; [];
+  if (value.length &lt; 8) failures.push(&#x27;8+ caracteres&#x27;);
+  if (!/[A-Z]/.test(value)) failures.push(&#x27;1 mayúscula&#x27;);
+  if (!/[a-z]/.test(value)) failures.push(&#x27;1 minúscula&#x27;);
+  if (!/\d/.test(value)) failures.push(&#x27;1 dígito&#x27;);
+
+  return failures.length ? { passwordComplexity: failures } : null;
+}
+
+@Component({
+  selector: &#x27;app-register&#x27;,
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterLink,
+    MatIconModule,
+    TranslateModule,
+  ],
+  templateUrl: &#x27;./register.html&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class RegisterPage {
+  private readonly fb &#x3D; inject(FormBuilder);
+  private readonly facade &#x3D; inject(RegisterFacade);
+  private readonly router &#x3D; inject(Router);
+
+  readonly form &#x3D; this.fb.group({
+    username: [&#x27;&#x27;, [Validators.required, Validators.minLength(3)]],
+    email: [&#x27;&#x27;, [Validators.required, Validators.email]],
+    password: [&#x27;&#x27;, [Validators.required, passwordComplexityValidator]],
+  });
+
+  readonly submitting &#x3D; this.facade.loading;
+  readonly error &#x3D; this.facade.error;
+  readonly showPassword &#x3D; signal(false);
+
+  toggleShowPassword() {
+    this.showPassword.update((v) &#x3D;&gt; !v);
+  }
+
+  async submit() {
+    if (this.form.invalid || this.submitting()) return;
+
+    try {
+      // Normalizar entrada y validar password local
+      const email &#x3D; (this.form.value.email || &#x27;&#x27;).trim().toLowerCase();
+      const username &#x3D; (this.form.value.username || &#x27;&#x27;).trim();
+      const password &#x3D; this.form.value.password || &#x27;&#x27;;
+      if (this.form.get(&#x27;password&#x27;)?.errors) {
+        this.error.set(&#x27;La contraseña no cumple los requisitos.&#x27;);
+        return;
+      }
+      await this.facade.register({ email, password, username });
+      this.router.navigateByUrl(&#x27;/login&#x27;);
+    } catch {
+      // error already set by facade
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  class&#x3D;&quot;min-h-screen w-full flex items-center justify-center px-4 py-10 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--accent)/0.18),transparent_60%)] vt-page&quot;
+&gt;
+  &lt;div class&#x3D;&quot;absolute top-3 left-3 z-20&quot;&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/home&quot;
+      class&#x3D;&quot;btn btn-ghost btn-xs&quot;
+      [title]&#x3D;&quot;&#x27;NOT_FOUND.BACK_HOME&#x27; | translate&quot;
+    &gt;
+      &lt;mat-icon fontIcon&#x3D;&quot;home&quot;&gt;&lt;/mat-icon&gt;
+      &lt;span class&#x3D;&quot;ml-1 text-xs&quot;&gt;{{ &quot;NOT_FOUND.BACK_HOME&quot; | translate }}&lt;/span&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;relative w-full max-w-md&quot;&gt;
+    &lt;div
+      class&#x3D;&quot;pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[hsl(var(--accent)/0.25)] via-transparent to-[hsl(var(--brand-primary)/0.15)] blur-2xl&quot;
+      aria-hidden&#x3D;&quot;true&quot;
+    &gt;&lt;/div&gt;
+    &lt;div
+      class&#x3D;&quot;relative overflow-hidden rounded-3xl border border-[hsl(var(--border))] bg-card/70 backdrop-blur-xl shadow-xl shadow-[hsl(var(--accent)/0.15)]&quot;
+    &gt;
+      &lt;!-- Back to Home --&gt;
+      &lt;div
+        class&#x3D;&quot;absolute -top-24 -left-24 h-72 w-72 bg-[conic-gradient(from_180deg_at_50%_50%,hsl(var(--accent)/0.25),transparent_70%)] blur-2xl opacity-70&quot;
+      &gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;p-8 relative z-10&quot;&gt;
+        &lt;div class&#x3D;&quot;mb-8 text-center space-y-2 vt-stagger&quot;&gt;
+          &lt;h1
+            class&#x3D;&quot;text-3xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--accent))] to-[hsl(var(--brand-primary))]&quot;
+          &gt;
+            {{ &quot;REGISTER.TITLE&quot; | translate }}
+          &lt;/h1&gt;
+          &lt;p class&#x3D;&quot;text-sm text-[hsl(var(--muted-foreground))]&quot;&gt;
+            {{ &quot;REGISTER.SUBTITLE&quot; | translate }}
+          &lt;/p&gt;
+        &lt;/div&gt;
+        &lt;form
+          [formGroup]&#x3D;&quot;form&quot;
+          (ngSubmit)&#x3D;&quot;submit()&quot;
+          class&#x3D;&quot;space-y-5 vt-stagger&quot;
+          novalidate
+        &gt;
+          &lt;!-- Username --&gt;
+          &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+            &lt;label
+              for&#x3D;&quot;username&quot;
+              class&#x3D;&quot;text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase&quot;
+              &gt;{{ &quot;REGISTER.USERNAME&quot; | translate }}&lt;/label
+            &gt;
+            &lt;input
+              id&#x3D;&quot;username&quot;
+              type&#x3D;&quot;text&quot;
+              formControlName&#x3D;&quot;username&quot;
+              [placeholder]&#x3D;&quot;&#x27;REGISTER.USERNAME_PLACEHOLDER&#x27; | translate&quot;
+              class&#x3D;&quot;w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition&quot;
+            /&gt;
+            @if (
+              form.get(&quot;username&quot;)?.invalid &amp;&amp; form.get(&quot;username&quot;)?.touched
+            ) {
+              &lt;div class&#x3D;&quot;text-xs text-[hsl(var(--destructive))]&quot;&gt;
+                {{ &quot;REGISTER.USERNAME_ERROR&quot; | translate }}
+              &lt;/div&gt;
+            }
+          &lt;/div&gt;
+          &lt;!-- Email --&gt;
+          &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+            &lt;label
+              for&#x3D;&quot;email&quot;
+              class&#x3D;&quot;text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase&quot;
+              &gt;{{ &quot;REGISTER.EMAIL&quot; | translate }}&lt;/label
+            &gt;
+            &lt;input
+              id&#x3D;&quot;email&quot;
+              type&#x3D;&quot;email&quot;
+              formControlName&#x3D;&quot;email&quot;
+              [placeholder]&#x3D;&quot;&#x27;REGISTER.EMAIL_PLACEHOLDER&#x27; | translate&quot;
+              class&#x3D;&quot;w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition&quot;
+            /&gt;
+            @if (form.get(&quot;email&quot;)?.invalid &amp;&amp; form.get(&quot;email&quot;)?.touched) {
+              &lt;div class&#x3D;&quot;text-xs text-[hsl(var(--destructive))]&quot;&gt;
+                {{ &quot;REGISTER.EMAIL_INVALID&quot; | translate }}
+              &lt;/div&gt;
+            }
+          &lt;/div&gt;
+          &lt;!-- Password --&gt;
+          &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+            &lt;div class&#x3D;&quot;flex items-center justify-between&quot;&gt;
+              &lt;label
+                for&#x3D;&quot;password&quot;
+                class&#x3D;&quot;text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase&quot;
+                &gt;{{ &quot;REGISTER.PASSWORD&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                id&#x3D;&quot;password&quot;
+                [type]&#x3D;&quot;showPassword() ? &#x27;text&#x27; : &#x27;password&#x27;&quot;
+                formControlName&#x3D;&quot;password&quot;
+                placeholder&#x3D;&quot;••••••&quot;
+                class&#x3D;&quot;w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur pr-10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition&quot;
+              /&gt;
+              &lt;button
+                type&#x3D;&quot;button&quot;
+                (click)&#x3D;&quot;toggleShowPassword()&quot;
+                [attr.aria-label]&#x3D;&quot;
+                  showPassword()
+                    ? (&#x27;LOGIN.HIDE_PASSWORD&#x27; | translate)
+                    : (&#x27;LOGIN.SHOW_PASSWORD&#x27; | translate)
+                &quot;
+                class&#x3D;&quot;absolute right-2 top-1/2 -translate-y-1/2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]&quot;
+              &gt;
+                &lt;mat-icon
+                  fontIcon&#x3D;&quot;{{
+                    showPassword() ? &#x27;visibility_off&#x27; : &#x27;visibility&#x27;
+                  }}&quot;
+                &gt;&lt;/mat-icon&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+            @if (
+              form.get(&quot;password&quot;)?.invalid &amp;&amp; form.get(&quot;password&quot;)?.touched
+            ) {
+              &lt;div class&#x3D;&quot;text-xs text-[hsl(var(--destructive))]&quot;&gt;
+                {{ &quot;REGISTER.PASSWORD_COMPLEXITY_ERROR&quot; | translate }}
+              &lt;/div&gt;
+            }
+          &lt;/div&gt;
+          &lt;!-- Error --&gt;
+          @if (error()) {
+            &lt;div
+              class&#x3D;&quot;text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2&quot;
+            &gt;
+              &lt;span
+                class&#x3D;&quot;inline-block h-2 w-2 rounded-full bg-[hsl(var(--destructive))]&quot;
+              &gt;&lt;/span
+              &gt;{{ error() }}
+            &lt;/div&gt;
+          }
+          &lt;!-- Submit --&gt;
+          &lt;button
+            type&#x3D;&quot;submit&quot;
+            [disabled]&#x3D;&quot;form.invalid || submitting()&quot;
+            class&#x3D;&quot;relative w-full inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-medium text-sm text-white transition focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[hsl(var(--accent))] to-[hsl(var(--brand-primary))] shadow-lg shadow-[hsl(var(--accent)/0.35)] hover:shadow-[0_0_32px_hsl(var(--accent)/0.45)]&quot;
+          &gt;
+            @if (!submitting()) {
+              &lt;span&gt;{{ &quot;REGISTER.SUBMIT&quot; | translate }}&lt;/span&gt;
+            }
+            @if (submitting()) {
+              &lt;span class&#x3D;&quot;flex items-center gap-2&quot;
+                &gt;&lt;span
+                  class&#x3D;&quot;h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white&quot;
+                &gt;&lt;/span
+                &gt;{{ &quot;REGISTER.PROCESSING&quot; | translate }}&lt;/span
+              &gt;
+            }
+          &lt;/button&gt;
+        &lt;/form&gt;
+        &lt;div
+          class&#x3D;&quot;mt-8 text-center text-sm text-[hsl(var(--muted-foreground))]&quot;
+        &gt;
+          {{ &quot;REGISTER.HAVE_ACCOUNT&quot; | translate }}
+          &lt;a
+            [routerLink]&#x3D;&quot;[&#x27;/login&#x27;]&quot;
+            class&#x3D;&quot;font-medium text-[hsl(var(--primary))] hover:underline&quot;
+            &gt;{{ &quot;REGISTER.SIGN_IN&quot; | translate }}&lt;/a
+          &gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  class="min-h-screen w-full flex items-center justify-center px-4 py-10 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--accent)/0.18),transparent_60%)] vt-page">  <div class="absolute top-3 left-3 z-20">    <a      routerLink="/home"      class="btn btn-ghost btn-xs"      [title]="\'NOT_FOUND.BACK_HOME\' | translate"    >      <mat-icon fontIcon="home"></mat-icon>      <span class="ml-1 text-xs">{{ "NOT_FOUND.BACK_HOME" | translate }}</span>    </a>  </div>  <div class="relative w-full max-w-md">    <div      class="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[hsl(var(--accent)/0.25)] via-transparent to-[hsl(var(--brand-primary)/0.15)] blur-2xl"      aria-hidden="true"    ></div>    <div      class="relative overflow-hidden rounded-3xl border border-[hsl(var(--border))] bg-card/70 backdrop-blur-xl shadow-xl shadow-[hsl(var(--accent)/0.15)]"    >      <!-- Back to Home -->      <div        class="absolute -top-24 -left-24 h-72 w-72 bg-[conic-gradient(from_180deg_at_50%_50%,hsl(var(--accent)/0.25),transparent_70%)] blur-2xl opacity-70"      ></div>      <div class="p-8 relative z-10">        <div class="mb-8 text-center space-y-2 vt-stagger">          <h1            class="text-3xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--accent))] to-[hsl(var(--brand-primary))]"          >            {{ "REGISTER.TITLE" | translate }}          </h1>          <p class="text-sm text-[hsl(var(--muted-foreground))]">            {{ "REGISTER.SUBTITLE" | translate }}          </p>        </div>        <form          [formGroup]="form"          (ngSubmit)="submit()"          class="space-y-5 vt-stagger"          novalidate        >          <!-- Username -->          <div class="space-y-1.5">            <label              for="username"              class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase"              >{{ "REGISTER.USERNAME" | translate }}</label            >            <input              id="username"              type="text"              formControlName="username"              [placeholder]="\'REGISTER.USERNAME_PLACEHOLDER\' | translate"              class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition"            />            @if (              form.get("username")?.invalid && form.get("username")?.touched            ) {              <div class="text-xs text-[hsl(var(--destructive))]">                {{ "REGISTER.USERNAME_ERROR" | translate }}              </div>            }          </div>          <!-- Email -->          <div class="space-y-1.5">            <label              for="email"              class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase"              >{{ "REGISTER.EMAIL" | translate }}</label            >            <input              id="email"              type="email"              formControlName="email"              [placeholder]="\'REGISTER.EMAIL_PLACEHOLDER\' | translate"              class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition"            />            @if (form.get("email")?.invalid && form.get("email")?.touched) {              <div class="text-xs text-[hsl(var(--destructive))]">                {{ "REGISTER.EMAIL_INVALID" | translate }}              </div>            }          </div>          <!-- Password -->          <div class="space-y-1.5">            <div class="flex items-center justify-between">              <label                for="password"                class="text-xs font-medium tracking-wide text-[hsl(var(--muted-foreground))] uppercase"                >{{ "REGISTER.PASSWORD" | translate }}</label              >            </div>            <div class="relative">              <input                id="password"                [type]="showPassword() ? \'text\' : \'password\'"                formControlName="password"                placeholder="••••••"                class="w-full rounded-md border border-[hsl(var(--border))] bg-background/60 backdrop-blur pr-10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] focus:border-[hsl(var(--ring))] transition"              />              <button                type="button"                (click)="toggleShowPassword()"                [attr.aria-label]="                  showPassword()                    ? (\'LOGIN.HIDE_PASSWORD\' | translate)                    : (\'LOGIN.SHOW_PASSWORD\' | translate)                "                class="absolute right-2 top-1/2 -translate-y-1/2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))]"              >                <mat-icon                  fontIcon="{{                    showPassword() ? \'visibility_off\' : \'visibility\'                  }}"                ></mat-icon>              </button>            </div>            @if (              form.get("password")?.invalid && form.get("password")?.touched            ) {              <div class="text-xs text-[hsl(var(--destructive))]">                {{ "REGISTER.PASSWORD_COMPLEXITY_ERROR" | translate }}              </div>            }          </div>          <!-- Error -->          @if (error()) {            <div              class="text-sm rounded-md border border-[hsl(var(--destructive)/0.5)] bg-[hsl(var(--destructive)/0.1)] px-3 py-2 text-[hsl(var(--destructive))] flex items-center gap-2"            >              <span                class="inline-block h-2 w-2 rounded-full bg-[hsl(var(--destructive))]"              ></span              >{{ error() }}            </div>          }          <!-- Submit -->          <button            type="submit"            [disabled]="form.invalid || submitting()"            class="relative w-full inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 font-medium text-sm text-white transition focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-[hsl(var(--accent))] to-[hsl(var(--brand-primary))] shadow-lg shadow-[hsl(var(--accent)/0.35)] hover:shadow-[0_0_32px_hsl(var(--accent)/0.45)]"          >            @if (!submitting()) {              <span>{{ "REGISTER.SUBMIT" | translate }}</span>            }            @if (submitting()) {              <span class="flex items-center gap-2"                ><span                  class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"                ></span                >{{ "REGISTER.PROCESSING" | translate }}</span              >            }          </button>        </form>        <div          class="mt-8 text-center text-sm text-[hsl(var(--muted-foreground))]"        >          {{ "REGISTER.HAVE_ACCOUNT" | translate }}          <a            [routerLink]="[\'/login\']"            class="font-medium text-[hsl(var(--primary))] hover:underline"            >{{ "REGISTER.SIGN_IN" | translate }}</a          >        </div>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'RegisterPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'RegisterPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

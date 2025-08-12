@@ -1,0 +1,1280 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >TtsService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/infrastructure/services/tts.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentMessageId" >currentMessageId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentUtterance" >currentUtterance</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#isPaused" >isPaused</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#isSpeaking" >isSpeaking</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#lang" >lang</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#pitch" >pitch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#rate" >rate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#voicesReady" >voicesReady</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#volume" >volume</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#ensureVoices" >ensureVoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#nextTick" >nextTick</a>
+                            </li>
+                            <li>
+                                <a href="#pause" >pause</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#play" >play</a>
+                            </li>
+                            <li>
+                                <a href="#resume" >resume</a>
+                            </li>
+                            <li>
+                                <a href="#setVolume" >setVolume</a>
+                            </li>
+                            <li>
+                                <a href="#stop" >stop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#waitForIdle" >waitForIdle</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ensureVoices"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>ensureVoices</b></span>
+                        <a href="#ensureVoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ensureVoices(synth: SpeechSynthesis, timeoutMs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:187</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>synth</td>
+                                            <td>
+                                                        <code>SpeechSynthesis</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>timeoutMs</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>1200</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nextTick"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>nextTick</b></span>
+                        <a href="#nextTick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>nextTick()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="231"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:231</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pause"></a>
+                    <span class="name">
+                        <span ><b>pause</b></span>
+                        <a href="#pause"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>pause()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="play"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>play</b></span>
+                        <a href="#play"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>play(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, messageId?: string | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="16"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>text</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>messageId</td>
+                                            <td>
+                                                        <code>string | null</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resume"></a>
+                    <span class="name">
+                        <span ><b>resume</b></span>
+                        <a href="#resume"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resume()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setVolume"></a>
+                    <span class="name">
+                        <span ><b>setVolume</b></span>
+                        <a href="#setVolume"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setVolume(val: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="179"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:179</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>val</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stop"></a>
+                    <span class="name">
+                        <span ><b>stop</b></span>
+                        <a href="#stop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stop()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="168"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:168</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="waitForIdle"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>waitForIdle</b></span>
+                        <a href="#waitForIdle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>waitForIdle(synth: SpeechSynthesis, timeoutMs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">src/app/infrastructure/services/tts.service.ts:221</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>synth</td>
+                                            <td>
+                                                        <code>SpeechSynthesis</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>timeoutMs</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>200</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentMessageId"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentMessageId</b></span>
+                        <a href="#currentMessageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:10</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUtterance"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>currentUtterance</b></span>
+                        <a href="#currentUtterance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>SpeechSynthesisUtterance | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:5</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPaused"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>isPaused</b></span>
+                        <a href="#isPaused"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:9</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSpeaking"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>isSpeaking</b></span>
+                        <a href="#isSpeaking"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:8</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lang"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>lang</b></span>
+                        <a href="#lang"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;es-ES&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:14</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pitch"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>pitch</b></span>
+                        <a href="#pitch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(1)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:13</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rate"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>rate</b></span>
+                        <a href="#rate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0.9)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="voicesReady"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>voicesReady</b></span>
+                        <a href="#voicesReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:6</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="volume"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>volume</b></span>
+                        <a href="#volume"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0.9)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/infrastructure/services/tts.service.ts:11</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, signal } from &#x27;@angular/core&#x27;;
+
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class TtsService {
+  private currentUtterance: SpeechSynthesisUtterance | null &#x3D; null;
+  private voicesReady &#x3D; false;
+
+  readonly isSpeaking &#x3D; signal(false);
+  readonly isPaused &#x3D; signal(false);
+  readonly currentMessageId &#x3D; signal&lt;string | null&gt;(null);
+  readonly volume &#x3D; signal(0.9);
+  readonly rate &#x3D; signal(0.9);
+  readonly pitch &#x3D; signal(1);
+  readonly lang &#x3D; signal(&#x27;es-ES&#x27;);
+
+  async play(text: string, messageId?: string | null) {
+    console.log(&#x27;🔊 TTS play called with:&#x27;, { text: text.substring(0, 100) + &#x27;...&#x27;, messageId, textLength: text.length });
+    
+    try {
+      if (typeof window &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27; || !(&#x27;speechSynthesis&#x27; in window)) {
+        console.error(&#x27;🔊 Speech synthesis not available&#x27;);
+        return;
+      }
+      
+      if (!text || text.trim().length &#x3D;&#x3D;&#x3D; 0) {
+        console.error(&#x27;🔊 Empty text provided to TTS&#x27;);
+        return;
+      }
+      
+      const synth &#x3D; window.speechSynthesis;
+      console.log(&#x27;🔊 Speech synthesis state:&#x27;, { speaking: synth.speaking, pending: (synth as any).pending, paused: synth.paused });
+
+      // Always reset synth to avoid stuck paused states
+      try {
+        synth.cancel();
+      } catch {}
+      await this.waitForIdle(synth, 150);
+
+      // Ensure voices are ready (Chrome may return [] on first call)
+      await this.ensureVoices(synth, 1500);
+      console.log(&#x27;🔊 Available voices:&#x27;, synth.getVoices().length);
+
+      const utter &#x3D; new SpeechSynthesisUtterance(text);
+      utter.lang &#x3D; this.lang();
+      utter.rate &#x3D; this.rate();
+      utter.pitch &#x3D; this.pitch();
+      utter.volume &#x3D; this.volume();
+      
+      console.log(&#x27;🔊 Utterance settings:&#x27;, { 
+        lang: utter.lang, 
+        rate: utter.rate, 
+        pitch: utter.pitch, 
+        volume: utter.volume 
+      });
+
+      // Select a voice matching lang, fallback to same language prefix
+      try {
+        const voices &#x3D; synth.getVoices?.() || [];
+        const langLower &#x3D; this.lang().toLowerCase();
+        let preferred &#x3D;
+          voices.find((v) &#x3D;&gt; v.lang?.toLowerCase() &#x3D;&#x3D;&#x3D; langLower) ||
+          voices.find((v) &#x3D;&gt;
+            v.lang?.toLowerCase().startsWith(langLower.split(&#x27;-&#x27;)[0] || &#x27;&#x27;),
+          ) ||
+          voices[0];
+        if (preferred) {
+          utter.voice &#x3D; preferred;
+          console.log(&#x27;🔊 Selected voice:&#x27;, preferred.name, preferred.lang);
+        } else {
+          console.log(&#x27;🔊 No voice found, using default&#x27;);
+        }
+      } catch (e) {
+        console.error(&#x27;🔊 Error selecting voice:&#x27;, e);
+      }
+
+      this.currentUtterance &#x3D; utter;
+      this.currentMessageId.set(messageId ?? null);
+      this.isSpeaking.set(true);
+      this.isPaused.set(false);
+
+      const cleanup &#x3D; () &#x3D;&gt; {
+        console.log(&#x27;🔊 TTS cleanup called&#x27;);
+        this.currentUtterance &#x3D; null;
+        this.isSpeaking.set(false);
+        this.isPaused.set(false);
+        this.currentMessageId.set(null);
+      };
+      utter.onend &#x3D; () &#x3D;&gt; {
+        console.log(&#x27;🔊 TTS ended&#x27;);
+        cleanup();
+      };
+      utter.onerror &#x3D; (event) &#x3D;&gt; {
+        console.error(&#x27;🔊 TTS error:&#x27;, event);
+        cleanup();
+      };
+      utter.onpause &#x3D; () &#x3D;&gt; {
+        console.log(&#x27;🔊 TTS paused&#x27;);
+        this.isPaused.set(true);
+      };
+      utter.onresume &#x3D; () &#x3D;&gt; {
+        console.log(&#x27;🔊 TTS resumed&#x27;);
+        this.isPaused.set(false);
+      };
+
+      let started &#x3D; false;
+      utter.onstart &#x3D; () &#x3D;&gt; {
+        console.log(&#x27;🔊 TTS started&#x27;);
+        started &#x3D; true;
+        this.isPaused.set(false);
+      };
+
+      // Speak on next macrotask to allow cancel() flush and voices attach
+      await this.nextTick();
+      console.log(&#x27;🔊 About to call synth.speak()&#x27;);
+      synth.speak(utter);
+
+      // Kick the synth in case it comes up paused (Chrome quirk)
+      setTimeout(() &#x3D;&gt; {
+        try {
+          if (synth.paused) {
+            console.log(&#x27;🔊 Synth was paused, resuming&#x27;);
+            synth.resume();
+          }
+        } catch {}
+      }, 80);
+
+      // Watchdog: if not started, retry once
+      setTimeout(async () &#x3D;&gt; {
+        if (!started &amp;&amp; this.currentUtterance &#x3D;&#x3D;&#x3D; utter) {
+          console.log(&#x27;🔊 TTS watchdog: not started, retrying&#x27;);
+          try {
+            synth.cancel();
+          } catch {}
+          await this.nextTick();
+          synth.speak(utter);
+          setTimeout(() &#x3D;&gt; {
+            try {
+              if (synth.paused) synth.resume();
+            } catch {}
+          }, 60);
+        }
+      }, 300);
+    } catch (error) {
+      console.error(&#x27;🔊 TTS play error:&#x27;, error);
+    }
+  }
+
+  pause() {
+    try {
+      if (typeof window &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) return;
+      if (this.isSpeaking() &amp;&amp; !this.isPaused()) {
+        window.speechSynthesis.pause();
+        this.isPaused.set(true);
+      }
+    } catch {}
+  }
+
+  resume() {
+    try {
+      if (typeof window &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) return;
+      if (this.isPaused()) {
+        window.speechSynthesis.resume();
+        this.isPaused.set(false);
+      }
+    } catch {}
+  }
+
+  stop() {
+    try {
+      if (typeof window &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) return;
+      window.speechSynthesis.cancel();
+      this.currentUtterance &#x3D; null;
+      this.isSpeaking.set(false);
+      this.isPaused.set(false);
+      this.currentMessageId.set(null);
+    } catch {}
+  }
+
+  setVolume(val: number) {
+    const v &#x3D; Math.max(0, Math.min(1, val));
+    this.volume.set(v);
+    if (this.currentUtterance) {
+      this.currentUtterance.volume &#x3D; v;
+    }
+  }
+
+  private async ensureVoices(
+    synth: SpeechSynthesis,
+    timeoutMs &#x3D; 1200,
+  ): Promise&lt;void&gt; {
+    if (this.voicesReady &amp;&amp; (synth.getVoices?.() || []).length &gt; 0) return;
+    const existing &#x3D; synth.getVoices?.() || [];
+    if (existing.length &gt; 0) {
+      this.voicesReady &#x3D; true;
+      return;
+    }
+    let resolve!: () &#x3D;&gt; void;
+    const p &#x3D; new Promise&lt;void&gt;((r) &#x3D;&gt; (resolve &#x3D; r));
+    const onChange &#x3D; () &#x3D;&gt; {
+      this.voicesReady &#x3D; true;
+      synth.removeEventListener?.(&#x27;voiceschanged&#x27;, onChange as any);
+      resolve();
+    };
+    try {
+      synth.addEventListener?.(&#x27;voiceschanged&#x27;, onChange as any);
+    } catch {}
+    // Fallback polling
+    const start &#x3D; Date.now();
+    const poll &#x3D; () &#x3D;&gt; {
+      const list &#x3D; synth.getVoices?.() || [];
+      if (list.length &gt; 0 || Date.now() - start &gt; timeoutMs) {
+        onChange();
+      } else {
+        setTimeout(poll, 100);
+      }
+    };
+    poll();
+    await p;
+  }
+
+  private async waitForIdle(synth: SpeechSynthesis, timeoutMs &#x3D; 200) {
+    const start &#x3D; Date.now();
+    while (
+      (synth.speaking || (synth as any).pending) &amp;&amp;
+      Date.now() - start &lt; timeoutMs
+    ) {
+      await this.nextTick();
+    }
+  }
+
+  private nextTick(): Promise&lt;void&gt; {
+    return new Promise((res) &#x3D;&gt; setTimeout(res, 0));
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'TtsService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

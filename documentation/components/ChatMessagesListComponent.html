@@ -1,0 +1,3551 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ChatMessagesListComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/components/chat/messages-list.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnChanges</code>
+                <code>AfterViewInit</code>
+                <code>AfterViewChecked</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-chat-messages-list</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>MarkdownModule</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./messages-list.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./messages-list.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#chatUtils" >chatUtils</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastCount" >lastCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#messagesContainer" >messagesContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#pendingAutoScrollCheck" >pendingAutoScrollCheck</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processed" >processed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#scrollManager" >scrollManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#scrollTicking" >scrollTicking</a>
+                            </li>
+                            <li>
+                                <a href="#showScrollToBottom" >showScrollToBottom</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tts" >tts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#viewReady" >viewReady</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cleanTextForTTS" >cleanTextForTTS</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#extractThinkBlocks" >extractThinkBlocks</a>
+                            </li>
+                            <li>
+                                <a href="#getProcessed" >getProcessed</a>
+                            </li>
+                            <li>
+                                <a href="#isPausedFor" >isPausedFor</a>
+                            </li>
+                            <li>
+                                <a href="#isPlayingFor" >isPlayingFor</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewChecked" >ngAfterViewChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#onMessagesScroll" >onMessagesScroll</a>
+                            </li>
+                            <li>
+                                <a href="#onVolumeInput" >onVolumeInput</a>
+                            </li>
+                            <li>
+                                <a href="#playTTS" >playTTS</a>
+                            </li>
+                            <li>
+                                <a href="#scrollToBottom" >scrollToBottom</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#testSimpleTTS" >testSimpleTTS</a>
+                            </li>
+                            <li>
+                                <a href="#toggleThink" >toggleThink</a>
+                            </li>
+                            <li>
+                                <a href="#ttsPause" >ttsPause</a>
+                            </li>
+                            <li>
+                                <a href="#ttsResume" >ttsResume</a>
+                            </li>
+                            <li>
+                                <a href="#ttsStop" >ttsStop</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isSending" >isSending</a>
+                            </li>
+                            <li>
+                                <a href="#messages" >messages</a>
+                            </li>
+                            <li>
+                                <a href="#toolRunning" >toolRunning</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isSending"></a>
+                        <b>isSending</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:32</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="messages"></a>
+                        <b>messages</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="toolRunning"></a>
+                        <b>toolRunning</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:33</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cleanTextForTTS"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cleanTextForTTS</b></span>
+                        <a href="#cleanTextForTTS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cleanTextForTTS(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:206</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>text</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extractThinkBlocks"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>extractThinkBlocks</b></span>
+                        <a href="#extractThinkBlocks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>extractThinkBlocks(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="237"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:237</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProcessed"></a>
+                    <span class="name">
+                        <span ><b>getProcessed</b></span>
+                        <a href="#getProcessed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProcessed(message: <a href="../interfaces/ChatMessage.html" target="_self">ChatMessage</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="255"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:255</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPausedFor"></a>
+                    <span class="name">
+                        <span ><b>isPausedFor</b></span>
+                        <a href="#isPausedFor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isPausedFor(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:144</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPlayingFor"></a>
+                    <span class="name">
+                        <span ><b>isPlayingFor</b></span>
+                        <a href="#isPlayingFor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isPlayingFor(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="141"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:141</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewChecked"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewChecked</b></span>
+                        <a href="#ngAfterViewChecked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewChecked()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="75"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: SimpleChanges)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="55"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMessagesScroll"></a>
+                    <span class="name">
+                        <span ><b>onMessagesScroll</b></span>
+                        <a href="#onMessagesScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMessagesScroll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onVolumeInput"></a>
+                    <span class="name">
+                        <span ><b>onVolumeInput</b></span>
+                        <a href="#onVolumeInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onVolumeInput(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="230"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:230</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="playTTS"></a>
+                    <span class="name">
+                        <span ><b>playTTS</b></span>
+                        <a href="#playTTS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>playTTS(message: <a href="../interfaces/ChatMessage.html" target="_self">ChatMessage</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollToBottom"></a>
+                    <span class="name">
+                        <span ><b>scrollToBottom</b></span>
+                        <a href="#scrollToBottom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>scrollToBottom()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="testSimpleTTS"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>testSimpleTTS</b></span>
+                        <a href="#testSimpleTTS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>testSimpleTTS()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:187</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleThink"></a>
+                    <span class="name">
+                        <span ><b>toggleThink</b></span>
+                        <a href="#toggleThink"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleThink(message: <a href="../interfaces/ChatMessage.html" target="_self">ChatMessage</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="278"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:278</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ttsPause"></a>
+                    <span class="name">
+                        <span ><b>ttsPause</b></span>
+                        <a href="#ttsPause"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ttsPause()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:132</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ttsResume"></a>
+                    <span class="name">
+                        <span ><b>ttsResume</b></span>
+                        <a href="#ttsResume"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ttsResume()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ttsStop"></a>
+                    <span class="name">
+                        <span ><b>ttsStop</b></span>
+                        <a href="#ttsStop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ttsStop()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chatUtils"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>chatUtils</b></span>
+                        <a href="#chatUtils"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChatUtilsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastCount"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastCount</b></span>
+                        <a href="#lastCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messagesContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>messagesContainer</b></span>
+                        <a href="#messagesContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;messagesContainer&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pendingAutoScrollCheck"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>pendingAutoScrollCheck</b></span>
+                        <a href="#pendingAutoScrollCheck"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processed"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>processed</b></span>
+                        <a href="#processed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;
+    string,
+    { main: string; thinks: string[]; expanded: boolean; last: string }
+  &gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollManager"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>scrollManager</b></span>
+                        <a href="#scrollManager"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ScrollManagerService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollTicking"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>scrollTicking</b></span>
+                        <a href="#scrollTicking"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showScrollToBottom"></a>
+                    <span class="name">
+                        <span ><b>showScrollToBottom</b></span>
+                        <a href="#showScrollToBottom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tts"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tts</b></span>
+                        <a href="#tts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TtsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewReady"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>viewReady</b></span>
+                        <a href="#viewReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/presentation/components/chat/messages-list.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  inject,
+  OnChanges,
+  SimpleChanges,
+  AfterViewInit,
+  AfterViewChecked,
+} from &#x27;@angular/core&#x27;;
+import { MarkdownModule } from &#x27;ngx-markdown&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import type { ChatMessage } from &#x27;@core/models&#x27;;
+import { ChatUtilsService } from &#x27;@infrastructure/services/chat-utils.service&#x27;;
+import { ScrollManagerService } from &#x27;@infrastructure/services/scroll-manager.service&#x27;;
+import { TtsService } from &#x27;@infrastructure/services/tts.service&#x27;;
+
+@Component({
+  selector: &#x27;app-chat-messages-list&#x27;,
+  standalone: true,
+  imports: [CommonModule, MarkdownModule, MatIconModule, TranslateModule],
+  templateUrl: &#x27;./messages-list.component.html&#x27;,
+  styleUrls: [&#x27;./messages-list.component.css&#x27;],
+})
+export class ChatMessagesListComponent
+  implements OnChanges, AfterViewInit, AfterViewChecked
+{
+  @Input() messages: ChatMessage[] &#x3D; [];
+  @Input() isSending &#x3D; false;
+  @Input() toolRunning &#x3D; false;
+
+  @ViewChild(&#x27;messagesContainer&#x27;, { static: false })
+  private readonly messagesContainer!: ElementRef;
+
+  showScrollToBottom &#x3D; false;
+  private pendingAutoScrollCheck &#x3D; false;
+  private viewReady &#x3D; false;
+  private lastCount &#x3D; 0;
+  private scrollTicking &#x3D; false;
+
+  // Cache for processed message content (main without &lt;think&gt; and extracted think blocks)
+  private processed &#x3D; new Map&lt;
+    string,
+    { main: string; thinks: string[]; expanded: boolean; last: string }
+  &gt;();
+
+  // Services
+  private readonly scrollManager &#x3D; inject(ScrollManagerService);
+  protected readonly chatUtils &#x3D; inject(ChatUtilsService);
+  readonly tts &#x3D; inject(TtsService);
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes[&#x27;messages&#x27;]) {
+      const cur &#x3D; this.messages?.length ?? 0;
+      if (cur !&#x3D;&#x3D; this.lastCount) {
+        this.lastCount &#x3D; cur;
+        this.pendingAutoScrollCheck &#x3D; true;
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    this.viewReady &#x3D; true;
+    // On first render, ensure we land at the bottom
+    this.pendingAutoScrollCheck &#x3D; true;
+    // Try a rAF-based scroll to cover async markdown rendering
+    queueMicrotask(() &#x3D;&gt;
+      this.scrollManager.scrollToBottomRaf(this.messagesContainer, 5),
+    );
+  }
+
+  ngAfterViewChecked() {
+    // Honor externally scheduled scrolls (kept for compatibility)
+    this.scrollManager.executeScheduledScroll(this.messagesContainer);
+
+    if (!this.viewReady || !this.messagesContainer) return;
+
+    // If last message is streaming and user is near bottom, keep following
+    const last &#x3D; this.messages?.[this.messages.length - 1];
+    const container &#x3D; this.messagesContainer.nativeElement as HTMLElement;
+    const distance &#x3D;
+      container.scrollHeight - (container.scrollTop + container.clientHeight);
+    const nearBottom &#x3D; distance &lt;&#x3D; 160;
+    const isStreaming &#x3D; !!last?.isStreaming;
+
+    if (isStreaming &amp;&amp; nearBottom) {
+      this.scrollManager.scrollToBottom(this.messagesContainer);
+      this.showScrollToBottom &#x3D; false;
+    }
+
+    // After message list changes, auto-scroll if near bottom or on first pass
+    if (this.pendingAutoScrollCheck) {
+      if (nearBottom || container.scrollTop &#x3D;&#x3D;&#x3D; 0) {
+        this.scrollManager.scrollToBottomRaf(this.messagesContainer, 3);
+        this.showScrollToBottom &#x3D; false;
+      }
+      this.pendingAutoScrollCheck &#x3D; false;
+    }
+  }
+
+  onMessagesScroll() {
+    if (this.scrollTicking) return;
+    this.scrollTicking &#x3D; true;
+    requestAnimationFrame(() &#x3D;&gt; {
+      try {
+        const el &#x3D; this.messagesContainer?.nativeElement as
+          | HTMLElement
+          | undefined;
+        if (!el) return;
+        const threshold &#x3D; 120;
+        const distanceFromBottom &#x3D;
+          el.scrollHeight - (el.scrollTop + el.clientHeight);
+        const shouldShow &#x3D; distanceFromBottom &gt; threshold;
+        if (shouldShow !&#x3D;&#x3D; this.showScrollToBottom) {
+          this.showScrollToBottom &#x3D; shouldShow;
+        }
+      } finally {
+        this.scrollTicking &#x3D; false;
+      }
+    });
+  }
+
+  scrollToBottom() {
+    this.scrollManager.scrollToBottom(this.messagesContainer);
+    this.showScrollToBottom &#x3D; false;
+  }
+
+  // TTS helpers
+  ttsPause() {
+    this.tts.pause();
+  }
+  ttsResume() {
+    this.tts.resume();
+  }
+  ttsStop() {
+    this.tts.stop();
+  }
+  isPlayingFor(id: string) {
+    return this.tts.isSpeaking() &amp;&amp; this.tts.currentMessageId() &#x3D;&#x3D;&#x3D; id;
+  }
+  isPausedFor(id: string) {
+    return this.tts.isPaused() &amp;&amp; this.tts.currentMessageId() &#x3D;&#x3D;&#x3D; id;
+  }
+
+  // Play TTS with cleaned content (without &lt;think&gt; blocks)
+  playTTS(message: ChatMessage) {
+    console.log(&#x27;🎵 playTTS called for message:&#x27;, message.id);
+    console.log(&#x27;🎵 Original content:&#x27;, message.content);
+    console.log(&#x27;🎵 Displayed content:&#x27;, message.displayedContent);
+    
+    // Prueba simple primera
+    console.log(&#x27;🎵 Testing simple TTS...&#x27;);
+    this.testSimpleTTS();
+    
+    const processed &#x3D; this.getProcessed(message);
+    console.log(&#x27;🎵 Processed content:&#x27;, processed);
+    
+    let cleanContent &#x3D; processed.main;
+    
+    // Fallback si processed.main está vacío
+    if (!cleanContent || cleanContent.trim().length &#x3D;&#x3D;&#x3D; 0) {
+      console.log(&#x27;🎵 Main content empty, using fallback&#x27;);
+      cleanContent &#x3D; message.displayedContent || message.content || &#x27;&#x27;;
+      
+      // Remover manualmente los &lt;think&gt; blocks si aún están presentes
+      cleanContent &#x3D; cleanContent.replace(/&lt;think[^&gt;]*&gt;[\s\S]*?&lt;\/think&gt;/gi, &#x27;&#x27;).trim();
+    }
+    
+    // Limpiar markdown básico para TTS
+    cleanContent &#x3D; this.cleanTextForTTS(cleanContent);
+    
+    console.log(&#x27;🎵 Final clean content:&#x27;, cleanContent);
+    console.log(&#x27;🎵 Content length:&#x27;, cleanContent.length);
+    
+    if (!cleanContent || cleanContent.trim().length &#x3D;&#x3D;&#x3D; 0) {
+      console.error(&#x27;🎵 No content to play&#x27;);
+      return;
+    }
+    
+    this.tts.play(cleanContent, message.id);
+  }
+
+  // Prueba simple de TTS
+  private testSimpleTTS() {
+    try {
+      console.log(&#x27;🧪 Testing simple TTS&#x27;);
+      if (&#x27;speechSynthesis&#x27; in window) {
+        console.log(&#x27;🧪 SpeechSynthesis available&#x27;);
+        const utterance &#x3D; new SpeechSynthesisUtterance(&#x27;Hola, esta es una prueba&#x27;);
+        utterance.onstart &#x3D; () &#x3D;&gt; console.log(&#x27;🧪 Simple TTS started&#x27;);
+        utterance.onend &#x3D; () &#x3D;&gt; console.log(&#x27;🧪 Simple TTS ended&#x27;);
+        utterance.onerror &#x3D; (e) &#x3D;&gt; console.error(&#x27;🧪 Simple TTS error:&#x27;, e);
+        window.speechSynthesis.speak(utterance);
+      } else {
+        console.error(&#x27;🧪 SpeechSynthesis not available&#x27;);
+      }
+    } catch (error) {
+      console.error(&#x27;🧪 Test TTS error:&#x27;, error);
+    }
+  }
+
+  // Limpiar texto para TTS (remover markdown, HTML, etc.)
+  private cleanTextForTTS(text: string): string {
+    if (!text) return &#x27;&#x27;;
+    
+    return text
+      // Remover bloques de código
+      .replace(/&#x60;&#x60;&#x60;[\s\S]*?&#x60;&#x60;&#x60;/g, &#x27;[código]&#x27;)
+      // Remover código inline
+      .replace(/&#x60;([^&#x60;]+)&#x60;/g, &#x27;$1&#x27;)
+      // Remover enlaces markdown
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, &#x27;$1&#x27;)
+      // Remover headers markdown
+      .replace(/^#{1,6}\s+/gm, &#x27;&#x27;)
+      // Remover énfasis
+      .replace(/\*\*([^*]+)\*\*/g, &#x27;$1&#x27;)
+      .replace(/\*([^*]+)\*/g, &#x27;$1&#x27;)
+      .replace(/__([^_]+)__/g, &#x27;$1&#x27;)
+      .replace(/_([^_]+)_/g, &#x27;$1&#x27;)
+      // Remover HTML tags restantes
+      .replace(/&lt;[^&gt;]+&gt;/g, &#x27;&#x27;)
+      // Limpiar espacios múltiples
+      .replace(/\s+/g, &#x27; &#x27;)
+      .trim();
+  }
+
+  onVolumeInput(event: Event) {
+    const input &#x3D; event.target as HTMLInputElement;
+    const v &#x3D; Number.parseFloat(input.value || &#x27;0&#x27;);
+    this.tts.setVolume(Number.isFinite(v) ? v : 0);
+  }
+
+  // Extract visible content and hidden &lt;think&gt; blocks from a markdown string
+  private extractThinkBlocks(content: string): {
+    main: string;
+    thinks: string[];
+  } {
+    if (!content) return { main: &#x27;&#x27;, thinks: [] };
+    const thinks: string[] &#x3D; [];
+    const re &#x3D; /&lt;think[^&gt;]*&gt;([\s\S]*?)&lt;\/think&gt;/gi;
+    let main &#x3D; content;
+    let m: RegExpExecArray | null;
+    while ((m &#x3D; re.exec(content)) !&#x3D;&#x3D; null) {
+      const inner &#x3D; (m[1] || &#x27;&#x27;).trim();
+      if (inner) thinks.push(inner);
+    }
+    main &#x3D; main.replace(re, &#x27;&#x27;).trim();
+    return { main, thinks };
+  }
+
+  // Get or (re)build processed view for a message, updating cache when content changes
+  getProcessed(message: ChatMessage): {
+    main: string;
+    thinks: string[];
+    expanded: boolean;
+  } {
+    const id &#x3D; message.id || &#x60;${message.timestamp}-${Math.random()}&#x60;;
+  const raw &#x3D; message.displayedContent ?? message.content ?? &#x27;&#x27;;
+  const content &#x3D; this.chatUtils.cleanForMarkdown(raw);
+    const cached &#x3D; this.processed.get(id);
+    if (!cached || cached.last !&#x3D;&#x3D; content) {
+      const { main, thinks } &#x3D; this.extractThinkBlocks(content);
+      const expanded &#x3D; cached?.expanded ?? false; // keep user toggle if same message id
+  const entry &#x3D; { main, thinks, expanded, last: content };
+      this.processed.set(id, entry);
+      return entry;
+    }
+    return {
+      main: cached.main,
+      thinks: cached.thinks,
+      expanded: cached.expanded,
+    };
+  }
+
+  toggleThink(message: ChatMessage) {
+    const id &#x3D; message.id || &#x60;${message.timestamp}&#x60;;
+    const p &#x3D; this.processed.get(id);
+    if (p) {
+      p.expanded &#x3D; !p.expanded;
+    } else {
+      // initialize from current content
+      const cur &#x3D; this.getProcessed(message);
+      const lastSanitized &#x3D; this.chatUtils.cleanForMarkdown(
+        message.displayedContent ?? message.content ?? &#x27;&#x27;
+      );
+      this.processed.set(id, {
+        main: this.chatUtils.cleanForMarkdown(cur.main),
+        thinks: cur.thinks.map((t) &#x3D;&gt; this.chatUtils.cleanForMarkdown(t)),
+        expanded: !cur.expanded,
+        last: lastSanitized,
+      });
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 flex flex-col gap-4 min-h-0&quot;&gt;
+  &lt;div
+    #messagesContainer
+    class&#x3D;&quot;messages-container flex-1 min-h-0 overflow-y-auto p-4 space-y-4 surface-clear rounded-xl relative&quot;
+    (scroll)&#x3D;&quot;onMessagesScroll()&quot;
+  &gt;
+    &lt;style&gt;
+      .messages-container {
+        contain: content;
+        content-visibility: auto;
+        will-change: scroll-position;
+      }
+      @media (max-width: 480px) {
+        .messages-container {
+          padding: 0.75rem;
+        }
+      }
+    &lt;/style&gt;
+
+    @if (messages.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; !isSending) {
+      &lt;div class&#x3D;&quot;empty-state&quot;&gt;
+        &lt;div class&#x3D;&quot;empty-state-content&quot;&gt;
+          &lt;div class&#x3D;&quot;empty-state-icon&quot;&gt;
+            &lt;mat-icon fontIcon&#x3D;&quot;chat_bubble_outline&quot;&gt;&lt;/mat-icon&gt;
+          &lt;/div&gt;
+          &lt;h4 class&#x3D;&quot;empty-state-title&quot;&gt;
+            {{ &quot;CHAT.EMPTY.TITLE&quot; | translate }}
+          &lt;/h4&gt;
+          &lt;p class&#x3D;&quot;empty-state-subtitle&quot;&gt;
+            {{ &quot;CHAT.EMPTY.SUBTITLE&quot; | translate }}
+          &lt;/p&gt;
+          &lt;div class&#x3D;&quot;empty-state-suggestions&quot;&gt;
+            &lt;div class&#x3D;&quot;suggestion-item&quot;&gt;
+              &lt;mat-icon fontIcon&#x3D;&quot;lightbulb_outline&quot;&gt;&lt;/mat-icon&gt;
+              &lt;span&gt;Pregunta sobre análisis financiero&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;suggestion-item&quot;&gt;
+              &lt;mat-icon fontIcon&#x3D;&quot;assessment&quot;&gt;&lt;/mat-icon&gt;
+              &lt;span&gt;Solicita un reporte de empresa&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;suggestion-item&quot;&gt;
+              &lt;mat-icon fontIcon&#x3D;&quot;help_outline&quot;&gt;&lt;/mat-icon&gt;
+              &lt;span&gt;Pide ayuda con decisiones de crédito&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    }
+
+    @for (
+      message of messages;
+      track chatUtils.trackByMessageId($index, message)
+    ) {
+      @if (chatUtils.isUserMessage(message)) {
+        &lt;div
+          class&#x3D;&quot;chat chat-end msg-user mb-4 pb-8 text-right flex items-end flex-col&quot;
+        &gt;
+          &lt;div class&#x3D;&quot;chat-header mb-1&quot;&gt;
+            &lt;span class&#x3D;&quot;text-xs opacity-60&quot;&gt;{{
+              chatUtils.getEventLabel(message.event)
+            }}&lt;/span&gt;
+            &lt;time class&#x3D;&quot;text-xs opacity-60 ml-2&quot;&gt;{{
+              chatUtils.formatTimestamp(message.timestamp)
+            }}&lt;/time&gt;
+          &lt;/div&gt;
+          &lt;div
+            class&#x3D;&quot;chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-lg py-2 px-4 rounded-lg&quot;
+          &gt;
+            {{ message.displayedContent }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      }
+
+      @if (chatUtils.isBotMessage(message)) {
+        &lt;div class&#x3D;&quot;chat chat-start msg-bot&quot;&gt;
+          &lt;div class&#x3D;&quot;chat-header mb-1&quot;&gt;
+            &lt;span class&#x3D;&quot;text-xs opacity-60&quot;&gt;{{
+              chatUtils.getEventLabel(message.event)
+            }}&lt;/span&gt;
+            &lt;time class&#x3D;&quot;text-xs opacity-60 ml-2&quot;&gt;{{
+              chatUtils.formatTimestamp(message.timestamp)
+            }}&lt;/time&gt;
+            @if (message.isStreaming) {
+              &lt;span class&#x3D;&quot;loading loading-dots loading-xs ml-2&quot;&gt;&lt;/span&gt;
+            }
+          &lt;/div&gt;
+          &lt;div
+            class&#x3D;&quot;chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-2xl py-2 px-4 rounded-lg&quot;
+          &gt;
+            &lt;div class&#x3D;&quot;prose prose-sm max-w-none&quot;&gt;
+              @let view &#x3D; getProcessed(message);
+              @if (view.main.length) {
+                &lt;markdown [data]&#x3D;&quot;view.main&quot;&gt;&lt;/markdown&gt;
+              }
+              @if (view.thinks.length) {
+                &lt;div class&#x3D;&quot;mt-3 think-section&quot;&gt;
+                  &lt;button
+                    class&#x3D;&quot;btn btn-ghost btn-xs think-toggle-btn&quot;
+                    type&#x3D;&quot;button&quot;
+                    (click)&#x3D;&quot;toggleThink(message)&quot;
+                  &gt;
+                    &lt;mat-icon
+                      [fontIcon]&#x3D;&quot;
+                        view.expanded ? &#x27;expand_less&#x27; : &#x27;expand_more&#x27;
+                      &quot;
+                      class&#x3D;&quot;mr-1&quot;
+                    &gt;&lt;/mat-icon&gt;
+                    {{
+                      view.expanded
+                        ? (&quot;CHAT.HIDE_THINK&quot; | translate)
+                        : (&quot;CHAT.SHOW_THINK&quot; | translate)
+                    }}
+                    &lt;span class&#x3D;&quot;think-count ml-1&quot;&gt;({{ view.thinks.length }})&lt;/span&gt;
+                  &lt;/button&gt;
+                  @if (view.expanded) {
+                    &lt;div class&#x3D;&quot;think-container&quot;&gt;
+                      @for (t of view.thinks; track $index) {
+                        &lt;div class&#x3D;&quot;think-block&quot;&gt;
+                          &lt;div class&#x3D;&quot;think-header&quot;&gt;
+                            &lt;mat-icon fontIcon&#x3D;&quot;psychology&quot;&gt;&lt;/mat-icon&gt;
+                            &lt;span&gt;Proceso de pensamiento {{ $index + 1 }}&lt;/span&gt;
+                          &lt;/div&gt;
+                          &lt;div class&#x3D;&quot;think-content&quot;&gt;
+                            &lt;markdown [data]&#x3D;&quot;t&quot;&gt;&lt;/markdown&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                      }
+                    &lt;/div&gt;
+                  }
+                &lt;/div&gt;
+              }
+            &lt;/div&gt;
+
+            @if (message.extra_data?.reasoning_steps?.length) {
+              &lt;div class&#x3D;&quot;mt-3 border-t pt-2&quot;&gt;
+                &lt;div class&#x3D;&quot;text-xs font-semibold mb-1&quot;&gt;Razonamiento&lt;/div&gt;
+                &lt;ul class&#x3D;&quot;list-disc ml-5 text-xs space-y-1&quot;&gt;
+                  @for (
+                    step of message.extra_data?.reasoning_steps;
+                    track step.title
+                  ) {
+                    &lt;li&gt;
+                      &lt;div class&#x3D;&quot;font-medium&quot;&gt;{{ step.title }}&lt;/div&gt;
+                      &lt;div class&#x3D;&quot;opacity-80&quot;&gt;{{ step.reasoning }}&lt;/div&gt;
+                      @if (step.result) {
+                        &lt;div class&#x3D;&quot;opacity-70&quot;&gt;→ {{ step.result }}&lt;/div&gt;
+                      }
+                    &lt;/li&gt;
+                  }
+                &lt;/ul&gt;
+              &lt;/div&gt;
+            }
+
+            @if (message.extra_data?.references?.length) {
+              &lt;div class&#x3D;&quot;mt-3 border-t pt-2&quot;&gt;
+                &lt;div class&#x3D;&quot;text-xs font-semibold mb-1&quot;&gt;Referencias&lt;/div&gt;
+                &lt;ul class&#x3D;&quot;list-disc ml-5 text-xs space-y-1&quot;&gt;
+                  @for (
+                    block of message.extra_data?.references;
+                    track block.query
+                  ) {
+                    &lt;li&gt;
+                      &lt;div class&#x3D;&quot;font-medium&quot;&gt;Consulta: {{ block.query }}&lt;/div&gt;
+                      &lt;ul class&#x3D;&quot;list-disc ml-5&quot;&gt;
+                        @for (ref of block.references; track ref.name) {
+                          &lt;li&gt;
+                            &lt;div class&#x3D;&quot;opacity-90&quot;&gt;{{ ref.name }}&lt;/div&gt;
+                            &lt;div class&#x3D;&quot;opacity-70&quot;&gt;{{ ref.content }}&lt;/div&gt;
+                          &lt;/li&gt;
+                        }
+                      &lt;/ul&gt;
+                    &lt;/li&gt;
+                  }
+                &lt;/ul&gt;
+              &lt;/div&gt;
+            }
+
+            @if (message.images?.length) {
+              &lt;div class&#x3D;&quot;mt-2 grid grid-cols-2 gap-2&quot;&gt;
+                @for (img of message.images; track img.url) {
+                  &lt;img
+                    [src]&#x3D;&quot;img.url&quot;
+                    alt&#x3D;&quot;media&quot;
+                    class&#x3D;&quot;rounded-md max-h-48 object-cover&quot;
+                  /&gt;
+                }
+              &lt;/div&gt;
+            }
+
+            @if (message.videos?.length) {
+              &lt;div class&#x3D;&quot;mt-2 space-y-2&quot;&gt;
+                @for (v of message.videos; track v.url) {
+                  &lt;video class&#x3D;&quot;rounded-md w-full&quot; controls [src]&#x3D;&quot;v.url&quot;&gt;
+                    &lt;track kind&#x3D;&quot;captions&quot; /&gt;
+                  &lt;/video&gt;
+                }
+              &lt;/div&gt;
+            }
+
+            @if (
+              chatUtils.isBotMessage(message) &amp;&amp;
+              message.content.trim() &amp;&amp;
+              !message.isStreaming
+            ) {
+              &lt;div class&#x3D;&quot;tts-controls&quot;&gt;
+                &lt;div class&#x3D;&quot;tts-buttons&quot;&gt;
+                  @if (!isPlayingFor(message.id)) {
+                    &lt;button
+                      class&#x3D;&quot;tts-btn tts-play-btn&quot;
+                      (click)&#x3D;&quot;playTTS(message)&quot;
+                      title&#x3D;&quot;Reproducir&quot;
+                    &gt;
+                      &lt;mat-icon fontIcon&#x3D;&quot;play_arrow&quot;&gt;&lt;/mat-icon&gt;
+                      &lt;span&gt;Reproducir&lt;/span&gt;
+                    &lt;/button&gt;
+                  } @else {
+                    &lt;button
+                      class&#x3D;&quot;tts-btn tts-pause-btn&quot;
+                      (click)&#x3D;&quot;
+                        isPausedFor(message.id) ? tts.resume() : tts.pause()
+                      &quot;
+                      title&#x3D;&quot;Pausar/Reanudar&quot;
+                    &gt;
+                      &lt;mat-icon
+                        [fontIcon]&#x3D;&quot;
+                          isPausedFor(message.id) ? &#x27;play_arrow&#x27; : &#x27;pause&#x27;
+                        &quot;
+                      &gt;&lt;/mat-icon&gt;
+                      &lt;span&gt;{{ isPausedFor(message.id) ? &#x27;Reanudar&#x27; : &#x27;Pausar&#x27; }}&lt;/span&gt;
+                    &lt;/button&gt;
+                  }
+                  
+                  &lt;button
+                    class&#x3D;&quot;tts-btn tts-stop-btn&quot;
+                    (click)&#x3D;&quot;ttsStop()&quot;
+                    title&#x3D;&quot;Detener&quot;
+                    [disabled]&#x3D;&quot;!isPlayingFor(message.id) &amp;&amp; !isPausedFor(message.id)&quot;
+                  &gt;
+                    &lt;mat-icon fontIcon&#x3D;&quot;stop&quot;&gt;&lt;/mat-icon&gt;
+                  &lt;/button&gt;
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;volume-control&quot;&gt;
+                  &lt;mat-icon fontIcon&#x3D;&quot;volume_up&quot; class&#x3D;&quot;volume-icon&quot;&gt;&lt;/mat-icon&gt;
+                  &lt;input
+                    type&#x3D;&quot;range&quot;
+                    min&#x3D;&quot;0&quot;
+                    max&#x3D;&quot;1&quot;
+                    step&#x3D;&quot;0.05&quot;
+                    [value]&#x3D;&quot;tts.volume()&quot;
+                    (input)&#x3D;&quot;onVolumeInput($event)&quot;
+                    class&#x3D;&quot;volume-slider&quot;
+                  /&gt;
+                  &lt;span class&#x3D;&quot;volume-text&quot;&gt;{{ tts.volume() * 100 | number: &quot;1.0-0&quot; }}%&lt;/span&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            }
+
+            @if (
+              message.isStreaming &amp;&amp;
+              message.displayedContent.length &lt; message.content.length
+            ) {
+              &lt;span
+                class&#x3D;&quot;inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70&quot;
+              &gt;&lt;/span&gt;
+            }
+          &lt;/div&gt;
+        &lt;/div&gt;
+      }
+
+      @if (chatUtils.isSystemMessage(message)) {
+        &lt;div class&#x3D;&quot;flex justify-center my-2 msg-system&quot;&gt;
+          &lt;div
+            class&#x3D;&quot;flex items-center gap-2 px-4 py-2 bg-info/10 text-info rounded-full text-sm&quot;
+          &gt;
+            &lt;span class&#x3D;&quot;opacity-70&quot;&gt;{{
+              chatUtils.formatTimestamp(message.timestamp)
+            }}&lt;/span&gt;
+            &lt;span&gt;{{ message.displayedContent }}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      }
+    }
+
+    @if (toolRunning) {
+      &lt;div class&#x3D;&quot;tool-running-indicator&quot;&gt;
+        &lt;div class&#x3D;&quot;tool-running-content&quot;&gt;
+          &lt;div class&#x3D;&quot;tool-running-animation&quot;&gt;
+            &lt;div class&#x3D;&quot;tool-loading-dots&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;tool-running-text&quot;&gt;
+            &lt;span class&#x3D;&quot;tool-running-title&quot;&gt;{{ &quot;CHAT.RUNNING_TOOLS&quot; | translate }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;tool-running-subtitle&quot;&gt;Procesando información...&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    }
+
+    @if (showScrollToBottom) {
+      &lt;button
+        type&#x3D;&quot;button&quot;
+        class&#x3D;&quot;btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg&quot;
+        (click)&#x3D;&quot;scrollToBottom()&quot;
+        title&#x3D;&quot;Bajar al final&quot;
+      &gt;
+        &lt;mat-icon fontIcon&#x3D;&quot;arrow_downward&quot;&gt;&lt;/mat-icon&gt;
+      &lt;/button&gt;
+    }
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./messages-list.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   MODERN CHAT MESSAGES - GLASSMORPHISM DESIGN
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+/* Container principal con gradiente de fondo */
+.messages-container {
+  background: 
+    radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, hsl(var(--accent) / 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.2) 100%);
+  border-radius: 1rem;
+  backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border) / 0.2);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.05),
+    0 5px 20px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   USER MESSAGES - ESTILO MODERNO
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.msg-user {
+  animation: slideInRight 0.4s ease-out;
+}
+
+.msg-user .chat-bubble {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  border: 1px solid hsl(var(--primary) / 0.3);
+  border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 hsl(var(--primary) / 0.2);
+  color: hsl(var(--foreground));
+  white-space: pre-wrap;
+  position: relative;
+  transition: all 0.3s ease;
+  max-width: 85%;
+  margin-left: auto;
+}
+
+.msg-user .chat-bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 hsl(var(--primary) / 0.3);
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+.msg-user .chat-bubble::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  bottom: -1px;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-top-color: hsl(var(--primary) / 0.15);
+  border-left-color: hsl(var(--primary) / 0.15);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   BOT MESSAGES - ESTILO ELEGANTE
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.msg-bot {
+  animation: slideInLeft 0.4s ease-out;
+}
+
+.msg-bot .chat-bubble {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.4) 0%, 
+    hsl(var(--card) / 0.2) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1.5rem 1.5rem 1.5rem 0.5rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  color: hsl(var(--card-foreground));
+  white-space: pre-wrap;
+  position: relative;
+  transition: all 0.3s ease;
+  max-width: 85%;
+}
+
+.msg-bot .chat-bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 hsl(var(--foreground) / 0.08);
+  border-color: hsl(var(--border) / 0.4);
+}
+
+.msg-bot .chat-bubble::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  bottom: -1px;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-top-color: hsl(var(--card) / 0.4);
+  border-right-color: hsl(var(--card) / 0.4);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   SYSTEM MESSAGES - ESTILO INFORMATIVO
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.msg-system {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.msg-system &gt; div {
+  background: linear-gradient(135deg, 
+    hsl(var(--info) / 0.15) 0%, 
+    hsl(var(--info) / 0.08) 100%);
+  border: 1px solid hsl(var(--info) / 0.2);
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 hsl(var(--info) / 0.2);
+  transition: all 0.3s ease;
+}
+
+.msg-system &gt; div:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 hsl(var(--info) / 0.3);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   HEADERS Y TIMESTAMPS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.chat-header {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.chat:hover .chat-header {
+  opacity: 1;
+}
+
+.chat-header time {
+  font-family: &#x27;Courier New&#x27;, monospace;
+  font-size: 0.75rem;
+  background: hsl(var(--muted) / 0.2);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  border: 1px solid hsl(var(--border) / 0.2);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   SCROLL TO BOTTOM BUTTON
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.scroll-to-bottom-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.8) 100%);
+  border: 1px solid hsl(var(--primary) / 0.3);
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.scroll-to-bottom-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   LOADING STATES
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.loading-dots {
+  background: linear-gradient(90deg, 
+    hsl(var(--primary)) 25%, 
+    hsl(var(--primary) / 0.5) 50%, 
+    hsl(var(--primary)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   SCROLLBAR MODERNO
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.messages-container {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+}
+
+.messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,
+    hsl(var(--primary) / 0.4) 0%,
+    hsl(var(--primary) / 0.6) 100%);
+  border-radius: 4px;
+  border: 1px solid hsl(var(--primary) / 0.2);
+  transition: all 0.3s ease;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg,
+    hsl(var(--primary) / 0.6) 0%,
+    hsl(var(--primary) / 0.8) 100%);
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   ANIMACIONES DE ENTRADA
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   ENHANCED MARKDOWN STYLING
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.prose {
+  color: inherit;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* Títulos con gradientes y espaciado mejorado */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: hsl(var(--foreground));
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  position: relative;
+}
+
+.prose h1 {
+  font-size: 1.875rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.7) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 2px solid hsl(var(--primary) / 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.9) 0%, 
+    hsl(var(--primary) / 0.6) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 1px solid hsl(var(--primary) / 0.1);
+  padding-bottom: 0.25rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+  color: hsl(var(--primary) / 0.8);
+}
+
+.prose h4, .prose h5, .prose h6 {
+  font-size: 1.1rem;
+  color: hsl(var(--foreground) / 0.9);
+}
+
+/* Párrafos con mejor espaciado */
+.prose p {
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Código inline mejorado */
+.prose code {
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.4) 0%, 
+    hsl(var(--muted) / 0.2) 100%);
+  color: hsl(var(--primary));
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-family: &#x27;Fira Code&#x27;, &#x27;Consolas&#x27;, &#x27;Monaco&#x27;, monospace;
+  font-size: 0.85rem;
+  border: 1px solid hsl(var(--border) / 0.3);
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.prose code:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--primary) / 0.05) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+}
+
+/* Bloques de código mejorados */
+.prose pre {
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  overflow-x: auto;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.prose pre:hover {
+  border-color: hsl(var(--primary) / 0.2);
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 hsl(var(--foreground) / 0.08);
+}
+
+.prose pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+}
+
+/* Citas mejoradas */
+.prose blockquote {
+  border-left: 4px solid hsl(var(--primary));
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.08) 0%, 
+    hsl(var(--primary) / 0.03) 100%);
+  border-radius: 0 0.75rem 0.75rem 0;
+  font-style: italic;
+  position: relative;
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 hsl(var(--primary) / 0.1);
+}
+
+.prose blockquote::before {
+  content: &#x27;&quot;&#x27;;
+  position: absolute;
+  top: -0.5rem;
+  left: 1rem;
+  font-size: 3rem;
+  color: hsl(var(--primary) / 0.3);
+  font-family: serif;
+  line-height: 1;
+}
+
+.prose blockquote p {
+  margin-bottom: 0.5rem;
+  color: hsl(var(--foreground) / 0.9);
+}
+
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Listas mejoradas */
+.prose ul, .prose ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  position: relative;
+}
+
+.prose ul li::marker {
+  color: hsl(var(--primary));
+  font-size: 1.2em;
+}
+
+.prose ol li::marker {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.prose li &gt; ul, .prose li &gt; ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Tablas mejoradas */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.3) 0%, 
+    hsl(var(--card) / 0.1) 100%);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.prose th {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  color: hsl(var(--primary));
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+}
+
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.1);
+  color: hsl(var(--foreground));
+}
+
+.prose tr:hover {
+  background: hsl(var(--muted) / 0.1);
+}
+
+/* Enlaces mejorados */
+.prose a {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.prose a:hover {
+  color: hsl(var(--primary) / 0.8);
+  border-bottom-color: hsl(var(--primary) / 0.5);
+}
+
+.prose a::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.6) 100%);
+  transition: width 0.3s ease;
+}
+
+.prose a:hover::before {
+  width: 100%;
+}
+
+/* Separadores mejorados */
+.prose hr {
+  margin: 2rem 0;
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--border)) 50%, 
+    transparent 100%);
+}
+
+/* Énfasis y strong mejorados */
+.prose em {
+  color: hsl(var(--primary) / 0.9);
+  font-style: italic;
+}
+
+.prose strong {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.05) 0%, 
+    transparent 100%);
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.25rem;
+}
+
+/* Imágenes dentro del markdown */
+.prose img {
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+  max-width: 100%;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+.prose img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Detalles y summary mejorados */
+.prose details {
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.2) 0%, 
+    hsl(var(--card) / 0.05) 100%);
+  border: 1px solid hsl(var(--border) / 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  backdrop-filter: blur(5px);
+}
+
+.prose summary {
+  font-weight: 600;
+  color: hsl(var(--primary));
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.prose summary:hover {
+  color: hsl(var(--primary) / 0.8);
+}
+
+/* Mejorar legibilidad en dispositivos móviles */
+@media (max-width: 768px) {
+  .prose {
+    font-size: 0.9rem;
+  }
+  
+  .prose h1 {
+    font-size: 1.5rem;
+  }
+  
+  .prose h2 {
+    font-size: 1.25rem;
+  }
+  
+  .prose pre {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .prose blockquote {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   EMPTY STATE - ESTADO VACÍO
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  padding: 2rem;
+}
+
+.empty-state-content {
+  text-align: center;
+  max-width: 500px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.empty-state-icon {
+  margin: 0 auto 1.5rem;
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.empty-state-icon mat-icon {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+  color: hsl(var(--primary));
+}
+
+.empty-state-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--foreground)) 0%, 
+    hsl(var(--muted-foreground)) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.empty-state-subtitle {
+  font-size: 1rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.empty-state-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.3) 0%, 
+    hsl(var(--card) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.2);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--primary) / 0.05) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+  transform: translateX(5px);
+}
+
+.suggestion-item mat-icon {
+  color: hsl(var(--primary));
+  font-size: 1.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.suggestion-item span {
+  color: hsl(var(--foreground));
+  font-weight: 500;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   TOOL RUNNING INDICATOR
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.tool-running-indicator {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tool-running-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--info) / 0.15) 0%, 
+    hsl(var(--info) / 0.08) 100%);
+  border: 1px solid hsl(var(--info) / 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 hsl(var(--info) / 0.2);
+}
+
+.tool-running-animation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.tool-loading-dots {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: hsl(var(--info));
+  border-radius: 50%;
+  animation: loadingPulse 1.5s ease-in-out infinite;
+  position: relative;
+}
+
+.tool-loading-dots::before,
+.tool-loading-dots::after {
+  content: &#x27;&#x27;;
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: hsl(var(--info));
+  border-radius: 50%;
+}
+
+.tool-loading-dots::before {
+  left: -2rem;
+  animation: loadingPulse 1.5s ease-in-out infinite 0.3s;
+}
+
+.tool-loading-dots::after {
+  right: -2rem;
+  animation: loadingPulse 1.5s ease-in-out infinite 0.6s;
+}
+
+@keyframes loadingPulse {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.tool-running-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tool-running-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--info));
+}
+
+.tool-running-subtitle {
+  font-size: 0.75rem;
+  color: hsl(var(--info) / 0.8);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   TTS CONTROLS - CONTROLES DE TEXTO A VOZ
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.tts-controls {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.1) 0%, 
+    hsl(var(--muted) / 0.05) 100%);
+  border: 1px solid hsl(var(--border) / 0.2);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tts-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tts-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border) / 0.3);
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.8) 0%, 
+    hsl(var(--background) / 0.4) 100%);
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.tts-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.tts-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tts-play-btn {
+  background: linear-gradient(135deg, 
+    hsl(var(--success) / 0.15) 0%, 
+    hsl(var(--success) / 0.08) 100%);
+  border-color: hsl(var(--success) / 0.3);
+  color: hsl(var(--success));
+}
+
+.tts-play-btn:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--success) / 0.25) 0%, 
+    hsl(var(--success) / 0.15) 100%);
+  border-color: hsl(var(--success) / 0.4);
+}
+
+.tts-pause-btn {
+  background: linear-gradient(135deg, 
+    hsl(var(--warning) / 0.15) 0%, 
+    hsl(var(--warning) / 0.08) 100%);
+  border-color: hsl(var(--warning) / 0.3);
+  color: hsl(var(--warning));
+}
+
+.tts-pause-btn:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--warning) / 0.25) 0%, 
+    hsl(var(--warning) / 0.15) 100%);
+  border-color: hsl(var(--warning) / 0.4);
+}
+
+.tts-stop-btn {
+  background: linear-gradient(135deg, 
+    hsl(var(--destructive) / 0.15) 0%, 
+    hsl(var(--destructive) / 0.08) 100%);
+  border-color: hsl(var(--destructive) / 0.3);
+  color: hsl(var(--destructive));
+  padding: 0.375rem;
+  min-width: auto;
+}
+
+.tts-stop-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, 
+    hsl(var(--destructive) / 0.25) 0%, 
+    hsl(var(--destructive) / 0.15) 100%);
+  border-color: hsl(var(--destructive) / 0.4);
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 180px;
+}
+
+.volume-icon {
+  color: hsl(var(--muted-foreground));
+  font-size: 1.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.volume-slider {
+  flex: 1;
+  height: 4px;
+  background: hsl(var(--muted) / 0.3);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.8) 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid hsl(var(--background));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.8) 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid hsl(var(--background));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.volume-text {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  font-family: &#x27;Courier New&#x27;, monospace;
+  min-width: 2.5rem;
+  text-align: right;
+  background: hsl(var(--muted) / 0.2);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   THINK SECTION - PROCESO DE PENSAMIENTO
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.think-section {
+  border-top: 1px solid hsl(var(--border) / 0.2);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.think-toggle-btn {
+  background: linear-gradient(135deg, 
+    hsl(var(--secondary) / 0.15) 0%, 
+    hsl(var(--secondary) / 0.08) 100%);
+  border: 1px solid hsl(var(--secondary) / 0.2);
+  color: hsl(var(--secondary));
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.think-toggle-btn:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--secondary) / 0.25) 0%, 
+    hsl(var(--secondary) / 0.15) 100%);
+  border-color: hsl(var(--secondary) / 0.4);
+  transform: translateY(-1px);
+}
+
+.think-count {
+  background: hsl(var(--secondary) / 0.2);
+  color: hsl(var(--secondary));
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.think-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.15) 0%, 
+    hsl(var(--muted) / 0.08) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  animation: expandIn 0.3s ease-out;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: scaleY(0.95);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+    max-height: 1000px;
+  }
+}
+
+.think-block {
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.8) 0%, 
+    hsl(var(--background) / 0.4) 100%);
+  border: 1px solid hsl(var(--border) / 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.think-block:last-child {
+  margin-bottom: 0;
+}
+
+.think-block:hover {
+  border-color: hsl(var(--border) / 0.4);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+}
+
+.think-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.think-header mat-icon {
+  color: hsl(var(--secondary));
+  font-size: 1.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.think-content {
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.think-content .prose {
+  font-size: 0.875rem;
+}
+
+.think-content .prose p {
+  margin-bottom: 0.75rem;
+}
+
+.think-content .prose code {
+  background: hsl(var(--muted) / 0.4);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   RESPONSIVE DESIGN
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+@media (max-width: 768px) {
+  .msg-user .chat-bubble,
+  .msg-bot .chat-bubble {
+    max-width: 95%;
+    font-size: 0.9rem;
+  }
+  
+  .scroll-to-bottom-btn {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .messages-container {
+    padding: 1rem;
+  }
+  
+  .think-container {
+    padding: 0.75rem;
+  }
+  
+  .think-block {
+    padding: 0.75rem;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 flex flex-col gap-4 min-h-0">  <div    #messagesContainer    class="messages-container flex-1 min-h-0 overflow-y-auto p-4 space-y-4 surface-clear rounded-xl relative"    (scroll)="onMessagesScroll()"  >    <style>      .messages-container {        contain: content;        content-visibility: auto;        will-change: scroll-position;      }      @media (max-width: 480px) {        .messages-container {          padding: 0.75rem;        }      }    </style>    @if (messages.length === 0 && !isSending) {      <div class="empty-state">        <div class="empty-state-content">          <div class="empty-state-icon">            <mat-icon fontIcon="chat_bubble_outline"></mat-icon>          </div>          <h4 class="empty-state-title">            {{ "CHAT.EMPTY.TITLE" | translate }}          </h4>          <p class="empty-state-subtitle">            {{ "CHAT.EMPTY.SUBTITLE" | translate }}          </p>          <div class="empty-state-suggestions">            <div class="suggestion-item">              <mat-icon fontIcon="lightbulb_outline"></mat-icon>              <span>Pregunta sobre análisis financiero</span>            </div>            <div class="suggestion-item">              <mat-icon fontIcon="assessment"></mat-icon>              <span>Solicita un reporte de empresa</span>            </div>            <div class="suggestion-item">              <mat-icon fontIcon="help_outline"></mat-icon>              <span>Pide ayuda con decisiones de crédito</span>            </div>          </div>        </div>      </div>    }    @for (      message of messages;      track chatUtils.trackByMessageId($index, message)    ) {      @if (chatUtils.isUserMessage(message)) {        <div          class="chat chat-end msg-user mb-4 pb-8 text-right flex items-end flex-col"        >          <div class="chat-header mb-1">            <span class="text-xs opacity-60">{{              chatUtils.getEventLabel(message.event)            }}</span>            <time class="text-xs opacity-60 ml-2">{{              chatUtils.formatTimestamp(message.timestamp)            }}</time>          </div>          <div            class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-lg py-2 px-4 rounded-lg"          >            {{ message.displayedContent }}          </div>        </div>      }      @if (chatUtils.isBotMessage(message)) {        <div class="chat chat-start msg-bot">          <div class="chat-header mb-1">            <span class="text-xs opacity-60">{{              chatUtils.getEventLabel(message.event)            }}</span>            <time class="text-xs opacity-60 ml-2">{{              chatUtils.formatTimestamp(message.timestamp)            }}</time>            @if (message.isStreaming) {              <span class="loading loading-dots loading-xs ml-2"></span>            }          </div>          <div            class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-2xl py-2 px-4 rounded-lg"          >            <div class="prose prose-sm max-w-none">              @let view = getProcessed(message);              @if (view.main.length) {                <markdown [data]="view.main"></markdown>              }              @if (view.thinks.length) {                <div class="mt-3 think-section">                  <button                    class="btn btn-ghost btn-xs think-toggle-btn"                    type="button"                    (click)="toggleThink(message)"                  >                    <mat-icon                      [fontIcon]="                        view.expanded ? \'expand_less\' : \'expand_more\'                      "                      class="mr-1"                    ></mat-icon>                    {{                      view.expanded                        ? ("CHAT.HIDE_THINK" | translate)                        : ("CHAT.SHOW_THINK" | translate)                    }}                    <span class="think-count ml-1">({{ view.thinks.length }})</span>                  </button>                  @if (view.expanded) {                    <div class="think-container">                      @for (t of view.thinks; track $index) {                        <div class="think-block">                          <div class="think-header">                            <mat-icon fontIcon="psychology"></mat-icon>                            <span>Proceso de pensamiento {{ $index + 1 }}</span>                          </div>                          <div class="think-content">                            <markdown [data]="t"></markdown>                          </div>                        </div>                      }                    </div>                  }                </div>              }            </div>            @if (message.extra_data?.reasoning_steps?.length) {              <div class="mt-3 border-t pt-2">                <div class="text-xs font-semibold mb-1">Razonamiento</div>                <ul class="list-disc ml-5 text-xs space-y-1">                  @for (                    step of message.extra_data?.reasoning_steps;                    track step.title                  ) {                    <li>                      <div class="font-medium">{{ step.title }}</div>                      <div class="opacity-80">{{ step.reasoning }}</div>                      @if (step.result) {                        <div class="opacity-70">→ {{ step.result }}</div>                      }                    </li>                  }                </ul>              </div>            }            @if (message.extra_data?.references?.length) {              <div class="mt-3 border-t pt-2">                <div class="text-xs font-semibold mb-1">Referencias</div>                <ul class="list-disc ml-5 text-xs space-y-1">                  @for (                    block of message.extra_data?.references;                    track block.query                  ) {                    <li>                      <div class="font-medium">Consulta: {{ block.query }}</div>                      <ul class="list-disc ml-5">                        @for (ref of block.references; track ref.name) {                          <li>                            <div class="opacity-90">{{ ref.name }}</div>                            <div class="opacity-70">{{ ref.content }}</div>                          </li>                        }                      </ul>                    </li>                  }                </ul>              </div>            }            @if (message.images?.length) {              <div class="mt-2 grid grid-cols-2 gap-2">                @for (img of message.images; track img.url) {                  <img                    [src]="img.url"                    alt="media"                    class="rounded-md max-h-48 object-cover"                  />                }              </div>            }            @if (message.videos?.length) {              <div class="mt-2 space-y-2">                @for (v of message.videos; track v.url) {                  <video class="rounded-md w-full" controls [src]="v.url">                    <track kind="captions" />                  </video>                }              </div>            }            @if (              chatUtils.isBotMessage(message) &&              message.content.trim() &&              !message.isStreaming            ) {              <div class="tts-controls">                <div class="tts-buttons">                  @if (!isPlayingFor(message.id)) {                    <button                      class="tts-btn tts-play-btn"                      (click)="playTTS(message)"                      title="Reproducir"                    >                      <mat-icon fontIcon="play_arrow"></mat-icon>                      <span>Reproducir</span>                    </button>                  } @else {                    <button                      class="tts-btn tts-pause-btn"                      (click)="                        isPausedFor(message.id) ? tts.resume() : tts.pause()                      "                      title="Pausar/Reanudar"                    >                      <mat-icon                        [fontIcon]="                          isPausedFor(message.id) ? \'play_arrow\' : \'pause\'                        "                      ></mat-icon>                      <span>{{ isPausedFor(message.id) ? \'Reanudar\' : \'Pausar\' }}</span>                    </button>                  }                                    <button                    class="tts-btn tts-stop-btn"                    (click)="ttsStop()"                    title="Detener"                    [disabled]="!isPlayingFor(message.id) && !isPausedFor(message.id)"                  >                    <mat-icon fontIcon="stop"></mat-icon>                  </button>                </div>                <div class="volume-control">                  <mat-icon fontIcon="volume_up" class="volume-icon"></mat-icon>                  <input                    type="range"                    min="0"                    max="1"                    step="0.05"                    [value]="tts.volume()"                    (input)="onVolumeInput($event)"                    class="volume-slider"                  />                  <span class="volume-text">{{ tts.volume() * 100 | number: "1.0-0" }}%</span>                </div>              </div>            }            @if (              message.isStreaming &&              message.displayedContent.length < message.content.length            ) {              <span                class="inline-block w-1 h-4 bg-current animate-pulse ml-1 opacity-70"              ></span>            }          </div>        </div>      }      @if (chatUtils.isSystemMessage(message)) {        <div class="flex justify-center my-2 msg-system">          <div            class="flex items-center gap-2 px-4 py-2 bg-info/10 text-info rounded-full text-sm"          >            <span class="opacity-70">{{              chatUtils.formatTimestamp(message.timestamp)            }}</span>            <span>{{ message.displayedContent }}</span>          </div>        </div>      }    }    @if (toolRunning) {      <div class="tool-running-indicator">        <div class="tool-running-content">          <div class="tool-running-animation">            <div class="tool-loading-dots"></div>          </div>          <div class="tool-running-text">            <span class="tool-running-title">{{ "CHAT.RUNNING_TOOLS" | translate }}</span>            <span class="tool-running-subtitle">Procesando información...</span>          </div>        </div>      </div>    }    @if (showScrollToBottom) {      <button        type="button"        class="btn btn-primary btn-circle scroll-to-bottom-btn shadow-lg"        (click)="scrollToBottom()"        title="Bajar al final"      >        <mat-icon fontIcon="arrow_downward"></mat-icon>      </button>    }  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ChatMessagesListComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChatMessagesListComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1936 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ChatComposerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/presentation/components/chat/composer.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-chat-composer</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./composer.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./composer.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#dragCounter" >dragCounter</a>
+                            </li>
+                            <li>
+                                <a href="#dragging" >dragging</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#onCancel" >onCancel</a>
+                            </li>
+                            <li>
+                                <a href="#onDragEnter" >onDragEnter</a>
+                            </li>
+                            <li>
+                                <a href="#onDragLeave" >onDragLeave</a>
+                            </li>
+                            <li>
+                                <a href="#onDragOver" >onDragOver</a>
+                            </li>
+                            <li>
+                                <a href="#onDrop" >onDrop</a>
+                            </li>
+                            <li>
+                                <a href="#onRemove" >onRemove</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#allowUpload" >allowUpload</a>
+                            </li>
+                            <li>
+                                <a href="#filesCount" >filesCount</a>
+                            </li>
+                            <li>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                <a href="#isSending" >isSending</a>
+                            </li>
+                            <li>
+                                <a href="#isUploadingFiles" >isUploadingFiles</a>
+                            </li>
+                            <li>
+                                <a href="#uploadedFiles" >uploadedFiles</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancel" >cancel</a>
+                            </li>
+                            <li>
+                                <a href="#composerInput" >composerInput</a>
+                            </li>
+                            <li>
+                                <a href="#filesDropped" >filesDropped</a>
+                            </li>
+                            <li>
+                                <a href="#filesSelected" >filesSelected</a>
+                            </li>
+                            <li>
+                                <a href="#keydown" >keydown</a>
+                            </li>
+                            <li>
+                                <a href="#removeUploadedFile" >removeUploadedFile</a>
+                            </li>
+                            <li>
+                                <a href="#send" >send</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allowUpload"></a>
+                        <b>allowUpload</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filesCount"></a>
+                        <b>filesCount</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="form"></a>
+                        <b>form</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:22</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isSending"></a>
+                        <b>isSending</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:23</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isUploadingFiles"></a>
+                        <b>isUploadingFiles</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="uploadedFiles"></a>
+                        <b>uploadedFiles</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>UploadedFileMeta[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cancel"></a>
+                        <b>cancel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:30</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="composerInput"></a>
+                        <b>composerInput</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filesDropped"></a>
+                        <b>filesDropped</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:32</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filesSelected"></a>
+                        <b>filesSelected</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="keydown"></a>
+                        <b>keydown</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="removeUploadedFile"></a>
+                        <b>removeUploadedFile</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:33</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="send"></a>
+                        <b>send</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCancel"></a>
+                    <span class="name">
+                        <span ><b>onCancel</b></span>
+                        <a href="#onCancel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCancel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragEnter"></a>
+                    <span class="name">
+                        <span ><b>onDragEnter</b></span>
+                        <a href="#onDragEnter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDragEnter(e: DragEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>DragEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragLeave"></a>
+                    <span class="name">
+                        <span ><b>onDragLeave</b></span>
+                        <a href="#onDragLeave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDragLeave(e: DragEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="84"
+                                    class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>DragEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDragOver"></a>
+                    <span class="name">
+                        <span ><b>onDragOver</b></span>
+                        <a href="#onDragOver"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDragOver(e: DragEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>DragEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDrop"></a>
+                    <span class="name">
+                        <span ><b>onDrop</b></span>
+                        <a href="#onDrop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDrop(e: DragEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>DragEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRemove"></a>
+                    <span class="name">
+                        <span ><b>onRemove</b></span>
+                        <a href="#onRemove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRemove(file: <a href="../interfaces/UploadedFileMeta.html" target="_self">UploadedFileMeta</a>, e?: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                            <code><a href="../interfaces/UploadedFileMeta.html" target="_self" >UploadedFileMeta</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dragCounter"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>dragCounter</b></span>
+                        <a href="#dragCounter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dragging"></a>
+                    <span class="name">
+                        <span ><b>dragging</b></span>
+                        <a href="#dragging"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/presentation/components/chat/composer.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Component, EventEmitter, Input, Output } from &#x27;@angular/core&#x27;;
+import { FormsModule, ReactiveFormsModule, FormGroup } from &#x27;@angular/forms&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import type { UploadedFileMeta } from &#x27;@core/ports&#x27;;
+
+@Component({
+  selector: &#x27;app-chat-composer&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    TranslateModule,
+  ],
+  templateUrl: &#x27;./composer.component.html&#x27;,
+  styleUrls: [&#x27;./composer.component.css&#x27;],
+})
+export class ChatComposerComponent {
+  @Input() form!: FormGroup;
+  @Input() isSending &#x3D; false;
+  @Input() filesCount &#x3D; 0;
+  @Input() isUploadingFiles &#x3D; false;
+  @Input() uploadedFiles: UploadedFileMeta[] &#x3D; [];
+  // When false, file attach UI is disabled (e.g., on brand new chat before first message)
+  @Input() allowUpload: boolean &#x3D; true;
+  @Output() send &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() cancel &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() filesSelected &#x3D; new EventEmitter&lt;Event&gt;();
+  @Output() filesDropped &#x3D; new EventEmitter&lt;File[]&gt;();
+  @Output() removeUploadedFile &#x3D; new EventEmitter&lt;UploadedFileMeta&gt;();
+  @Output() keydown &#x3D; new EventEmitter&lt;KeyboardEvent&gt;();
+  @Output() composerInput &#x3D; new EventEmitter&lt;Event&gt;();
+
+  // Drag &amp; Drop state
+  dragging &#x3D; false;
+  private dragCounter &#x3D; 0;
+
+  onSubmit() {
+    // Hard guard: do not emit send if uploading files, already sending, or form invalid
+    if (this.isUploadingFiles || this.isSending || !this.form?.valid) {
+      return;
+    }
+    this.send.emit();
+  }
+  onCancel() {
+    this.cancel.emit();
+  }
+  onRemove(file: UploadedFileMeta, e?: Event) {
+    e?.preventDefault();
+    e?.stopPropagation();
+    this.removeUploadedFile.emit(file);
+  }
+
+  onDragEnter(e: DragEvent) {
+    if (!this.allowUpload || !e) return;
+    const hasFiles &#x3D;
+      !!e.dataTransfer &amp;&amp;
+      Array.from(e.dataTransfer.types || []).includes(&#x27;Files&#x27;);
+    if (!hasFiles) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragCounter++;
+    this.dragging &#x3D; true;
+    if (e.dataTransfer) e.dataTransfer.dropEffect &#x3D; &#x27;copy&#x27;;
+  }
+
+  onDragOver(e: DragEvent) {
+    if (!this.allowUpload) return; // block when uploads are not allowed
+    if (!e) return;
+    // Only react to file drags
+    const hasFiles &#x3D;
+      !!e.dataTransfer &amp;&amp;
+      Array.from(e.dataTransfer.types || []).includes(&#x27;Files&#x27;);
+    if (!hasFiles) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragging &#x3D; true;
+    if (e.dataTransfer) e.dataTransfer.dropEffect &#x3D; &#x27;copy&#x27;;
+  }
+
+  onDragLeave(e: DragEvent) {
+    if (!e) return;
+    e.preventDefault();
+    e.stopPropagation();
+    // Use counter to avoid flicker when overlay/dom changes
+    if (this.dragCounter &gt; 0) this.dragCounter--;
+    if (this.dragCounter &lt;&#x3D; 0) {
+      this.dragCounter &#x3D; 0;
+      this.dragging &#x3D; false;
+    }
+  }
+
+  onDrop(e: DragEvent) {
+    if (!this.allowUpload) return;
+    if (!e) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragging &#x3D; false;
+    this.dragCounter &#x3D; 0;
+    const files &#x3D; Array.from(e.dataTransfer?.files || []);
+    if (files.length) {
+      this.filesDropped.emit(files);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  class&#x3D;&quot;composer-surface surface-clear rounded-xl p-3 md:p-4&quot;
+  (dragenter)&#x3D;&quot;onDragEnter($event)&quot;
+  (dragover)&#x3D;&quot;onDragOver($event)&quot;
+  (dragleave)&#x3D;&quot;onDragLeave($event)&quot;
+  (drop)&#x3D;&quot;onDrop($event)&quot;
+&gt;
+  &lt;form [formGroup]&#x3D;&quot;form&quot; (submit)&#x3D;&quot;onSubmit()&quot; class&#x3D;&quot;w-full&quot;&gt;
+    &lt;div class&#x3D;&quot;flex flex-col gap-3&quot;&gt;
+      &lt;div class&#x3D;&quot;flex items-end gap-2 md:gap-3&quot;&gt;
+        &lt;button
+          type&#x3D;&quot;button&quot;
+          class&#x3D;&quot;btn btn-ghost btn-square btn-sm md:btn-md&quot;
+          [title]&#x3D;&quot;&#x27;COMPOSER.ATTACH_FILES&#x27; | translate&quot;
+          [attr.aria-label]&#x3D;&quot;&#x27;COMPOSER.ATTACH_FILES&#x27; | translate&quot;
+          (click)&#x3D;&quot;allowUpload &amp;&amp; fileInput.click()&quot;
+          [disabled]&#x3D;&quot;!allowUpload&quot;
+          [class.opacity-50]&#x3D;&quot;!allowUpload&quot;
+          [class.cursor-not-allowed]&#x3D;&quot;!allowUpload&quot;
+        &gt;
+          &lt;mat-icon fontIcon&#x3D;&quot;attach_file&quot;&gt;&lt;/mat-icon&gt;
+        &lt;/button&gt;
+        &lt;input
+          #fileInput
+          id&#x3D;&quot;chat-file-input&quot;
+          type&#x3D;&quot;file&quot;
+          multiple
+          class&#x3D;&quot;hidden&quot;
+          [disabled]&#x3D;&quot;!allowUpload&quot;
+          (change)&#x3D;&quot;filesSelected.emit($event)&quot;
+        /&gt;
+
+        &lt;div class&#x3D;&quot;flex-1&quot;&gt;
+          &lt;div
+            class&#x3D;&quot;rounded-xl border border-base-content/20 bg-transparent focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3&quot;
+            [class.drop-active]&#x3D;&quot;dragging&quot;
+          &gt;
+            &lt;textarea
+              class&#x3D;&quot;w-full bg-transparent outline-none resize-none leading-6 md:leading-7&quot;
+              [placeholder]&#x3D;&quot;&#x27;CHAT.PLACEHOLDER&#x27; | translate&quot;
+              rows&#x3D;&quot;1&quot;
+              spellcheck&#x3D;&quot;true&quot;
+              formControlName&#x3D;&quot;message&quot;
+              (input)&#x3D;&quot;composerInput.emit($event)&quot;
+              (keydown)&#x3D;&quot;keydown.emit($event)&quot;
+            &gt;&lt;/textarea&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;flex items-center gap-2&quot;&gt;
+          &lt;button
+            type&#x3D;&quot;submit&quot;
+            class&#x3D;&quot;btn btn-primary btn-square btn-sm md:btn-md&quot;
+            [disabled]&#x3D;&quot;isSending || isUploadingFiles || !form.valid&quot;
+            [class.loading]&#x3D;&quot;isSending&quot;
+            [title]&#x3D;&quot;&#x27;CHAT.SEND&#x27; | translate&quot;
+          &gt;
+            &lt;mat-icon fontIcon&#x3D;&quot;send&quot;&gt;&lt;/mat-icon&gt;
+          &lt;/button&gt;
+          @if (isSending) {
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              class&#x3D;&quot;btn btn-outline btn-square btn-sm md:btn-md&quot;
+              (click)&#x3D;&quot;onCancel()&quot;
+              [title]&#x3D;&quot;&#x27;COMPOSER.CANCEL&#x27; | translate&quot;
+            &gt;
+              &lt;mat-icon fontIcon&#x3D;&quot;close&quot;&gt;&lt;/mat-icon&gt;
+            &lt;/button&gt;
+          }
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      @if (!allowUpload) {
+        &lt;div class&#x3D;&quot;upload-disabled-banner&quot; role&#x3D;&quot;status&quot; aria-live&#x3D;&quot;polite&quot;&gt;
+          &lt;mat-icon fontIcon&#x3D;&quot;info&quot;&gt;&lt;/mat-icon&gt;
+          &lt;span&gt;{{ &quot;COMPOSER.UPLOADS_DISABLED&quot; | translate }}&lt;/span&gt;
+        &lt;/div&gt;
+      }
+
+      &lt;div
+        class&#x3D;&quot;flex flex-wrap items-center justify-between gap-2 text-xs opacity-70&quot;
+      &gt;
+        &lt;div class&#x3D;&quot;hidden sm:block&quot;&gt;{{ &quot;CHAT.HINT&quot; | translate }}&lt;/div&gt;
+        &lt;div class&#x3D;&quot;flex items-center gap-2&quot;&gt;
+          @if (!allowUpload) {
+            &lt;div
+              class&#x3D;&quot;badge badge-warning&quot;
+              [title]&#x3D;&quot;&#x27;COMPOSER.UPLOADS_DISABLED&#x27; | translate&quot;
+            &gt;
+              {{ &quot;COMPOSER.UPLOADS_DISABLED&quot; | translate }}
+            &lt;/div&gt;
+          }
+          @if (isUploadingFiles) {
+            &lt;div
+              class&#x3D;&quot;loading loading-dots loading-xs text-info&quot;
+              [title]&#x3D;&quot;&#x27;COMPOSER.UPLOADING_FILES&#x27; | translate&quot;
+            &gt;&lt;/div&gt;
+          }
+          @if (filesCount) {
+            &lt;div class&#x3D;&quot;badge badge-info&quot;&gt;
+              {{ &quot;CHAT.FILES_COUNT&quot; | translate: { count: filesCount } }}
+            &lt;/div&gt;
+          }
+          &lt;span&gt;{{ form.get(&quot;message&quot;)?.value?.length || 0 }}/1000&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      @if (isUploadingFiles) {
+        &lt;div class&#x3D;&quot;mt-2 flex items-center gap-2 text-xs text-info&quot;&gt;
+          &lt;span class&#x3D;&quot;loading loading-spinner loading-xs&quot;&gt;&lt;/span&gt;
+          &lt;span&gt;{{ &quot;COMPOSER.UPLOADING_FILES&quot; | translate }}&lt;/span&gt;
+        &lt;/div&gt;
+      }
+
+      @if (dragging) {
+        &lt;div class&#x3D;&quot;drop-overlay&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
+          &lt;div class&#x3D;&quot;drop-overlay__content&quot;&gt;
+            &lt;mat-icon
+              fontIcon&#x3D;&quot;cloud_upload&quot;
+              class&#x3D;&quot;text-5xl md:text-6xl&quot;
+            &gt;&lt;/mat-icon&gt;
+            &lt;div class&#x3D;&quot;mt-2 text-base md:text-lg font-semibold&quot;&gt;
+              {{ &quot;COMPOSER.DROP_HINT&quot; | translate }}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      }
+
+      @if (uploadedFiles.length) {
+        &lt;div class&#x3D;&quot;mt-2 flex flex-wrap gap-2 text-xs&quot;&gt;
+          @for (f of uploadedFiles; track f.id) {
+            &lt;span class&#x3D;&quot;badge badge-outline items-center gap-1&quot;&gt;
+              &lt;a
+                class&#x3D;&quot;inline-flex items-center hover:underline&quot;
+                [href]&#x3D;&quot;f.url&quot;
+                target&#x3D;&quot;_blank&quot;
+                rel&#x3D;&quot;noopener noreferrer&quot;
+                title&#x3D;&quot;{{ f.filename }}&quot;
+              &gt;
+                &lt;mat-icon fontIcon&#x3D;&quot;insert_drive_file&quot; class&#x3D;&quot;mr-1&quot;&gt;&lt;/mat-icon&gt;
+                &lt;span class&#x3D;&quot;truncate max-w-48&quot;&gt;{{ f.filename }}&lt;/span&gt;
+              &lt;/a&gt;
+              &lt;button
+                type&#x3D;&quot;button&quot;
+                class&#x3D;&quot;btn btn-ghost btn-xs p-0 min-h-0 h-5 w-5&quot;
+                (click)&#x3D;&quot;onRemove(f, $event)&quot;
+                [title]&#x3D;&quot;&#x27;COMPOSER.REMOVE_FILE&#x27; | translate&quot;
+              &gt;
+                &lt;mat-icon fontIcon&#x3D;&quot;close&quot;&gt;&lt;/mat-icon&gt;
+              &lt;/button&gt;
+            &lt;/span&gt;
+          }
+        &lt;/div&gt;
+      }
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./composer.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   MODERN CHAT COMPOSER - GLASSMORPHISM DESIGN
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.composer-surface {
+  position: relative;
+  bottom: auto;
+  z-index: 50;
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.4) 0%, 
+    hsl(var(--card) / 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 1.5rem;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 5px 20px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  transition: all 0.3s ease;
+  margin: 1rem;
+  overflow: hidden;
+}
+
+.composer-surface:hover {
+  border-color: hsl(var(--primary) / 0.4);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 8px 30px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 hsl(var(--foreground) / 0.08);
+  transform: translateY(-2px);
+}
+
+.composer-surface::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.3) 50%, 
+    transparent 100%);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   TEXTAREA STYLING
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.composer-surface textarea {
+  min-height: 3rem;
+  max-height: 8rem;
+  background: transparent;
+  color: hsl(var(--foreground));
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.composer-surface textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 0.7;
+}
+
+.composer-surface textarea:focus::placeholder {
+  opacity: 0.5;
+  transform: translateY(-2px);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   INPUT CONTAINER
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.composer-surface .rounded-xl {
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.8) 0%, 
+    hsl(var(--background) / 0.4) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.composer-surface .rounded-xl::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.2) 50%, 
+    transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.composer-surface .rounded-xl:focus-within::before {
+  opacity: 1;
+}
+
+.composer-surface .rounded-xl:focus-within {
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: 
+    0 0 0 3px hsl(var(--primary) / 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, 
+    hsl(var(--background) / 0.9) 0%, 
+    hsl(var(--background) / 0.6) 100%);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   BUTTONS STYLING
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.composer-surface .btn {
+  min-width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.composer-surface .btn::before {
+  content: &#x27;&#x27;;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    hsl(var(--primary) / 0.1) 50%, 
+    transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.composer-surface .btn:hover::before {
+  left: 100%;
+}
+
+.composer-surface .btn:hover {
+  border-color: hsl(var(--primary) / 0.4);
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.composer-surface .btn-primary {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.8) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+  color: hsl(var(--primary-foreground));
+  box-shadow: 
+    0 4px 16px hsl(var(--primary) / 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.composer-surface .btn-primary:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.9) 0%, 
+    hsl(var(--primary) / 0.7) 100%);
+  box-shadow: 
+    0 6px 24px hsl(var(--primary) / 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.composer-surface .btn:disabled {
+  opacity: 0.5;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.composer-surface .btn:disabled:hover {
+  transform: none;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   DRAG AND DROP STATES
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.drop-active {
+  border-color: hsl(var(--primary) / 0.6) !important;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--primary) / 0.05) 100%);
+  box-shadow: 
+    0 0 0 3px hsl(var(--primary) / 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 3px hsl(var(--primary) / 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 6px hsl(var(--primary) / 0.1),
+      0 6px 24px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   DROP OVERLAY
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.drop-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed hsl(var(--primary) / 0.6);
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 1.5rem;
+  color: hsl(var(--primary));
+  pointer-events: none;
+  transition: all 0.3s ease;
+  animation: dropOverlayPulse 2s infinite;
+  z-index: 100;
+}
+
+@keyframes dropOverlayPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+.drop-overlay__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.drop-overlay mat-icon {
+  font-size: 4rem;
+  height: 4rem;
+  width: 4rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   UPLOAD DISABLED BANNER
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.upload-disabled-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, 
+    hsl(var(--warning) / 0.15) 0%, 
+    hsl(var(--warning) / 0.08) 100%);
+  color: hsl(var(--warning));
+  border: 1px solid hsl(var(--warning) / 0.3);
+  backdrop-filter: blur(10px);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.upload-disabled-banner mat-icon {
+  font-size: 1.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   FILE BADGES
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.badge {
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--primary) / 0.08) 100%);
+  border-color: hsl(var(--primary) / 0.3);
+  transform: translateY(-1px);
+}
+
+.badge-info {
+  background: linear-gradient(135deg, 
+    hsl(var(--info) / 0.15) 0%, 
+    hsl(var(--info) / 0.08) 100%);
+  border-color: hsl(var(--info) / 0.3);
+  color: hsl(var(--info));
+}
+
+.badge-warning {
+  background: linear-gradient(135deg, 
+    hsl(var(--warning) / 0.15) 0%, 
+    hsl(var(--warning) / 0.08) 100%);
+  border-color: hsl(var(--warning) / 0.3);
+  color: hsl(var(--warning));
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   LOADING INDICATORS
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+.loading-spinner {
+  filter: hue-rotate(180deg) brightness(1.2);
+}
+
+.loading-dots {
+  background: linear-gradient(90deg, 
+    hsl(var(--info)) 25%, 
+    hsl(var(--info) / 0.5) 50%, 
+    hsl(var(--info)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+   RESPONSIVE DESIGN
+   &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; */
+
+@media (max-width: 768px) {
+  .composer-surface {
+    margin: 0.5rem;
+    border-radius: 1rem;
+  }
+  
+  .composer-surface .btn {
+    min-width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .composer-surface textarea {
+    font-size: 0.95rem;
+  }
+  
+  .drop-overlay__content {
+    padding: 1.5rem;
+  }
+  
+  .drop-overlay mat-icon {
+    font-size: 3rem;
+    height: 3rem;
+    width: 3rem;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  class="composer-surface surface-clear rounded-xl p-3 md:p-4"  (dragenter)="onDragEnter($event)"  (dragover)="onDragOver($event)"  (dragleave)="onDragLeave($event)"  (drop)="onDrop($event)">  <form [formGroup]="form" (submit)="onSubmit()" class="w-full">    <div class="flex flex-col gap-3">      <div class="flex items-end gap-2 md:gap-3">        <button          type="button"          class="btn btn-ghost btn-square btn-sm md:btn-md"          [title]="\'COMPOSER.ATTACH_FILES\' | translate"          [attr.aria-label]="\'COMPOSER.ATTACH_FILES\' | translate"          (click)="allowUpload && fileInput.click()"          [disabled]="!allowUpload"          [class.opacity-50]="!allowUpload"          [class.cursor-not-allowed]="!allowUpload"        >          <mat-icon fontIcon="attach_file"></mat-icon>        </button>        <input          #fileInput          id="chat-file-input"          type="file"          multiple          class="hidden"          [disabled]="!allowUpload"          (change)="filesSelected.emit($event)"        />        <div class="flex-1">          <div            class="rounded-xl border border-base-content/20 bg-transparent focus-within:border-primary transition px-3 py-2 md:px-4 md:py-3"            [class.drop-active]="dragging"          >            <textarea              class="w-full bg-transparent outline-none resize-none leading-6 md:leading-7"              [placeholder]="\'CHAT.PLACEHOLDER\' | translate"              rows="1"              spellcheck="true"              formControlName="message"              (input)="composerInput.emit($event)"              (keydown)="keydown.emit($event)"            ></textarea>          </div>        </div>        <div class="flex items-center gap-2">          <button            type="submit"            class="btn btn-primary btn-square btn-sm md:btn-md"            [disabled]="isSending || isUploadingFiles || !form.valid"            [class.loading]="isSending"            [title]="\'CHAT.SEND\' | translate"          >            <mat-icon fontIcon="send"></mat-icon>          </button>          @if (isSending) {            <button              type="button"              class="btn btn-outline btn-square btn-sm md:btn-md"              (click)="onCancel()"              [title]="\'COMPOSER.CANCEL\' | translate"            >              <mat-icon fontIcon="close"></mat-icon>            </button>          }        </div>      </div>      @if (!allowUpload) {        <div class="upload-disabled-banner" role="status" aria-live="polite">          <mat-icon fontIcon="info"></mat-icon>          <span>{{ "COMPOSER.UPLOADS_DISABLED" | translate }}</span>        </div>      }      <div        class="flex flex-wrap items-center justify-between gap-2 text-xs opacity-70"      >        <div class="hidden sm:block">{{ "CHAT.HINT" | translate }}</div>        <div class="flex items-center gap-2">          @if (!allowUpload) {            <div              class="badge badge-warning"              [title]="\'COMPOSER.UPLOADS_DISABLED\' | translate"            >              {{ "COMPOSER.UPLOADS_DISABLED" | translate }}            </div>          }          @if (isUploadingFiles) {            <div              class="loading loading-dots loading-xs text-info"              [title]="\'COMPOSER.UPLOADING_FILES\' | translate"            ></div>          }          @if (filesCount) {            <div class="badge badge-info">              {{ "CHAT.FILES_COUNT" | translate: { count: filesCount } }}            </div>          }          <span>{{ form.get("message")?.value?.length || 0 }}/1000</span>        </div>      </div>      @if (isUploadingFiles) {        <div class="mt-2 flex items-center gap-2 text-xs text-info">          <span class="loading loading-spinner loading-xs"></span>          <span>{{ "COMPOSER.UPLOADING_FILES" | translate }}</span>        </div>      }      @if (dragging) {        <div class="drop-overlay" aria-hidden="true">          <div class="drop-overlay__content">            <mat-icon              fontIcon="cloud_upload"              class="text-5xl md:text-6xl"            ></mat-icon>            <div class="mt-2 text-base md:text-lg font-semibold">              {{ "COMPOSER.DROP_HINT" | translate }}            </div>          </div>        </div>      }      @if (uploadedFiles.length) {        <div class="mt-2 flex flex-wrap gap-2 text-xs">          @for (f of uploadedFiles; track f.id) {            <span class="badge badge-outline items-center gap-1">              <a                class="inline-flex items-center hover:underline"                [href]="f.url"                target="_blank"                rel="noopener noreferrer"                title="{{ f.filename }}"              >                <mat-icon fontIcon="insert_drive_file" class="mr-1"></mat-icon>                <span class="truncate max-w-48">{{ f.filename }}</span>              </a>              <button                type="button"                class="btn btn-ghost btn-xs p-0 min-h-0 h-5 w-5"                (click)="onRemove(f, $event)"                [title]="\'COMPOSER.REMOVE_FILE\' | translate"              >                <mat-icon fontIcon="close"></mat-icon>              </button>            </span>          }        </div>      }    </div>  </form></div></div>'
+    var COMPONENTS = [{'name': 'AdminAppInfoPage', 'selector': 'app-admin-app-info'},{'name': 'AdminCompaniesPage', 'selector': 'app-admin-companies'},{'name': 'AdminCompanyPage', 'selector': 'app-admin-company'},{'name': 'AdminDashboardPage', 'selector': 'app-admin-dashboard'},{'name': 'AdminFilesPage', 'selector': 'app-admin-files'},{'name': 'AdminMessagesPage', 'selector': 'app-admin-messages'},{'name': 'AdminShellLayout', 'selector': 'app-admin-shell'},{'name': 'AdminUsersPage', 'selector': 'app-admin-users'},{'name': 'App', 'selector': 'app-root'},{'name': 'Chat', 'selector': 'app-chat'},{'name': 'ChatComposerComponent', 'selector': 'app-chat-composer'},{'name': 'ChatMessagesListComponent', 'selector': 'app-chat-messages-list'},{'name': 'ForbiddenPage', 'selector': 'app-forbidden'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomePage', 'selector': 'app-home-page'},{'name': 'LazyChartComponent', 'selector': 'app-lazy-chart'},{'name': 'LoginPage', 'selector': 'app-login'},{'name': 'NotFoundPage', 'selector': 'app-not-found'},{'name': 'ProfileMenuComponent', 'selector': 'app-profile-menu'},{'name': 'RegisterPage', 'selector': 'app-register'},{'name': 'SessionCompaniesModalComponent', 'selector': 'app-session-companies-modal'},{'name': 'SessionFilesModalComponent', 'selector': 'app-session-files-modal'},{'name': 'ShellLayout', 'selector': 'app-shell'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ChatComposerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChatComposerComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

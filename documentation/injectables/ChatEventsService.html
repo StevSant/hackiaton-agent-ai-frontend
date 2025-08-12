@@ -1,0 +1,1071 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >ChatEventsService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/infrastructure/services/chat-events.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#enrichCurrentMessage" >enrichCurrentMessage</a>
+                            </li>
+                            <li>
+                                <a href="#handleComplete" >handleComplete</a>
+                            </li>
+                            <li>
+                                <a href="#handleError" >handleError</a>
+                            </li>
+                            <li>
+                                <a href="#handleRunCompleted" >handleRunCompleted</a>
+                            </li>
+                            <li>
+                                <a href="#handleRunResponse" >handleRunResponse</a>
+                            </li>
+                            <li>
+                                <a href="#handleStreamData" >handleStreamData</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(chatFacade: <a href="../injectables/ChatFacade.html" target="_self">ChatFacade</a>, connectionStatus: <a href="../injectables/ConnectionStatusService.html" target="_self">ConnectionStatusService</a>, typewriter: <a href="../injectables/TypewriterService.html" target="_self">TypewriterService</a>, scrollManager: <a href="../injectables/ScrollManagerService.html" target="_self">ScrollManagerService</a>, sessionsEvents: <a href="../injectables/SessionsEventsService.html" target="_self">SessionsEventsService</a>, location: Location, tts: <a href="../injectables/TtsService.html" target="_self">TtsService</a>, chatUtils: <a href="../injectables/ChatUtilsService.html" target="_self">ChatUtilsService</a>, messageManager: <a href="../injectables/MessageManagerService.html" target="_self">MessageManagerService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/infrastructure/services/chat-events.service.ts:23</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>chatFacade</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ChatFacade.html" target="_self" >ChatFacade</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>connectionStatus</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConnectionStatusService.html" target="_self" >ConnectionStatusService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>typewriter</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TypewriterService.html" target="_self" >TypewriterService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>scrollManager</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ScrollManagerService.html" target="_self" >ScrollManagerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>sessionsEvents</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SessionsEventsService.html" target="_self" >SessionsEventsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>location</td>
+                                                  
+                                                        <td>
+                                                                    <code>Location</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>tts</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/TtsService.html" target="_self" >TtsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>chatUtils</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ChatUtilsService.html" target="_self" >ChatUtilsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>messageManager</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MessageManagerService.html" target="_self" >MessageManagerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enrichCurrentMessage"></a>
+                    <span class="name">
+                        <span ><b>enrichCurrentMessage</b></span>
+                        <a href="#enrichCurrentMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>enrichCurrentMessage(ctx: <a href="../undefineds/ChatPageCtx.html" target="_self">ChatPageCtx</a>, data: <a href="../interfaces/StreamResponseModel.html" target="_self">StreamResponseModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">src/app/infrastructure/services/chat-events.service.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ctx</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ChatPageCtx" target="_self" >ChatPageCtx</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../interfaces/StreamResponseModel.html" target="_self" >StreamResponseModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleComplete"></a>
+                    <span class="name">
+                        <span ><b>handleComplete</b></span>
+                        <a href="#handleComplete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleComplete(ctx: <a href="../undefineds/ChatPageCtx.html" target="_self">ChatPageCtx</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="183"
+                                    class="link-to-prism">src/app/infrastructure/services/chat-events.service.ts:183</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ctx</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ChatPageCtx" target="_self" >ChatPageCtx</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleError"></a>
+                    <span class="name">
+                        <span ><b>handleError</b></span>
+                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleError(ctx: <a href="../undefineds/ChatPageCtx.html" target="_self">ChatPageCtx</a>, error: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="167"
+                                    class="link-to-prism">src/app/infrastructure/services/chat-events.service.ts:167</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ctx</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ChatPageCtx" target="_self" >ChatPageCtx</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>error</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleRunCompleted"></a>
+                    <span class="name">
+                        <span ><b>handleRunCompleted</b></span>
+                        <a href="#handleRunCompleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleRunCompleted(ctx: <a href="../undefineds/ChatPageCtx.html" target="_self">ChatPageCtx</a>, data: <a href="../interfaces/StreamResponseModel.html" target="_self">StreamResponseModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="140"
+                                    class="link-to-prism">src/app/infrastructure/services/chat-events.service.ts:140</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ctx</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ChatPageCtx" target="_self" >ChatPageCtx</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../interfaces/StreamResponseModel.html" target="_self" >StreamResponseModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleRunResponse"></a>
+                    <span class="name">
+                        <span ><b>handleRunResponse</b></span>
+                        <a href="#handleRunResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleRunResponse(ctx: <a href="../undefineds/ChatPageCtx.html" target="_self">ChatPageCtx</a>, data: <a href="../interfaces/StreamResponseModel.html" target="_self">StreamResponseModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">src/app/infrastructure/services/chat-events.service.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ctx</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ChatPageCtx" target="_self" >ChatPageCtx</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../interfaces/StreamResponseModel.html" target="_self" >StreamResponseModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleStreamData"></a>
+                    <span class="name">
+                        <span ><b>handleStreamData</b></span>
+                        <a href="#handleStreamData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleStreamData(ctx: <a href="../undefineds/ChatPageCtx.html" target="_self">ChatPageCtx</a>, data: <a href="../interfaces/StreamResponseModel.html" target="_self">StreamResponseModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="36"
+                                    class="link-to-prism">src/app/infrastructure/services/chat-events.service.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ctx</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ChatPageCtx" target="_self" >ChatPageCtx</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../interfaces/StreamResponseModel.html" target="_self" >StreamResponseModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, type ChangeDetectorRef } from &#x27;@angular/core&#x27;;
+import type { StreamResponseModel, ChatMessage } from &#x27;@core/models&#x27;;
+import { ChatFacade } from &#x27;@app/application&#x27;;
+import {
+  ConnectionStatusService,
+  TypewriterService,
+  ScrollManagerService,
+  SessionsEventsService,
+  TtsService,
+  ChatUtilsService,
+  MessageManagerService,
+} from &#x27;./index&#x27;;
+import { Location } from &#x27;@angular/common&#x27;;
+
+export type ChatPageCtx &#x3D; {
+  currentMessage: ChatMessage | null;
+  selectedSessionId: string | null;
+  streamingSessionId: string | null;
+  cdr: ChangeDetectorRef;
+};
+
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class ChatEventsService {
+  constructor(
+    private readonly chatFacade: ChatFacade,
+    private readonly connectionStatus: ConnectionStatusService,
+    private readonly typewriter: TypewriterService,
+    private readonly scrollManager: ScrollManagerService,
+    private readonly sessionsEvents: SessionsEventsService,
+    private readonly location: Location,
+    private readonly tts: TtsService,
+    private readonly chatUtils: ChatUtilsService,
+    private readonly messageManager: MessageManagerService,
+  ) {}
+
+  handleStreamData(ctx: ChatPageCtx, data: StreamResponseModel) {
+    this.connectionStatus.setStatus(&#x27;streaming&#x27;);
+
+    switch (data.event) {
+      case &#x27;UserMessage&#x27;: {
+        const sid &#x3D; (data as any)?.rawMessage?.session_id;
+        if (!ctx.selectedSessionId &amp;&amp; sid) {
+          queueMicrotask(() &#x3D;&gt; {
+            ctx.selectedSessionId &#x3D; sid;
+            ctx.streamingSessionId &#x3D; sid;
+            this.location.replaceState(&#x60;/chat/session/${sid}&#x60;);
+            this.sessionsEvents.triggerRefresh();
+            ctx.cdr.markForCheck();
+          });
+        }
+        break;
+      }
+      case &#x27;RunResponse&#x27;:
+        this.handleRunResponse(ctx, data);
+        break;
+      case &#x27;RunStarted&#x27;:
+        this.chatFacade.addSystemMessage(
+          &#x27;🤖 El agente está procesando tu solicitud...&#x27;,
+          &#x27;RunStarted&#x27;,
+        );
+        break;
+      case &#x27;RunCompleted&#x27;:
+        this.handleRunCompleted(ctx, data);
+        break;
+      case &#x27;UpdatingMemory&#x27;:
+      case &#x27;ToolCallStarted&#x27;:
+        this.chatFacade.setToolRunning(true);
+        break;
+      default:
+        if (data.currentChunk) {
+          this.handleRunResponse(ctx, data);
+        }
+    }
+
+    this.scrollManager.scheduleScrollToBottom();
+    queueMicrotask(() &#x3D;&gt; ctx.cdr.detectChanges());
+  }
+
+  handleRunResponse(ctx: ChatPageCtx, data: StreamResponseModel) {
+    if (!ctx.currentMessage || ctx.currentMessage.isComplete) {
+      ctx.currentMessage &#x3D; this.chatFacade.createBotMessage(
+        data.rawMessage.run_id || this.chatUtils.generateId(),
+        data.rawMessage.created_at,
+      );
+    }
+
+    if (data.currentChunk &amp;&amp; ctx.currentMessage) {
+      ctx.currentMessage.content &#x3D; data.fullContent;
+      if (!this.typewriter.isActive()) {
+        this.typewriter.startTypewriter(
+          ctx.currentMessage,
+          () &#x3D;&gt; {
+            this.scrollManager.scheduleScrollToBottom();
+            ctx.cdr.detectChanges();
+          },
+          25,
+        );
+      }
+    }
+
+    this.enrichCurrentMessage(ctx, data);
+
+    const raw: any &#x3D; data.rawMessage;
+    if (!ctx.selectedSessionId &amp;&amp; raw?.session_id) {
+      queueMicrotask(() &#x3D;&gt; {
+        ctx.selectedSessionId &#x3D; raw.session_id;
+        ctx.streamingSessionId &#x3D; raw.session_id;
+        this.location.replaceState(&#x60;/chat/session/${raw.session_id}&#x60;);
+        this.sessionsEvents.triggerRefresh();
+        ctx.cdr.markForCheck();
+      });
+    }
+  }
+
+  enrichCurrentMessage(ctx: ChatPageCtx, data: StreamResponseModel) {
+    const msg &#x3D; ctx.currentMessage;
+    if (!msg) return;
+    if (data.currentChunk) {
+      msg.content &#x3D; data.fullContent;
+    }
+    const raw: any &#x3D; data.rawMessage;
+    if (raw?.extra_data?.reasoning_steps) {
+      msg.extra_data &#x3D; {
+        ...msg.extra_data,
+        reasoning_steps: raw.extra_data.reasoning_steps,
+        references: msg.extra_data?.references,
+      };
+    }
+    if (raw?.extra_data?.references) {
+      msg.extra_data &#x3D; {
+        ...msg.extra_data,
+        references: raw.extra_data.references,
+        reasoning_steps: msg.extra_data?.reasoning_steps,
+      };
+    }
+    if (raw?.images) msg.images &#x3D; raw.images;
+    if (raw?.videos) msg.videos &#x3D; raw.videos;
+  }
+
+  handleRunCompleted(ctx: ChatPageCtx, data: StreamResponseModel) {
+    const msg &#x3D; ctx.currentMessage;
+    if (msg) {
+      const raw: any &#x3D; data.rawMessage;
+      if (raw?.extra_data) {
+        msg.extra_data &#x3D; {
+          reasoning_steps:
+            raw.extra_data.reasoning_steps ?? msg.extra_data?.reasoning_steps,
+          references: raw.extra_data.references ?? msg.extra_data?.references,
+        };
+      }
+      if (raw?.images) msg.images &#x3D; raw.images;
+      if (raw?.videos) msg.videos &#x3D; raw.videos;
+
+      this.typewriter.completeMessage(msg);
+    }
+
+    this.chatFacade.setToolRunning(false);
+    this.scrollManager.scheduleScrollToBottom();
+    queueMicrotask(() &#x3D;&gt; {
+      ctx.cdr.detectChanges();
+      ctx.streamingSessionId &#x3D; null;
+      this.sessionsEvents.triggerRefresh();
+      ctx.cdr.markForCheck();
+    });
+  }
+
+  handleError(ctx: ChatPageCtx, error: any) {
+    console.error(&#x27;❌ Error en el stream:&#x27;, error);
+    this.connectionStatus.setStatus(&#x27;error&#x27;);
+    this.typewriter.stopTypewriter();
+    this.chatFacade.setIsSending(false);
+    this.chatFacade.setToolRunning(false);
+
+    if (ctx.currentMessage) {
+      this.messageManager.completeMessage(ctx.currentMessage);
+    }
+    const errorMessage &#x3D; error?.message || &#x27;Error desconocido en la conexión&#x27;;
+    this.chatFacade.addErrorMessage(&#x60;❌ Error: ${errorMessage}&#x60;);
+    this.scrollManager.scheduleScrollToBottom();
+    ctx.cdr.detectChanges();
+  }
+
+  handleComplete(ctx: ChatPageCtx) {
+    console.log(&#x27;✅ Stream completado&#x27;);
+    this.connectionStatus.setStatus(&#x27;idle&#x27;);
+    this.typewriter.stopTypewriter();
+    this.chatFacade.setIsSending(false);
+    this.chatFacade.setToolRunning(false);
+
+    if (ctx.currentMessage) {
+      this.messageManager.completeMessage(ctx.currentMessage);
+    }
+    queueMicrotask(() &#x3D;&gt; ctx.cdr.detectChanges());
+    if (ctx.selectedSessionId) {
+      queueMicrotask(() &#x3D;&gt; this.sessionsEvents.triggerRefresh());
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChatEventsService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
