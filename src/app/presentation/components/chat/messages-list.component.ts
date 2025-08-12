@@ -147,9 +147,84 @@ export class ChatMessagesListComponent
 
   // Play TTS with cleaned content (without <think> blocks)
   playTTS(message: ChatMessage) {
+    console.log('🎵 playTTS called for message:', message.id);
+    console.log('🎵 Original content:', message.content);
+    console.log('🎵 Displayed content:', message.displayedContent);
+    
+    // Prueba simple primera
+    console.log('🎵 Testing simple TTS...');
+    this.testSimpleTTS();
+    
     const processed = this.getProcessed(message);
-    const cleanContent = processed.main || message.content;
+    console.log('🎵 Processed content:', processed);
+    
+    let cleanContent = processed.main;
+    
+    // Fallback si processed.main está vacío
+    if (!cleanContent || cleanContent.trim().length === 0) {
+      console.log('🎵 Main content empty, using fallback');
+      cleanContent = message.displayedContent || message.content || '';
+      
+      // Remover manualmente los <think> blocks si aún están presentes
+      cleanContent = cleanContent.replace(/<think[^>]*>[\s\S]*?<\/think>/gi, '').trim();
+    }
+    
+    // Limpiar markdown básico para TTS
+    cleanContent = this.cleanTextForTTS(cleanContent);
+    
+    console.log('🎵 Final clean content:', cleanContent);
+    console.log('🎵 Content length:', cleanContent.length);
+    
+    if (!cleanContent || cleanContent.trim().length === 0) {
+      console.error('🎵 No content to play');
+      return;
+    }
+    
     this.tts.play(cleanContent, message.id);
+  }
+
+  // Prueba simple de TTS
+  private testSimpleTTS() {
+    try {
+      console.log('🧪 Testing simple TTS');
+      if ('speechSynthesis' in window) {
+        console.log('🧪 SpeechSynthesis available');
+        const utterance = new SpeechSynthesisUtterance('Hola, esta es una prueba');
+        utterance.onstart = () => console.log('🧪 Simple TTS started');
+        utterance.onend = () => console.log('🧪 Simple TTS ended');
+        utterance.onerror = (e) => console.error('🧪 Simple TTS error:', e);
+        window.speechSynthesis.speak(utterance);
+      } else {
+        console.error('🧪 SpeechSynthesis not available');
+      }
+    } catch (error) {
+      console.error('🧪 Test TTS error:', error);
+    }
+  }
+
+  // Limpiar texto para TTS (remover markdown, HTML, etc.)
+  private cleanTextForTTS(text: string): string {
+    if (!text) return '';
+    
+    return text
+      // Remover bloques de código
+      .replace(/```[\s\S]*?```/g, '[código]')
+      // Remover código inline
+      .replace(/`([^`]+)`/g, '$1')
+      // Remover enlaces markdown
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      // Remover headers markdown
+      .replace(/^#{1,6}\s+/gm, '')
+      // Remover énfasis
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/__([^_]+)__/g, '$1')
+      .replace(/_([^_]+)_/g, '$1')
+      // Remover HTML tags restantes
+      .replace(/<[^>]+>/g, '')
+      // Limpiar espacios múltiples
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   onVolumeInput(event: Event) {

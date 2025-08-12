@@ -14,10 +14,21 @@ export class TtsService {
   readonly lang = signal('es-ES');
 
   async play(text: string, messageId?: string | null) {
+    console.log('🔊 TTS play called with:', { text: text.substring(0, 100) + '...', messageId, textLength: text.length });
+    
     try {
-      if (typeof window === 'undefined' || !('speechSynthesis' in window))
+      if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+        console.error('🔊 Speech synthesis not available');
         return;
+      }
+      
+      if (!text || text.trim().length === 0) {
+        console.error('🔊 Empty text provided to TTS');
+        return;
+      }
+      
       const synth = window.speechSynthesis;
+      console.log('🔊 Speech synthesis state:', { speaking: synth.speaking, pending: (synth as any).pending, paused: synth.paused });
 
       // Always reset synth to avoid stuck paused states
       try {
@@ -27,12 +38,20 @@ export class TtsService {
 
       // Ensure voices are ready (Chrome may return [] on first call)
       await this.ensureVoices(synth, 1500);
+      console.log('🔊 Available voices:', synth.getVoices().length);
 
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = this.lang();
       utter.rate = this.rate();
       utter.pitch = this.pitch();
       utter.volume = this.volume();
+      
+      console.log('🔊 Utterance settings:', { 
+        lang: utter.lang, 
+        rate: utter.rate, 
+        pitch: utter.pitch, 
+        volume: utter.volume 
+      });
 
       // Select a voice matching lang, fallback to same language prefix
       try {
@@ -44,8 +63,15 @@ export class TtsService {
             v.lang?.toLowerCase().startsWith(langLower.split('-')[0] || ''),
           ) ||
           voices[0];
-        if (preferred) utter.voice = preferred;
-      } catch {}
+        if (preferred) {
+          utter.voice = preferred;
+          console.log('🔊 Selected voice:', preferred.name, preferred.lang);
+        } else {
+          console.log('🔊 No voice found, using default');
+        }
+      } catch (e) {
+        console.error('🔊 Error selecting voice:', e);
+      }
 
       this.currentUtterance = utter;
       this.currentMessageId.set(messageId ?? null);
@@ -53,36 +79,55 @@ export class TtsService {
       this.isPaused.set(false);
 
       const cleanup = () => {
+        console.log('🔊 TTS cleanup called');
         this.currentUtterance = null;
         this.isSpeaking.set(false);
         this.isPaused.set(false);
         this.currentMessageId.set(null);
       };
-      utter.onend = cleanup;
-      utter.onerror = cleanup;
-      utter.onpause = () => this.isPaused.set(true);
-      utter.onresume = () => this.isPaused.set(false);
+      utter.onend = () => {
+        console.log('🔊 TTS ended');
+        cleanup();
+      };
+      utter.onerror = (event) => {
+        console.error('🔊 TTS error:', event);
+        cleanup();
+      };
+      utter.onpause = () => {
+        console.log('🔊 TTS paused');
+        this.isPaused.set(true);
+      };
+      utter.onresume = () => {
+        console.log('🔊 TTS resumed');
+        this.isPaused.set(false);
+      };
 
       let started = false;
       utter.onstart = () => {
+        console.log('🔊 TTS started');
         started = true;
         this.isPaused.set(false);
       };
 
       // Speak on next macrotask to allow cancel() flush and voices attach
       await this.nextTick();
+      console.log('🔊 About to call synth.speak()');
       synth.speak(utter);
 
       // Kick the synth in case it comes up paused (Chrome quirk)
       setTimeout(() => {
         try {
-          if (synth.paused) synth.resume();
+          if (synth.paused) {
+            console.log('🔊 Synth was paused, resuming');
+            synth.resume();
+          }
         } catch {}
       }, 80);
 
       // Watchdog: if not started, retry once
       setTimeout(async () => {
         if (!started && this.currentUtterance === utter) {
+          console.log('🔊 TTS watchdog: not started, retrying');
           try {
             synth.cancel();
           } catch {}
@@ -95,7 +140,9 @@ export class TtsService {
           }, 60);
         }
       }, 300);
-    } catch {}
+    } catch (error) {
+      console.error('🔊 TTS play error:', error);
+    }
   }
 
   pause() {
