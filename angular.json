@@ -1,57 +1,99 @@
 {
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
   "projects": {
     "frontend": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/frontend",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              { "glob": "**/*", "input": "public" }
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
-            "styles": [
-              "src/custom-theme.scss",
-              "src/styles.css"
-            ],
-            "ssr": false,
-            "prerender": false
+            "styles": ["src/custom-theme.scss", "src/styles.css"],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
-            "production": {
-              "optimization": { "fonts": false },
+            "csr": {
+              "ssr": false,
+              "outputMode": "static",
               "sourceMap": false,
-              "extractLicenses": true,
+              "optimization": {
+                "fonts": false
+              },
+              "outputHashing": "all"
+            },
+            "production": {
+              "optimization": {
+                "fonts": false
+              },
               "budgets": [
-                { "type": "initial", "maximumWarning": "600kB", "maximumError": "1.2MB" },
-                { "type": "anyComponentStyle", "maximumWarning": "25kB", "maximumError": "30kB" }
+                {
+                  "type": "initial",
+                  "maximumWarning": "600kB",
+                  "maximumError": "1.2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "25kB",
+                  "maximumError": "30kB"
+                }
               ],
               "outputHashing": "all"
             },
             "development": {
               "optimization": false,
-              "sourceMap": true
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "csr"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
-            "production": { "buildTarget": "frontend:build:production" },
-            "development": { "buildTarget": "frontend:build:development" }
+            "production": {
+              "buildTarget": "frontend:build:production"
+            },
+            "development": {
+              "buildTarget": "frontend:build:development"
+            }
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": { "builder": "@angular/build:extract-i18n" },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n"
+        },
         "test": {
           "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              { "glob": "**/*", "input": "public" }
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": ["src/styles.css"]
           }
@@ -59,5 +101,7 @@
       }
     }
   },
-  "cli": { "analytics": false }
+  "cli": {
+    "analytics": false
+  }
 }
