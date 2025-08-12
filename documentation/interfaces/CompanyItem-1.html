@@ -122,7 +122,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/ports/companies.port.ts</code>
+            <code>src/app/infrastructure/services/companies.service.ts</code>
         </p>
 
 
@@ -285,23 +285,74 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface CompanyItem {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, inject } from &#x27;@angular/core&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { environment } from &#x27;@environments/environment&#x27;;
+import { firstValueFrom } from &#x27;rxjs&#x27;;
+import type { Paginated } from &#x27;@core/models/paginated&#x27;;
+
+export interface CompanyItem {
   tax_id: string;
   name?: string;
   sector?: string;
+  // ...other fields as available
 }
 
-export interface CompaniesPort {
-  // sort_by &#x27;name&#x27; will be mapped to backend &#x27;business_name&#x27; by the service
-  list(params?: {
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class CompaniesService {
+  private readonly http &#x3D; inject(HttpClient);
+  private readonly base &#x3D; environment.baseUrl;
+
+  async list(params?: {
     page?: number;
     limit?: number;
     search?: string;
     sector?: string;
     sort_by?: &#x27;tax_id&#x27; | &#x27;name&#x27; | &#x27;sector&#x27;;
     sort_order?: &#x27;asc&#x27; | &#x27;desc&#x27;;
-  }): Promise&lt;import(&#x27;../models/paginated&#x27;).Paginated&lt;CompanyItem&gt;&gt;;
-  getByRuc(ruc: string): Promise&lt;CompanyItem&gt;;
+  }): Promise&lt;Paginated&lt;CompanyItem&gt;&gt; {
+    const url &#x3D; &#x60;${this.base}/companies/&#x60;;
+    const qp: any &#x3D; {};
+    const src &#x3D; params || {};
+    if (src.page !&#x3D; null) qp.page &#x3D; String(src.page);
+    if (src.limit !&#x3D; null) qp.limit &#x3D; String(src.limit);
+    if (src.search !&#x3D; null &amp;&amp; src.search !&#x3D;&#x3D; &#x27;&#x27;) qp.search &#x3D; src.search;
+    if (src.sector !&#x3D; null &amp;&amp; src.sector !&#x3D;&#x3D; &#x27;&#x27;) qp.sector &#x3D; src.sector;
+    if (src.sort_by !&#x3D; null)
+      qp.sort_by &#x3D; src.sort_by &#x3D;&#x3D;&#x3D; &#x27;name&#x27; ? &#x27;business_name&#x27; : src.sort_by;
+    if (src.sort_order !&#x3D; null) qp.sort_order &#x3D; src.sort_order;
+    const data &#x3D; await firstValueFrom(this.http.get&lt;any&gt;(url, { params: qp }));
+    // Support both paginated (info/results) and plain array responses
+    const mapItem &#x3D; (raw: any): CompanyItem &#x3D;&gt; ({
+      tax_id: raw?.tax_id ?? raw?.ruc ?? raw?.taxId ?? &#x27;&#x27;,
+      name: raw?.name ?? raw?.business_name ?? raw?.businessName ?? undefined,
+      sector: raw?.sector ?? raw?.industry ?? undefined,
+    });
+    if (Array.isArray(data)) {
+      return {
+        items: data.map(mapItem),
+        page: params?.page ?? 1,
+        limit: params?.limit ?? data?.length ?? 0,
+        total: data?.length ?? 0,
+      };
+    }
+    return {
+      items: (data?.results ?? []).map(mapItem),
+      page: data?.info?.page_number ?? params?.page ?? 1,
+      limit: data?.results?.length ?? params?.limit ?? 10,
+      total: data?.info?.count ?? data?.results?.length ?? 0,
+    } as Paginated&lt;CompanyItem&gt;;
+  }
+
+  async getByRuc(ruc: string): Promise&lt;CompanyItem&gt; {
+    const url &#x3D; &#x60;${this.base}/companies/${ruc}&#x60;;
+    const raw &#x3D; await firstValueFrom(this.http.get&lt;any&gt;(url));
+    return {
+      tax_id: raw?.tax_id ?? raw?.ruc ?? raw?.taxId ?? ruc,
+      name: raw?.name ?? raw?.business_name ?? raw?.businessName ?? undefined,
+      sector: raw?.sector ?? raw?.industry ?? undefined,
+    } as CompanyItem;
+  }
 }
 </code></pre>
     </div>

@@ -122,7 +122,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/ports/admin-users.port.ts</code>
+            <code>src/app/infrastructure/services/admin-users.service.ts</code>
         </p>
 
 
@@ -318,7 +318,22 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import type { Paginated } from &#x27;@core/models/paginated&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, inject } from &#x27;@angular/core&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { environment } from &#x27;@environments/environment&#x27;;
+import { firstValueFrom } from &#x27;rxjs&#x27;;
+import { Paginated } from &#x27;@core/models/paginated&#x27;;
+
+interface PaginatedApi&lt;T&gt; {
+  info: {
+    count: number;
+    pages: number;
+    page_number: number;
+    next?: string | null;
+    prev?: string | null;
+  };
+  results: T[];
+}
 
 export interface AdminUserItem {
   user_id: string;
@@ -335,21 +350,61 @@ export interface CreateUserPayload {
   role?: &#x27;admin&#x27; | &#x27;user&#x27;;
 }
 
-export interface AdminUsersPort {
-  list(params?: {
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class AdminUsersService {
+  private readonly http &#x3D; inject(HttpClient);
+  private readonly base &#x3D; environment.baseUrl;
+
+  async list(params?: {
     page?: number;
     limit?: number;
     email?: string;
     sort_by?: &#x27;email&#x27; | &#x27;username&#x27; | &#x27;created_at&#x27;;
     sort_order?: &#x27;asc&#x27; | &#x27;desc&#x27;;
-  }): Promise&lt;Paginated&lt;AdminUserItem&gt;&gt;;
-  get(userId: string): Promise&lt;AdminUserItem&gt;;
-  create(payload: CreateUserPayload): Promise&lt;AdminUserItem&gt;;
-  update(
+  }): Promise&lt;Paginated&lt;AdminUserItem&gt;&gt; {
+    const url &#x3D; &#x60;${this.base}/users/&#x60;;
+    // build params without undefined/null/empty values to avoid sending &#x27;undefined&#x27;
+    const qp: any &#x3D; {};
+    const src &#x3D; params || {};
+    if (src.page !&#x3D; null) qp.page &#x3D; String(src.page);
+    if (src.limit !&#x3D; null) qp.limit &#x3D; String(src.limit);
+    if (src.email !&#x3D; null &amp;&amp; src.email !&#x3D;&#x3D; &#x27;&#x27;) qp.email &#x3D; src.email;
+    if (src.sort_by !&#x3D; null) qp.sort_by &#x3D; src.sort_by;
+    if (src.sort_order !&#x3D; null) qp.sort_order &#x3D; src.sort_order;
+    const data &#x3D; await firstValueFrom(
+      this.http.get&lt;PaginatedApi&lt;AdminUserItem&gt;&gt;(url, { params: qp }),
+    );
+    return {
+      items: data?.results ?? [],
+      page: data?.info?.page_number ?? params?.page ?? 1,
+      limit: params?.limit ?? 10,
+      total: data?.info?.count ?? 0,
+    };
+  }
+
+  async get(userId: string): Promise&lt;AdminUserItem&gt; {
+    const url &#x3D; &#x60;${this.base}/users/${userId}&#x60;;
+    return firstValueFrom(this.http.get&lt;AdminUserItem&gt;(url));
+  }
+
+  async create(payload: CreateUserPayload): Promise&lt;AdminUserItem&gt; {
+    // Backend&#x27;s register endpoint creates users
+    const url &#x3D; &#x60;${this.base}/auth/register&#x60;;
+    return firstValueFrom(this.http.post&lt;AdminUserItem&gt;(url, payload));
+  }
+
+  async update(
     userId: string,
     payload: Partial&lt;CreateUserPayload&gt;,
-  ): Promise&lt;AdminUserItem&gt;;
-  delete(userId: string): Promise&lt;void&gt;;
+  ): Promise&lt;AdminUserItem&gt; {
+    const url &#x3D; &#x60;${this.base}/users/${userId}&#x60;;
+    return firstValueFrom(this.http.put&lt;AdminUserItem&gt;(url, payload));
+  }
+
+  async delete(userId: string): Promise&lt;void&gt; {
+    const url &#x3D; &#x60;${this.base}/users/${userId}&#x60;;
+    await firstValueFrom(this.http.delete(url));
+  }
 }
 </code></pre>
     </div>

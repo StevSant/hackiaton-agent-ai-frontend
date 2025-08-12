@@ -122,7 +122,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/ports/files.port.ts</code>
+            <code>src/app/infrastructure/services/files.service.ts</code>
         </p>
 
 
@@ -144,6 +144,13 @@
                                         <a href="#items" 
 >
                                             items
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#offset" 
+>
+                                            offset
                                         </a>
                                 </li>
                                 <li>
@@ -200,6 +207,44 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="offset"></a>
+                                        <span class="name "><b>offset</b>
+                                            <a href="#offset">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>offset:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="total"></a>
                                         <span class="name "><b>total</b>
                                             <a href="#total">
@@ -234,7 +279,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import type { Paginated } from &#x27;@core/models/paginated&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, inject } from &#x27;@angular/core&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { environment } from &#x27;@environments/environment&#x27;;
+import { firstValueFrom } from &#x27;rxjs&#x27;;
+import type { Paginated } from &#x27;@core/models/paginated&#x27;;
+import { mapToPaginated } from &#x27;@core/models/pagination-api&#x27;;
 
 export interface UploadedFileMeta {
   id: string;
@@ -244,32 +294,79 @@ export interface UploadedFileMeta {
   type_file: &#x27;image&#x27; | &#x27;pdf&#x27; | &#x27;document&#x27;;
   converted?: boolean;
   original_extension?: string | null;
-  source_extension?: string | null;
-  extracted_available?: boolean;
+  source_extension?: string | null; // backend may return this field name
+  extracted_available?: boolean; // present when metadata extraction exists
   owner_id?: string | null;
   session_id?: string | null;
 }
 
+// Legacy shape kept for compatibility in mapping helper
 export interface ListFilesResponse {
   total: number;
   items: UploadedFileMeta[];
+  offset?: number;
 }
 
-export interface FilesPort {
-  upload(
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class FilesService {
+  private readonly http &#x3D; inject(HttpClient);
+  private readonly base &#x3D; environment.baseUrl;
+
+  async upload(
     file: File,
-    subfolder?: string,
+    subfolder &#x3D; &#x27;&#x27;,
     sessionId?: string,
-  ): Promise&lt;UploadedFileMeta&gt;;
-  getFile(fileId: string): Promise&lt;UploadedFileMeta&gt;;
-  list(params?: {
+  ): Promise&lt;UploadedFileMeta&gt; {
+    const form &#x3D; new FormData();
+    form.append(&#x27;upload&#x27;, file);
+    form.append(&#x27;subfolder&#x27;, subfolder);
+    const url &#x3D; &#x60;${this.base}/files/&#x60;;
+    const params: any &#x3D; {};
+    if (sessionId) {
+      params.session_id &#x3D; sessionId;
+      // Also include in form for backends expecting it in body
+      form.append(&#x27;session_id&#x27;, sessionId);
+    }
+    return firstValueFrom(
+      this.http.post&lt;UploadedFileMeta&gt;(url, form, { params }),
+    );
+  }
+
+  async getFile(fileId: string): Promise&lt;UploadedFileMeta&gt; {
+    // Fetch metadata instead of binary stream
+    const url &#x3D; &#x60;${this.base}/files/${fileId}/meta&#x60;;
+    return firstValueFrom(this.http.get&lt;UploadedFileMeta&gt;(url));
+  }
+
+  async list(params?: {
     type_file?: &#x27;image&#x27; | &#x27;pdf&#x27; | &#x27;document&#x27;;
     subfolder?: string;
     page?: number;
     limit?: number;
     offset?: number;
-  }): Promise&lt;Paginated&lt;UploadedFileMeta&gt;&gt;;
-  listBySession(sessionId: string): Promise&lt;UploadedFileMeta[]&gt;;
+  }): Promise&lt;Paginated&lt;UploadedFileMeta&gt;&gt; {
+    const url &#x3D; &#x60;${this.base}/files/&#x60;;
+    // Build clean query params (avoid sending undefined) and map offset-&gt;page for backend
+    const qp: any &#x3D; {};
+    if (params?.type_file) qp.type_file &#x3D; params.type_file;
+    if (params?.subfolder) qp.subfolder &#x3D; params.subfolder;
+    if (typeof params?.limit &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) qp.limit &#x3D; params.limit;
+    const page &#x3D;
+      params?.page ??
+      (params?.offset !&#x3D; null &amp;&amp; params?.limit
+        ? Math.floor(params.offset / params.limit) + 1
+        : 1);
+    qp.page &#x3D; page;
+    const data &#x3D; await firstValueFrom(this.http.get&lt;any&gt;(url, { params: qp }));
+    // Normalize to Paginated using helper
+    const pageParams &#x3D; { page, limit: params?.limit };
+    return mapToPaginated&lt;UploadedFileMeta&gt;(data, pageParams);
+  }
+
+  async listBySession(sessionId: string): Promise&lt;UploadedFileMeta[]&gt; {
+    const url &#x3D; &#x60;${this.base}/files/session/${encodeURIComponent(sessionId)}&#x60;;
+    return firstValueFrom(this.http.get&lt;UploadedFileMeta[]&gt;(url));
+  }
 }
 </code></pre>
     </div>
