@@ -291,6 +291,22 @@
   font-size: 0.95rem;
 }
 
+/* Reducir fatiga visual en bloques largos */
+.prose > * + * {
+  margin-top: 0.75rem;
+}
+
+/* Separador sutil bajo títulos para jerarquía visual */
+.prose h2::after,
+.prose h3::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 56px;
+  margin-top: 0.35rem;
+  background: linear-gradient(90deg, hsl(var(--primary) / 0.4), transparent);
+}
+
 /* Títulos con gradientes y espaciado mejorado */
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
   color: hsl(var(--foreground));
@@ -452,6 +468,16 @@
   position: relative;
 }
 
+/* Mejorar legibilidad de listas anidadas */
+.prose li + li {
+  margin-top: 0.25rem;
+}
+
+.prose p + ul,
+.prose p + ol {
+  margin-top: 0.25rem;
+}
+
 .prose ul li::marker {
   color: hsl(var(--primary));
   font-size: 1.2em;
@@ -478,6 +504,25 @@
   border-radius: 0.75rem;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* Zebra y sticky header para tablas largas */
+.prose thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.prose tbody tr:nth-child(odd) {
+  background: hsl(var(--muted) / 0.06);
+}
+
+/* Columna izquierda como "clave" cuando hay 2 columnas (caso tablas Campo | Valor) */
+.prose td:first-child {
+  width: 40%;
+  white-space: nowrap;
+  font-weight: 600;
+  color: hsl(var(--foreground) / 0.9);
 }
 
 .prose th {
@@ -604,6 +649,12 @@
   .prose {
     font-size: 0.9rem;
   }
+  /* Tablas desplazables en móviles */
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   
   .prose h1 {
     font-size: 1.5rem;
@@ -622,6 +673,27 @@
     padding: 1rem;
     margin: 1rem 0;
   }
+}
+
+/* ==============================
+   ATTACHMENT ROW (chips)
+   ============================== */
+.attachment-row {
+  background: linear-gradient(135deg,
+    hsl(var(--card) / 0.25) 0%,
+    hsl(var(--card) / 0.08) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.attachment-row .badge {
+  border-color: hsl(var(--border) / 0.4);
+}
+
+.attachment-row .badge:hover {
+  transform: translateY(-1px);
+  transition: transform 0.15s ease;
 }
 
 /* ============================================
