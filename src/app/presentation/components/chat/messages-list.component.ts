@@ -150,10 +150,10 @@ export class ChatMessagesListComponent
     console.log('🎵 playTTS called for message:', message.id);
     console.log('🎵 Original content:', message.content);
     console.log('🎵 Displayed content:', message.displayedContent);
-    
-    // Prueba simple primera
-    console.log('🎵 Testing simple TTS...');
-    this.testSimpleTTS();
+    // Ensure we don't overlap with an ongoing utterance to avoid 'interrupted' errors
+    if (this.tts.isSpeaking()) {
+      this.tts.stop();
+    }
     
     const processed = this.getProcessed(message);
     console.log('🎵 Processed content:', processed);

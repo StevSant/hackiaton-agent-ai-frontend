@@ -5,9 +5,16 @@ export interface CompanyDashboardSummary {
     risk_class?: string;
     recommended_credit_limit?: number;
   } | null;
+  score_source?: string;
   contributions?: any;
   scenarios?: any[];
   financials?: any[];
+  sector_comparison?: any;
+  missing_data?: string[];
+  imputation?: {
+    error?: string;
+    missing?: string[];
+  } | null;
 }
 
 export interface CompanyInsights {
