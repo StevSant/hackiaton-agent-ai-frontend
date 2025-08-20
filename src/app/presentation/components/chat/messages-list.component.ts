@@ -42,7 +42,7 @@ export class ChatMessagesListComponent
   private scrollTicking = false;
 
   // Cache for processed message content (main without <think> and extracted think blocks)
-  private processed = new Map<
+  private readonly processed = new Map<
     string,
     { main: string; thinks: string[]; expanded: boolean; last: string }
   >();
@@ -181,25 +181,6 @@ export class ChatMessagesListComponent
     }
     
     this.tts.play(cleanContent, message.id);
-  }
-
-  // Prueba simple de TTS
-  private testSimpleTTS() {
-    try {
-      console.log('🧪 Testing simple TTS');
-      if ('speechSynthesis' in window) {
-        console.log('🧪 SpeechSynthesis available');
-        const utterance = new SpeechSynthesisUtterance('Hola, esta es una prueba');
-        utterance.onstart = () => console.log('🧪 Simple TTS started');
-        utterance.onend = () => console.log('🧪 Simple TTS ended');
-        utterance.onerror = (e) => console.error('🧪 Simple TTS error:', e);
-        window.speechSynthesis.speak(utterance);
-      } else {
-        console.error('🧪 SpeechSynthesis not available');
-      }
-    } catch (error) {
-      console.error('🧪 Test TTS error:', error);
-    }
   }
 
   // Limpiar texto para TTS (remover markdown, HTML, etc.)
