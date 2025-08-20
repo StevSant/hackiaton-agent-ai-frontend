@@ -32,7 +32,7 @@
             "csr": {
               "ssr": false,
               "outputMode": "static",
-              "sourceMap": false,
+              "sourceMap": true,
               "optimization": {
                 "fonts": false
               },
