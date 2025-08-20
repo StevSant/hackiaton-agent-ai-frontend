@@ -57,8 +57,8 @@ import { SessionCompaniesChartsModalComponent } from '../../components/companies
     ChatMessagesListComponent,
     ChatComposerComponent,
     SessionFilesModalComponent,
-  SessionCompaniesModalComponent,
-  SessionCompaniesChartsModalComponent,
+    SessionCompaniesModalComponent,
+    SessionCompaniesChartsModalComponent,
   ],
   templateUrl: './chat.html',
   styleUrls: ['./chat.css'],
@@ -298,11 +298,10 @@ export class Chat implements OnDestroy, OnInit {
     this.chatFacade.setIsSending(true);
     this.connectionStatus.setStatus('connecting');
 
-    this.chatFacade.addUserMessage(content);
+  const fileIds: string[] = (this.uploadedFiles || []).map((u) => u.id);
+  this.chatFacade.addUserMessage(content, fileIds);
     this.scrollManager.scheduleScrollToBottom();
     this.cdr.detectChanges();
-
-    const fileIds: string[] = (this.uploadedFiles || []).map((u) => u.id);
 
     const payload: {
       message?: string;

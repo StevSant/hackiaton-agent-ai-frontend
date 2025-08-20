@@ -66,12 +66,10 @@ export class SessionsService implements SessionsPort {
       user_id?: string;
       audioFile?: File;
       files?: File[];
+  file_ids?: string[];
     },
   ): Observable<any> {
-    const hasBinary = !!(
-      payload.audioFile ||
-      (payload.files && payload.files.length)
-    );
+  const hasBinary = !!(payload.audioFile || payload.files?.length);
     const creating = !payload.session_id;
 
     // Candidatos (orden) dependiendo si existe sesión
@@ -96,6 +94,8 @@ export class SessionsService implements SessionsPort {
       }
       if (payload.user_id) fd.append('user_id', payload.user_id);
       if (payload.session_id) fd.append('session_id', payload.session_id);
+      // Pass-through known uploaded file ids so backend can associate
+  payload.file_ids?.forEach((id) => fd.append('file_ids', id));
       if (payload.audioFile) fd.append('audio', payload.audioFile);
       payload.files?.forEach((f, i) =>
         fd.append('files', f, f.name || `file-${i}`),
@@ -107,6 +107,7 @@ export class SessionsService implements SessionsPort {
       content: payload.message, // alineado con endpoint de stream
       user_id: payload.user_id,
       session_id: payload.session_id,
+      file_ids: payload.file_ids || [],
     });
     const baseBody: any = hasBinary ? buildFormData() : buildJson();
 
@@ -163,6 +164,7 @@ export class SessionsService implements SessionsPort {
   }
 
   // ---- Internal helpers ----
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   private mapMessagesToChats(items: any[]): ChatEntry[] {
     const sorted = [...(items || [])].sort(
       (a, b) => toMs(a?.created_at) - toMs(b?.created_at),
@@ -184,11 +186,15 @@ export class SessionsService implements SessionsPort {
               role: 'user',
               content: msg.content,
               created_at: createdUser,
+              file_ids: Array.isArray(msg.file_ids) ? msg.file_ids : undefined,
             },
             // Keeping extras to satisfy UI expectations; shape may be narrowed by ChatEntry
             response: {
               content: next.content,
               created_at: createdAgent,
+              file_ids: Array.isArray(next.file_ids)
+                ? next.file_ids
+                : undefined,
               tools: [],
               extra_data: {},
               images: [],
@@ -207,6 +213,7 @@ export class SessionsService implements SessionsPort {
             role: 'user',
             content: msg.content,
             created_at: createdUser,
+            file_ids: Array.isArray(msg.file_ids) ? msg.file_ids : undefined,
           },
           response: { content: '', created_at: createdUser } as any,
         });

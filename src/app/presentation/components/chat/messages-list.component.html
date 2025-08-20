@@ -67,6 +67,27 @@
             class="chat-bubble bg-transparent surface-clear max-w-xs md:max-w-md lg:max-w-lg py-2 px-4 rounded-lg"
           >
             {{ message.displayedContent }}
+    @if (message.file_ids?.length) {
+              <div class="mt-2 pt-2 border-t attachment-row">
+                <div class="text-xs font-semibold mb-1 opacity-80">
+                  {{ 'COMMON.FILES' | translate }} ({{ (message.file_ids || []).length }})
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  @for (fid of message.file_ids; track fid) {
+                    <a
+                      class="badge badge-outline no-underline hover:badge-primary"
+                      [href]="chatUtils.fileUrl(fid)"
+                      target="_blank"
+                      rel="noopener"
+                      title="Abrir adjunto"
+                    >
+                      <mat-icon fontIcon="attach_file" class="mr-1 text-xs"></mat-icon>
+                      <span class="truncate max-w-[12rem]">{{ fid }}</span>
+                    </a>
+                  }
+                </div>
+              </div>
+            }
           </div>
         </div>
       }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '@environments/environment';
 import type { ChatMessage, EventType } from '@core/models/chat-model';
 
 @Injectable({
@@ -83,7 +84,7 @@ export class ChatUtilsService {
   /**
    * Crea un mensaje de usuario
    */
-  createUserMessage(content: string): ChatMessage {
+  createUserMessage(content: string, file_ids?: string[]): ChatMessage {
     return {
       id: this.generateId(),
       content,
@@ -92,6 +93,7 @@ export class ChatUtilsService {
       isStreaming: false,
       event: 'UserMessage' as EventType,
       timestamp: Date.now(),
+      file_ids,
     };
   }
 
@@ -142,11 +144,13 @@ export class ChatUtilsService {
   cleanForMarkdown(input: string): string {
     if (!input) return '';
     let s = input;
-    // Remove whole blocks of dangerous elements
-    const blockTags = /(script|style|iframe|object|embed|svg|math|audio|video|source|track|link|meta|base)/gi;
-    s = s.replace(new RegExp(`<(${blockTags.source})[^>]*>[\s\S]*?<\/\\1>`, 'gi'), '');
-    // Remove self-closing dangerous elements
-    s = s.replace(new RegExp(`<(${blockTags.source})[^>]*\/?>`, 'gi'), '');
+  // Remove whole blocks of dangerous elements
+  const blockTags = /(script|style|iframe|object|embed|svg|math|audio|video|source|track|link|meta|base)/gi;
+  // eslint-disable-next-line no-useless-escape
+  s = s.replace(new RegExp(`<(${blockTags.source})[^>]*>[\s\S]*?<\/\\1>`, 'gi'), '');
+  // Remove self-closing dangerous elements
+  // eslint-disable-next-line no-useless-escape
+  s = s.replace(new RegExp(`<(${blockTags.source})[^>]*\/?>(?=)`, 'gi'), '');
     // Remove inline event handlers (on*) attributes
     s = s.replace(/\son[a-zA-Z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g, '');
     // Neutralize javascript: or data: in href/src
@@ -154,5 +158,12 @@ export class ChatUtilsService {
     // Also neutralize without quotes
     s = s.replace(/(href|src)\s*=\s*(javascript:|data:)[^\s>]+/gi, '$1="#"');
     return s;
+  }
+
+  /** Build a direct URL to open/download a file by id */
+  fileUrl(fileId: string): string {
+    const base = environment.baseUrl?.replace(/\/$/, '') || '';
+    // Prefer meta endpoint when available? For direct open, hit /files/{id}
+    return `${base}/files/${encodeURIComponent(fileId)}?download=true`;
   }
 }

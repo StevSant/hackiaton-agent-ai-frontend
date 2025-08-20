@@ -69,7 +69,7 @@ export class ChatFacade {
     );
   }
 
-  addUserMessage(content: string): ChatMessage {
+  addUserMessage(content: string, file_ids?: string[]): ChatMessage {
     const msg: ChatMessage = {
       id: this.genId(),
       content,
@@ -78,6 +78,7 @@ export class ChatFacade {
       isStreaming: false,
       event: 'UserMessage',
       timestamp: Date.now(),
+      file_ids,
     } as ChatMessage;
     this.messages.update((arr) => [...arr, msg]);
     return msg;

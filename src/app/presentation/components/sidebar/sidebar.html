@@ -66,22 +66,24 @@
           >
             <div class="grid grid-cols-[1fr_auto] items-center px-3 py-3 gap-3">
               <button class="text-left flex-1 min-w-0 group-hover:translate-x-1 transition-transform duration-300" (click)="openSession(s)">
-                <div class="text-sm font-medium min-w-0">
+                <div class="min-w-0">
                   <div
-                    class="max-w-40 whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-blue-300 transition-colors duration-300"
+                    class="text-sm font-medium max-w-40 whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-blue-300 transition-colors duration-300"
                     [title]="
                       sanitizeTitle(s.title) ||
-                      ('CHAT.SESSION' | translate) +
-                        ' ' +
-                        s.session_id.slice(0, 6)
+                      ('CHAT.SESSION' | translate) + ' ' + s.session_id.slice(0, 6)
                     "
                   >
                     {{
-                      sanitizeTitle(s.title) ||
-                        ("CHAT.SESSION" | translate) +
-                          " " +
-                          s.session_id.slice(0, 6)
+                      sanitizeTitle(s.title) || ("CHAT.SESSION" | translate) + " " + s.session_id.slice(0, 6)
                     }}
+                  </div>
+                  <div
+                    *ngIf="sanitizeTitle(s.summary)"
+                    class="text-xs opacity-70 max-w-40 whitespace-nowrap overflow-hidden text-ellipsis"
+                    [title]="sanitizeTitle(s.summary || '')"
+                  >
+                    {{ sanitizeTitle(s.summary) }}
                   </div>
                 </div>
               </button>

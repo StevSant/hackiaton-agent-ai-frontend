@@ -29,6 +29,8 @@ export interface ChatMessage {
   isStreaming: boolean;
   event: EventType;
   timestamp: number;
+  // Associated uploaded file ids for this message (user message mostly)
+  file_ids?: string[];
   // Enriched fields from streaming
   extra_data?: {
     reasoning_steps?: Array<{

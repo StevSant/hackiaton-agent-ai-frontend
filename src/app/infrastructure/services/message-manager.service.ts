@@ -19,8 +19,8 @@ export class MessageManagerService {
   /**
    * Agrega un mensaje de usuario
    */
-  addUserMessage(messages: ChatMessage[], content: string): ChatMessage {
-    const userMessage = this.chatUtils.createUserMessage(content);
+  addUserMessage(messages: ChatMessage[], content: string, file_ids?: string[]): ChatMessage {
+    const userMessage = this.chatUtils.createUserMessage(content, file_ids);
     this.addMessage(messages, userMessage);
     return userMessage;
   }

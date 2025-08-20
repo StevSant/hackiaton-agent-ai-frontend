@@ -20,6 +20,7 @@ export interface SessionsPort {
       user_id?: string;
       audioFile?: File;
       files?: File[];
+  file_ids?: string[];
     },
   ): Observable<any>;
   analyzeCompanies(

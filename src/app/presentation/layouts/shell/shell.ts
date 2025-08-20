@@ -115,7 +115,26 @@ export class ShellLayout implements OnInit {
         this.sessionsEvents.triggerRefresh();
       },
       complete: () => {
+        const deletedId = s.session_id;
         this.closeDeleteModal();
+        // If we were on the deleted chat, redirect to base chat route
+        try {
+          const currentUrl = this.router.url || '';
+          const encId = encodeURIComponent(deletedId);
+          const isOnDeleted =
+            // /chat/:id form
+            currentUrl.includes(`/chat/${deletedId}`) ||
+            currentUrl.includes(`/chat/${encId}`) ||
+            // /chat/session/:id form
+            currentUrl.includes(`/chat/session/${deletedId}`) ||
+            currentUrl.includes(`/chat/session/${encId}`) ||
+            // query param form
+            currentUrl.includes(`session=${deletedId}`) ||
+            currentUrl.includes(`session=${encId}`);
+          if (isOnDeleted) {
+            this.router.navigate(['/chat']);
+          }
+        } catch {}
       },
       error: () => {
         this.closeDeleteModal();

@@ -105,6 +105,7 @@ export interface ChatEntry {
     role: 'user' | 'system' | 'tool' | 'assistant';
     content: string;
     created_at: number;
+  file_ids?: string[]; // attachments associated to the user message
   };
   response: {
     content: string;
@@ -117,5 +118,6 @@ export interface ChatEntry {
       transcript?: string;
     };
     created_at: number;
+  file_ids?: string[]; // usually empty for agent responses
   };
 }

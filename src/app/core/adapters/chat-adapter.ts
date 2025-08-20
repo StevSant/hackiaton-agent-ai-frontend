@@ -18,6 +18,7 @@ export function adaptChatEntriesToMessages(
       isStreaming: false,
       event: 'UserMessage',
       timestamp: entry.message.created_at * 1000,
+  file_ids: entry.message.file_ids,
     });
     // agent response
     messages.push({
@@ -28,6 +29,7 @@ export function adaptChatEntriesToMessages(
       isStreaming: false,
       event: 'RunCompleted',
       timestamp: entry.response.created_at * 1000,
+  file_ids: entry.response.file_ids,
       extra_data: entry.response.extra_data,
       images: entry.response.images,
       videos: entry.response.videos,

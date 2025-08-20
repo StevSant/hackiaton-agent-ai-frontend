@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import type { UploadedFileMeta } from '@core/ports';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat-composer',
@@ -18,7 +19,7 @@ import type { UploadedFileMeta } from '@core/ports';
   templateUrl: './composer.component.html',
   styleUrls: ['./composer.component.css'],
 })
-export class ChatComposerComponent {
+export class ChatComposerComponent implements OnInit, OnDestroy {
   @Input() form!: FormGroup;
   @Input() isSending = false;
   @Input() filesCount = 0;
@@ -37,6 +38,40 @@ export class ChatComposerComponent {
   // Drag & Drop state
   dragging = false;
   private dragCounter = 0;
+  private sub?: Subscription;
+
+  constructor(private el: ElementRef<HTMLElement>) {}
+
+  ngOnInit() {
+    // When the message control gets cleared (e.g., after send/reset), shrink textarea back
+    const ctrl = this.form?.get('message');
+    if (ctrl && ctrl.valueChanges) {
+      this.sub = ctrl.valueChanges.subscribe((val: any) => {
+        if (val == null || val === '') {
+          // Defer to next tick to ensure DOM is updated after form reset
+          queueMicrotask(() => this.resetTextareaHeight());
+        }
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    try {
+      this.sub?.unsubscribe();
+    } catch {}
+    this.sub = undefined;
+  }
+
+  private resetTextareaHeight() {
+    try {
+      const ta = this.el.nativeElement.querySelector('textarea') as HTMLTextAreaElement | null;
+      if (ta) {
+        ta.style.height = '';
+        // Also clear overflow in case it was previously set by autosize logic
+        ta.style.overflow = '';
+      }
+    } catch {}
+  }
 
   onSubmit() {
     // Hard guard: do not emit send if uploading files, already sending, or form invalid
