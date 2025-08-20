@@ -129,6 +129,13 @@
               @if (view.main.length) {
                 <markdown [data]="view.main"></markdown>
               }
+              @if ((view.charts.length || 0) > 0) {
+                <div class="mt-3 grid gap-3">
+                  @for (cfg of view.charts; track $index) {
+                    <app-lazy-chart [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+                  }
+                </div>
+              }
               @if (view.thinks.length) {
                 <div class="mt-3 think-section">
                   <button

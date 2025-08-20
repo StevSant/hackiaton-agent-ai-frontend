@@ -17,11 +17,12 @@ import type { ChatMessage } from '@core/models';
 import { ChatUtilsService } from '@infrastructure/services/chat-utils.service';
 import { ScrollManagerService } from '@infrastructure/services/scroll-manager.service';
 import { TtsService } from '@infrastructure/services/tts.service';
+import { LazyChartComponent } from '@presentation/components/lazy-chart/lazy-chart.component';
 
 @Component({
   selector: 'app-chat-messages-list',
   standalone: true,
-  imports: [CommonModule, MarkdownModule, MatIconModule, TranslateModule],
+  imports: [CommonModule, MarkdownModule, MatIconModule, TranslateModule, LazyChartComponent],
   templateUrl: './messages-list.component.html',
   styleUrls: ['./messages-list.component.css'],
 })
@@ -47,7 +48,7 @@ export class ChatMessagesListComponent
   // Cache for processed message content (main without <think> and extracted think blocks)
   private readonly processed = new Map<
     string,
-    { main: string; thinks: string[]; expanded: boolean; last: string }
+  { main: string; thinks: string[]; expanded: boolean; last: string; charts: any[] }
   >();
 
   // Services
@@ -284,10 +285,13 @@ export class ChatMessagesListComponent
   private extractThinkBlocks(content: string): {
     main: string;
     thinks: string[];
+    charts: any[];
   } {
-    if (!content) return { main: '', thinks: [] };
+    if (!content) return { main: '', thinks: [], charts: [] };
     const thinks: string[] = [];
+    const charts: any[] = [];
     const re = /<think[^>]*>([\s\S]*?)<\/think>/gi;
+    const chartFence = /```(?:chart|chartjs)\s*\n([\s\S]*?)\n```/gi;
     let main = content;
     let m: RegExpExecArray | null;
     while ((m = re.exec(content)) !== null) {
@@ -295,13 +299,26 @@ export class ChatMessagesListComponent
       if (inner) thinks.push(inner);
     }
     main = main.replace(re, '').trim();
-    return { main, thinks };
+    // Extract chart blocks and strip from main
+    let cm: RegExpExecArray | null;
+    while ((cm = chartFence.exec(main)) !== null) {
+      const jsonTxt = (cm[1] || '').trim();
+      try {
+        const cfg = JSON.parse(jsonTxt);
+        if (cfg && typeof cfg === 'object' && cfg.type && cfg.data) {
+          charts.push(cfg);
+        }
+      } catch {}
+    }
+    main = main.replace(chartFence, '').trim();
+    return { main, thinks, charts };
   }
 
   // Get or (re)build processed view for a message, updating cache when content changes
   getProcessed(message: ChatMessage): {
     main: string;
     thinks: string[];
+    charts: any[];
     expanded: boolean;
   } {
     const id = message.id || `${message.timestamp}-${Math.random()}`;
@@ -309,15 +326,16 @@ export class ChatMessagesListComponent
   const content = this.chatUtils.cleanForMarkdown(raw);
     const cached = this.processed.get(id);
     if (!cached || cached.last !== content) {
-      const { main, thinks } = this.extractThinkBlocks(content);
+      const { main, thinks, charts } = this.extractThinkBlocks(content);
       const expanded = cached?.expanded ?? false; // keep user toggle if same message id
-  const entry = { main, thinks, expanded, last: content };
+      const entry = { main, thinks, charts, expanded, last: content };
       this.processed.set(id, entry);
       return entry;
     }
     return {
       main: cached.main,
       thinks: cached.thinks,
+      charts: (cached as any).charts || [],
       expanded: cached.expanded,
     };
   }
@@ -336,6 +354,7 @@ export class ChatMessagesListComponent
       this.processed.set(id, {
         main: this.chatUtils.cleanForMarkdown(cur.main),
         thinks: cur.thinks.map((t) => this.chatUtils.cleanForMarkdown(t)),
+  charts: cur.charts,
         expanded: !cur.expanded,
         last: lastSanitized,
       });
