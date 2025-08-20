@@ -43,6 +43,7 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
   readonly contribChart = signal<{ type: string; data: any; options?: any } | null>(null);
   readonly scenariosChart = signal<{ type: string; data: any; options?: any } | null>(null);
   readonly riskChart = signal<{ type: string; data: any; options?: any } | null>(null);
+  readonly socialChart = signal<{ type: string; data: any; options?: any } | null>(null);
 
   private readonly analyze = inject(AnalyzeSessionCompaniesUseCase);
 
@@ -102,6 +103,7 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
     this.prepareScenariosChart(d);
     this.prepareRiskAnalysisChart(d);
     this.prepareSectorChart(d);
+    this.prepareSocialNetworksChart(d);
   }
 
   private prepareScoresChart(d: SessionCompaniesAnalysis) {
@@ -237,5 +239,121 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
         maintainAspectRatio: false
       }
     });
+  }
+
+  private prepareSocialNetworksChart(d: SessionCompaniesAnalysis) {
+    try {
+      const companies = d?.companies || [];
+      if (!companies.length) return;
+
+      // Extraer datos de redes sociales
+      const socialData = companies.map(company => {
+        const socialNetworks = (company as any)?.social_networks;
+        const companyName = company?.dashboard?.company?.legal_name ||
+                           company?.dashboard?.company?.name ||
+                           company?.tax_id ||
+                           'Empresa';
+
+        return {
+          name: companyName,
+          totalFollowers: socialNetworks?.summary?.total_followers || 0,
+          totalPlatforms: socialNetworks?.total_platforms || 0,
+          successfulPlatforms: socialNetworks?.successful_platforms || 0,
+          verifiedAccounts: socialNetworks?.summary?.verified_accounts || 0,
+          avgEngagement: socialNetworks?.summary?.average_engagement || 0,
+        };
+      });
+
+      // Crear gráfico combinado que muestre tanto seguidores como plataformas
+      this.socialChart.set({
+        type: 'bar',
+        data: {
+          labels: socialData.map(item => item.name),
+          datasets: [
+            {
+              label: '👥 Seguidores (Miles)',
+              data: socialData.map(item => Math.round(item.totalFollowers / 1000)),
+              backgroundColor: 'rgba(59, 130, 246, 0.8)',
+              borderColor: 'rgba(59, 130, 246, 1)',
+              borderWidth: 2,
+              yAxisID: 'y',
+              borderRadius: 8,
+            },
+            {
+              label: '📱 Plataformas Activas',
+              data: socialData.map(item => item.successfulPlatforms),
+              backgroundColor: 'rgba(16, 185, 129, 0.8)',
+              borderColor: 'rgba(16, 185, 129, 1)',
+              borderWidth: 2,
+              yAxisID: 'y1',
+              type: 'line',
+              tension: 0.4,
+              pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 6,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                usePointStyle: true,
+                padding: 20
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (context: any) => {
+                  const datasetLabel = context.dataset.label;
+                  const value = context.parsed.y;
+                  if (datasetLabel?.includes('Seguidores')) {
+                    return `${datasetLabel}: ${value}K`;
+                  }
+                  return `${datasetLabel}: ${value}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                drawBorder: false
+              }
+            },
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Seguidores (Miles)',
+              }
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Número de Plataformas',
+              },
+              grid: {
+                drawOnChartArea: false,
+              }
+            }
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error preparing social networks chart:', error);
+    }
   }
 }

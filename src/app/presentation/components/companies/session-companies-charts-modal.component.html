@@ -165,6 +165,27 @@
           </div>
         </section>
 
+        <!-- Enhanced Social Networks Chart -->
+        <section *ngIf="socialChart()" class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="flex items-center gap-3">
+              <div class="p-2 bg-purple-500/10 rounded-lg">
+                <mat-icon class="text-purple-500" fontIcon="share"></mat-icon>
+              </div>
+              <div>
+                <span class="text-lg font-semibold">Presencia en Redes Sociales</span>
+                <p class="text-xs text-muted-foreground">Seguidores y plataformas activas</p>
+              </div>
+            </h3>
+            <div class="px-3 py-1 bg-purple-500/10 text-purple-600 rounded-full text-xs font-medium border border-purple-500/20">
+              Mixed Chart
+            </div>
+          </div>
+          <div class="chart-container">
+            <app-lazy-chart [chartType]="socialChart()!.type" [data]="socialChart()!.data" [options]="socialChart()!.options"></app-lazy-chart>
+          </div>
+        </section>
+
         <!-- Enhanced Sector Chart (Full Width) -->
         <section *ngIf="sectorChart()" class="xl:col-span-2 space-y-4">
           <div class="flex items-center justify-between">
