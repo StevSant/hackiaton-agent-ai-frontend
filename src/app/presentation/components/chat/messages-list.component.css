@@ -15,6 +15,25 @@
     0 20px 40px rgba(0, 0, 0, 0.05),
     0 5px 20px rgba(0, 0, 0, 0.03),
     inset 0 1px 0 hsl(var(--foreground) / 0.05);
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+/* Responsividad del contenedor */
+@media (max-width: 640px) {
+  .messages-container {
+    padding: 0.5rem !important;
+    border-radius: 0.75rem;
+    margin: 0 !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .messages-container {
+    padding: 0.75rem !important;
+  }
 }
 
 /* ============================================
@@ -40,8 +59,12 @@
   white-space: pre-wrap;
   position: relative;
   transition: all 0.3s ease;
-  max-width: 85%;
+  max-width: 75%;
   margin-left: auto;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .msg-user .chat-bubble:hover {
@@ -88,7 +111,11 @@
   white-space: pre-wrap;
   position: relative;
   transition: all 0.3s ease;
-  max-width: 85%;
+  max-width: 90%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .msg-bot .chat-bubble:hover {
@@ -504,6 +531,8 @@
   border-radius: 0.75rem;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 /* Zebra y sticky header para tablas largas */
@@ -1216,30 +1245,43 @@
    RESPONSIVE DESIGN
    ============================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 639px) {
   .msg-user .chat-bubble,
   .msg-bot .chat-bubble {
-    max-width: 95%;
-    font-size: 0.9rem;
+    font-size: 0.875rem !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  .msg-user .chat-bubble {
+    max-width: 85% !important;
+    margin-right: 0.25rem !important;
+  }
+  
+  .msg-bot .chat-bubble {
+    max-width: 95% !important;
+    margin-left: 0.25rem !important;
   }
   
   .scroll-to-bottom-btn {
-    bottom: 0.5rem;
-    right: 0.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
+    bottom: 0.5rem !important;
+    right: 0.5rem !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
   }
   
   .messages-container {
-    padding: 1rem;
+    padding: 0.5rem !important;
   }
   
   .think-container {
-    padding: 0.75rem;
+    padding: 0.5rem !important;
+    margin: 0.5rem 0 !important;
   }
   
   .think-block {
-    padding: 0.75rem;
+    padding: 0.5rem !important;
   }
 }
 
@@ -1260,3 +1302,231 @@
   height: 14px;
   width: 14px;
 }
+
+/* ============================================
+   RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
+   ============================================ */
+
+/* Chat containers responsivos */
+.chat {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.chat-bubble {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  overflow-x: hidden;
+}
+
+/* User messages responsivo - Prioridad móvil primero */
+@media (max-width: 639px) {
+  .msg-user .chat-bubble {
+    max-width: 85% !important;
+    font-size: 0.875rem !important;
+    margin-right: 0.5rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .msg-user .chat-bubble {
+    max-width: 20rem !important; /* 320px */
+  }
+}
+
+@media (min-width: 768px) {
+  .msg-user .chat-bubble {
+    max-width: 28rem !important; /* 448px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .msg-user .chat-bubble {
+    max-width: 32rem !important; /* 512px */
+  }
+}
+
+/* Bot messages responsivo - Prioridad móvil primero */
+@media (max-width: 639px) {
+  .msg-bot .chat-bubble {
+    max-width: 95% !important;
+    font-size: 0.875rem !important;
+    margin-left: 0.5rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .msg-bot .chat-bubble {
+    max-width: 28rem !important; /* 448px */
+  }
+}
+
+@media (min-width: 768px) {
+  .msg-bot .chat-bubble {
+    max-width: 32rem !important; /* 512px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .msg-bot .chat-bubble {
+    max-width: 48rem !important; /* 768px */
+  }
+}
+
+@media (min-width: 1280px) {
+  .msg-bot .chat-bubble {
+    max-width: 56rem !important; /* 896px */
+  }
+}
+
+/* Prose responsive improvements - MOBILE FIRST */
+@media (max-width: 639px) {
+  .prose {
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Tablas ultra responsivas para móvil */
+  .prose table {
+    font-size: 0.7rem !important;
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    max-width: calc(100vw - 6rem) !important;
+    margin: 0.5rem -1rem !important;
+    padding: 0 1rem !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  .prose th,
+  .prose td {
+    padding: 0.375rem 0.5rem !important;
+    font-size: 0.7rem !important;
+    min-width: 60px !important;
+  }
+  
+  .prose th:first-child,
+  .prose td:first-child {
+    position: sticky !important;
+    left: 0 !important;
+    background: hsl(var(--card)) !important;
+    z-index: 2 !important;
+    min-width: 80px !important;
+  }
+  
+  /* Código ultra responsivo */
+  .prose pre {
+    padding: 0.75rem !important;
+    font-size: 0.7rem !important;
+    border-radius: 0.5rem !important;
+    overflow-x: auto !important;
+    margin: 0.75rem -0.5rem !important;
+    max-width: calc(100vw - 5rem) !important;
+  }
+  
+  .prose code {
+    font-size: 0.7rem !important;
+    padding: 0.125rem 0.25rem !important;
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+  }
+  
+  /* Headers móvil */
+  .prose h1 {
+    font-size: 1.25rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  .prose h2 {
+    font-size: 1.125rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  .prose h3 {
+    font-size: 1rem !important;
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  .prose h4, .prose h5, .prose h6 {
+    font-size: 0.9rem !important;
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.25rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  /* Párrafos móvil */
+  .prose p {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.75rem !important;
+    text-align: left !important;
+  }
+  
+  /* Listas móvil */
+  .prose ul, .prose ol {
+    padding-left: 1rem !important;
+    margin: 0.5rem 0 !important;
+  }
+  
+  .prose li {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.25rem !important;
+  }
+  
+  /* Blockquotes móvil */
+  .prose blockquote {
+    padding: 0.75rem 1rem !important;
+    margin: 0.75rem 0 !important;
+    font-size: 0.85rem !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    border-left-width: 3px !important;
+  }
+  
+  .prose blockquote::before {
+    font-size: 1.5rem !important;
+    top: -0.125rem !important;
+    left: 0.75rem !important;
+  }
+  
+  /* Enlaces móvil */
+  .prose a {
+    font-size: inherit !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+  
+  /* Imágenes móvil */
+  .prose img {
+    border-radius: 0.5rem !important;
+    margin: 0.5rem 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Prose responsive improvements para desktop */
+.prose {
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+
+
+

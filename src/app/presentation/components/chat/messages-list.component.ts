@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   AfterViewInit,
   AfterViewChecked,
+  ViewEncapsulation,
 } from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +26,7 @@ import { LazyChartComponent } from '@presentation/components/lazy-chart/lazy-cha
   imports: [CommonModule, MarkdownModule, MatIconModule, TranslateModule, LazyChartComponent],
   templateUrl: './messages-list.component.html',
   styleUrls: ['./messages-list.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ChatMessagesListComponent
   implements OnChanges, AfterViewInit, AfterViewChecked
