@@ -45,7 +45,7 @@ export class LoginPage {
   async submit() {
     if (this.form.invalid || this.submitting()) return;
     try {
-      await this.facade.login({
+  await this.facade.login({
         email: this.form.value.email!,
         password: this.form.value.password!,
       });

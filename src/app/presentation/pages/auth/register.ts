@@ -77,8 +77,9 @@ export class RegisterPage {
         this.error.set('La contraseña no cumple los requisitos.');
         return;
       }
-      await this.facade.register({ email, password, username });
-      this.router.navigateByUrl('/login');
+  await this.facade.register({ email, password, username });
+  // After auto-login in facade, go to home directly
+  this.router.navigateByUrl('/home');
     } catch {
       // error already set by facade
     }

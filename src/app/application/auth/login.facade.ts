@@ -19,12 +19,26 @@ export class LoginFacade {
     this.error.set(null);
     try {
       const res = await this.loginUC.execute(payload);
-      // Persist tokens/role in application layer (not in presentation)
+      // Persist tokens/role/user in application layer (not in presentation)
       this.token.setToken(res.token.access_token);
-      if (res.user?.role) this.token.setRole(res.user.role);
+      if (res.user) {
+        this.token.setUser(res.user);
+        if ((res.user as any).role) this.token.setRole((res.user as any).role);
+      }
       return res;
     } catch (e: any) {
-      this.error.set(e?.error?.message || e?.message || 'Login failed');
+      // Normalize common backend error shapes
+      const detail = e?.error?.detail;
+      let msg = e?.error?.message || e?.message || 'Error de autenticación';
+      if (Array.isArray(detail)) {
+        msg = detail.map((d: any) => d?.msg || d).join(' | ');
+      } else if (typeof detail === 'string') {
+        msg = detail;
+      }
+      if (/invalid credentials|unauthorized/i.test(msg)) {
+        msg = 'Credenciales inválidas';
+      }
+      this.error.set(msg);
       throw e;
     } finally {
       this.loading.set(false);
