@@ -1,34 +1,212 @@
-<div class="fixed inset-0 z-[100] grid place-items-center bg-black/50" (click)="onBackdropClick()" (keydown)="onKeydown($event)" tabindex="-1" role="dialog" aria-modal="true">
-  <div #modalRoot class="relative w-[min(1080px,95vw)] max-h-[85vh] overflow-auto rounded-xl glass-card p-4 md:p-6" (click)="$event.stopPropagation()" (keydown)="onKeydown($event)">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-lg font-semibold">Comparativa de Empresas</h2>
-      <button #closeBtn class="btn" type="button" (click)="closed.emit()" aria-label="Cerrar">
-        <mat-icon fontIcon="close"></mat-icon>
+<div class="fixed inset-0 z-[100] grid place-items-center bg-black/60 backdrop-blur-sm" (click)="closed.emit()" tabindex="-1" role="dialog" aria-modal="true">
+  <div #modalRoot class="relative w-[min(1400px,95vw)] max-h-[90vh] overflow-auto rounded-xl glass-card p-6 md:p-8" (click)="$event.stopPropagation()">
+    
+    <!-- Enhanced Header -->
+    <div class="flex items-center justify-between mb-8 pb-4 border-b border-border/30">
+      <div class="flex items-center gap-4">
+        <div class="p-2 bg-primary/10 rounded-lg">
+          <mat-icon class="text-primary text-xl" fontIcon="analytics"></mat-icon>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            Análisis Comparativo de Empresas
+          </h2>
+          <p class="text-sm text-muted-foreground mt-1">Visualización integral de métricas empresariales</p>
+        </div>
+      </div>
+      <button #closeBtn class="btn group relative" type="button" (click)="closed.emit()" aria-label="Cerrar modal">
+        <mat-icon class="transition-transform group-hover:rotate-90" fontIcon="close"></mat-icon>
+        <span class="ml-2 hidden md:inline">Cerrar</span>
       </button>
     </div>
 
-    <div *ngIf="loading(); else chartsTpl" class="py-10 text-center opacity-80">Cargando...</div>
+    <!-- Enhanced Loading State -->
+    <div *ngIf="loading(); else chartsTpl" class="flex items-center justify-center py-20">
+      <div class="text-center space-y-6">
+        <div class="relative">
+          <div class="animate-spin w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full mx-auto"></div>
+          <mat-icon class="absolute inset-0 m-auto text-primary animate-pulse" fontIcon="analytics"></mat-icon>
+        </div>
+        <div class="space-y-2">
+          <p class="text-xl font-semibold text-foreground">Generando análisis comparativo</p>
+          <div class="flex items-center justify-center space-x-1">
+            <div class="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div class="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <ng-template #chartsTpl>
-      <div *ngIf="error()" class="mb-4 text-sm text-red-400">{{ error() }}</div>
+      <!-- Enhanced Error State -->
+      <div *ngIf="error()" class="text-center py-16 px-6">
+        <div class="max-w-md mx-auto space-y-6">
+          <div class="w-20 h-20 mx-auto mb-4 p-4 bg-destructive/10 rounded-full border border-destructive/20">
+            <mat-icon class="w-full h-full text-destructive" fontIcon="error_outline"></mat-icon>
+          </div>
+          <div class="space-y-2">
+            <h3 class="text-xl font-semibold text-foreground">Error en el análisis</h3>
+            <p class="text-muted-foreground bg-muted/30 p-4 rounded-lg border border-destructive/20">
+              {{ error() }}
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <section class="glass-card p-4 rounded-lg">
-          <h3 class="text-sm font-medium mb-3">Score por empresa</h3>
-          <app-lazy-chart *ngIf="scoresChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
-          <p *ngIf="!scoresChart()" class="text-xs opacity-70">No hay datos de score.</p>
+      <!-- Enhanced Charts Grid -->
+      <div *ngIf="!error()" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        
+        <!-- Enhanced Score Chart -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="flex items-center gap-3">
+              <div class="p-2 bg-blue-500/10 rounded-lg">
+                <mat-icon class="text-blue-500" fontIcon="assessment"></mat-icon>
+              </div>
+              <div>
+                <span class="text-lg font-semibold">Score y Límite de Crédito</span>
+                <p class="text-xs text-muted-foreground">Comparación de riesgo y capacidad crediticia</p>
+              </div>
+            </h3>
+            <div class="px-3 py-1 bg-blue-500/10 text-blue-600 rounded-full text-xs font-medium border border-blue-500/20">
+              Dual-Axis
+            </div>
+          </div>
+          <div class="chart-container">
+            <app-lazy-chart *ngIf="scoresChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+            <div *ngIf="!scoresChart()" class="flex items-center justify-center py-12">
+              <div class="text-center space-y-3">
+                <mat-icon class="text-4xl text-muted-foreground/50" fontIcon="show_chart"></mat-icon>
+                <p class="text-muted-foreground font-medium">No hay datos de score disponibles</p>
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section class="glass-card p-4 rounded-lg">
-          <h3 class="text-sm font-medium mb-3">Comparación por sector</h3>
-          <app-lazy-chart *ngIf="sectorChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
-          <p *ngIf="!sectorChart()" class="text-xs opacity-70">No hay datos de sector.</p>
+        <!-- Enhanced Risk Distribution Chart -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="flex items-center gap-3">
+              <div class="p-2 bg-red-500/10 rounded-lg">
+                <mat-icon class="text-red-500" fontIcon="pie_chart"></mat-icon>
+              </div>
+              <div>
+                <span class="text-lg font-semibold">Distribución de Riesgo</span>
+                <p class="text-xs text-muted-foreground">Clasificación por niveles de riesgo</p>
+              </div>
+            </h3>
+            <div class="px-3 py-1 bg-red-500/10 text-red-600 rounded-full text-xs font-medium border border-red-500/20">
+              Doughnut
+            </div>
+          </div>
+          <div class="chart-container">
+            <app-lazy-chart *ngIf="riskChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+            <div *ngIf="!riskChart()" class="flex items-center justify-center py-12">
+              <div class="text-center space-y-3">
+                <mat-icon class="text-4xl text-muted-foreground/50" fontIcon="shield"></mat-icon>
+                <p class="text-muted-foreground font-medium">No hay datos de clasificación de riesgo</p>
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section class="glass-card p-4 rounded-lg lg:col-span-2">
-          <h3 class="text-sm font-medium mb-3">Principales contribuciones</h3>
-          <app-lazy-chart *ngIf="contribChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
-          <p *ngIf="!contribChart()" class="text-xs opacity-70">No hay datos de contribuciones.</p>
+        <!-- Enhanced Scenarios Chart -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="flex items-center gap-3">
+              <div class="p-2 bg-green-500/10 rounded-lg">
+                <mat-icon class="text-green-500" fontIcon="trending_up"></mat-icon>
+              </div>
+              <div>
+                <span class="text-lg font-semibold">Escenarios de Mejora</span>
+                <p class="text-xs text-muted-foreground">Análisis actual vs proyecciones</p>
+              </div>
+            </h3>
+            <div class="px-3 py-1 bg-green-500/10 text-green-600 rounded-full text-xs font-medium border border-green-500/20">
+              Comparativo
+            </div>
+          </div>
+          <div class="chart-container">
+            <app-lazy-chart *ngIf="scenariosChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+            <div *ngIf="!scenariosChart()" class="flex items-center justify-center py-12">
+              <div class="text-center space-y-3">
+                <mat-icon class="text-4xl text-muted-foreground/50" fontIcon="insights"></mat-icon>
+                <p class="text-muted-foreground font-medium">No hay datos de escenarios disponibles</p>
+              </div>
+            </div>
+          </div>
         </section>
+
+        <!-- Enhanced Contributions Chart -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="flex items-center gap-3">
+              <div class="p-2 bg-purple-500/10 rounded-lg">
+                <mat-icon class="text-purple-500" fontIcon="bar_chart"></mat-icon>
+              </div>
+              <div>
+                <span class="text-lg font-semibold">Factores de Contribución</span>
+                <p class="text-xs text-muted-foreground">Dimensiones que afectan el score</p>
+              </div>
+            </h3>
+            <div class="px-3 py-1 bg-purple-500/10 text-purple-600 rounded-full text-xs font-medium border border-purple-500/20">
+              Multi-empresa
+            </div>
+          </div>
+          <div class="chart-container">
+            <app-lazy-chart *ngIf="contribChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+            <div *ngIf="!contribChart()" class="flex items-center justify-center py-12">
+              <div class="text-center space-y-3">
+                <mat-icon class="text-4xl text-muted-foreground/50" fontIcon="auto_graph"></mat-icon>
+                <p class="text-muted-foreground font-medium">No hay datos de contribuciones disponibles</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Enhanced Sector Chart (Full Width) -->
+        <section *ngIf="sectorChart()" class="xl:col-span-2 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="flex items-center gap-3">
+              <div class="p-2 bg-orange-500/10 rounded-lg">
+                <mat-icon class="text-orange-500" fontIcon="radar"></mat-icon>
+              </div>
+              <div>
+                <span class="text-lg font-semibold">Análisis Multidimensional</span>
+                <p class="text-xs text-muted-foreground">Vista radar de todas las dimensiones</p>
+              </div>
+            </h3>
+            <div class="px-3 py-1 bg-orange-500/10 text-orange-600 rounded-full text-xs font-medium border border-orange-500/20">
+              Radar Chart
+            </div>
+          </div>
+          <div class="chart-container">
+            <app-lazy-chart [chartType]="sectorChart()!.type" [data]="sectorChart()!.data" [options]="sectorChart()!.options"></app-lazy-chart>
+          </div>
+        </section>
+      </div>
+
+      <!-- Enhanced Summary Footer -->
+      <div *ngIf="data() && !error()" class="mt-8 p-6 bg-gradient-to-r from-muted/30 via-muted/20 to-muted/30 rounded-xl border border-border/30">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+          <div class="flex items-center gap-4">
+            <div class="p-2 bg-primary/10 rounded-lg">
+              <mat-icon class="text-primary" fontIcon="summarize"></mat-icon>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold text-foreground">Resumen del Análisis</h4>
+              <p class="text-sm text-muted-foreground">
+                <span class="font-medium text-primary">{{ data()?.company_count || 0 }}</span> empresas analizadas 
+                • <span class="font-medium text-secondary">{{ (scoresChart() ? 1 : 0) + (riskChart() ? 1 : 0) + (scenariosChart() ? 1 : 0) + (contribChart() ? 1 : 0) + (sectorChart() ? 1 : 0) }}</span> visualizaciones generadas
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-muted-foreground bg-muted/20 px-4 py-2 rounded-lg">
+            <mat-icon class="text-[14px] text-green-500" fontIcon="schedule"></mat-icon>
+            <span>Actualizado hace un momento</span>
+          </div>
+        </div>
       </div>
     </ng-template>
   </div>

@@ -1,19 +1,349 @@
-/* Glassy modal surface */
+/* ===== MODAL GLASS EFFECT ===== */
 :host { display: contents; }
+
 .glass-card {
-  background: hsl(var(--card) / 0.8);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(135deg, 
+    hsl(var(--card) / 0.85) 0%, 
+    hsl(var(--card) / 0.75) 100%);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border: 1px solid hsl(var(--border) / 0.6);
-  box-shadow: 0 10px 30px hsl(0 0% 0% / 0.25);
+  box-shadow: 
+    0 10px 30px hsl(0 0% 0% / 0.25),
+    inset 0 1px 0 hsl(0 0% 100% / 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 16px;
 }
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 20px 40px hsl(0 0% 0% / 0.35),
+    inset 0 1px 0 hsl(0 0% 100% / 0.15);
+  border-color: hsl(var(--primary) / 0.3);
+}
+
+/* ===== ENHANCED BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid hsl(var(--border));
-  background: hsl(var(--secondary));
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1.5px solid hsl(var(--border) / 0.8);
+  background: linear-gradient(135deg, 
+    hsl(var(--secondary) / 0.9) 0%, 
+    hsl(var(--secondary) / 0.7) 100%);
   color: hsl(var(--secondary-foreground));
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    hsl(var(--primary) / 0.2), 
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.9) 0%, 
+    hsl(var(--primary) / 0.7) 100%);
+  color: hsl(var(--primary-foreground));
+  transform: scale(1.05) translateY(-2px);
+  border-color: hsl(var(--primary) / 0.8);
+  box-shadow: 0 8px 25px hsl(var(--primary) / 0.3);
+}
+
+/* ===== SECTION HEADERS WITH PREMIUM STYLING ===== */
+section h3 {
+  font-weight: 700;
+  font-size: 18px;
+  color: hsl(var(--foreground) / 0.95);
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.1) 0%, 
+    hsl(var(--secondary) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.4);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 20px !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+section h3::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--secondary)) 50%, 
+    hsl(var(--accent)) 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+section h3:hover::before {
+  transform: scaleX(1);
+}
+
+section h3:hover {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary) / 0.15) 0%, 
+    hsl(var(--secondary) / 0.15) 100%);
+  transform: translateX(4px);
+  color: hsl(var(--primary));
+}
+
+/* ===== CHART CONTAINERS WITH ENHANCED STYLING ===== */
+section .chart-container {
+  min-height: 300px;
+  padding: 20px;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.3) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border: 1px solid hsl(var(--border) / 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+section .chart-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    hsl(var(--primary) / 0.03) 0%, 
+    transparent 50%, 
+    hsl(var(--secondary) / 0.03) 100%);
+  pointer-events: none;
+}
+
+section .chart-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px hsl(0 0% 0% / 0.1);
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+/* ===== LOADING AND EMPTY STATES ===== */
+section p {
+  text-align: center;
+  color: hsl(var(--muted-foreground) / 0.8);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, 
+    hsl(var(--muted) / 0.2) 0%, 
+    hsl(var(--muted) / 0.1) 100%);
+  border-radius: 10px;
+  border: 1px dashed hsl(var(--border) / 0.5);
+  margin: 20px 0;
+  position: relative;
+}
+
+section p::before {
+  content: '📊';
+  font-size: 24px;
+  display: block;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}
+
+/* ===== MODAL ANIMATIONS ===== */
+@keyframes fadeInScale {
+  from { 
+    opacity: 0; 
+    transform: scale(0.9) translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fixed {
+  animation: fadeInScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Stagger animations for sections */
+section:nth-child(1) { animation: slideInUp 0.4s ease-out 0.1s both; }
+section:nth-child(2) { animation: slideInUp 0.4s ease-out 0.2s both; }
+section:nth-child(3) { animation: slideInUp 0.4s ease-out 0.3s both; }
+section:nth-child(4) { animation: slideInUp 0.4s ease-out 0.4s both; }
+section:nth-child(5) { animation: slideInUp 0.4s ease-out 0.5s both; }
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .grid {
+    gap: 1rem;
+  }
+  
+  section h3 {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+  
+  section .chart-container {
+    min-height: 250px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    margin: 10px;
+    border-radius: 12px;
+  }
+  
+  section h3 {
+    font-size: 15px;
+    padding: 10px 14px;
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  section .chart-container {
+    min-height: 220px;
+    padding: 12px;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ===== ICON STYLING FOR SECTION HEADERS ===== */
+section h3 mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+section h3:hover mat-icon {
+  opacity: 1;
+  transform: scale(1.1);
+  color: hsl(var(--primary));
+}
+
+/* ===== ENHANCED SCROLLBAR ===== */
+.grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.grid::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.3);
+  border-radius: 10px;
+}
+
+.grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, 
+    hsl(var(--primary) / 0.6) 0%, 
+    hsl(var(--secondary) / 0.6) 100%);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.grid::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, 
+    hsl(var(--primary) / 0.8) 0%, 
+    hsl(var(--secondary) / 0.8) 100%);
+}
+
+/* ===== CHART SPECIFIC ENHANCEMENTS ===== */
+canvas {
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+canvas:hover {
+  filter: brightness(1.05) contrast(1.02) !important;
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus states */
+.btn:focus-visible,
+section:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass-card {
+    background: hsl(var(--card));
+    backdrop-filter: none;
+    border-width: 2px;
+  }
+  
+  section h3 {
+    background: hsl(var(--muted));
+    border-width: 2px;
+  }
 }
