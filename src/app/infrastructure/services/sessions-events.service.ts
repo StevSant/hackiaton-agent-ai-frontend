@@ -15,6 +15,10 @@ export class SessionsEventsService {
     open: boolean;
     sessionId?: string | null;
   }>();
+  private readonly chartsModal$ = new Subject<{
+    open: boolean;
+    sessionId?: string | null;
+  }>();
   private readonly sidebarControl$ = new Subject<{
     action: 'hide' | 'restore';
   }>();
@@ -52,6 +56,20 @@ export class SessionsEventsService {
 
   closeCompaniesModal() {
     this.companiesModal$.next({ open: false });
+    this.sidebarControl$.next({ action: 'restore' });
+  }
+
+  onChartsModal() {
+    return this.chartsModal$.asObservable();
+  }
+
+  openChartsModal(sessionId?: string | null) {
+    this.sidebarControl$.next({ action: 'hide' });
+    this.chartsModal$.next({ open: true, sessionId });
+  }
+
+  closeChartsModal() {
+    this.chartsModal$.next({ open: false });
     this.sidebarControl$.next({ action: 'restore' });
   }
 

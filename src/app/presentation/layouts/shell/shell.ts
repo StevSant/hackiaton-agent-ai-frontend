@@ -172,6 +172,11 @@ export class ShellLayout implements OnInit {
     this.sessionsEvents.openCompaniesModal(this.selectedSessionId);
   }
 
+  // Header button: open companies charts modal via event bus
+  openSessionCompaniesChartsFromShell() {
+    this.sessionsEvents.openChartsModal(this.selectedSessionId);
+  }
+
   private isDesktop(): boolean {
     try {
       return (

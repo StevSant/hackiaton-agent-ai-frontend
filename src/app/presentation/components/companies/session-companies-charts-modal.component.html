@@ -1,0 +1,35 @@
+<div class="fixed inset-0 z-[100] grid place-items-center bg-black/50" (click)="onBackdropClick()" (keydown)="onKeydown($event)" tabindex="-1" role="dialog" aria-modal="true">
+  <div #modalRoot class="relative w-[min(1080px,95vw)] max-h-[85vh] overflow-auto rounded-xl glass-card p-4 md:p-6" (click)="$event.stopPropagation()" (keydown)="onKeydown($event)">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-semibold">Comparativa de Empresas</h2>
+      <button #closeBtn class="btn" type="button" (click)="closed.emit()" aria-label="Cerrar">
+        <mat-icon fontIcon="close"></mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="loading(); else chartsTpl" class="py-10 text-center opacity-80">Cargando...</div>
+    <ng-template #chartsTpl>
+      <div *ngIf="error()" class="mb-4 text-sm text-red-400">{{ error() }}</div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <section class="glass-card p-4 rounded-lg">
+          <h3 class="text-sm font-medium mb-3">Score por empresa</h3>
+          <app-lazy-chart *ngIf="scoresChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+          <p *ngIf="!scoresChart()" class="text-xs opacity-70">No hay datos de score.</p>
+        </section>
+
+        <section class="glass-card p-4 rounded-lg">
+          <h3 class="text-sm font-medium mb-3">Comparación por sector</h3>
+          <app-lazy-chart *ngIf="sectorChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+          <p *ngIf="!sectorChart()" class="text-xs opacity-70">No hay datos de sector.</p>
+        </section>
+
+        <section class="glass-card p-4 rounded-lg lg:col-span-2">
+          <h3 class="text-sm font-medium mb-3">Principales contribuciones</h3>
+          <app-lazy-chart *ngIf="contribChart() as cfg" [chartType]="cfg.type" [data]="cfg.data" [options]="cfg.options"></app-lazy-chart>
+          <p *ngIf="!contribChart()" class="text-xs opacity-70">No hay datos de contribuciones.</p>
+        </section>
+      </div>
+    </ng-template>
+  </div>
+</div>

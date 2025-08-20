@@ -42,6 +42,7 @@ import { ChatMessagesListComponent } from '../../components/chat/messages-list.c
 import { ChatComposerComponent } from '../../components/chat/composer.component';
 import { SessionFilesModalComponent } from '../../components/files/session-files-modal.component';
 import { SessionCompaniesModalComponent } from '../../components/companies/session-companies-modal.component';
+import { SessionCompaniesChartsModalComponent } from '../../components/companies/session-companies-charts-modal.component';
 
 @Component({
   selector: 'app-chat',
@@ -56,7 +57,8 @@ import { SessionCompaniesModalComponent } from '../../components/companies/sessi
     ChatMessagesListComponent,
     ChatComposerComponent,
     SessionFilesModalComponent,
-    SessionCompaniesModalComponent,
+  SessionCompaniesModalComponent,
+  SessionCompaniesChartsModalComponent,
   ],
   templateUrl: './chat.html',
   styleUrls: ['./chat.css'],
@@ -94,6 +96,7 @@ export class Chat implements OnDestroy, OnInit {
   isUploadingFiles = false;
   showFilesModal = false;
   showCompaniesModal = false;
+  showChartsModal = false;
 
   // Streaming
   private streamingSessionId: string | null = null;
@@ -201,6 +204,22 @@ export class Chat implements OnDestroy, OnInit {
         this.cdr.markForCheck();
       } else {
         this.showCompaniesModal = false;
+        this.cdr.markForCheck();
+      }
+    });
+
+    // Charts modal events
+    this.sessionsEvents.onChartsModal().subscribe(({ open, sessionId }) => {
+      if (open) {
+        if (sessionId) {
+          this.selectedSessionId = sessionId;
+          this.cdr.markForCheck();
+        }
+        if (!this.ensureSessionOrWarn()) return;
+        this.showChartsModal = true;
+        this.cdr.markForCheck();
+      } else {
+        this.showChartsModal = false;
         this.cdr.markForCheck();
       }
     });
@@ -426,6 +445,14 @@ export class Chat implements OnDestroy, OnInit {
     this.showCompaniesModal = false;
     try {
       this.sessionsEvents.closeCompaniesModal();
+    } catch {}
+    this.cdr.markForCheck();
+  }
+
+  closeSessionCharts() {
+    this.showChartsModal = false;
+    try {
+      this.sessionsEvents.closeChartsModal();
     } catch {}
     this.cdr.markForCheck();
   }
