@@ -41,6 +41,9 @@ export class ChatMessagesListComponent
   private lastCount = 0;
   private scrollTicking = false;
 
+  // Copy status per message id (timestamp of last copy)
+  private copiedAt = new Map<string, number>();
+
   // Cache for processed message content (main without <think> and extracted think blocks)
   private readonly processed = new Map<
     string,
@@ -70,6 +73,69 @@ export class ChatMessagesListComponent
     queueMicrotask(() =>
       this.scrollManager.scrollToBottomRaf(this.messagesContainer, 5),
     );
+  }
+
+  // =============================
+  // Copy helpers
+  // =============================
+  private idFor(msg: ChatMessage): string {
+    return msg.id || String(msg.timestamp || 'unknown');
+  }
+
+  copiedRecently(msg: ChatMessage, ms = 1600): boolean {
+    const id = this.idFor(msg);
+    const t = this.copiedAt.get(id) || 0;
+    return Date.now() - t < ms;
+  }
+
+  private markCopied(msg: ChatMessage) {
+    this.copiedAt.set(this.idFor(msg), Date.now());
+    // Auto-clear later to avoid unbounded growth
+    setTimeout(() => {
+      const id = this.idFor(msg);
+      const t = this.copiedAt.get(id);
+      if (t && Date.now() - t >= 1600) this.copiedAt.delete(id);
+    }, 2000);
+  }
+
+  private async copyText(text: string): Promise<boolean> {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch {
+      // Fallback below
+    }
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', 'true');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+
+  async copyUserMessage(msg: ChatMessage) {
+    const text = (msg.displayedContent || msg.content || '').trim();
+    if (!text) return;
+    const ok = await this.copyText(text);
+    if (ok) this.markCopied(msg);
+  }
+
+  async copyAgentMarkdown(msg: ChatMessage) {
+    const view = this.getProcessed(msg);
+    const md = (view.main || msg.displayedContent || msg.content || '').trim();
+    if (!md) return;
+    const ok = await this.copyText(md);
+    if (ok) this.markCopied(msg);
   }
 
   ngAfterViewChecked() {

@@ -97,12 +97,19 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
   private prepareCharts(d: SessionCompaniesAnalysis) {
     // Scores per company bar chart
     try {
-      const labels = (d?.companies || []).map((c) => c?.tax_id || '—');
-      const scores = (d?.companies || []).map((c) =>
-        c?.dashboard && (c.dashboard as any)?.score?.score != null
-          ? Number((c.dashboard as any).score.score)
-          : null,
-      );
+      const labelFor = (c: any) =>
+        c?.dashboard?.company?.legal_name ||
+        c?.dashboard?.company?.name ||
+        c?.tax_id ||
+        '—';
+      const labels = (d?.companies || []).map((c) => labelFor(c));
+      const scores = (d?.companies || []).map((c) => {
+        const raw = c?.dashboard?.score?.score;
+        if (raw == null || isNaN(Number(raw))) return null;
+        const n = Number(raw);
+        // Backend score suele venir 0..1; si ya viene en 0..100, respétalo.
+        return n <= 1 ? Math.round(n * 1000) / 10 : Math.round(n * 10) / 10; // 1 decimal
+      });
       if (scores.some((s) => typeof s === 'number')) {
         this.scoresChart.set({
           type: 'bar',
@@ -110,7 +117,7 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
             labels,
             datasets: [
               {
-                label: 'Score',
+                label: 'Score (%)',
                 data: scores,
                 backgroundColor: 'rgba(59, 130, 246, 0.6)',
                 borderColor: 'rgb(59, 130, 246)',
@@ -120,9 +127,24 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
           },
           options: {
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx: any) => `${ctx.parsed.y ?? ctx.parsed.x}%`,
+                },
+              },
+            },
             scales: {
-              y: { beginAtZero: true, suggestedMax: 100 },
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                  callback: (v: any) => `${v}%`,
+                },
+                grid: { color: 'rgba(255,255,255,0.06)' },
+              },
+              x: { grid: { color: 'rgba(255,255,255,0.04)' } },
             },
           },
         });
@@ -166,14 +188,18 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
       let items: Array<{ key: string; value: number }> = [];
       if (Array.isArray(contrib)) {
         items = contrib
-          .map((x: any) => ({ key: String(x?.name ?? x?.key ?? 'factor'), value: Number(x?.value ?? x?.score ?? 0) }))
+          .map((x: any) => ({ key: String(x?.dimension ?? x?.name ?? x?.key ?? 'factor'), value: Number(x?.value ?? x?.score ?? 0) }))
           .filter((x) => Number.isFinite(x.value));
       } else if (contrib && typeof contrib === 'object') {
         items = Object.keys(contrib)
-          .map((k) => ({ key: k, value: Number((contrib as any)[k] ?? 0) }))
+          .map((k) => ({ key: k, value: Number((contrib as Record<string, number>)[k] ?? 0) }))
           .filter((x) => Number.isFinite(x.value));
       }
-      items = items.sort((a, b) => Math.abs(b.value) - Math.abs(a.value)).slice(0, 8);
+      const sorted: Array<{ key: string; value: number }> = [...items].sort(
+        (a: { key: string; value: number }, b: { key: string; value: number }) =>
+          Math.abs(b.value) - Math.abs(a.value),
+      );
+      items = sorted.slice(0, 8);
       if (items.length) {
         this.contribChart.set({
           type: 'bar',
@@ -191,7 +217,18 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
           options: {
             indexAxis: 'y',
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx: any) => `${ctx.parsed.x?.toFixed?.(3) ?? ctx.parsed.x}`,
+                },
+              },
+            },
+            scales: {
+              x: { grid: { color: 'rgba(255,255,255,0.06)' } },
+              y: { grid: { color: 'rgba(255,255,255,0.04)' } },
+            },
           },
         });
       }
