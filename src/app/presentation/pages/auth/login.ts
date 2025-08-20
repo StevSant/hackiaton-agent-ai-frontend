@@ -14,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-login',
   standalone: true,
+  host: { ngSkipHydration: 'true' },
   imports: [
     ReactiveFormsModule,
     CommonModule,

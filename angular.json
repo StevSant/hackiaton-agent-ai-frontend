@@ -39,8 +39,13 @@
               "outputHashing": "all"
             },
             "production": {
+              "sourceMap": true,
               "optimization": {
-                "fonts": false
+                "fonts": false,
+                "styles": {
+                  "minify": true
+                },
+                "scripts": true
               },
               "budgets": [
                 {

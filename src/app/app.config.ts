@@ -1,16 +1,12 @@
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
-  provideZonelessChangeDetection,
+  provideZoneChangeDetection,
   importProvidersFrom,
   provideAppInitializer,
   inject, // <-- use inject for deps inside initializers
 } from '@angular/core';
-import {
-  provideRouter,
-  withViewTransitions,
-  PreloadingStrategy,
-} from '@angular/router';
+import { provideRouter, PreloadingStrategy } from '@angular/router';
 import {
   provideHttpClient,
   withFetch,
@@ -80,10 +76,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideMarkdown(),
     provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
+  // Use Zone.js-based change detection; required for stable hydration
+  provideZoneChangeDetection({ eventCoalescing: true }),
 
-    // Skip the very first view transition to avoid bootstrap-time InvalidStateError
-    provideRouter(routes, withViewTransitions({ skipInitialTransition: true })),
+  // Disable view transitions temporarily for cross-browser stability
+  provideRouter(routes),
     { provide: PreloadingStrategy, useClass: CustomPreloadStrategy },
 
     provideClientHydration(withEventReplay()),
