@@ -68,7 +68,7 @@
               ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "csr"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
