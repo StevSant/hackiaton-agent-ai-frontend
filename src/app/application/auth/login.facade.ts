@@ -11,6 +11,29 @@ export class LoginFacade {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
 
+  private parseBackendError(e: any): string {
+    const err = e?.error || {};
+    const errorsMap = (err?.errors ?? null) as Record<string, string[]> | null;
+    const detail = err?.detail;
+  let msg: string | undefined;
+
+    if (errorsMap && typeof errorsMap === 'object') {
+      const joined = Object.values(errorsMap).flat().filter(Boolean).join(' | ');
+      if (joined) msg = joined;
+    }
+    if (!msg && Array.isArray(detail)) {
+      const joined = detail
+        .map((d: any) => d?.message || d?.msg || d)
+        .filter(Boolean)
+        .join(' | ');
+      if (joined) msg = joined;
+    }
+    msg = msg || err?.message || e?.message || 'Error de autenticación';
+  const finalMsg = msg ?? 'Error de autenticación';
+  if (/invalid credentials|unauthorized/i.test(finalMsg)) return 'Credenciales inválidas';
+  return finalMsg;
+  }
+
   async login(
     payload: LoginRequest,
   ): Promise<LoginSuccessResponse | undefined> {
@@ -27,17 +50,7 @@ export class LoginFacade {
       }
       return res;
     } catch (e: any) {
-      // Normalize common backend error shapes
-      const detail = e?.error?.detail;
-      let msg = e?.error?.message || e?.message || 'Error de autenticación';
-      if (Array.isArray(detail)) {
-        msg = detail.map((d: any) => d?.msg || d).join(' | ');
-      } else if (typeof detail === 'string') {
-        msg = detail;
-      }
-      if (/invalid credentials|unauthorized/i.test(msg)) {
-        msg = 'Credenciales inválidas';
-      }
+      const msg = this.parseBackendError(e);
       this.error.set(msg);
       throw e;
     } finally {

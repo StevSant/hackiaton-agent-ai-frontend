@@ -12,6 +12,39 @@ export class RegisterFacade {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
 
+  private static readonly patterns: Array<[RegExp, string]> = [
+    [/(already|exists|duplicate)/i, 'El email ya está registrado'],
+    [/(invalid.*email|email.*invalid)/i, 'El email no es válido'],
+    [/uppercase/i, 'La contraseña debe tener al menos una MAYÚSCULA'],
+    [/lowercase/i, 'La contraseña debe tener al menos una minúscula'],
+    [/digit/i, 'La contraseña debe incluir al menos un número'],
+    [/(at least 8|minimum 8|min_length.*8)/i, 'La contraseña debe tener mínimo 8 caracteres'],
+  ];
+
+  private parseBackendError(e: any): string {
+    const err = e?.error || {};
+    const errorsMap = (err?.errors ?? null) as Record<string, string[]> | null;
+    const detail = err?.detail;
+    let msg: string = '';
+    if (errorsMap && typeof errorsMap === 'object') {
+      const joined = Object.values(errorsMap).flat().filter(Boolean).join(' | ');
+      if (joined) msg = joined;
+    }
+    if (!msg && Array.isArray(detail)) {
+      const joined = detail
+        .map((d: any) => d?.message || d?.msg || d)
+        .filter(Boolean)
+        .join(' | ');
+      if (joined) msg = joined;
+    }
+    if (!msg) msg = String(err?.message || e?.message || 'Error de registro');
+    // Map common backend messages to friendly Spanish messages
+    for (const [re, friendly] of RegisterFacade.patterns) {
+      if (re.test(msg)) return friendly;
+    }
+    return msg;
+  }
+
   async register(payload: {
     email: string;
     password: string;
@@ -33,28 +66,7 @@ export class RegisterFacade {
         if ((loginRes.user as any).role) this.token.setRole((loginRes.user as any).role);
       }
     } catch (e: any) {
-      const detail = e?.error?.detail;
-      let errorMessage: string;
-      if (Array.isArray(detail)) {
-        errorMessage = detail.map((d: any) => d?.msg || d).join(' | ');
-      } else {
-        errorMessage =
-          detail || e?.error?.message || e?.message || 'Error de registro';
-      }
-      if (/uppercase/i.test(errorMessage)) {
-        errorMessage = 'La contraseña debe tener al menos una MAYÚSCULA';
-      } else if (/lowercase/i.test(errorMessage)) {
-        errorMessage = 'La contraseña debe tener al menos una minúscula';
-      } else if (/digit/i.test(errorMessage)) {
-        errorMessage = 'La contraseña debe incluir al menos un número';
-      } else if (/at least 8/i.test(errorMessage)) {
-        errorMessage = 'La contraseña debe tener mínimo 8 caracteres';
-      } else if (/(already|exists)/i.test(errorMessage)) {
-        errorMessage = 'El email ya está registrado';
-      } else if (/email/i.test(errorMessage) && /invalid/i.test(errorMessage)) {
-        errorMessage = 'El email no es válido';
-      }
-      this.error.set(errorMessage);
+      this.error.set(this.parseBackendError(e));
       throw e;
     } finally {
       this.loading.set(false);
