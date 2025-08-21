@@ -17,6 +17,9 @@
     inset 0 1px 0 hsl(var(--foreground) / 0.05);
   min-width: 0;
   overflow-x: hidden;
+  /* Scrollbar moderno (movido aquí para evitar selectores duplicados) */
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.3) transparent;
 }
 
 /* Responsividad del contenedor */
@@ -42,6 +45,8 @@
 
 .msg-user {
   animation: slideInRight 0.4s ease-out;
+  /* allow controls inside user messages to overflow properly */
+  overflow: visible;
 }
 
 .msg-user .chat-bubble {
@@ -65,6 +70,8 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
+  /* Reservar espacio para el botón de copiar sin romper el layout */
+  padding-right: 3.2rem;
 }
 
 .msg-user .chat-bubble:hover {
@@ -116,6 +123,8 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
+  /* Espacio a la izquierda para iconos o botones si es necesario */
+  padding-left: 1.25rem;
 }
 
 .msg-bot .chat-bubble:hover {
@@ -241,11 +250,8 @@
    SCROLLBAR MODERNO
    ============================================ */
 
-.messages-container {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--primary) / 0.3) transparent;
-}
 
+/* Webkit scrollbar styles (kept near top for clarity) */
 .messages-container::-webkit-scrollbar {
   width: 8px;
 }
@@ -1289,18 +1295,108 @@
    COPY BUTTONS ON BUBBLES
    ============================== */
 .chat-bubble .btn.btn-ghost.btn-xs {
+  /* Posicionar y destacar el botón de copia dentro de la burbuja */
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
   background: linear-gradient(135deg,
-    hsl(var(--card) / 0.35) 0%,
-    hsl(var(--card) / 0.15) 100%);
-  border: 1px solid hsl(var(--border) / 0.3);
+    hsl(var(--card) / 0.5) 0%,
+    hsl(var(--card) / 0.25) 100%);
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border) / 0.5);
   border-radius: 0.5rem;
-  padding: 0.15rem 0.35rem;
+  padding: 0.25rem 0.45rem;
+  min-width: 2.2rem;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  z-index: 5;
 }
 
 .chat-bubble .btn.btn-ghost.btn-xs mat-icon {
-  font-size: 14px;
-  height: 14px;
-  width: 14px;
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+  color: hsl(var(--foreground));
+}
+
+.chat-bubble .btn.btn-ghost.btn-xs:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  opacity: 1;
+  border-color: hsl(var(--border) / 0.6);
+}
+
+/* Ajustes para móvil: mantener visible pero menos intrusivo */
+@media (max-width: 639px) {
+  .chat-bubble .btn.btn-ghost.btn-xs {
+    top: 0.35rem;
+    right: 0.35rem;
+    padding: 0.2rem 0.35rem;
+    min-width: 2rem;
+  }
+
+  .chat-bubble .btn.btn-ghost.btn-xs mat-icon {
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+  }
+}
+
+/* Specific visibility/positioning for user bubble copy button */
+.msg-user .chat-bubble .btn.btn-ghost.btn-xs {
+  /* force explicit placement to avoid other rules centering or stretching the button */
+  left: auto !important;
+  right: 0.6rem !important; /* nudge slightly left so it doesn't overflow container on small widths */
+  top: 0.45rem !important;
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--card) / 0.14));
+  border: 1px solid hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
+  z-index: 12; /* ensure it's above other inline elements */
+  opacity: 0.98;
+  pointer-events: auto; /* ensure clickability */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  -webkit-tap-highlight-color: transparent;
+  transform: none !important;
+  width: auto !important;
+  max-width: 3.2rem !important;
+  margin: 0 !important;
+}
+
+/* Tailwind utilities sometimes add overflow-hidden; ensure chat bubbles still show absolute controls */
+.chat-bubble.overflow-hidden,
+.chat-bubble.overflow-hidden > .btn {
+  overflow: visible !important;
+}
+
+/* safety: ensure direct child copy buttons don't expand to full width due to other global rules */
+.chat-bubble > .btn.btn-ghost.btn-xs {
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: 3.2rem !important;
+  left: auto !important;
+}
+
+/* Make sure user bubble reserves extra space on very small screens */
+@media (max-width: 639px) {
+  .msg-user .chat-bubble {
+    padding-right: 3.6rem !important; /* increase so button doesn't overlap text */
+  }
+  .msg-user .chat-bubble .btn.btn-ghost.btn-xs {
+    right: 0.5rem; /* slightly inside the bubble */
+  }
+}
+
+/* Slightly different placement for larger screens to keep visual balance */
+@media (min-width: 640px) {
+  .msg-user .chat-bubble .btn.btn-ghost.btn-xs {
+    right: 0.75rem;
+  }
 }
 
 /* ============================================
@@ -1318,7 +1414,11 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
-  overflow-x: hidden;
+  /* allow absolute-positioned controls (copy button) to be visible */
+  overflow: visible;
+  position: relative; /* necesario para el botón absoluto */
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
 }
 
 /* User messages responsivo - Prioridad móvil primero */
@@ -1517,14 +1617,6 @@
     max-width: 100% !important;
     height: auto !important;
   }
-}
-
-/* Prose responsive improvements para desktop */
-.prose {
-  min-width: 0 !important;
-  overflow-x: hidden !important;
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
 }
 
 
