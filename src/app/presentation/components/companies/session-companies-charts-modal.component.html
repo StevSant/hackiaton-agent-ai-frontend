@@ -55,10 +55,28 @@
       </div>
 
       <!-- Enhanced Charts Grid -->
-      <div *ngIf="!error()" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        
-        <!-- Enhanced Score Chart -->
-        <section class="space-y-4">
+      <div *ngIf="!error()">
+        <ng-container *ngIf="data() as d">
+          <!-- Empty state when there are no companies -->
+          <div *ngIf="!d || d.company_count === 0" class="empty text-center py-16 px-6">
+            <div class="max-w-md mx-auto space-y-6">
+              <div class="w-20 h-20 mx-auto mb-4 p-4 bg-muted/10 rounded-full border border-muted/20">
+                <mat-icon class="w-full h-full text-muted-foreground" fontIcon="show_chart"></mat-icon>
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-xl font-semibold text-foreground">No hay empresas para analizar</h3>
+                <p class="text-muted-foreground bg-muted/30 p-4 rounded-lg border border-border/20">
+                  No se pueden generar gráficos porque no hay empresas en la sesión.
+                </p>
+              </div>
+            </div>
+          </div>
+
+            <!-- Charts grid (only when there are companies) -->
+            <div *ngIf="d && d.company_count > 0" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            
+            <!-- Enhanced Score Chart -->
+            <section class="space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="flex items-center gap-3">
               <div class="p-2 bg-blue-500/10 rounded-lg">
@@ -206,10 +224,12 @@
             <app-lazy-chart [chartType]="sectorChart()!.type" [data]="sectorChart()!.data" [options]="sectorChart()!.options"></app-lazy-chart>
           </div>
         </section>
+          </div>
+        </ng-container>
       </div>
 
-      <!-- Enhanced Summary Footer -->
-      <div *ngIf="data() && !error()" class="mt-8 p-6 bg-gradient-to-r from-muted/30 via-muted/20 to-muted/30 rounded-xl border border-border/30">
+  <!-- Enhanced Summary Footer (only show when companies exist) -->
+  <div *ngIf="(data()?.company_count || 0) > 0 && !error()" class="mt-8 p-6 bg-gradient-to-r from-muted/30 via-muted/20 to-muted/30 rounded-xl border border-border/30">
         <div class="flex items-center justify-between flex-wrap gap-4">
           <div class="flex items-center gap-4">
             <div class="p-2 bg-primary/10 rounded-lg">

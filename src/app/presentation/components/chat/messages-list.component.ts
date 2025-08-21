@@ -277,10 +277,10 @@ export class ChatMessagesListComponent
       .trim();
   }
 
-  onVolumeInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const v = Number.parseFloat(input.value || '0');
-    this.tts.setVolume(Number.isFinite(v) ? v : 0);
+  onVolumeInput(value: number) {
+    const v = Number.isFinite(value) ? value : 0;
+    // tts.setVolume is async (may restart playback), call and ignore promise
+    this.tts.setVolume(v).catch((e) => console.error('setVolume failed', e));
   }
 
   // Extract visible content and hidden <think> blocks from a markdown string

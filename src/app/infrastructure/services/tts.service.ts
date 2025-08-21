@@ -4,6 +4,9 @@ import { Injectable, signal } from '@angular/core';
 export class TtsService {
   private currentUtterance: SpeechSynthesisUtterance | null = null;
   private voicesReady = false;
+  private lastText: string | null = null;
+  private lastMessageId: string | null = null;
+  private restartingForVolume = false;
 
   readonly isSpeaking = signal(false);
   readonly isPaused = signal(false);
@@ -73,7 +76,10 @@ export class TtsService {
         console.error('🔊 Error selecting voice:', e);
       }
 
-      this.currentUtterance = utter;
+  this.currentUtterance = utter;
+  // store last text so volume changes can reapply during active speech
+  this.lastText = text;
+  this.lastMessageId = messageId ?? null;
       this.currentMessageId.set(messageId ?? null);
       this.isSpeaking.set(true);
       this.isPaused.set(false);
@@ -84,6 +90,8 @@ export class TtsService {
         this.isSpeaking.set(false);
         this.isPaused.set(false);
         this.currentMessageId.set(null);
+  this.lastText = null;
+  this.lastMessageId = null;
       };
       utter.onend = () => {
         console.log('🔊 TTS ended');
@@ -176,11 +184,47 @@ export class TtsService {
     } catch {}
   }
 
-  setVolume(val: number) {
+  async setVolume(val: number) {
     const v = Math.max(0, Math.min(1, val));
     this.volume.set(v);
     if (this.currentUtterance) {
-      this.currentUtterance.volume = v;
+      try {
+        this.currentUtterance.volume = v;
+      } catch {}
+    }
+
+    // If currently speaking (not paused), restart playback to ensure new volume is applied
+    try {
+      if (typeof window !== 'undefined') {
+        const synth = window.speechSynthesis;
+        if (
+          this.currentUtterance &&
+          synth.speaking &&
+          !this.isPaused() &&
+          this.lastText &&
+          !this.restartingForVolume
+        ) {
+          this.restartingForVolume = true;
+          // stop current utterance then replay with new volume
+          try {
+            synth.cancel();
+          } catch {}
+          // small delay to allow engine to reset
+          await this.nextTick();
+          const text = this.lastText;
+          const mid = this.lastMessageId;
+          // replay
+          try {
+            await this.play(text, mid);
+          } catch (e) {
+            console.error('🔊 Error replaying after volume change', e);
+          }
+          this.restartingForVolume = false;
+        }
+      }
+    } catch (e) {
+      console.error('🔊 setVolume error:', e);
+      this.restartingForVolume = false;
     }
   }
 
