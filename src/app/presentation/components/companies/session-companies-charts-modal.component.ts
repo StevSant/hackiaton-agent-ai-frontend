@@ -429,9 +429,9 @@ export class SessionCompaniesChartsModalComponent implements OnInit, AfterViewIn
       if (!companies.length) return;
 
       // Extraer datos de redes sociales
-      const socialData = companies.map(company => {
+      const socialData = companies.map((company, idx) => {
         const socialNetworks = (company as any)?.social_networks;
-        const companyName = this.companyLabel(company, 0);
+        const companyName = this.companyLabel(company, idx);
 
         return {
           name: companyName,
