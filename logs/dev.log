@@ -266,3 +266,4 @@
 [2025-08-09 14:22:24] WARNING - infrastructure/db/connection.py:21 in _build_mongo_client() - Forcing local MongoDB connection per settings (MONGO_FORCE_LOCAL=true)
 [2025-08-09 14:22:24] INFO - app_setup/lifespan.py:22 in lifespan() - ✅ Beanie ODM initialized
 [2025-08-09 14:23:03] INFO - app_setup/lifespan.py:32 in lifespan() - 👋 Shutting down application...
+[2025-08-21 00:07:00] INFO - infrastructure/logging/logging_config.py:157 in setup_logging() - Logging configured successfully
